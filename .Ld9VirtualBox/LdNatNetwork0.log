@@ -1,0 +1,20 @@
+00:00:00.007780 VirtualBox NAT Network 4.1.34 r466587072 win.amd64 (Jul 26 2022 16:16:15) release log
+00:00:00.007783 Log opened 2025-07-26T13:25:51.063755400Z
+00:00:00.007784 Build Type: release
+00:00:00.007788 OS Product: Windows 11
+00:00:00.007789 OS Release: 10.0.26100
+00:00:00.007790 OS Service Pack: 
+00:00:00.028067 DMI Product Name: 82R7
+00:00:00.034506 DMI Product Version: IdeaPad Flex 5 14IAU7
+00:00:00.034516 Firmware type: UEFI
+00:00:00.034960 Secure Boot: VERR_PRIVILEGE_NOT_HELD
+00:00:00.034976 Host RAM: 13894MB (13.5GB) total, 7261MB (7.0GB) available
+00:00:00.034981 Executable: C:\Program Files\ldplayer9box\VBoxNetNAT.exe
+00:00:00.034981 Process ID: 19556
+00:00:00.034982 Package type: WINDOWS_64BITS_GENERIC (OSE)
+00:00:00.042828 SUP: Opened Ld9VMMR0.r0 (C:\Program Files\ldplayer9box\Ld9VMMR0.r0) at 0xXXXXXXXXXXXXXXXX loaded by the native ring-0 loader.
+00:00:00.042844 SUP: windbg> .reload /f C:\Program Files\ldplayer9box\Ld9VMMR0.r0=0xXXXXXXXXXXXXXXXX
+00:00:00.045313 netif NT0: mac 52:54:00:12:35:00
+00:00:00.045327 netif NT0: inet 172.16.1.1 netmask 255.255.255.0
+00:00:00.045332 netif NT0: inet6 fe80::5054:ff:fe12:3500
+00:00:00.045341 netif NT0: inet6 fd17:625c:f037:1001::1
