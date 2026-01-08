@@ -1,0 +1,2588 @@
+# Copyright (C) 2024 Hostinger
+# This file is distributed under the GPL-2.0+.
+msgid ""
+msgstr ""
+"Project-Id-Version: Hostinger Amazon Affiliate Connector 2.0.11\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/hostinger-"
+"affiliate-plugin\n"
+"Last-Translator: \n"
+"Language-Team: Thai\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2024-10-09T12:50:04+00:00\n"
+"PO-Revision-Date: 2025-10-14 10:57+0000\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Domain: hostinger-affiliate-plugin\n"
+"Language: th\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Loco-Version: 2.8.0; wp-6.8.2; php-8.2.29"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:891
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4808
+msgid " Add new table"
+msgstr "เพิ่มตารางใหม่"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:803
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4720
+msgid " Add/Edit products to list"
+msgstr "เพิ่ม/แก้ไขสินค้าเพื่อแสดงรายการ"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:849
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4766
+msgid " Edit table"
+msgstr "แก้ไขตาราง"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:449
+#: amazon-gutenberg-block/dist/index.js:4366
+msgid " Search for product(s) without ASIN"
+msgstr "ค้นหาสินค้าที่ไม่มี ASIN"
+
+#: mercado-gutenberg-block/dist/index.js:2
+msgid " Search for product(s) without ID"
+msgstr "ค้นหาสินค้าที่ไม่มีรหัส"
+
+#. translators: %s: Product ASIN
+#. translators: %s: Product ID
+#: src/Api/Amazon/ProxyApi/Api/ProductApi.php:72
+#: src/Api/Mercado/Api/ProductApi.php:82
+#, php-format
+msgid "%s Product does not exist anymore."
+msgstr "สินค้าไม่มีอยู่ในระบบแล้ว %s"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:829
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4746
+msgid "-- Choose table data --"
+msgstr "-- เลือกข้อมูลตาราง --"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:629
+#: amazon-gutenberg-block/src/edit.js:662
+#: amazon-gutenberg-block/src/edit.js:990
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4546
+#: amazon-gutenberg-block/dist/index.js:4579
+#: amazon-gutenberg-block/dist/index.js:4907
+msgid "-- Select from list --"
+msgstr "-- เลือกจากรายการ --"
+
+#: src/Localization/AdminTranslations.php:313
+msgid ""
+"<strong>Amazon is available in</strong>: Australia, Belgium, Brazil, Canada, "
+"Egypt, France, Germany, India, Italy, Japan, Mexico, Netherlands, Poland, "
+"Saudi Arabia, Singapore, Spain, Sweden, Turkey, United Arab Emirates, United "
+"Kingdom, United States."
+msgstr ""
+"<strong>Amazon มีให้บริการใน</strong>: ออสเตรเลีย, เบลเยียม, บราซิล, แคนาดา, "
+"อียิปต์, ฝรั่งเศส, เยอรมนี, อินเดีย, อิตาลี, ญี่ปุ่น, เม็กซิโก, เนเธอร์แลนด์,"
+" โปแลนด์, ซาอุดีอาระเบีย, สิงคโปร์, สเปน, สวีเดน, ตุรกี, "
+"สหรัฐอาหรับเอมิเรตส์, สหราชอาณาจักร, สหรัฐอเมริกา."
+
+#: src/Localization/AdminTranslations.php:314
+#| msgid ""
+#| "<strong>Mercado Livre is available in</strong>: Argentina, Brazil, Mexico."
+msgid "<strong>Mercado Livre is available in</strong>: Brazil, Mexico."
+msgstr ""
+"<strong>Mercado Livre มีให้บริการใน</strong>: อาร์เจนตินา บราซิล เม็กซิโก"
+
+#: src/Localization/AdminTranslations.php:282
+msgid "A table can display up to 6 products."
+msgstr "ตารางสามารถแสดงผลิตภัณฑ์ได้สูงสุด 6 รายการ"
+
+#: src/Localization/AdminTranslations.php:58
+msgid "Access key"
+msgstr "รหัสการเข้าถึง"
+
+#: src/Localization/AdminTranslations.php:75
+msgid "Access key cannot contain special characters"
+msgstr "รหัสการเข้าถึงต้องไม่มีอักขระพิเศษ"
+
+#: src/Localization/AdminTranslations.php:76
+msgid "Access key must be 20 characters long"
+msgstr "รหัสการเข้าถึงต้องมีความยาว 20 ตัวอักษร"
+
+#: src/Localization/AdminTranslations.php:66
+msgid "Access key must be combination of letters and numbers"
+msgstr "รหัสการเข้าถึงจะต้องเป็นการผสมผสานระหว่างตัวอักษรและตัวเลข"
+
+#: src/Localization/AdminTranslations.php:229
+msgid "Add"
+msgstr "เพิ่ม"
+
+#: src/Localization/AdminTranslations.php:167
+#| msgid "Add “Link Amazon product(s)” in block editor"
+msgid "Add \"Link Amazon product(s)\" in block editor"
+msgstr "เพิ่ม “ลิงก์ผลิตภัณฑ์ Amazon” ในตัวแก้ไขบล็อก"
+
+#: src/Localization/AdminTranslations.php:109
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:324
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4241
+msgid "Add a few products and describe them briefly."
+msgstr "เพิ่มผลิตภัณฑ์เล็กน้อยและอธิบายโดยย่อ"
+
+#: src/Localization/AdminTranslations.php:97
+msgid "Add a new post"
+msgstr "เพิ่มข้อความใหม่"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/products_selected.js:406
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3761
+msgid "Add a new product"
+msgstr "เพิ่มสินค้าใหม่"
+
+#: src/Localization/AdminTranslations.php:263
+#: amazon-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/src/views/TableConfiguration.jsx:91
+#: mercado-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/dist/index.js:2924
+msgid "Add a new table configuration"
+msgstr "เพิ่มการกำหนดค่าตารางใหม่"
+
+#: src/Localization/AdminTranslations.php:28
+#: src/Localization/AdminTranslations.php:40
+msgid "Add a product block"
+msgstr "เพิ่มบล็อคผลิตภัณฑ์"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:314
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4231
+msgid "Add a single product with detailed description."
+msgstr "เพิ่มสินค้าเพียงหนึ่งรายการพร้อมรายละเอียดที่ครบถ้วน"
+
+#: src/Localization/AdminTranslations.php:254
+msgid "Add at least 2 products to continue."
+msgstr "เพิ่มอย่างน้อย 2 ผลิตภัณฑ์เพื่อดำเนินการต่อ"
+
+#: src/Localization/AdminTranslations.php:259
+msgid "Add at least one product data row."
+msgstr "เพิ่มแถวข้อมูลผลิตภัณฑ์อย่างน้อยหนึ่งแถว"
+
+#: src/Localization/AdminTranslations.php:256
+msgid "Add at least two products to continue"
+msgstr "เพิ่มอย่างน้อยสองผลิตภัณฑ์เพื่อดำเนินการต่อ"
+
+#: amazon-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/src/components/product_list_bestsellers.js:16
+#: amazon-gutenberg-block/dist/index.js:387
+msgid "Add best-sellers"
+msgstr "เพิ่มสินค้าขายดี"
+
+#: src/Localization/AdminTranslations.php:243
+msgid "Add highlight"
+msgstr "เพิ่มไฮไลท์"
+
+#: src/Localization/AdminTranslations.php:113
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:334
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4251
+msgid "Add multiple similar products and compare them."
+msgstr "เพิ่มผลิตภัณฑ์ที่คล้ายกันหลายรายการและเปรียบเทียบกัน"
+
+#: src/Localization/AdminTranslations.php:230
+#: amazon-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/src/components/product_selector.js:172
+#: amazon-gutenberg-block/dist/index.js:2701
+msgid "Add product"
+msgstr "เพิ่มผลิตภัณฑ์"
+
+#: src/Localization/AdminTranslations.php:30
+#: src/Localization/AdminTranslations.php:42
+#: src/Localization/AdminTranslations.php:144
+#: src/Localization/AdminTranslations.php:194
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/product_selector_multiple.js:273
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3312
+msgid "Add products"
+msgstr "เพิ่มผลิตภัณฑ์"
+
+#: src/Localization/AdminTranslations.php:242
+msgid "Add row"
+msgstr "เพิ่มแถว"
+
+#: src/Localization/AdminTranslations.php:202
+msgid "Add table"
+msgstr "เพิ่มตาราง"
+
+#: src/Localization/AdminTranslations.php:200
+msgid "Add the product data"
+msgstr "เพิ่มข้อมูลผลิตภัณฑ์"
+
+#: src/Localization/AdminTranslations.php:171
+msgid "Add the product(s)"
+msgstr "เพิ่มผลิตภัณฑ์"
+
+#: src/Localization/AdminTranslations.php:24
+msgid ""
+"Add your API credentials to select a language and improve search results. "
+"This step is optional, but recommended."
+msgstr ""
+"เพิ่มข้อมูลรับรอง API ของคุณเพื่อเลือกภาษาและปรับปรุงผลการค้นหา "
+"ขั้นตอนนี้เป็นทางเลือก แต่ขอแนะนำ"
+
+#: src/Localization/AdminTranslations.php:197
+msgid "Affiliate link"
+msgstr "ลิงค์พันธมิตร"
+
+#: src/Admin/Menus.php:54 src/Admin/Menus.php:55 src/Admin/Menus.php:73
+#: src/Localization/AdminTranslations.php:13
+msgid "Affiliate Marketing"
+msgstr "การตลาดแบบพันธมิตร"
+
+#: src/Setup/Cpts.php:41
+msgid "Affiliate tables"
+msgstr "ตารางพันธมิตร"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/products_selected.js:285
+#: amazon-gutenberg-block/src/components/products_selected.js:289
+#: amazon-gutenberg-block/src/components/products_selected.js:306
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3640
+#: amazon-gutenberg-block/dist/index.js:3644
+#: amazon-gutenberg-block/dist/index.js:3661
+msgid "Affiliate URL"
+msgstr "URL พันธมิตร"
+
+#: src/Localization/AdminTranslations.php:172
+msgid ""
+"After choosing the layout, you need to find the product(s) that you want to "
+"promote in your post. You can copy-paste the ASIN or search the product(s) "
+"manually."
+msgstr ""
+"หลังจากเลือกเค้าโครงแล้ว "
+"คุณต้องค้นหาผลิตภัณฑ์ที่คุณต้องการโปรโมตในโพสต์ของคุณ คุณสามารถคัดลอกและวาง "
+"ASIN หรือค้นหาผลิตภัณฑ์ด้วยตัวเองได้"
+
+#: src/Localization/AdminTranslations.php:70
+msgid "Amazon"
+msgstr "Amazon"
+
+#: src/Localization/AdminTranslations.php:141
+msgid "Amazon Affiliate"
+msgstr "Amazon Affiliate"
+
+#: src/Localization/Messages.php:16
+msgid "Amazon API returned an error."
+msgstr "Amazon API คืนข้อผิดพลาด"
+
+#: src/Localization/AdminTranslations.php:189
+msgid "Amazon api was disconnected!"
+msgstr "Amazon API ถูกตัดการเชื่อมต่อ!"
+
+#: src/Localization/AdminTranslations.php:72
+msgid "Amazon Associates"
+msgstr "พันธมิตรของ Amazon"
+
+#: src/Repositories/TableRepository.php:300
+msgid "Amazon Button"
+msgstr "ปุ่ม Amazon"
+
+#: src/Localization/AdminTranslations.php:191
+msgid "Amazon settings were successfully saved!"
+msgstr "บันทึกการตั้งค่า Amazon สำเร็จแล้ว!"
+
+#: src/Localization/AdminTranslations.php:223
+msgid "An unexpected error occurred"
+msgstr "เกิดข้อผิดพลาดที่ไม่คาดคิด"
+
+#: src/Localization/AdminTranslations.php:57
+msgid "API Settings"
+msgstr "การตั้งค่า API"
+
+#: src/Localization/AdminTranslations.php:82
+msgid "API status"
+msgstr "สถานะ API"
+
+#: src/Localization/AdminTranslations.php:289
+msgid "Argentina"
+msgstr "อาร์เจนตินา"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/products_selected.js:217
+#: amazon-gutenberg-block/src/edit.js:553
+#: amazon-gutenberg-block/src/edit.js:791
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3572
+#: amazon-gutenberg-block/dist/index.js:4470
+#: amazon-gutenberg-block/dist/index.js:4708
+msgid "ASIN"
+msgstr "ASIN"
+
+#: src/Localization/AdminTranslations.php:275
+msgid ""
+"ASIN is a unique 10-digit code Amazon assigns to products in its catalog. "
+"You can find it on the product detail page."
+msgstr ""
+"ASIN คือรหัส 10 หลักเฉพาะที่ Amazon กำหนดให้กับผลิตภัณฑ์ในแค็ตตาล็อก "
+"คุณสามารถดูรหัสนี้ได้ในหน้ารายละเอียดผลิตภัณฑ์"
+
+#: src/Localization/Messages.php:20 amazon-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/products_selected.js:105
+#: amazon-gutenberg-block/src/components/product_selector.js:65
+#: amazon-gutenberg-block/src/components/product_selector_multiple.js:66
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:2594
+#: amazon-gutenberg-block/dist/index.js:3105
+#: amazon-gutenberg-block/dist/index.js:3460
+msgid "ASIN validation failed. Please check entered product ASIN!"
+msgstr "การตรวจสอบ ASIN ล้มเหลว กรุณาตรวจสอบ ASIN ของผลิตภัณฑ์ที่ป้อน!"
+
+#. translators: %s: PHP version
+#: hostinger-affiliate-plugin.php:106
+msgid "Attention:"
+msgstr "ข้อควรระวัง:"
+
+#: src/Localization/AdminTranslations.php:286
+msgid "Australia"
+msgstr "ออสเตรเลีย"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/dist/index.js:4
+#: amazon-gutenberg-block/src/components/product_list_type_selector.js:38
+#: amazon-gutenberg-block/src/edit.js:633
+#: amazon-gutenberg-block/dist/index.js:4550
+#: amazon-gutenberg-block/dist/index.js:5102
+msgid "Automatically based on best-sellers"
+msgstr "โดยอัตโนมัติตามสินค้าขายดี"
+
+#: amazon-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/src/components/product_list_bestsellers.js:80
+#: amazon-gutenberg-block/dist/index.js:451
+msgid "Automatically generate product list"
+msgstr "สร้างรายการสินค้าโดยอัตโนมัติ"
+
+#: src/Localization/AdminTranslations.php:152
+msgid "Back"
+msgstr "กลับ"
+
+#: src/Localization/AdminTranslations.php:287
+msgid "Belgium"
+msgstr "เบลเยี่ยม"
+
+#. translators: %d: bestseller place
+#: src/Shortcodes/templates/lists/horizontal-cards.php:20
+#: src/Shortcodes/templates/lists/list-with-description.php:16
+#: src/Shortcodes/templates/lists/simplified-list.php:37
+#, php-format
+msgid "Bestseller #%d"
+msgstr "สินค้าขายดี #%d"
+
+#: src/Localization/AdminTranslations.php:288
+msgid "Brazil"
+msgstr "บราซิล"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:946
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4863
+msgid "Buy button"
+msgstr "ปุ่มซื้อ"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:388
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4305
+msgid "Buy button overwrite enabled?"
+msgstr "เปิดใช้งานการเขียนทับปุ่มซื้อหรือไม่?"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:400
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4317
+msgid "Buy button text"
+msgstr "ข้อความปุ่มซื้อ"
+
+#: src/Models/Product.php:275
+msgid "Buy now"
+msgstr "ซื้อตอนนี้"
+
+#: src/Models/Product.php:279
+msgid "Buy on Amazon"
+msgstr "ซื้อบน Amazon"
+
+#: src/Localization/AdminTranslations.php:290
+msgid "Canada"
+msgstr "แคนาดา"
+
+#: src/Localization/AdminTranslations.php:206 src/Setup/Blocks.php:248
+msgid "Cancel"
+msgstr "ยกเลิก"
+
+#: amazon-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/src/components/selected_display_type.js:32
+#: mercado-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/dist/index.js:784
+msgid "Change main layout"
+msgstr "เปลี่ยนเค้าโครงหลัก"
+
+#: src/Localization/AdminTranslations.php:151
+msgid ""
+"Check out our quick guide for tips on how to start using this plugin and "
+"start earning."
+msgstr ""
+"ดูคำแนะนำโดยย่อของเราสำหรับเคล็ดลับในการเริ่มใช้ปลั๊กอินนี้และเริ่มสร้างรายได้"
+
+#: src/Setup/Blocks.php:206
+msgid "Check your search term and try again"
+msgstr "ตรวจสอบคำค้นหาของคุณแล้วลองอีกครั้ง"
+
+#: src/Localization/AdminTranslations.php:64
+msgid "Choose Amazon region ..."
+msgstr "เลือกภูมิภาค Amazon ..."
+
+#: src/Localization/AdminTranslations.php:105
+msgid ""
+"Choose any template for your needs  – all of them are integrated with the "
+"Gutenberg editor."
+msgstr ""
+"เลือกเทมเพลตใดก็ได้ที่เหมาะกับความต้องการของคุณ "
+"โดยทั้งหมดจะรวมเข้ากับโปรแกรมแก้ไข Gutenberg"
+
+#: src/Localization/AdminTranslations.php:35
+#: src/Localization/AdminTranslations.php:47
+msgid ""
+"Choose between a single product card, multiple product list, or comparison "
+"table."
+msgstr ""
+"เลือกระหว่างบัตรผลิตภัณฑ์เดียว รายการผลิตภัณฑ์หลายรายการ หรือตารางเปรียบเทียบ"
+
+#: amazon-gutenberg-block/dist/index.js:4
+#: amazon-gutenberg-block/src/edit.js:1057
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4974
+msgid "Choose how the product block will look like in your post"
+msgstr "เลือกว่าบล็อกสินค้าจะปรากฏอย่างไรในโพสต์ของคุณ"
+
+#: src/Localization/AdminTranslations.php:29
+#: src/Localization/AdminTranslations.php:41
+msgid "Choose how to display products"
+msgstr "เลือกรูปแบบการแสดงสินค้า"
+
+#: src/Localization/AdminTranslations.php:169
+msgid "Choose the layout for the product(s) block"
+msgstr "เลือกเค้าโครงสำหรับบล็อคผลิตภัณฑ์"
+
+#: amazon-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/product_list_bestsellers.js:24
+#: amazon-gutenberg-block/src/components/product_selector_multiple.js:239
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:395
+#: amazon-gutenberg-block/dist/index.js:3278
+msgid "Choose the layout of your product list"
+msgstr "เลือกเค้าโครงรายการสินค้าของคุณ"
+
+#: src/Localization/AdminTranslations.php:266
+#: amazon-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/src/views/TableConfiguration.jsx:54
+#: mercado-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/dist/index.js:2887
+msgid "Choose the table configuration"
+msgstr "เลือกการกำหนดค่าตาราง"
+
+#: src/Localization/AdminTranslations.php:136
+#| msgid "Choose which products to compare and set up your table’s rows."
+msgid "Choose which products to compare and set up your table's rows."
+msgstr "เลือกผลิตภัณฑ์ที่ต้องการเปรียบเทียบและตั้งค่าแถวตารางของคุณ"
+
+#: src/Localization/AdminTranslations.php:205
+msgid "Close"
+msgstr "ปิด"
+
+#: src/Localization/AdminTranslations.php:132
+#: amazon-gutenberg-block/dist/index.js:4
+#: amazon-gutenberg-block/src/components/DisplayTypeSelector.jsx:41
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:5590
+msgid "Coming soon"
+msgstr "เร็วๆ นี้"
+
+#: src/Localization/AdminTranslations.php:112
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:333
+#: amazon-gutenberg-block/src/edit.js:1010
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4250
+#: amazon-gutenberg-block/dist/index.js:4927
+msgid "Comparison Table"
+msgstr "ตารางเปรียบเทียบ"
+
+#: src/Localization/AdminTranslations.php:124
+msgid "Comparison tables"
+msgstr "ตารางเปรียบเทียบ"
+
+#: src/Localization/AdminTranslations.php:138
+msgid "Configure"
+msgstr "กำหนดค่า"
+
+#: src/Setup/Blocks.php:254
+msgid "Confirm selection"
+msgstr "ยืนยันการเลือก"
+
+#: src/Localization/AdminTranslations.php:81
+msgid "Connect"
+msgstr "เชื่อมต่อ"
+
+#: src/Localization/AdminTranslations.php:79
+msgid "Connect Amazon account"
+msgstr "เชื่อมต่อบัญชี Amazon"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:527
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4444
+msgid "Connect Now"
+msgstr "เชื่อมต่อตอนนี้"
+
+#: src/Localization/AdminTranslations.php:103
+msgid "Connect With Your Amazon Account"
+msgstr "เชื่อมต่อกับบัญชี Amazon ของคุณ"
+
+#: src/Localization/AdminTranslations.php:18
+#: src/Localization/AdminTranslations.php:95
+msgid "Connect Your Amazon Account"
+msgstr "เชื่อมต่อบัญชี Amazon ของคุณ"
+
+#: src/Localization/AdminTranslations.php:92
+msgid "Connect your Amazon Associates Account"
+msgstr "เชื่อมต่อบัญชี Amazon Associates ของคุณ"
+
+#: src/Localization/AdminTranslations.php:15
+#| msgid "Connect  your Amazon Associates Account"
+msgid "Connect your Amazon Associates account"
+msgstr "เชื่อมต่อบัญชี Amazon Associates ของคุณ"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:506
+#: amazon-gutenberg-block/dist/index.js:4423
+msgid "Connect Your Amazon Partnership Account"
+msgstr "เชื่อมต่อบัญชีความร่วมมือ Amazon ของคุณ"
+
+#: src/Localization/AdminTranslations.php:51
+#: src/Localization/AdminTranslations.php:84
+msgid "Connected"
+msgstr "เชื่อมต่อ"
+
+#: src/Localization/AdminTranslations.php:86
+msgid "Connected to Partner ID:"
+msgstr "เชื่อมต่อกับรหัสพันธมิตร:"
+
+#: src/Errors/AmazonApiError.php:41 src/Errors/AmazonApiError.php:91
+msgid "Contact Hostinger support for further assistance."
+msgstr "ติดต่อฝ่ายสนับสนุนของ Hostinger เพื่อรับความช่วยเหลือเพิ่มเติม"
+
+#: src/Localization/AdminTranslations.php:204
+#: amazon-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/product_list_bestsellers.js:53
+#: amazon-gutenberg-block/src/components/product_selector_multiple.js:210
+#: amazon-gutenberg-block/src/views/TableConfiguration.jsx:64
+#: mercado-gutenberg-block/dist/index.js:1
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:424
+#: amazon-gutenberg-block/dist/index.js:2897
+#: amazon-gutenberg-block/dist/index.js:3249
+msgid "Continue"
+msgstr "ดำเนินการต่อ"
+
+#: src/Localization/AdminTranslations.php:137
+msgid "Copied successfully!"
+msgstr "คัดลอกสำเร็จแล้ว!"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/products_selected.js:162
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3517
+msgid "Copied to clipboard!"
+msgstr "คัดลอกไปยังคลิปบอร์ดแล้ว!"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/products_selected.js:266
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3621
+msgid "Copy to clipboard"
+msgstr "คัดลอกไปยังคลิปบอร์ด"
+
+#. translators: %s: ASIN helper page URL
+#: amazon-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/product_selector.js:148
+#: amazon-gutenberg-block/src/components/product_selector_multiple.js:184
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:2677
+#: amazon-gutenberg-block/dist/index.js:3223
+#, js-format
+msgid ""
+"Copy-paste Amazon product ASIN. <a href=\"%s\" target=\"_blank\">Where to "
+"find it?</a>"
+msgstr ""
+"คัดลอก-วาง ASIN ของสินค้า Amazon <a href=\"%s\" target=\"_blank\">"
+"หาได้ที่ไหน?</a>"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:377
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4294
+msgid "Count of items to show in list."
+msgstr "จำนวนสินค้าที่จะแสดงในรายการ"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:278
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4195
+msgid "Count of list items in product description."
+msgstr "นับจำนวนรายการในคำอธิบายสินค้า"
+
+#: src/Localization/AdminTranslations.php:62
+msgid "Country"
+msgstr "ประเทศ"
+
+#: src/Localization/AdminTranslations.php:87
+#: src/Localization/AdminTranslations.php:165
+#: src/Localization/AdminTranslations.php:177
+msgid "Create a new post"
+msgstr "สร้างโพสต์ใหม่"
+
+#: src/Localization/AdminTranslations.php:27
+#: src/Localization/AdminTranslations.php:39
+#: src/Localization/AdminTranslations.php:310
+msgid "Create a post"
+msgstr "สร้างโพสต์"
+
+#: src/Localization/AdminTranslations.php:308
+msgid "Create a post to start promoting products"
+msgstr "สร้างโพสต์เพื่อเริ่มโปรโมทสินค้า"
+
+#: src/Localization/AdminTranslations.php:123
+#: src/Localization/AdminTranslations.php:125
+msgid "Create and manage your comparison tables."
+msgstr "สร้างและจัดการตารางเปรียบเทียบของคุณ"
+
+#. Description of the plugin
+#: hostinger-affiliate-plugin.php
+msgid ""
+"Create and promote products using affiliate links from different "
+"marketplaces. Easily manage and display affiliate products on your site."
+msgstr ""
+"สร้างและโปรโมทสินค้าโดยใช้ลิงก์ผู้ส่งเสริมการขายจากตลาดต่าง ๆ "
+"จัดการและแสดงสินค้าผู้ส่งเสริมการขายบนเว็บไซต์ของคุณได้อย่างง่ายดาย"
+
+#: src/Localization/AdminTranslations.php:53
+msgid "Create post"
+msgstr "สร้างโพสต์"
+
+#: src/Localization/AdminTranslations.php:180
+#| msgid "Create new table"
+msgid "Create table"
+msgstr "สร้างตารางใหม่"
+
+#: src/Localization/AdminTranslations.php:134
+msgid "Create your first comparison table"
+msgstr "สร้างตารางเปรียบเทียบแรกของคุณ"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:577
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4494
+msgid "Custom product title."
+msgstr "ชื่อสินค้าที่กำหนดเอง"
+
+#: src/Localization/AdminTranslations.php:238
+msgid "Date created"
+msgstr "วันที่สร้าง"
+
+#: src/Localization/AdminTranslations.php:207
+msgid "Delete"
+msgstr "ลบ"
+
+#: src/Localization/AdminTranslations.php:213
+msgid "Delete product?"
+msgstr "ลบสินค้า?"
+
+#: src/Localization/AdminTranslations.php:208
+#| msgid "Delete table?"
+msgid "Delete table"
+msgstr "ลบตาราง?"
+
+#: src/Localization/AdminTranslations.php:212
+msgid "Delete this table?"
+msgstr "ลบตารางนี้หรือไม่?"
+
+#: src/Localization/AdminTranslations.php:312
+msgid ""
+"Depending on your country, different marketplaces may be available to you."
+msgstr "ขึ้นอยู่กับประเทศของคุณ ตลาดที่แตกต่างกันอาจมีให้คุณเลือก"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:256
+#: amazon-gutenberg-block/src/edit.js:933
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4173
+#: amazon-gutenberg-block/dist/index.js:4850
+msgid "Description"
+msgstr "คำอธิบาย"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:232
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4149
+msgid "Description enabled?"
+msgstr "เปิดใช้งานคำอธิบายหรือไม่?"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:269
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4186
+msgid "Description Items"
+msgstr "คำอธิบายสินค้า"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:288
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4205
+msgid "Description length"
+msgstr "ความยาวของคำอธิบาย"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:243
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4160
+msgid "Description overwrite enabled?"
+msgstr "เปิดใช้งานการเขียนทับคำอธิบายหรือไม่?"
+
+#: src/Localization/AdminTranslations.php:235
+msgid "Determine who will see the table"
+msgstr "กำหนดว่าใครจะมองเห็นตาราง"
+
+#: src/Localization/AdminTranslations.php:88
+msgid "Disconnect"
+msgstr "ยกเลิกการเชื่อมต่อ"
+
+#: src/Localization/AdminTranslations.php:85
+msgid "Disconnected"
+msgstr "ตัดการเชื่อมต่อแล้ว"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:729
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4646
+msgid "Display Bestseller #"
+msgstr "แสดงสินค้าขายดี #"
+
+#: amazon-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/product_list_bestsellers.js:99
+#: amazon-gutenberg-block/src/components/product_selector.js:164
+#: amazon-gutenberg-block/src/components/product_selector_multiple.js:150
+#: amazon-gutenberg-block/src/components/product_selector_multiple.js:202
+#: amazon-gutenberg-block/src/components/product_selector_multiple.js:265
+#: mercado-gutenberg-block/dist/index.js:1
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:470
+#: amazon-gutenberg-block/dist/index.js:2693
+#: amazon-gutenberg-block/dist/index.js:3189
+#: amazon-gutenberg-block/dist/index.js:3241
+#: amazon-gutenberg-block/dist/index.js:3304
+msgid ""
+"Don’t worry. You can edit the layout and product in the Block configuration "
+"in the right sidebar anytime."
+msgstr ""
+"ไม่ต้องกังวล "
+"คุณสามารถแก้ไขเค้าโครงและผลิตภัณฑ์ได้ในการตั้งค่าบล็อกที่แถบด้านขวาได้ทุกเมื่อ"
+
+#. translators: %s: product asin.
+#: src/Localization/AdminTranslations.php:270
+#, php-format
+msgid "Duplicate ASIN: %s was not added."
+msgstr "ASIN ที่ซ้ำกัน: %s ไม่ได้ถูกเพิ่ม"
+
+#: src/Localization/AdminTranslations.php:101
+msgid "Earn Commissions"
+msgstr "รับคอมมิชชั่น"
+
+#: src/Localization/AdminTranslations.php:142
+msgid "Edit your Amazon API details"
+msgstr "แก้ไขรายละเอียด Amazon API ของคุณ"
+
+#: src/Localization/AdminTranslations.php:291
+msgid "Egypt"
+msgstr "อียิปต์"
+
+#: src/Api/Mercado/Client.php:116
+#, fuzzy
+msgid "Empty response from proxy API."
+msgstr "ไม่มีการตอบสนองจาก API ตัวกลาง"
+
+#: src/Localization/AdminTranslations.php:257
+msgid "Enable at least two products to continue"
+msgstr "เปิดใช้งานอย่างน้อยสองผลิตภัณฑ์เพื่อดำเนินการต่อ"
+
+#: mercado-gutenberg-block/dist/index.js:2
+msgid "Enable Mercado Livre store in settings"
+msgstr "เปิดใช้งานร้านค้า Mercado Livre ในการตั้งค่า"
+
+#: mercado-gutenberg-block/dist/index.js:2
+msgid "Enter affiliate url"
+msgstr "ป้อน URL พันธมิตร"
+
+#: amazon-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/products_selected.js:359
+#: amazon-gutenberg-block/src/components/products_selected.js:367
+#: amazon-gutenberg-block/src/components/product_selector.js:156
+#: amazon-gutenberg-block/src/components/product_selector_multiple.js:193
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:2685
+#: amazon-gutenberg-block/dist/index.js:3232
+#: amazon-gutenberg-block/dist/index.js:3714
+#: amazon-gutenberg-block/dist/index.js:3722
+msgid "Enter ASIN here"
+msgstr "กรอก ASIN ที่นี่"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:556
+#: amazon-gutenberg-block/dist/index.js:4473
+msgid "Enter ASIN here..."
+msgstr "กรอก ASIN ที่นี่..."
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/products_selected.js:358
+#: amazon-gutenberg-block/src/components/products_selected.js:366
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3713
+#: amazon-gutenberg-block/dist/index.js:3721
+msgid "Enter product ID here"
+msgstr "กรอกรหัสสินค้าที่นี่"
+
+#: mercado-gutenberg-block/dist/index.js:2
+msgid "Enter product ID here..."
+msgstr "กรอกรหัสสินค้าที่นี่..."
+
+#: amazon-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/src/components/product_list_bestsellers.js:92
+#: amazon-gutenberg-block/dist/index.js:463
+msgid "Enter product keywords here, example: corsair rgb keyboard"
+msgstr "ป้อนคำค้นหาผลิตภัณฑ์ที่นี่ ตัวอย่าง: คีย์บอร์ด Corsair RGB"
+
+#: src/Localization/AdminTranslations.php:248
+msgid "Enter text label. For example: Best Price"
+msgstr "ใส่ป้ายข้อความ ตัวอย่างเช่น: ราคาที่ดีที่สุด"
+
+#: src/Localization/AdminTranslations.php:203
+msgid "Enter your table name"
+msgstr "ป้อนชื่อตารางของคุณ"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/products_selected.js:165
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3520
+msgid "Failed to copy!"
+msgstr "คัดลอกไม่สำเร็จ!"
+
+#: src/Api/Mercado/Client.php:125
+#, fuzzy
+msgid "Failed to decode proxy API response."
+msgstr "ไม่สามารถถอดรหัสการตอบสนองของ API ตัวแทนได้"
+
+#. translators: %s: missing field key name
+#: src/Localization/Messages.php:12
+#, php-format
+msgid "Field %s is empty."
+msgstr "ช่อง %s ว่างเปล่า"
+
+#: src/Localization/AdminTranslations.php:219
+msgid "Field contains an error"
+msgstr "ช่องว่างมีข้อผิดพลาด"
+
+#: src/Localization/AdminTranslations.php:19
+msgid "Fill API details from Amazon Product Advertising dashboard to start"
+msgstr ""
+"กรอกรายละเอียด API จากแดชบอร์ด Amazon Product Advertising เพื่อเริ่มต้น"
+
+#: src/Localization/AdminTranslations.php:54
+msgid "Find your API credentials"
+msgstr "ค้นหาข้อมูลรับรอง API ของคุณ"
+
+#: src/Localization/AdminTranslations.php:154
+msgid "Find your Tracking ID"
+msgstr "ค้นหารหัสติดตามของคุณ"
+
+#: src/Localization/AdminTranslations.php:166
+msgid ""
+"First thing first, you need to create a post. Make sure to create the post "
+"with the specific niche to be more related with your visitors."
+msgstr ""
+"สิ่งแรกที่ต้องทำคือสร้างโพสต์ "
+"อย่าลืมสร้างโพสต์ที่มีเนื้อหาเฉพาะเจาะจงเพื่อให้เกี่ยวข้องกับผู้เยี่ยมชมของคุณมากขึ้น"
+
+#: src/Localization/AdminTranslations.php:94
+msgid ""
+"Follow this step-by-step guide to start earning your affiliate commission in "
+"no time."
+msgstr ""
+"ทำตามคำแนะนำทีละขั้นตอนนี้เพื่อเริ่มรับค่าคอมมิชชั่นจากพันธมิตรในเวลาไม่นาน"
+
+#: src/Localization/AdminTranslations.php:37
+#: src/Localization/AdminTranslations.php:49
+msgid "For each product, generate and paste your affiliate link."
+msgstr "สำหรับผลิตภัณฑ์แต่ละชิ้น ให้สร้างและวางลิงก์พันธมิตรของคุณ"
+
+#: src/Localization/AdminTranslations.php:220
+msgid "Form is invalid or already saving"
+msgstr "แบบฟอร์มไม่ถูกต้องหรือกำลังบันทึกอยู่"
+
+#: src/Localization/AdminTranslations.php:292
+msgid "France"
+msgstr "ฝรั่งเศส"
+
+#: src/Localization/AdminTranslations.php:155
+msgid "General"
+msgstr "ทั่วไป"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:983
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4900
+msgid "General Settings"
+msgstr "การตั้งค่าทั่วไป"
+
+#: src/Localization/AdminTranslations.php:253
+msgid "General settings"
+msgstr "การตั้งค่าทั่วไป"
+
+#: src/Localization/AdminTranslations.php:293
+msgid "Germany"
+msgstr "เยอรมนี"
+
+#: src/Localization/AdminTranslations.php:114
+msgid "Get Started"
+msgstr "เริ่มเลย"
+
+#: src/Localization/AdminTranslations.php:148
+msgid "Get started with our plugin"
+msgstr "เริ่มต้นด้วยปลั๊กอินของเรา"
+
+#: src/Localization/AdminTranslations.php:14
+msgid "Getting Started"
+msgstr "เริ่มต้นใช้งาน"
+
+#: src/Localization/AdminTranslations.php:126
+msgid "Getting started"
+msgstr "เริ่มต้นใช้งาน"
+
+#: src/Localization/AdminTranslations.php:150
+msgid "Got it"
+msgstr "เข้าใจแล้ว"
+
+#. translators: %s: Amazon store region
+#: src/Setup/Blocks.php:222
+#, php-format
+msgid "Here you will see products from your store region on <b>%s</b>."
+msgstr "ที่นี่คุณจะเห็นผลิตภัณฑ์จากร้านค้าภูมิภาคของคุณบน <b>%s</b>"
+
+#: src/Setup/Blocks.php:224
+msgid "Here you will see products from your store region."
+msgstr "ที่นี่คุณจะเห็นผลิตภัณฑ์จากภูมิภาคร้านค้าของคุณ"
+
+#: src/Localization/AdminTranslations.php:245
+msgid "Highlight settings"
+msgstr "ไฮไลท์การตั้งค่า"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:359
+#: amazon-gutenberg-block/src/edit.js:673
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4276
+#: amazon-gutenberg-block/dist/index.js:4590
+msgid "Horizontal cards"
+msgstr "บัตรแนวนอน"
+
+#. Author of the plugin
+#: hostinger-affiliate-plugin.php
+msgid "Hostinger"
+msgstr "Hostinger"
+
+#: src/Localization/AdminTranslations.php:162
+msgid "Hostinger Academy"
+msgstr "Hostinger Academy"
+
+#: src/Localization/AdminTranslations.php:12
+msgid "Hostinger Affiliate"
+msgstr "พันธมิตร Hostinger"
+
+#. Plugin Name of the plugin
+#: hostinger-affiliate-plugin.php
+#| msgid "Hostinger Amazon Affiliate Marketing Tools"
+msgid "Hostinger Affiliate Marketing Tools"
+msgstr "เครื่องมือการตลาดพันธมิตร Amazon ของ Hostinger"
+
+#: src/Admin/Surveys/AmazonSurvey.php:24
+msgid "How could we improve the Hostinger Affiliate plugin for Amazon?"
+msgstr "เราจะปรับปรุงปลั๊กอิน Hostinger Affiliate สำหรับ Amazon ได้อย่างไร?"
+
+#: src/Admin/Surveys/MercadoSurvey.php:24
+msgid "How could we improve the Hostinger Affiliate plugin for Mercado Libre?"
+msgstr ""
+"เราจะปรับปรุงปลั๊กอิน Hostinger Affiliate สำหรับ Mercado Libre ได้อย่างไร?"
+
+#: amazon-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/src/components/product_selector.js:74
+#: amazon-gutenberg-block/src/components/product_selector.js:143
+#: amazon-gutenberg-block/src/components/product_selector_multiple.js:97
+#: mercado-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/dist/index.js:2603
+#: amazon-gutenberg-block/dist/index.js:2672
+#: amazon-gutenberg-block/dist/index.js:3136
+msgid "How do you want to add the product?"
+msgstr "คุณต้องการเพิ่มสินค้าอย่างไร?"
+
+#: amazon-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4
+#: amazon-gutenberg-block/src/components/product_list_bestsellers.js:74
+#: amazon-gutenberg-block/src/components/product_list_type_selector.js:17
+#: amazon-gutenberg-block/src/components/product_selector_multiple.js:86
+#: mercado-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/dist/index.js:445
+#: amazon-gutenberg-block/dist/index.js:3125
+#: amazon-gutenberg-block/dist/index.js:5081
+msgid "How do you want to generate the list of the products?"
+msgstr "คุณต้องการสร้างรายการสินค้าอย่างไร?"
+
+#: src/Localization/AdminTranslations.php:178
+msgid "How to create a product listing using our plugin?"
+msgstr "วิธีสร้างรายการผลิตภัณฑ์โดยใช้ปลั๊กอินของเรา"
+
+#: src/Localization/AdminTranslations.php:16
+msgid "How to create a product listing with our plugin?"
+msgstr "วิธีสร้างรายการผลิตภัณฑ์โดยใช้ปลั๊กอินของเรา"
+
+#: src/Localization/AdminTranslations.php:231
+msgid "How to do that?"
+msgstr "จะทำอย่างไร?"
+
+#: src/Localization/AdminTranslations.php:199
+msgid "How to get your affiliate link"
+msgstr "วิธีรับลิงค์พันธมิตรของคุณ"
+
+#: src/Localization/AdminTranslations.php:163
+#| msgid ""
+#| "How to Set Up Amazon Affiliate with Hostinger Amazon Affiliate Connector -"
+#| " Step by step guide"
+msgid ""
+"How to Set Up Amazon Affiliate with Hostinger Amazon Affiliate - Step by "
+"step guide"
+msgstr ""
+"วิธีตั้งค่า Amazon Affiliate ด้วย Hostinger Amazon Affiliate Connector - "
+"คำแนะนำทีละขั้นตอน"
+
+#: src/Localization/AdminTranslations.php:164
+msgid "How to use this plugin?"
+msgstr "วิธีการใช้งานปลั๊กอินนี้?"
+
+#: src/Admin/Surveys/AmazonSurvey.php:20
+msgid "How would you rate your experience publishing Amazon Affiliate links?"
+msgstr ""
+"คุณจะให้คะแนนประสบการณ์ของคุณในการเผยแพร่ลิงก์พันธมิตรของ Amazon อย่างไร?"
+
+#: src/Admin/Surveys/MercadoSurvey.php:20
+msgid ""
+"How would you rate your experience publishing Mercado Libre Affiliate links?"
+msgstr ""
+"คุณจะให้คะแนนประสบการณ์ของคุณในการเผยแพร่ลิงก์พันธมิตรของ Mercado Libre "
+"อย่างไร?"
+
+#. Plugin URI of the plugin
+#. Author URI of the plugin
+#: hostinger-affiliate-plugin.php
+msgid "https://hostinger.com"
+msgstr "https://hostinger.com"
+
+#: src/Errors/AmazonApiError.php:76
+msgid ""
+"If the problems persists, contact Amazon Associates support for further "
+"assistance."
+msgstr ""
+"หากปัญหายังคงมีอยู่ โปรดติดต่อฝ่ายสนับสนุน Amazon Associates "
+"เพื่อขอความช่วยเหลือเพิ่มเติม"
+
+#: src/Errors/AmazonApiError.php:66 src/Errors/AmazonApiError.php:71
+msgid ""
+"If you're still having trouble after checking your settings, contact Amazon "
+"Associates support for further assistance."
+msgstr ""
+"หากคุณยังคงประสบปัญหาหลังจากตรวจสอบการตั้งค่าแล้ว โปรดติดต่อฝ่ายสนับสนุนของ "
+"Amazon Associates เพื่อขอความช่วยเหลือเพิ่มเติม"
+
+#: src/Localization/AdminTranslations.php:21
+msgid ""
+"In order to get the Amazon API information, you need to log in to your <b>"
+"Amazon Associate</b> account."
+msgstr ""
+"หากต้องการรับข้อมูล Amazon API คุณต้องเข้าสู่ระบบบัญชี <b>Amazon "
+"Associate</b> ของคุณ"
+
+#: src/Localization/AdminTranslations.php:34
+msgid ""
+"In the editor, type '/' or click the '+' icon. Then, select 'Link Amazon "
+"products'."
+msgstr ""
+"ในโปรแกรมแก้ไข ให้พิมพ์ '/' หรือคลิกไอคอน '+' จากนั้นเลือก "
+"'เชื่อมโยงผลิตภัณฑ์ Amazon'"
+
+#: src/Localization/AdminTranslations.php:46
+msgid ""
+"In the editor, type '/' or click the '+' icon. Then, select 'Link Mercado "
+"Livre products'."
+msgstr ""
+"ในโปรแกรมแก้ไข ให้พิมพ์ '/' หรือคลิกไอคอน '+' จากนั้นเลือก "
+"'เชื่อมโยงผลิตภัณฑ์ Mercado Livre'"
+
+#: src/Localization/AdminTranslations.php:294
+msgid "India"
+msgstr "อินเดีย"
+
+#: src/Errors/AmazonApiError.php:80
+msgid "Input parameter relating to request is invalid or is missing."
+msgstr "การป้อนข้อกำหนดตามการร้องขอไม่ถูกต้องหรือหายไป"
+
+#: src/Localization/AdminTranslations.php:96
+msgid "Insert API code inside the Amazon Product Advertising dashboard."
+msgstr "ใส่โค้ด API ภายในแดชบอร์ดการโฆษณาผลิตภัณฑ์ของ Amazon"
+
+#: amazon-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/src/components/product_list_bestsellers.js:85
+#: amazon-gutenberg-block/dist/index.js:456
+msgid "Insert the product keyword, we will show the best-seller products"
+msgstr "ใส่คำค้นหาสินค้า เราจะแสดงสินค้าขายดีที่สุด"
+
+#: src/Localization/AdminTranslations.php:168
+#| msgid ""
+#| "Inside Block Editor, you can call Hostinger Amazon Affiliate in the block "
+#| "options. You can call it by typing “/” or click the add button in the "
+#| "right side of the paragraph."
+msgid ""
+"Inside Block Editor, you can call Hostinger Amazon Affiliate in the block "
+"options. You can call it by typing \"/\" or click the add button in the "
+"right side of the paragraph."
+msgstr ""
+"ภายใน Block Editor คุณสามารถเรียก Hostinger Amazon Affiliate "
+"ในตัวเลือกการบล็อกได้ คุณสามารถเรียกได้โดยพิมพ์ “/” "
+"หรือคลิกปุ่มเพิ่มที่ด้านขวาของย่อหน้า"
+
+#: src/Localization/AdminTranslations.php:210
+msgid "Invalid ASIN"
+msgstr "ASIN ไม่ถูกต้อง"
+
+#: src/Rest/SettingsRoutes.php:223
+msgid "Invalid locale selected. Please choose a valid locale."
+msgstr "สถานที่ที่เลือกไม่ถูกต้อง กรุณาเลือกสถานที่ที่ถูกต้อง"
+
+#: src/Rest/templates/search-results.php:104
+#: src/Shortcodes/ProductTableShortcode.php:161
+#: src/Shortcodes/templates/lists/horizontal-cards.php:74
+#: src/Shortcodes/templates/lists/list-with-description.php:72
+#: src/Shortcodes/templates/lists/simplified-list.php:66
+#: src/Shortcodes/templates/product-card.php:60
+msgid "Is prime"
+msgstr "เป็นสิ่งสำคัญ"
+
+#: src/Localization/AdminTranslations.php:295
+msgid "Italy"
+msgstr "อิตาลี"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:368
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4285
+msgid "Items to show"
+msgstr "รายการที่จะแสดง"
+
+#: src/Localization/AdminTranslations.php:296
+msgid "Japan"
+msgstr "ญี่ปุ่น"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:774
+#: amazon-gutenberg-block/dist/index.js:4691
+msgid "Keywords"
+msgstr "คำสำคัญ"
+
+#: src/Localization/AdminTranslations.php:247
+msgid "Label"
+msgstr "ป้ายกำกับ"
+
+#: src/Localization/AdminTranslations.php:60
+msgid "Language"
+msgstr "ภาษา"
+
+#: src/Localization/AdminTranslations.php:63
+msgid "Language of Preference"
+msgstr "ภาษาที่ต้องการ"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:657
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4574
+msgid "Layout"
+msgstr "เค้าโครง"
+
+#: src/Localization/AdminTranslations.php:146
+msgid ""
+"Learn how to create product listings using Hostinger's affiliate plugin – "
+"and start earning commission."
+msgstr ""
+"เรียนรู้วิธีสร้างรายการผลิตภัณฑ์โดยใช้ปลั๊กอินพันธมิตรของ Hostinger "
+"และเริ่มรับค่าคอมมิชชั่น"
+
+#: src/Localization/AdminTranslations.php:147
+msgid ""
+"Learn how to use Hostinger's Amazon Affiliate with our tutorials and "
+"documentations"
+msgstr ""
+"เรียนรู้วิธีใช้ Amazon Affiliate ของ Hostinger "
+"ด้วยบทเรียนและเอกสารประกอบของเรา"
+
+#: src/Localization/AdminTranslations.php:127
+msgid "Learn how to use our affiliate plugin."
+msgstr "เรียนรู้วิธีใช้ปลั๊กอินพันธมิตรของเรา"
+
+#: src/Localization/AdminTranslations.php:149
+msgid "Learn how to use our plugin"
+msgstr "เรียนรู้วิธีใช้ปลั๊กอินของเรา"
+
+#: src/Localization/AdminTranslations.php:145
+msgid "Learn more on how to use this plugin"
+msgstr "เรียนรู้เพิ่มเติมเกี่ยวกับวิธีใช้ปลั๊กอินนี้"
+
+#: src/Localization/AdminTranslations.php:159
+msgid "Leave without saving"
+msgstr "ออกโดยไม่มีการบันทึก"
+
+#: amazon-gutenberg-block/dist/index.js:4
+#: amazon-gutenberg-block/src/index.js:11
+#: amazon-gutenberg-block/dist/index.js:5755
+msgid "Link Amazon product(s)"
+msgstr "ลิงก์สินค้า Amazon"
+
+#: src/Localization/AdminTranslations.php:99
+msgid "Link Amazon Products"
+msgstr "เชื่อมโยงผลิตภัณฑ์ของ Amazon"
+
+#: mercado-gutenberg-block/dist/index.js:2
+msgid "Link Mercado Livre products"
+msgstr "ลิงก์สินค้า Mercado Livre"
+
+#: src/Localization/AdminTranslations.php:83
+#| msgid ""
+#| "Link your Amazon account to your website, start promoting products, and "
+#| "earn rewards."
+msgid ""
+"Link your Amazon account to your website, start promoting products, and earn "
+"rewards. No API key required."
+msgstr ""
+"เชื่อมโยงบัญชี Amazon ของคุณกับเว็บไซต์ของคุณ "
+"เริ่มโปรโมทผลิตภัณฑ์และรับรางวัล"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:349
+#: amazon-gutenberg-block/src/edit.js:665
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4266
+#: amazon-gutenberg-block/dist/index.js:4582
+msgid "List with description"
+msgstr "รายการพร้อมคำอธิบาย"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:907
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4824
+msgid "Lists"
+msgstr "รายการ"
+
+#: src/Localization/AdminTranslations.php:20
+msgid "Log in to Amazon Associate dashboard"
+msgstr "ลงชื่อเข้าใช้แดชบอร์ด Amazon Associate"
+
+#: src/Localization/AdminTranslations.php:22
+msgid "Login"
+msgstr "เข้าสู่ระบบ"
+
+#: src/Errors/AmazonApiError.php:64
+msgid ""
+"Looks like there's a configuration issue with your Amazon Associates account."
+" The access key you provided is not linked to a primary store in your "
+"approved Amazon Associates account. To fix this, head over to Associate "
+"Central and check your account settings. Make sure the access key you're "
+"using is associated with a primary store that's been approved by Amazon "
+"Associates."
+msgstr ""
+"ดูเหมือนว่ามีปัญหาในการกำหนดค่ากับบัญชี Amazon Associates ของคุณ "
+"รหัสการเข้าถึงที่คุณให้มาไม่ได้เชื่อมโยงกับร้านค้าหลักในบัญชี Amazon "
+"Associates ที่ได้รับอนุมัติ หากต้องการแก้ไขปัญหานี้ ให้ไปที่ Associate "
+"Central และตรวจสอบการตั้งค่าบัญชีของคุณ "
+"ตรวจสอบให้แน่ใจว่ารหัสการเข้าถึงที่คุณใช้เชื่อมโยงกับร้านค้าหลักที่ได้รับอนุมัติจาก"
+" Amazon Associates"
+
+#: src/Errors/AmazonApiError.php:94
+msgid ""
+"Looks like there's a configuration issue with your Amazon Associates account."
+" The access key you provided is not valid. To fix this, head over to "
+"Associate Central and check your account settings."
+msgstr ""
+"ดูเหมือนว่ามีปัญหาในการกำหนดค่ากับบัญชี Amazon Associates ของคุณ "
+"รหัสการเข้าถึงที่คุณให้มานั้นไม่ถูกต้อง หากต้องการแก้ไขปัญหานี้ ให้ไปที่ "
+"Associate Central และตรวจสอบการตั้งค่าบัญชีของคุณ"
+
+#: src/Errors/AmazonApiError.php:69
+msgid ""
+"Looks like there's a configuration issue with your Amazon Associates account."
+" The partner tag you provided is not linked to the access key you’re using. "
+"To fix this, head over to Associate Central and check your account settings. "
+"Make sure the partner tag you're using is associated with a valid store in "
+"your Amazon Associates account for the requested marketplace."
+msgstr ""
+"ดูเหมือนว่ามีปัญหาในการกำหนดค่ากับบัญชี Amazon Associates ของคุณ "
+"แท็กพาร์ทเนอร์ที่คุณให้มาไม่ได้เชื่อมโยงกับคีย์การเข้าถึงที่คุณกำลังใช้ "
+"หากต้องการแก้ไขปัญหานี้ ให้ไปที่ Associate Central "
+"และตรวจสอบการตั้งค่าบัญชีของคุณ "
+"ตรวจสอบให้แน่ใจว่าแท็กพาร์ทเนอร์ที่คุณใช้เชื่อมโยงกับร้านค้าที่ถูกต้องในบัญชี"
+" Amazon Associates ของคุณสำหรับตลาดที่ร้องขอ"
+
+#: src/Errors/AmazonApiError.php:96
+msgid ""
+"Make sure the access key you're using is correct. If you're still having "
+"trouble after checking your settings, contact Amazon Associates support for "
+"further assistance."
+msgstr ""
+"ตรวจสอบให้แน่ใจว่ารหัสการเข้าถึงที่คุณใช้นั้นถูกต้อง "
+"หากคุณยังคงประสบปัญหาหลังจากตรวจสอบการตั้งค่าแล้ว โปรดติดต่อฝ่ายสนับสนุนของ "
+"Amazon Associates เพื่อขอความช่วยเหลือเพิ่มเติม"
+
+#: src/Localization/AdminTranslations.php:131
+msgid "Manage"
+msgstr "จัดการ"
+
+#: src/Localization/AdminTranslations.php:17
+msgid "Manage marketplaces"
+msgstr "จัดการการตลาด"
+
+#: src/Localization/AdminTranslations.php:139
+msgid "Manage table"
+msgstr "จัดการตาราง"
+
+#: src/Localization/AdminTranslations.php:116
+msgid "Manage your Amazon API and other configurations"
+msgstr "จัดการ Amazon API และการกำหนดค่าอื่น ๆ ของคุณ"
+
+#: src/Localization/AdminTranslations.php:129
+#: src/Localization/AdminTranslations.php:187
+msgid "Manage your Amazon API and other settings."
+msgstr "จัดการ Amazon API ของคุณและการตั้งค่าอื่นๆ"
+
+#: amazon-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/src/components/product_selector_multiple.js:92
+#: amazon-gutenberg-block/src/components/product_selector_multiple.js:172
+#: mercado-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/dist/index.js:3131
+#: amazon-gutenberg-block/dist/index.js:3211
+msgid "Manually add the products"
+msgstr "เพิ่มสินค้าด้วยตัวเอง"
+
+#: src/Localization/AdminTranslations.php:110
+msgid "Marketplace availability by country"
+msgstr "ความพร้อมจำหน่ายของตลาดตามประเทศ"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:301
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4218
+msgid "Maximum count of characters for each product description list item."
+msgstr "จำนวนตัวอักษรสูงสุดสำหรับรายการคำอธิบายสินค้าแต่ละรายการ"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:205
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4122
+msgid "Maximum count of characters for the product title."
+msgstr "จำนวนตัวอักษรสูงสุดสำหรับชื่อสินค้า"
+
+#: src/Localization/AdminTranslations.php:26
+#: src/Localization/AdminTranslations.php:153
+#: src/Localization/AdminTranslations.php:244
+msgid "Menu"
+msgstr "เมนู"
+
+#: src/Localization/AdminTranslations.php:71
+msgid "Mercado Livre"
+msgstr "Mercado Livre"
+
+#: src/Localization/AdminTranslations.php:73
+msgid "Mercado Livre Partner"
+msgstr "พันธมิตร Mercado Livre"
+
+#: src/Localization/AdminTranslations.php:111
+msgid "Mercado Livre Partner settings"
+msgstr "การตั้งค่าพันธมิตร Mercado Livre"
+
+#: src/Localization/AdminTranslations.php:190
+msgid "Mercado settings were successfully saved!"
+msgstr "การตั้งค่า Mercado ถูกบันทึกไว้เรียบร้อยแล้ว!"
+
+#: src/Localization/AdminTranslations.php:297
+msgid "Mexico"
+msgstr "เม็กซิโก"
+
+#: src/Localization/AdminTranslations.php:274
+msgid "More information"
+msgstr "ข้อมูลเพิ่มเติม"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/product_selector_multiple.js:195
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3234
+msgid "Multiple ASIN values can be separated by comma"
+msgstr "สามารถคั่นค่า ASIN หลายค่าได้ด้วยเครื่องหมายคอมม่า"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/products_selected.js:388
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3743
+msgid ""
+"Multiple ASIN values can be separated by comma. Press Enter to save changes."
+msgstr ""
+"สามารถคั่นค่า ASIN หลายค่าได้ด้วยเครื่องหมายคอมม่า แล้วกด Enter "
+"เพื่อบันทึกการเปลี่ยนแปลง"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/products_selected.js:387
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3742
+msgid ""
+"Multiple product id values can be separated by comma. Press Enter to save "
+"changes."
+msgstr ""
+"สามารถคั่นค่า id ของสินค้าหลายรายการได้ด้วยเครื่องหมายคอมม่า แล้วกด Enter "
+"เพื่อบันทึกการเปลี่ยนแปลง"
+
+#: src/Localization/AdminTranslations.php:108
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:323
+#: amazon-gutenberg-block/src/edit.js:1002
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4240
+#: amazon-gutenberg-block/dist/index.js:4919
+msgid "Multiple Product List"
+msgstr "รายการผลิตภัณฑ์หลายรายการ"
+
+#: src/Localization/AdminTranslations.php:284
+msgid "Name"
+msgstr "ชื่อ"
+
+#: src/Localization/AdminTranslations.php:260
+msgid "Name field not added to all product data rows."
+msgstr "ไม่ได้เพิ่มฟิลด์ชื่อลงในแถวข้อมูลผลิตภัณฑ์ทั้งหมด"
+
+#: src/Localization/AdminTranslations.php:298
+msgid "Netherlands"
+msgstr "เนเธอร์แลนด์"
+
+#: src/Localization/AdminTranslations.php:120
+msgid "New comparison table"
+msgstr "ตารางเปรียบเทียบใหม่"
+
+#: src/Localization/AdminTranslations.php:182
+msgid "New table"
+msgstr "ตารางใหม่"
+
+#: src/Api/Mercado/Client.php:141
+#, fuzzy
+msgid "No HTML content found in proxy API response."
+msgstr "ไม่พบเนื้อหา HTML ในการตอบสนองของ API พร็อกซี"
+
+#: src/Shortcodes/templates/product-list.php:28
+msgid "No layout selected."
+msgstr "ไม่ได้เลือกเค้าโครง"
+
+#: src/Localization/AdminTranslations.php:267
+#: amazon-gutenberg-block/dist/index.js:4
+#: amazon-gutenberg-block/src/components/ui/List.jsx:13
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:5680
+msgid "No matching options"
+msgstr "ไม่มีตัวเลือกที่ตรงกัน"
+
+#: src/Localization/AdminTranslations.php:227
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/ui/Dropdown.jsx:48
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3870
+msgid "No options"
+msgstr "ไม่มีตัวเลือก"
+
+#: src/Setup/Blocks.php:203
+msgid "No products found"
+msgstr "ไม่พบสินค้า"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/products_selected.js:178
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3533
+msgid "No products selected"
+msgstr "ไม่มีสินค้าที่เลือก"
+
+#: src/Errors/AmazonApiError.php:99 src/Rest/ItemsRoutes.php:67
+msgid "No results found."
+msgstr "ไม่พบผลการค้นหา"
+
+#: src/Localization/AdminTranslations.php:311
+msgid "Not now"
+msgstr "ไม่ใช่ตอนนี้"
+
+#: src/Localization/AdminTranslations.php:133
+msgid "Nothing found"
+msgstr "ไม่พบอะไร"
+
+#: src/Localization/AdminTranslations.php:69
+msgid ""
+"Once you remove it, fetching products from this marketplace in WordPress "
+"will be turned off. Your existing product listings won\\’t be affected. You "
+"can re-add this marketplace anytime."
+msgstr ""
+"เมื่อคุณลบออกแล้ว การดึงสินค้าจากตลาดซื้อขายนี้ใน WordPress จะถูกปิดลง "
+"รายการสินค้าที่มีอยู่ของคุณจะไม่ได้รับผลกระทบ "
+"คุณสามารถเพิ่มตลาดซื้อขายนี้อีกครั้งได้ตลอดเวลา"
+
+#: src/Localization/AdminTranslations.php:175
+msgid "Open full guide"
+msgstr "เปิดคู่มือฉบับเต็ม"
+
+#: src/Localization/AdminTranslations.php:117
+msgid "Open guide"
+msgstr "เปิดคู่มือ"
+
+#: src/Localization/AdminTranslations.php:55
+msgid "Optional"
+msgstr "ไม่บังคับ"
+
+#: src/Errors/AmazonApiError.php:53 amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:434
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4351
+msgid "OR"
+msgstr "หรือ"
+
+#: src/Localization/AdminTranslations.php:209
+#: amazon-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4
+#: amazon-gutenberg-block/src/components/product_list_type_selector.js:42
+#: amazon-gutenberg-block/src/components/product_selector.js:105
+#: amazon-gutenberg-block/src/components/product_selector_multiple.js:128
+#: amazon-gutenberg-block/src/views/TableConfiguration.jsx:69
+#: mercado-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/dist/index.js:2634
+#: amazon-gutenberg-block/dist/index.js:2902
+#: amazon-gutenberg-block/dist/index.js:3167
+#: amazon-gutenberg-block/dist/index.js:5106
+msgid "or"
+msgstr "หรือ"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:262
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4179
+msgid "Overwrite product description"
+msgstr "เขียนทับคำอธิบายสินค้า"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:249
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4166
+msgid "Overwrite product description?"
+msgstr "ต้องการเขียนทับคำอธิบายสินค้าหรือไม่?"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:225
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4142
+msgid "Overwrite product title?"
+msgstr "ต้องการเขียนทับชื่อผลิตภัณฑ์หรือไม่?"
+
+#: src/Localization/AdminTranslations.php:36
+msgid "Paste the ASIN code or type to search for products you want to promote."
+msgstr "วางรหัส ASIN หรือพิมพ์เพื่อค้นหาผลิตภัณฑ์ที่คุณต้องการโปรโมท"
+
+#: src/Localization/AdminTranslations.php:48
+msgid ""
+"Paste the Product ID or type to search for products you want to promote."
+msgstr "วางรหัสผลิตภัณฑ์หรือประเภทเพื่อค้นหาผลิตภัณฑ์ที่คุณต้องการโปรโมท"
+
+#: src/Localization/AdminTranslations.php:283
+msgid "Paste the shortcode in Block Editor where you want the table to appear."
+msgstr "วางชอร์ตโค้ดลงใน Block Editor ในตำแหน่งที่คุณต้องการให้ตารางปรากฏ"
+
+#: src/Localization/AdminTranslations.php:31
+#: src/Localization/AdminTranslations.php:43
+#: src/Localization/AdminTranslations.php:198
+msgid "Paste your affiliate link"
+msgstr "วางลิงค์พันธมิตรของคุณ"
+
+#: src/Localization/AdminTranslations.php:218
+msgid "Please check the field - see error message above"
+msgstr "กรุณาตรวจสอบช่องว่าง - ดูข้อความที่ผิดพลาดด้านบน"
+
+#: src/Shortcodes/ShortcodeManager.php:62
+msgid "Please choose display type!"
+msgstr "กรุณาเลือกประเภทการแสดงผล!"
+
+#: src/Localization/AdminTranslations.php:184
+msgid "Please enter a keyword for search!"
+msgstr "กรุณาใส่คำสำคัญเพื่อค้นหา!"
+
+#: src/Shortcodes/ProductListShortcode.php:99
+#| msgid "Please enter keywords!"
+msgid "Please enter keyword(-s)!"
+msgstr "กรุณากรอกคำค้นหา!"
+
+#: src/Shortcodes/ProductCardShortcode.php:77
+#: src/Shortcodes/ProductListShortcode.php:112
+msgid "Please enter product(-s) ASIN(-s)!"
+msgstr "กรุณาใส่รหัส ASIN(-s) ของผลิตภัณฑ์!"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/products_selected.js:59
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3414
+msgid "Please provide affiliate URLs for all products"
+msgstr "กรุณาให้ URL ของผู้ส่งเสริมการขายสำหรับสินค้าทุกชิ้น"
+
+#: src/Localization/AdminTranslations.php:299
+msgid "Poland"
+msgstr "โปแลนด์"
+
+#: src/Localization/AdminTranslations.php:273
+#: src/Repositories/TableRepository.php:298
+msgid "Price"
+msgstr "ราคา"
+
+#: src/Repositories/TableRepository.php:299
+msgid "Prime Status"
+msgstr "สถานะเฉพาะ"
+
+#: src/Setup/Blocks.php:238
+msgid "product"
+msgstr "ผลิตภัณฑ์"
+
+#: src/Localization/AdminTranslations.php:201
+msgid "Product data"
+msgstr "ข้อมูลสินค้า"
+
+#: src/Localization/AdminTranslations.php:118
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/products_selected.js:217
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3572
+msgid "Product ID"
+msgstr "รหัสสินค้า"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:147
+#: amazon-gutenberg-block/dist/index.js:4064
+msgid "Product limit reached: You can add up to 15 products only."
+msgstr ""
+"จำนวนสินค้าถึงขีดจำกัดแล้ว: คุณสามารถเพิ่มสินค้าได้สูงสุดเพียง 15 "
+"รายการเท่านั้น"
+
+#: src/Localization/AdminTranslations.php:196
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/products_selected.js:247
+#: amazon-gutenberg-block/src/components/products_selected.js:251
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3602
+#: amazon-gutenberg-block/dist/index.js:3606
+msgid "Product URL"
+msgstr "URL สินค้า"
+
+#: src/Localization/AdminTranslations.php:281
+msgid "Product visible"
+msgstr "สินค้าที่มองเห็นได้"
+
+#: src/Localization/AdminTranslations.php:277
+msgid "Products"
+msgstr "สินค้า"
+
+#: src/Setup/Blocks.php:239
+msgid "products"
+msgstr "สินค้า"
+
+#: src/Shortcodes/ProductCardShortcode.php:87
+#: src/Shortcodes/ProductListShortcode.php:123
+msgid "Products not fetched from DB and/or API. Please check debug logs."
+msgstr ""
+"ผลิตภัณฑ์ไม่ได้รับการดึงข้อมูลจาก DB และ/หรือ API "
+"โปรดตรวจสอบบันทึกการแก้ไขข้อบกพร่อง"
+
+#. translators: %s: Amazon store region
+#: src/Setup/Blocks.php:188
+#, php-format
+msgid ""
+"Products that shown in here is from your store region (%1$s). You can change "
+"store region in <a href=\"%2$s\">Settings page</a>."
+msgstr ""
+"สินค้าที่แสดงที่นี่เป็นสินค้าจากภูมิภาคร้านค้าของคุณ (%1$s) "
+"คุณสามารถเปลี่ยนภูมิภาคร้านค้าได้ใน<a href=\"%2$s\">หน้าการตั้งค่า</a>"
+
+#: src/Localization/AdminTranslations.php:195
+msgid "Products to be compared"
+msgstr "สินค้าที่จะนำมาเปรียบเทียบ"
+
+#: src/Api/Mercado/Client.php:150
+#, fuzzy
+msgid "Proxy API request failed."
+msgstr "คำขอ API ตัวแทนล้มเหลว"
+
+#: src/Localization/AdminTranslations.php:240
+msgid "Publish"
+msgstr "เผยแพร่"
+
+#: src/Localization/AdminTranslations.php:32
+#: src/Localization/AdminTranslations.php:44
+#: src/Localization/AdminTranslations.php:173
+msgid "Publish the post"
+msgstr "เผยแพร่โพสต์"
+
+#: src/Localization/AdminTranslations.php:237
+msgid "Published"
+msgstr "เผยแพร่แล้ว"
+
+#: src/Localization/AdminTranslations.php:107
+msgid "Put focus on one product only."
+msgstr "มุ่งเน้นไปที่ผลิตภัณฑ์เดียวเท่านั้น"
+
+#: src/Localization/AdminTranslations.php:232
+msgid "Quick way to add this table inside the Block Editor."
+msgstr "วิธีที่รวดเร็วในการเพิ่มตารางนี้ภายใน Block Editor"
+
+#: src/Localization/AdminTranslations.php:176
+msgid "Read full documentation"
+msgstr "อ่านเอกสารฉบับเต็ม"
+
+#: src/Localization/AdminTranslations.php:74
+msgid "Remove"
+msgstr "ลบ"
+
+#: src/Localization/AdminTranslations.php:67
+msgid "Remove Amazon?"
+msgstr "ลบ Amazon ออก?"
+
+#: src/Localization/AdminTranslations.php:246
+msgid "Remove highlight"
+msgstr "ลบไฮไลท์ออก"
+
+#: src/Localization/AdminTranslations.php:68
+msgid "Remove Mercado Livre?"
+msgstr "ลบ Mercado Livre?"
+
+#: src/Errors/AmazonApiError.php:102
+msgid "Request to Amazon API failed."
+msgstr "คำขอไปยัง Amazon API ล้มเหลว"
+
+#: src/Localization/AdminTranslations.php:251
+msgid "Row data"
+msgstr "แถวข้อมูล"
+
+#: src/Localization/AdminTranslations.php:278
+msgid "Rows"
+msgstr "แถว"
+
+#: src/Localization/AdminTranslations.php:301
+msgid "Saudi Arabia"
+msgstr "ซาอุดิอาระเบีย"
+
+#: src/Localization/AdminTranslations.php:80
+msgid "Save"
+msgstr "บันทึก"
+
+#: src/Localization/AdminTranslations.php:160
+msgid "Save & leave"
+msgstr "บันทึก & ออกจากระบบ"
+
+#: src/Localization/AdminTranslations.php:156
+#: src/Localization/AdminTranslations.php:252
+msgid "Save changes"
+msgstr "บันทึกการเปลี่ยนแปลง"
+
+#: src/Localization/AdminTranslations.php:157
+msgid "Save changes?"
+msgstr "บันทึกการเปลี่ยนแปลง?"
+
+#: src/Localization/AdminTranslations.php:188 src/Setup/Blocks.php:179
+#: mercado-gutenberg-block/dist/index.js:2
+msgid "Search"
+msgstr "ค้นหา"
+
+#: src/Localization/AdminTranslations.php:100
+msgid ""
+"Search for <b>Link to Amazon Products</b> in Gutenberg Blocks, find the "
+"product(s) you want to add, and publish the post."
+msgstr ""
+"ค้นหา <b>ลิงก์ไปยังผลิตภัณฑ์ Amazon</b> ใน Gutenberg Blocks "
+"ค้นหาผลิตภัณฑ์ที่คุณต้องการเพิ่ม และเผยแพร่โพสต์"
+
+#: src/Setup/Blocks.php:217
+msgid "Search for product name that you want to add to your blog post."
+msgstr "ค้นหาชื่อผลิตภัณฑ์ที่คุณต้องการเพิ่มลงในโพสต์บล็อกของคุณ"
+
+#: mercado-gutenberg-block/dist/index.js:2
+msgid "Search for products or enter a product ID"
+msgstr "ค้นหาสินค้าหรือป้อนรหัสสินค้า"
+
+#: src/Localization/AdminTranslations.php:250
+msgid "Search for products or enter Product ID"
+msgstr "ค้นหาสินค้าหรือกรอกรหัสสินค้า"
+
+#: src/Localization/AdminTranslations.php:249
+msgid "Search for products or enter the ASIN code"
+msgstr "ค้นหาสินค้าหรือใส่รหัส ASIN"
+
+#: src/Localization/AdminTranslations.php:228
+#: amazon-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/dist/index.js:4
+#: amazon-gutenberg-block/src/components/product_list_type_selector.js:55
+#: amazon-gutenberg-block/src/components/product_selector.js:119
+#: amazon-gutenberg-block/src/components/product_selector_multiple.js:142
+#: amazon-gutenberg-block/src/edit.js:640
+#: mercado-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/dist/index.js:2648
+#: amazon-gutenberg-block/dist/index.js:3181
+#: amazon-gutenberg-block/dist/index.js:4557
+#: amazon-gutenberg-block/dist/index.js:5119
+msgid "Search for the product in Amazon"
+msgstr "ค้นหาผลิตภัณฑ์ใน Amazon"
+
+#: src/Setup/Blocks.php:200 src/Setup/Blocks.php:211
+msgid "Search icon"
+msgstr "ค้นหาไอคอน"
+
+#: src/Setup/Blocks.php:177
+msgid "Search product name ..."
+msgstr "ค้นหาชื่อผลิตภัณฑ์ ..."
+
+#: src/Localization/AdminTranslations.php:183
+msgid "Search your table collections"
+msgstr "ค้นหาคอลเลคชันตารางของคุณ"
+
+#: src/Setup/Blocks.php:214
+msgid "Searched products will appear here"
+msgstr "ผลิตภัณฑ์ที่ค้นหาจะปรากฏที่นี่"
+
+#: src/Localization/AdminTranslations.php:59
+msgid "Secret key"
+msgstr "รหัสลับ"
+
+#: src/Localization/AdminTranslations.php:77
+msgid "Secret key must be 40 characters long"
+msgstr "รหัสลับต้องมีความยาว 40 ตัวอักษร"
+
+#: src/Localization/AdminTranslations.php:78
+msgid ""
+"Secret key must contain only numbers, letters or the special characters \"."
+"\" and \"/\""
+msgstr ""
+"รหัสลับต้องประกอบด้วยตัวเลข ตัวอักษร หรืออักขระพิเศษ \".\" และ \"/\" เท่านั้น"
+
+#: amazon-gutenberg-block/dist/index.js:4
+#: amazon-gutenberg-block/src/components/DisplayTypeSelector.jsx:42
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:5591
+msgid "Select"
+msgstr "เลือก"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:985
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4902
+msgid "Select A Display Type"
+msgstr "เลือกประเภทการแสดงผล"
+
+#: src/Localization/AdminTranslations.php:25
+msgid "Select a marketplace you’ll use to promote products"
+msgstr "เลือกตลาดที่คุณจะใช้เพื่อโปรโมทสินค้า"
+
+#: src/Setup/Blocks.php:234
+msgid "Select at least 2 products to continue"
+msgstr "เลือกอย่างน้อย 2 ผลิตภัณฑ์เพื่อดำเนินการต่อ"
+
+#: src/Localization/AdminTranslations.php:61
+msgid "Select at least one provider"
+msgstr "เลือกอย่างน้อยหนึ่งผู้ให้บริการ"
+
+#: src/Localization/AdminTranslations.php:56
+msgid "Select country first to find matching tracking ID"
+msgstr "เลือกประเทศก่อนเพื่อค้นหารหัสการติดตามที่ตรงกัน"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:621
+#: amazon-gutenberg-block/dist/index.js:4538
+msgid "Select How To Display Products"
+msgstr "เลือกวิธีแสดงสินค้า"
+
+#: src/Localization/AdminTranslations.php:216
+msgid "Select your country"
+msgstr "เลือกประเทศของคุณ"
+
+#: src/Setup/Blocks.php:240 amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/products_selected.js:182
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3537
+msgid "selected"
+msgstr "เลือกแล้ว"
+
+#: src/Localization/AdminTranslations.php:222
+msgid "Server error occurred"
+msgstr "เกิดข้อผิดพลาดของเซิร์ฟเวอร์"
+
+#: src/Localization/AdminTranslations.php:221
+msgid "Server returned an error"
+msgstr "เซิร์ฟเวอร์ส่งคืนข้อผิดพลาด"
+
+#: src/Localization/AdminTranslations.php:115
+#: src/Localization/AdminTranslations.php:128
+msgid "Settings"
+msgstr "การตั้งค่า"
+
+#: src/Localization/AdminTranslations.php:233
+msgid "Shortcode"
+msgstr "รหัสย่อ"
+
+#: src/Localization/AdminTranslations.php:143
+msgid "Shortcode copied!"
+msgstr "คัดลอกรหัสย่อแล้ว!"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:236
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4153
+msgid "Show product description?"
+msgstr "แสดงคำอธิบายสินค้าหรือไม่?"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:354
+#: amazon-gutenberg-block/src/edit.js:669
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4271
+#: amazon-gutenberg-block/dist/index.js:4586
+msgid "Simplified list"
+msgstr "รายการที่เรียบง่าย"
+
+#: src/Localization/AdminTranslations.php:300
+msgid "Singapore"
+msgstr "สิงคโปร์"
+
+#: src/Localization/AdminTranslations.php:106
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:313
+#: amazon-gutenberg-block/src/edit.js:997
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4230
+#: amazon-gutenberg-block/dist/index.js:4914
+msgid "Single Product Card"
+msgstr "การ์ดผลิตภัณฑ์เดี่ยว"
+
+#: src/Localization/AdminTranslations.php:119
+msgid "Something went wrong"
+msgstr "เกิดข้อผิดพลาด"
+
+#: src/Rest/TableRoutes.php:207
+msgid "Sorry, table does not exists."
+msgstr "ขออภัยตารางนี้ไม่มีอยู่"
+
+#: src/Rest/TableRoutes.php:29 src/Rest/TableRoutes.php:180
+#: src/Rest/TableRoutes.php:241
+msgid "Sorry, table id missing"
+msgstr "ขออภัย ไม่พบ ID ตาราง"
+
+#: src/Rest/ItemsRoutes.php:47 src/Rest/ItemsRoutes.php:123
+#: src/Rest/TableRoutes.php:153 src/Rest/TableRoutes.php:194
+msgid "Sorry, there are validation errors."
+msgstr "ขออภัยมีข้อผิดพลาดในการตรวจสอบ"
+
+#: src/Api/Amazon/ProxyApi/Client.php:66
+msgid "Sorry, there was a problem with request."
+msgstr "ขออภัย มีปัญหาเกิดขึ้นในการร้องขอ"
+
+#: src/Rest/SettingsRoutes.php:201 src/Rest/SettingsRoutes.php:235
+msgid "Sorry, you are not allowed to do that."
+msgstr "ขออภัย คุณไม่ได้รับอนุญาตให้ทำเช่นนั้น"
+
+#: src/Localization/AdminTranslations.php:302
+msgid "Spain"
+msgstr "สเปน"
+
+#: src/Localization/AdminTranslations.php:93
+msgid "Start Earning in Four Easy Steps"
+msgstr "เริ่มรับรายได้ในสี่ขั้นตอนง่ายๆ"
+
+#: src/Localization/AdminTranslations.php:91
+msgid "Start Earning Now"
+msgstr "เริ่มรับรายได้ตอนนี้"
+
+#: src/Localization/AdminTranslations.php:241
+msgid "Status"
+msgstr "สถานะ"
+
+#: src/Localization/AdminTranslations.php:303
+msgid "Sweden"
+msgstr "สวีเดน"
+
+#: src/Setup/Cpts.php:40
+msgid "Table"
+msgstr "ตาราง"
+
+#: src/Repositories/TableRepository.php:279
+msgid "Table added feature is missing title."
+msgstr "ฟีเจอร์ที่เพิ่มในตารางไม่มีชื่อ"
+
+#: src/Repositories/TableRepository.php:263
+msgid "Table added product is missing asin."
+msgstr "สินค้าที่เพิ่มตารางหายไป"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:972
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4889
+msgid "Table Configuration"
+msgstr "การกำหนดค่าตาราง"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:860
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4777
+msgid "Table data"
+msgstr "ข้อมูลตาราง"
+
+#: src/Localization/AdminTranslations.php:179
+msgid "Table data will be shown in this page"
+msgstr "ข้อมูลตารางจะแสดงในหน้านี้"
+
+#: src/Repositories/TableRepository.php:48
+#: src/Repositories/TableRepository.php:58
+#: src/Repositories/TableRepository.php:116
+#: src/Repositories/TableRepository.php:126 src/Rest/TableRoutes.php:253
+#: src/Rest/TableRoutes.php:263
+msgid "Table does not exist."
+msgstr "ไม่มีตารางนี้"
+
+#: src/Localization/AdminTranslations.php:193
+#: src/Localization/AdminTranslations.php:276
+msgid "Table name"
+msgstr "ชื่อตาราง"
+
+#: src/Repositories/TableRepository.php:248
+msgid "Table name is missing."
+msgstr "ไม่พบชื่อตาราง"
+
+#: src/Shortcodes/ProductTableShortcode.php:73
+msgid "Table not found or it is not published."
+msgstr "ไม่พบตารางหรือไม่ได้เผยแพร่"
+
+#: src/Shortcodes/ProductTableShortcode.php:66
+msgid "Table not found."
+msgstr "ไม่พบตาราง"
+
+#: src/Repositories/TableRepository.php:269
+msgid "Table should have at least one feature added."
+msgstr "ตารางควรมีการเพิ่มฟีเจอร์อย่างน้อยหนึ่งรายการ"
+
+#: src/Repositories/TableRepository.php:252
+msgid "Table should have at least one product added."
+msgstr "ตารางควรมีการเพิ่มสินค้าอย่างน้อยหนึ่งรายการ"
+
+#: src/Repositories/TableRepository.php:285
+msgid "Table status is missing."
+msgstr "ไม่มีสถานะตาราง"
+
+#: src/Localization/AdminTranslations.php:225
+msgid "Table was successfully created"
+msgstr "สร้างตารางสำเร็จแล้ว"
+
+#: src/Localization/AdminTranslations.php:234
+msgid "Table was successfully deleted"
+msgstr "ลบตารางเรียบร้อยแล้ว"
+
+#: src/Localization/AdminTranslations.php:215
+msgid "Table was successfully saved"
+msgstr "บันทึกตารางเรียบร้อยแล้ว"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:959
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4876
+msgid "Templates and Styles"
+msgstr "เทมแพลตและรูปแบบ"
+
+#: src/Localization/AdminTranslations.php:102
+msgid ""
+"That's it – every time visitors buy the product from your post, you will "
+"earn a commission from Amazon."
+msgstr ""
+"เสร็จแล้ว – ทุกครั้งที่ผู้เยี่ยมชมซื้อผลิตภัณฑ์จากโพสต์ของคุณ "
+"คุณจะได้รับค่าคอมมิชชั่นจาก Amazon"
+
+#: src/Localization/AdminTranslations.php:174
+#| msgid ""
+#| "That’s it! After your post published, whenever your visitor buy the "
+#| "product from your post, you will earn commissions."
+msgid ""
+"That's it! After your post published, whenever your visitor buy the product "
+"from your post, you will earn commissions."
+msgstr ""
+"เรียบร้อยแล้ว! หลังจากโพสต์ของคุณเผยแพร่แล้ว "
+"เมื่อใดก็ตามที่ผู้เยี่ยมชมซื้อสินค้าจากโพสต์ของคุณ คุณจะได้รับคอมมิชชัน"
+
+#: src/Localization/AdminTranslations.php:38
+#: src/Localization/AdminTranslations.php:50
+msgid ""
+"That's it! Whenever a visitor buys a product through your link, you'll earn "
+"commission."
+msgstr ""
+"เท่านี้ก็เรียบร้อย! เมื่อใดก็ตามที่มีผู้เยี่ยมชมซื้อสินค้าผ่านลิงค์ของคุณ "
+"คุณจะได้รับค่าคอมมิชชั่น"
+
+#. translators: %s: URL.
+#: src/Errors/AmazonApiError.php:47
+#, php-format
+msgid ""
+"The Access Key is not enabled for accessing Product Advertising API. For "
+"information on registering for Product Advertising API, see <a href=\"%s\" "
+"target=\"_blank\">Register for Product Advertising API</a>"
+msgstr ""
+"ไม่ได้เปิดใช้งานคีย์การเข้าถึงเพื่อเข้าถึง API การโฆษณาผลิตภัณฑ์ "
+"สำหรับข้อมูลเกี่ยวกับการลงทะเบียน Product Advertising API โปรดดูที่ <a "
+"href=\"%s\" target=\"_blank\">ลงทะเบียนสำหรับ Product Advertising API</a>"
+
+#. translators: %s: URL.
+#: src/Errors/AmazonApiError.php:56
+#, php-format
+msgid ""
+"The Access Key is not enabled for accessing this version of Product "
+"Advertising API. Please migrate your credentials as referred here <a "
+"href=\"%s\" target=\"_blank\">Managing your Existing AWS Security "
+"Credentials for the Product Advertising API</a>."
+msgstr ""
+"ไม่ได้เปิดใช้งานคีย์การเข้าถึงเวอร์ชันของ Product Advertising API นี้ "
+"โปรดย้ายข้อมูลประจำตัวของคุณตามการอ้างอิงที่นี่ <a href=\"%s\" "
+"target=\"_blank\">การจัดการข้อมูลรับรองความปลอดภัย AWS ที่มีอยู่ของคุณสำหรับ "
+"Product Advertising API</a>"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:486
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4403
+msgid ""
+"The block you are attempting to use is currently not supported in the Site "
+"Editor. We apologize for any inconvenience this may cause. Our team is "
+"actively working to enhance compatibility, and we appreciate your "
+"understanding. For the best editing experience, please consider using "
+"post/page editor or await future updates."
+msgstr ""
+"บล็อกที่คุณพยายามใช้ในขณะนี้ยังไม่รองรับใน Site Editor "
+"เราขออภัยในความไม่สะดวกที่เกิดขึ้น "
+"ทีมงานของเรากำลังดำเนินการปรับปรุงความเข้ากันได้อยู่ "
+"และขอขอบคุณที่คุณเข้าใจเรา เพื่อประสบการณ์การแก้ไขที่ดีที่สุด "
+"โปรดพิจารณาใช้ตัวแก้ไขโพสต์/หน้า หรือรอการอัปเดตในอนาคต"
+
+#. translators: %s: PHP version
+#: hostinger-affiliate-plugin.php:106
+#, php-format
+msgid ""
+"The Hostinger Affiliate plugin requires minimum PHP version of <b>%s</b>. "
+msgstr "ปลั๊กอิน Hostinger Affiliate ต้องใช้ PHP เวอร์ชันขั้นต่ำ <b>%s</b>"
+
+#: src/Services/ProductFetchService.php:190
+msgid ""
+"There is an issue displaying Amazon products. Please contact the "
+"administrator to check that."
+msgstr "มีปัญหาในการแสดงสินค้าของ Amazon โปรดติดต่อผู้ดูแลระบบเพื่อตรวจสอบ"
+
+#: src/Errors/AmazonApiError.php:36 src/Errors/AmazonApiError.php:89
+msgid "There seems to be a technical problem with your request."
+msgstr "ดูเหมือนว่าจะมีปัญหาทางเทคนิคกับคำขอของคุณ"
+
+#: src/Errors/AmazonApiError.php:74
+msgid ""
+"There was a problem with your request. Amazon limits the number of requests "
+"you can make to their Product Advertising API. Note that your account will "
+"lose access to Product Advertising API 5.0 if it has not generated referring "
+"sales for a consecutive 30-day period."
+msgstr ""
+"มีปัญหาเกิดขึ้นกับคำขอของคุณ Amazon จำกัดจำนวนคำขอของคุณกับ Product "
+"Advertising API โปรดทราบว่าบัญชีของคุณจะไม่สามารถเข้าถึง Product Advertising "
+"API 5.0 ได้ หากไม่ได้สร้างยอดขายอ้างอิงติดต่อกันเป็นเวลา 30 วัน"
+
+#: src/Localization/AdminTranslations.php:192
+msgid "There was an error saving your settings: "
+msgstr "เกิดข้อผิดพลาดในการบันทึกการตั้งค่าของคุณ:"
+
+#: src/Localization/AdminTranslations.php:185
+msgid "There was an error searching for items: "
+msgstr "เกิดข้อผิดพลาดในการค้นหารายการ:"
+
+#: amazon-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/products_selected.js:14
+#: amazon-gutenberg-block/src/components/product_selector.js:18
+#: amazon-gutenberg-block/src/components/product_selector_multiple.js:19
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:2547
+#: amazon-gutenberg-block/dist/index.js:3058
+#: amazon-gutenberg-block/dist/index.js:3369
+msgid "There was an error validating product ids: "
+msgstr "เกิดข้อผิดพลาดในการตรวจสอบรหัสสินค้า:"
+
+#: mercado-gutenberg-block/dist/index.js:2
+msgid "There was an error: "
+msgstr "มีข้อผิดพลาด: "
+
+#: src/Localization/AdminTranslations.php:186
+#: amazon-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/products_selected.js:93
+#: amazon-gutenberg-block/src/components/product_selector.js:54
+#: amazon-gutenberg-block/src/components/product_selector_multiple.js:55
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:2583
+#: amazon-gutenberg-block/dist/index.js:3094
+#: amazon-gutenberg-block/dist/index.js:3448
+msgid "There was fatal server error while processing your request."
+msgstr "มีข้อผิดพลาดเซิร์ฟเวอร์ร้ายแรงขณะประมวลผลคำขอของคุณ"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:479
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4396
+msgid "This block is not supported while using Site Editor"
+msgstr "บล็อกนี้ไม่รองรับขณะใช้งาน Site Editor"
+
+#: src/Localization/AdminTranslations.php:217
+#: src/Localization/AdminTranslations.php:226
+msgid "This field is required"
+msgstr "ต้องระบุข้อมูลในช่องนี้"
+
+#: src/Localization/AdminTranslations.php:104
+msgid "Three Templates for Your Product(s) Block"
+msgstr "เทมเพลตสามแบบสำหรับผลิตภัณฑ์ของคุณ"
+
+#: src/Localization/AdminTranslations.php:272
+#: src/Repositories/TableRepository.php:297
+msgid "Thumbnail"
+msgstr "ภาพย่อ"
+
+#: src/Localization/AdminTranslations.php:271
+#: src/Repositories/TableRepository.php:296
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:571
+#: amazon-gutenberg-block/src/edit.js:920
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4488
+#: amazon-gutenberg-block/dist/index.js:4837
+msgid "Title"
+msgstr "ชื่อเรื่อง"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:192
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4109
+msgid "Title length"
+msgstr "ความยาวของชื่อเรื่อง"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:219
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4136
+msgid "Title overwrite enabled?"
+msgstr "เปิดใช้งานการเขียนทับชื่อเรื่องหรือไม่?"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:513
+#: amazon-gutenberg-block/dist/index.js:4430
+msgid ""
+"To gain full access to this block, you need to connect your Amazon "
+"Partnership account."
+msgstr ""
+"เพื่อเข้าถึงบล็อกนี้อย่างเต็มที่ คุณจำเป็นต้องเชื่อมต่อบัญชีผู้ร่วมงาน "
+"Amazon ของคุณ"
+
+#: mercado-gutenberg-block/dist/index.js:2
+msgid ""
+"To gain full access to this block, you need to enable Mercado Livre "
+"integration."
+msgstr ""
+"เพื่อเข้าถึงบล็อกนี้อย่างเต็มที่ คุณต้องเปิดใช้งานการผสานรวมกับ Mercado Livre"
+
+#: src/Localization/AdminTranslations.php:33
+#: src/Localization/AdminTranslations.php:45
+msgid "To start promoting products, first create a post."
+msgstr "หากต้องการเริ่มต้นโปรโมทสินค้า ขั้นแรกต้องสร้างโพสต์ก่อน"
+
+#: src/Localization/AdminTranslations.php:65
+msgid "Tracking ID"
+msgstr "รหัสติดตาม"
+
+#: src/Localization/AdminTranslations.php:52
+msgid "Tracking ID connected"
+msgstr "เชื่อมต่อ ID ติดตามแล้ว"
+
+#: src/Localization/AdminTranslations.php:224
+msgid ""
+"Tracking ID format wrong. Lowercase letters, digits and _-. special chars "
+"are allowed."
+msgstr ""
+"รูปแบบ ID การติดตามไม่ถูกต้อง อนุญาตให้ใช้ตัวอักษรพิมพ์เล็ก ตัวเลข "
+"และอักขระพิเศษ _- ได้"
+
+#: src/Localization/AdminTranslations.php:121
+#: src/Localization/AdminTranslations.php:135
+msgid "Try searching for something else"
+msgstr "ลองค้นหาอย่างอื่นดู"
+
+#: src/Localization/AdminTranslations.php:304
+msgid "Turkey"
+msgstr "ตุรกี"
+
+#: src/Localization/AdminTranslations.php:140
+msgid "Tutorial"
+msgstr "บทเรียน"
+
+#: src/Localization/AdminTranslations.php:161
+msgid "Tutorial video by"
+msgstr "วีดีโอสอนโดย"
+
+#: src/Localization/AdminTranslations.php:285
+msgid "Type"
+msgstr "ประเภท"
+
+#: amazon-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/src/components/product_selector.js:100
+#: amazon-gutenberg-block/src/components/product_selector_multiple.js:123
+#: mercado-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/dist/index.js:2629
+#: amazon-gutenberg-block/dist/index.js:3162
+msgid "Type ASIN (Product ID)"
+msgstr "พิมพ์ ASIN (รหัสสินค้า)"
+
+#: src/Localization/AdminTranslations.php:261
+msgid "Type field not added to all product data rows."
+msgstr "ไม่ได้เพิ่มช่องประเภทในแถวข้อมูลผลิตภัณฑ์ทั้งหมด"
+
+#: amazon-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/src/components/product_selector_multiple.js:179
+#: mercado-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/dist/index.js:3218
+msgid "Type the ASINs (Product IDs)"
+msgstr "พิมพ์ ASINs (รหัสสินค้า)"
+
+#: src/Localization/AdminTranslations.php:305
+msgid "United Arab Emirates"
+msgstr "สหรัฐอาหรับเอมิเรตส์"
+
+#: src/Localization/AdminTranslations.php:306
+msgid "United Kingdom"
+msgstr "สหราชอาณาจักร"
+
+#: src/Localization/AdminTranslations.php:307
+msgid "United States"
+msgstr "สหรัฐอเมริกา"
+
+#: src/Localization/Messages.php:24
+msgid "Unknown display type. Please re-select display type."
+msgstr "ไม่รู้จักประเภทการแสดงผล โปรดเลือกประเภทการแสดงผลอีกครั้ง"
+
+#: src/Localization/AdminTranslations.php:90
+msgid ""
+"Unlock the full potential of your website – monetize it with our plugin to "
+"earn more."
+msgstr ""
+"ปลดล็อคศักยภาพทั้งหมดของเว็บไซต์ของคุณ – "
+"สร้างรายได้ด้วยปลั๊กอินของเราเพื่อรับรายได้มากขึ้น"
+
+#: src/Localization/AdminTranslations.php:239
+msgid "Unpublish"
+msgstr "ยกเลิกการเผยแพร่"
+
+#: src/Localization/AdminTranslations.php:264
+#: amazon-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/src/views/TableConfiguration.jsx:36
+#: mercado-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/dist/index.js:2869
+msgid "Use the saved table configuration"
+msgstr "ใช้การกำหนดค่าตารางที่บันทึกไว้"
+
+#: src/Localization/AdminTranslations.php:130
+msgid "View guide"
+msgstr "ดูคำแนะนำ"
+
+#: mercado-gutenberg-block/dist/index.js:2
+msgid "View Product on Mercado Livre"
+msgstr "ดูสินค้าบน Mercado Livre"
+
+#: src/Localization/AdminTranslations.php:236
+msgid "Visibility"
+msgstr "การมองเห็น"
+
+#: src/Models/Product.php:284
+msgid "Watch on Amazon Prime"
+msgstr "รับชมบน Amazon Prime"
+
+#: src/Localization/AdminTranslations.php:89
+#| msgid "Welcome to Hostinger Amazon Affiliate Connector!"
+msgid "Welcome to Hostinger Amazon Affiliate!"
+msgstr "ยินดีต้อนรับสู่ Hostinger Amazon Affiliate Connector!"
+
+#. translators: %s: user display name
+#: amazon-gutenberg-block/dist/index.js:4
+#: amazon-gutenberg-block/src/edit.js:1051
+#: amazon-gutenberg-block/dist/index.js:4968
+#, js-format
+msgid "Welcome, %s!"
+msgstr "ยินดีต้อนรับ, %s!"
+
+#: src/Localization/AdminTranslations.php:280
+msgid "What's an ASIN code?"
+msgstr "รหัส ASIN คืออะไร?"
+
+#: src/Localization/AdminTranslations.php:98
+msgid "Write down your content that you want to link your Amazon product with."
+msgstr "เขียนเนื้อหาที่คุณต้องการเชื่อมโยงกับผลิตภัณฑ์ Amazon ของคุณ"
+
+#. translators: %s: PHP version
+#: hostinger-affiliate-plugin.php:110
+#, php-format
+msgid "You are running <b>%s</b> PHP version."
+msgstr "คุณกำลังใช้งาน PHP เวอร์ชัน <b>%s</b>"
+
+#: src/Localization/AdminTranslations.php:279
+msgid ""
+"You can add unlimited products, but only 6 can be shown in a published table."
+msgstr ""
+"คุณสามารถเพิ่มผลิตภัณฑ์ได้ไม่จำกัด แต่แสดงได้เพียง 6 "
+"รายการในตารางที่เผยแพร่เท่านั้น"
+
+#: src/Localization/AdminTranslations.php:309
+msgid ""
+"You can add your comparison table to any post. Whenever a visitor buys a "
+"product through your affiliate link, you'll earn commission."
+msgstr ""
+"คุณสามารถเพิ่มตารางเปรียบเทียบลงในโพสต์ใดก็ได้ "
+"เมื่อใดก็ตามที่ผู้เยี่ยมชมซื้อสินค้าผ่านลิงก์พันธมิตรของคุณ "
+"คุณจะได้รับคอมมิชชัน"
+
+#: mercado-gutenberg-block/dist/index.js:2
+msgid "You can also edit your product list later from the right-hand menu."
+msgstr "คุณยังสามารถแก้ไขรายการสินค้าของคุณได้ในภายหลังจากเมนูทางด้านขวา"
+
+#: src/Localization/AdminTranslations.php:214
+#| msgid ""
+#| "You can also hide products so they don’t appear in the table. Products "
+#| "that you delete will need to be added again."
+msgid ""
+"You can also hide products so they don't appear in the table. Products that "
+"you delete will need to be added again."
+msgstr ""
+"คุณยังสามารถซ่อนสินค้าเพื่อไม่ให้ปรากฏในตารางได้ "
+"สินค้าที่คุณลบจะต้องถูกเพิ่มเข้าไปใหม่อีกครั้ง"
+
+#: src/Localization/AdminTranslations.php:211
+msgid ""
+"You can also unpublish your table. Deleting it will cause you to lose all "
+"added products."
+msgstr ""
+"คุณสามารถยกเลิกการเผยแพร่ตารางของคุณได้ "
+"การลบตารางจะทำให้คุณสูญเสียผลิตภัณฑ์ที่เพิ่มทั้งหมด"
+
+#: src/Localization/AdminTranslations.php:265
+#: amazon-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/src/views/TableConfiguration.jsx:43
+#: mercado-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/dist/index.js:2876
+msgid "You can edit the existing table configuration after this step"
+msgstr "คุณสามารถแก้ไขการกำหนดค่าตารางที่มีอยู่หลังจากขั้นตอนนี้"
+
+#: src/Localization/AdminTranslations.php:23
+msgid ""
+"You can select both marketplaces and then easily add affiliate links to your "
+"content."
+msgstr ""
+"คุณสามารถเลือกทั้งสองตลาดได้ "
+"จากนั้นเพิ่มลิงก์ผู้ส่งเสริมการขายลงในเนื้อหาของคุณได้อย่างง่ายดาย"
+
+#: src/Localization/AdminTranslations.php:258
+msgid "You have added too many products to display. Only 6 are allowed."
+msgstr ""
+"คุณได้เพิ่มผลิตภัณฑ์ที่จะแสดงมากเกินไป อนุญาตให้แสดงได้เพียง 6 รายการเท่านั้น"
+
+#: src/Localization/AdminTranslations.php:158
+msgid "You have unsaved changes that will be lost if you leave."
+msgstr "คุณมีการเปลี่ยนแปลงที่ยังไม่ได้บันทึก ซึ่งจะสูญหายถ้าคุณออกจากระบบ"
+
+#: src/Localization/AdminTranslations.php:262
+msgid ""
+"You need to add at least one row (title, select) to create a table. Check if "
+"all fields are filled."
+msgstr ""
+"คุณต้องเพิ่มอย่างน้อยหนึ่งแถว (ชื่อเรื่อง, เลือก) เพื่อสร้างตาราง "
+"ตรวจสอบว่ากรอกข้อมูลครบทุกช่องหรือไม่"
+
+#: src/Localization/AdminTranslations.php:268
+msgid ""
+"You need to add at least one row, two enabled products (max 5 products) to "
+"save changes. Check if all added fields are filled."
+msgstr ""
+"คุณต้องเพิ่มอย่างน้อยหนึ่งแถว ผลิตภัณฑ์ที่เปิดใช้งานสองรายการ (สูงสุด 5 "
+"รายการ) เพื่อบันทึกการเปลี่ยนแปลง "
+"ตรวจสอบว่ากรอกข้อมูลในฟิลด์ที่เพิ่มทั้งหมดแล้วหรือไม่"
+
+#: src/Localization/AdminTranslations.php:170
+msgid ""
+"You need to choose the main layout for your product(s) block based on your "
+"needs. You can choose between single product, multiple product, or "
+"comparison."
+msgstr ""
+"คุณต้องเลือกเค้าโครงหลักสำหรับกลุ่มผลิตภัณฑ์ของคุณตามความต้องการ "
+"คุณสามารถเลือกได้ระหว่างผลิตภัณฑ์เดี่ยว ผลิตภัณฑ์หลายรายการ "
+"หรือการเปรียบเทียบ"
+
+#: src/Localization/AdminTranslations.php:255
+msgid "You need to enter table name."
+msgstr "คุณต้องใส่ชื่อตาราง"
+
+#: src/Localization/AdminTranslations.php:122
+msgid "Your comparison tables"
+msgstr "ตารางเปรียบเทียบของคุณ"
+
+#: src/Localization/AdminTranslations.php:181
+msgid "Your tables"
+msgstr "ตารางของคุณ"

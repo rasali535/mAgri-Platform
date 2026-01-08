@@ -1,0 +1,2488 @@
+# Copyright (C) 2024 Hostinger
+# This file is distributed under the GPL-2.0+.
+msgid ""
+msgstr ""
+"Project-Id-Version: Hostinger Amazon Affiliate Connector 2.0.11\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/hostinger-"
+"affiliate-plugin\n"
+"Last-Translator: \n"
+"Language-Team: Korean\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2024-10-09T12:50:04+00:00\n"
+"PO-Revision-Date: 2025-10-14 10:56+0000\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Domain: hostinger-affiliate-plugin\n"
+"Language: ko_KR\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Loco-Version: 2.8.0; wp-6.8.2; php-8.2.29"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:891
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4808
+msgid " Add new table"
+msgstr " 새 테이블 추가"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:803
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4720
+msgid " Add/Edit products to list"
+msgstr " 목록에 제품 추가/수정"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:849
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4766
+msgid " Edit table"
+msgstr " 표 편집"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:449
+#: amazon-gutenberg-block/dist/index.js:4366
+msgid " Search for product(s) without ASIN"
+msgstr " ASIN 없이 제품 검색"
+
+#: mercado-gutenberg-block/dist/index.js:2
+msgid " Search for product(s) without ID"
+msgstr " 아이디 없이 제품 검색"
+
+#. translators: %s: Product ASIN
+#. translators: %s: Product ID
+#: src/Api/Amazon/ProxyApi/Api/ProductApi.php:72
+#: src/Api/Mercado/Api/ProductApi.php:82
+#, php-format
+msgid "%s Product does not exist anymore."
+msgstr "s 제품이 더 이상 존재하지 않습니다. %s"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:829
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4746
+msgid "-- Choose table data --"
+msgstr "-- 테이블 데이터 선택 --"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:629
+#: amazon-gutenberg-block/src/edit.js:662
+#: amazon-gutenberg-block/src/edit.js:990
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4546
+#: amazon-gutenberg-block/dist/index.js:4579
+#: amazon-gutenberg-block/dist/index.js:4907
+msgid "-- Select from list --"
+msgstr "-- 목록에서 선택 -- --"
+
+#: src/Localization/AdminTranslations.php:313
+msgid ""
+"<strong>Amazon is available in</strong>: Australia, Belgium, Brazil, Canada, "
+"Egypt, France, Germany, India, Italy, Japan, Mexico, Netherlands, Poland, "
+"Saudi Arabia, Singapore, Spain, Sweden, Turkey, United Arab Emirates, United "
+"Kingdom, United States."
+msgstr ""
+"<strong>아마존은 다음 국가에서 이용 가능합니다: 호주, 벨기에, 브라질, 캐나다, 이집트, 프랑스, 독일, 인도, 이탈리아, 일본,"
+" 멕시코, 네덜란드, 폴란드, 사우디아라비아, 싱가포르, 스페인, 스웨덴, 터키, 아랍에미리트, 영국, 미국."
+
+#: src/Localization/AdminTranslations.php:314
+#| msgid ""
+#| "<strong>Mercado Livre is available in</strong>: Argentina, Brazil, Mexico."
+msgid "<strong>Mercado Livre is available in</strong>: Brazil, Mexico."
+msgstr "<strong>Mercado Livre는 다음의 국가에서 사용할 수 있습니다<strong>: 아르헨티나, 브라질, 멕시코."
+
+#: src/Localization/AdminTranslations.php:282
+msgid "A table can display up to 6 products."
+msgstr "테이블에는 최대 6개의 제품을 표시할 수 있습니다."
+
+#: src/Localization/AdminTranslations.php:58
+msgid "Access key"
+msgstr "액세스 키"
+
+#: src/Localization/AdminTranslations.php:75
+msgid "Access key cannot contain special characters"
+msgstr "액세스 키에는 특수 문자를 포함할 수 없습니다"
+
+#: src/Localization/AdminTranslations.php:76
+msgid "Access key must be 20 characters long"
+msgstr "액세스 키는 20자 길이여야 합니다"
+
+#: src/Localization/AdminTranslations.php:66
+msgid "Access key must be combination of letters and numbers"
+msgstr "액세스 키는 문자와 숫자의 조합이어야 합니다"
+
+#: src/Localization/AdminTranslations.php:229
+msgid "Add"
+msgstr "추가"
+
+#: src/Localization/AdminTranslations.php:167
+#| msgid "Add “Link Amazon product(s)” in block editor"
+msgid "Add \"Link Amazon product(s)\" in block editor"
+msgstr "블록 편집기에서 \"Amazon상품 링크\" 추가"
+
+#: src/Localization/AdminTranslations.php:109
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:324
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4241
+msgid "Add a few products and describe them briefly."
+msgstr "제품 몇 가지와 간단한 제품 설명을 추가"
+
+#: src/Localization/AdminTranslations.php:97
+msgid "Add a new post"
+msgstr "새 게시물 추가"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/products_selected.js:406
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3761
+msgid "Add a new product"
+msgstr "새 제품 추가"
+
+#: src/Localization/AdminTranslations.php:263
+#: amazon-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/src/views/TableConfiguration.jsx:91
+#: mercado-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/dist/index.js:2924
+msgid "Add a new table configuration"
+msgstr "새 테이블 구성 추가"
+
+#: src/Localization/AdminTranslations.php:28
+#: src/Localization/AdminTranslations.php:40
+msgid "Add a product block"
+msgstr "제품 블록 추가"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:314
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4231
+msgid "Add a single product with detailed description."
+msgstr "자세한 설명이 포함된 단일 제품을 추가합니다."
+
+#: src/Localization/AdminTranslations.php:254
+msgid "Add at least 2 products to continue."
+msgstr "계속하려면 제품을 2개 이상 추가하세요."
+
+#: src/Localization/AdminTranslations.php:259
+msgid "Add at least one product data row."
+msgstr "제품 데이터 행을 하나 이상 추가합니다."
+
+#: src/Localization/AdminTranslations.php:256
+msgid "Add at least two products to continue"
+msgstr "계속하려면 최소 두 개의 제품을 추가하세요"
+
+#: amazon-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/src/components/product_list_bestsellers.js:16
+#: amazon-gutenberg-block/dist/index.js:387
+msgid "Add best-sellers"
+msgstr "베스트셀러 추가"
+
+#: src/Localization/AdminTranslations.php:243
+msgid "Add highlight"
+msgstr "하이라이트 추가"
+
+#: src/Localization/AdminTranslations.php:113
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:334
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4251
+msgid "Add multiple similar products and compare them."
+msgstr "유사한 제품을 여러 개 추가하고 비교하세요."
+
+#: src/Localization/AdminTranslations.php:230
+#: amazon-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/src/components/product_selector.js:172
+#: amazon-gutenberg-block/dist/index.js:2701
+msgid "Add product"
+msgstr "제품 추가"
+
+#: src/Localization/AdminTranslations.php:30
+#: src/Localization/AdminTranslations.php:42
+#: src/Localization/AdminTranslations.php:144
+#: src/Localization/AdminTranslations.php:194
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/product_selector_multiple.js:273
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3312
+msgid "Add products"
+msgstr "제품 추가"
+
+#: src/Localization/AdminTranslations.php:242
+msgid "Add row"
+msgstr "행 추가"
+
+#: src/Localization/AdminTranslations.php:202
+msgid "Add table"
+msgstr "테이블 추가"
+
+#: src/Localization/AdminTranslations.php:200
+msgid "Add the product data"
+msgstr "제품 데이터 추가"
+
+#: src/Localization/AdminTranslations.php:171
+msgid "Add the product(s)"
+msgstr "제품 추가"
+
+#: src/Localization/AdminTranslations.php:24
+msgid ""
+"Add your API credentials to select a language and improve search results. "
+"This step is optional, but recommended."
+msgstr "API 자격 증명을 추가하여 언어를 선택하고 검색 결과를 개선하세요. 이 단계는 필수는 아니지만 권장됩니다."
+
+#: src/Localization/AdminTranslations.php:197
+msgid "Affiliate link"
+msgstr "제휴사 링크"
+
+#: src/Admin/Menus.php:54 src/Admin/Menus.php:55 src/Admin/Menus.php:73
+#: src/Localization/AdminTranslations.php:13
+msgid "Affiliate Marketing"
+msgstr "제휴 마케팅"
+
+#: src/Setup/Cpts.php:41
+msgid "Affiliate tables"
+msgstr "제휴 테이블"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/products_selected.js:285
+#: amazon-gutenberg-block/src/components/products_selected.js:289
+#: amazon-gutenberg-block/src/components/products_selected.js:306
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3640
+#: amazon-gutenberg-block/dist/index.js:3644
+#: amazon-gutenberg-block/dist/index.js:3661
+msgid "Affiliate URL"
+msgstr "제휴사 URL"
+
+#: src/Localization/AdminTranslations.php:172
+msgid ""
+"After choosing the layout, you need to find the product(s) that you want to "
+"promote in your post. You can copy-paste the ASIN or search the product(s) "
+"manually."
+msgstr ""
+"레이아웃을 선택한 후, 게시물에서 홍보하고 싶은 제품을 찾아야 합니다. ASIN을 복사-붙여넣기하거나 제품을 수동으로 검색할 수 있습니다."
+
+#: src/Localization/AdminTranslations.php:70
+msgid "Amazon"
+msgstr "Amazon"
+
+#: src/Localization/AdminTranslations.php:141
+msgid "Amazon Affiliate"
+msgstr "아마존 제휴사"
+
+#: src/Localization/Messages.php:16
+msgid "Amazon API returned an error."
+msgstr "Amazon API가 오류를 반환했습니다."
+
+#: src/Localization/AdminTranslations.php:189
+msgid "Amazon api was disconnected!"
+msgstr "Amazon API 연결이 끊어졌습니다!"
+
+#: src/Localization/AdminTranslations.php:72
+msgid "Amazon Associates"
+msgstr "Amazon Associates"
+
+#: src/Repositories/TableRepository.php:300
+msgid "Amazon Button"
+msgstr "아마존 버튼"
+
+#: src/Localization/AdminTranslations.php:191
+msgid "Amazon settings were successfully saved!"
+msgstr "Amazon 설정이 성공적으로 저장되었습니다!"
+
+#: src/Localization/AdminTranslations.php:223
+msgid "An unexpected error occurred"
+msgstr "예기치 않은 오류가 발생했습니다"
+
+#: src/Localization/AdminTranslations.php:57
+msgid "API Settings"
+msgstr "API 설정"
+
+#: src/Localization/AdminTranslations.php:82
+msgid "API status"
+msgstr "API 상태"
+
+#: src/Localization/AdminTranslations.php:289
+msgid "Argentina"
+msgstr "아르헨티나"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/products_selected.js:217
+#: amazon-gutenberg-block/src/edit.js:553
+#: amazon-gutenberg-block/src/edit.js:791
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3572
+#: amazon-gutenberg-block/dist/index.js:4470
+#: amazon-gutenberg-block/dist/index.js:4708
+msgid "ASIN"
+msgstr "ASIN"
+
+#: src/Localization/AdminTranslations.php:275
+msgid ""
+"ASIN is a unique 10-digit code Amazon assigns to products in its catalog. "
+"You can find it on the product detail page."
+msgstr "ASIN은 아마존이 카탈로그의 상품에 할당하는 고유한 10자리 코드입니다. 제품 세부 정보 페이지에서 찾을 수 있습니다."
+
+#: src/Localization/Messages.php:20 amazon-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/products_selected.js:105
+#: amazon-gutenberg-block/src/components/product_selector.js:65
+#: amazon-gutenberg-block/src/components/product_selector_multiple.js:66
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:2594
+#: amazon-gutenberg-block/dist/index.js:3105
+#: amazon-gutenberg-block/dist/index.js:3460
+msgid "ASIN validation failed. Please check entered product ASIN!"
+msgstr "ASIN 유효성 검사에 실패했습니다. 입력한 제품의 ASIN을 확인해 주세요!"
+
+#. translators: %s: PHP version
+#: hostinger-affiliate-plugin.php:106
+msgid "Attention:"
+msgstr "주의:"
+
+#: src/Localization/AdminTranslations.php:286
+msgid "Australia"
+msgstr "호주"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/dist/index.js:4
+#: amazon-gutenberg-block/src/components/product_list_type_selector.js:38
+#: amazon-gutenberg-block/src/edit.js:633
+#: amazon-gutenberg-block/dist/index.js:4550
+#: amazon-gutenberg-block/dist/index.js:5102
+msgid "Automatically based on best-sellers"
+msgstr "베스트셀러를 기반으로 자동 처리"
+
+#: amazon-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/src/components/product_list_bestsellers.js:80
+#: amazon-gutenberg-block/dist/index.js:451
+msgid "Automatically generate product list"
+msgstr "제품 목록 자동 생성"
+
+#: src/Localization/AdminTranslations.php:152
+msgid "Back"
+msgstr "뒤로"
+
+#: src/Localization/AdminTranslations.php:287
+msgid "Belgium"
+msgstr "벨기에"
+
+#. translators: %d: bestseller place
+#: src/Shortcodes/templates/lists/horizontal-cards.php:20
+#: src/Shortcodes/templates/lists/list-with-description.php:16
+#: src/Shortcodes/templates/lists/simplified-list.php:37
+#, php-format
+msgid "Bestseller #%d"
+msgstr "베스트셀러 #%d"
+
+#: src/Localization/AdminTranslations.php:288
+msgid "Brazil"
+msgstr "브라질"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:946
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4863
+msgid "Buy button"
+msgstr "구매 버튼"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:388
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4305
+msgid "Buy button overwrite enabled?"
+msgstr "구매 버튼 덮어쓰기가 활성화되어 있나요?"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:400
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4317
+msgid "Buy button text"
+msgstr "구매 버튼 텍스트"
+
+#: src/Models/Product.php:275
+msgid "Buy now"
+msgstr "지금 구매하기"
+
+#: src/Models/Product.php:279
+msgid "Buy on Amazon"
+msgstr "아마존에서 구매"
+
+#: src/Localization/AdminTranslations.php:290
+msgid "Canada"
+msgstr "캐나다"
+
+#: src/Localization/AdminTranslations.php:206 src/Setup/Blocks.php:248
+msgid "Cancel"
+msgstr "취소"
+
+#: amazon-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/src/components/selected_display_type.js:32
+#: mercado-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/dist/index.js:784
+msgid "Change main layout"
+msgstr "기본 레이아웃 변경"
+
+#: src/Localization/AdminTranslations.php:151
+msgid ""
+"Check out our quick guide for tips on how to start using this plugin and "
+"start earning."
+msgstr "이 플러그인 사용을 시작하고 수익을 창출하는 방법에 대한 팁은 퀵 가이드를 참조하세요."
+
+#: src/Setup/Blocks.php:206
+msgid "Check your search term and try again"
+msgstr "검색어를 확인하고 다시 시도하세요"
+
+#: src/Localization/AdminTranslations.php:64
+msgid "Choose Amazon region ..."
+msgstr "아마존 지역 선택 ..."
+
+#: src/Localization/AdminTranslations.php:105
+msgid ""
+"Choose any template for your needs  – all of them are integrated with the "
+"Gutenberg editor."
+msgstr "필요에 따라 원하는 템플릿을 선택하세요. 모든 템플릿은 구텐베르크 편집기와 통합되어 있습니다."
+
+#: src/Localization/AdminTranslations.php:35
+#: src/Localization/AdminTranslations.php:47
+msgid ""
+"Choose between a single product card, multiple product list, or comparison "
+"table."
+msgstr "단일 제품 카드, 여러 제품 목록 또는 비교표 중에서 선택합니다."
+
+#: amazon-gutenberg-block/dist/index.js:4
+#: amazon-gutenberg-block/src/edit.js:1057
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4974
+msgid "Choose how the product block will look like in your post"
+msgstr "게시물에서 제품 블록을 어떻게 표시할지 선택하세요"
+
+#: src/Localization/AdminTranslations.php:29
+#: src/Localization/AdminTranslations.php:41
+msgid "Choose how to display products"
+msgstr "제품 표시 방법을 선택하세요"
+
+#: src/Localization/AdminTranslations.php:169
+msgid "Choose the layout for the product(s) block"
+msgstr "제품 블록의 레이아웃을 선택합니다"
+
+#: amazon-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/product_list_bestsellers.js:24
+#: amazon-gutenberg-block/src/components/product_selector_multiple.js:239
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:395
+#: amazon-gutenberg-block/dist/index.js:3278
+msgid "Choose the layout of your product list"
+msgstr "제품 목록의 레이아웃을 선택합니다"
+
+#: src/Localization/AdminTranslations.php:266
+#: amazon-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/src/views/TableConfiguration.jsx:54
+#: mercado-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/dist/index.js:2887
+msgid "Choose the table configuration"
+msgstr "테이블 구성 선택"
+
+#: src/Localization/AdminTranslations.php:136
+#| msgid "Choose which products to compare and set up your table’s rows."
+msgid "Choose which products to compare and set up your table's rows."
+msgstr "비교할 제품을 선택하고 테이블의 행을 설정합니다."
+
+#: src/Localization/AdminTranslations.php:205
+msgid "Close"
+msgstr "닫기"
+
+#: src/Localization/AdminTranslations.php:132
+#: amazon-gutenberg-block/dist/index.js:4
+#: amazon-gutenberg-block/src/components/DisplayTypeSelector.jsx:41
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:5590
+msgid "Coming soon"
+msgstr "곧 출시 예정"
+
+#: src/Localization/AdminTranslations.php:112
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:333
+#: amazon-gutenberg-block/src/edit.js:1010
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4250
+#: amazon-gutenberg-block/dist/index.js:4927
+msgid "Comparison Table"
+msgstr "비교 테이블"
+
+#: src/Localization/AdminTranslations.php:124
+msgid "Comparison tables"
+msgstr "비교 표"
+
+#: src/Localization/AdminTranslations.php:138
+msgid "Configure"
+msgstr "구성"
+
+#: src/Setup/Blocks.php:254
+msgid "Confirm selection"
+msgstr "선택 확인"
+
+#: src/Localization/AdminTranslations.php:81
+msgid "Connect"
+msgstr "연결"
+
+#: src/Localization/AdminTranslations.php:79
+msgid "Connect Amazon account"
+msgstr "Amazon 계정 연결"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:527
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4444
+msgid "Connect Now"
+msgstr "지금 연결"
+
+#: src/Localization/AdminTranslations.php:103
+msgid "Connect With Your Amazon Account"
+msgstr "Amazon 계정으로 연결"
+
+#: src/Localization/AdminTranslations.php:18
+#: src/Localization/AdminTranslations.php:95
+msgid "Connect Your Amazon Account"
+msgstr "Amazon 계정 연결"
+
+#: src/Localization/AdminTranslations.php:92
+msgid "Connect your Amazon Associates Account"
+msgstr "Amazon Associates 계정 연결"
+
+#: src/Localization/AdminTranslations.php:15
+#| msgid "Connect  your Amazon Associates Account"
+msgid "Connect your Amazon Associates account"
+msgstr " Amazon Associates 계정 연결"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:506
+#: amazon-gutenberg-block/dist/index.js:4423
+msgid "Connect Your Amazon Partnership Account"
+msgstr "Amazon 파트너 계정 연결"
+
+#: src/Localization/AdminTranslations.php:51
+#: src/Localization/AdminTranslations.php:84
+msgid "Connected"
+msgstr "연결됨"
+
+#: src/Localization/AdminTranslations.php:86
+msgid "Connected to Partner ID:"
+msgstr "파트너 ID에 연결되었습니다:"
+
+#: src/Errors/AmazonApiError.php:41 src/Errors/AmazonApiError.php:91
+msgid "Contact Hostinger support for further assistance."
+msgstr "추가 지원이 필요하면 호스팅어 지원팀에 문의하세요."
+
+#: src/Localization/AdminTranslations.php:204
+#: amazon-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/product_list_bestsellers.js:53
+#: amazon-gutenberg-block/src/components/product_selector_multiple.js:210
+#: amazon-gutenberg-block/src/views/TableConfiguration.jsx:64
+#: mercado-gutenberg-block/dist/index.js:1
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:424
+#: amazon-gutenberg-block/dist/index.js:2897
+#: amazon-gutenberg-block/dist/index.js:3249
+msgid "Continue"
+msgstr "계속"
+
+#: src/Localization/AdminTranslations.php:137
+msgid "Copied successfully!"
+msgstr "성공적으로 복사되었습니다!"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/products_selected.js:162
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3517
+msgid "Copied to clipboard!"
+msgstr "클립보드에 복사했습니다!"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/products_selected.js:266
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3621
+msgid "Copy to clipboard"
+msgstr "클립보드에 복사"
+
+#. translators: %s: ASIN helper page URL
+#: amazon-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/product_selector.js:148
+#: amazon-gutenberg-block/src/components/product_selector_multiple.js:184
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:2677
+#: amazon-gutenberg-block/dist/index.js:3223
+#, js-format
+msgid ""
+"Copy-paste Amazon product ASIN. <a href=\"%s\" target=\"_blank\">Where to "
+"find it?</a>"
+msgstr ""
+"아마존 제품 ASIN을 복사하여 붙여넣기합니다. <a href=\"%s\" target=\"_blank\">어디에서 찾을 수 있나요? "
+"</a>"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:377
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4294
+msgid "Count of items to show in list."
+msgstr "목록에 표시할 항목 수입니다."
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:278
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4195
+msgid "Count of list items in product description."
+msgstr "제품 설명의 목록 항목 수입니다."
+
+#: src/Localization/AdminTranslations.php:62
+msgid "Country"
+msgstr "국가"
+
+#: src/Localization/AdminTranslations.php:87
+#: src/Localization/AdminTranslations.php:165
+#: src/Localization/AdminTranslations.php:177
+msgid "Create a new post"
+msgstr "새 게시물 생성"
+
+#: src/Localization/AdminTranslations.php:27
+#: src/Localization/AdminTranslations.php:39
+#: src/Localization/AdminTranslations.php:310
+msgid "Create a post"
+msgstr "글 작성하기"
+
+#: src/Localization/AdminTranslations.php:308
+msgid "Create a post to start promoting products"
+msgstr "제품 홍보를 시작하기 위한 게시물 만들기"
+
+#: src/Localization/AdminTranslations.php:123
+#: src/Localization/AdminTranslations.php:125
+msgid "Create and manage your comparison tables."
+msgstr "비교 테이블을 만들고 관리하세요."
+
+#. Description of the plugin
+#: hostinger-affiliate-plugin.php
+msgid ""
+"Create and promote products using affiliate links from different "
+"marketplaces. Easily manage and display affiliate products on your site."
+msgstr ""
+"다양한 마켓플레이스의 제휴 링크를 사용하여 제품을 생성하고 홍보하세요. 사이트에서 제휴 제품을 쉽게 관리하고 표시할 수 있습니다."
+
+#: src/Localization/AdminTranslations.php:53
+msgid "Create post"
+msgstr "게시물 만들기"
+
+#: src/Localization/AdminTranslations.php:180
+#| msgid "Create new table"
+msgid "Create table"
+msgstr "새 테이블 만들기"
+
+#: src/Localization/AdminTranslations.php:134
+msgid "Create your first comparison table"
+msgstr "첫 번째 비교 테이블 만들기"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:577
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4494
+msgid "Custom product title."
+msgstr "사용자 지정 제품 제목."
+
+#: src/Localization/AdminTranslations.php:238
+msgid "Date created"
+msgstr "생성 날짜"
+
+#: src/Localization/AdminTranslations.php:207
+msgid "Delete"
+msgstr "삭제"
+
+#: src/Localization/AdminTranslations.php:213
+msgid "Delete product?"
+msgstr "제품을 삭제하시겠습니까?"
+
+#: src/Localization/AdminTranslations.php:208
+#| msgid "Delete table?"
+msgid "Delete table"
+msgstr "테이블을 삭제하시겠습니까?"
+
+#: src/Localization/AdminTranslations.php:212
+msgid "Delete this table?"
+msgstr "이 테이블을 삭제하시겠습니까?"
+
+#: src/Localization/AdminTranslations.php:312
+msgid ""
+"Depending on your country, different marketplaces may be available to you."
+msgstr "국가에 따라 사용 가능한 마켓플레이스가 다를 수 있습니다."
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:256
+#: amazon-gutenberg-block/src/edit.js:933
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4173
+#: amazon-gutenberg-block/dist/index.js:4850
+msgid "Description"
+msgstr "설명"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:232
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4149
+msgid "Description enabled?"
+msgstr "설명을 사용 설정하셨나요?"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:269
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4186
+msgid "Description Items"
+msgstr "설명 항목"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:288
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4205
+msgid "Description length"
+msgstr "설명 길이"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:243
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4160
+msgid "Description overwrite enabled?"
+msgstr "설명 덮어쓰기를 사용하시나요?"
+
+#: src/Localization/AdminTranslations.php:235
+msgid "Determine who will see the table"
+msgstr "테이블 열람 권한을 설정하세요"
+
+#: src/Localization/AdminTranslations.php:88
+msgid "Disconnect"
+msgstr "연결 해제"
+
+#: src/Localization/AdminTranslations.php:85
+msgid "Disconnected"
+msgstr "연결 해제됨"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:729
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4646
+msgid "Display Bestseller #"
+msgstr "베스트셀러 표시 #"
+
+#: amazon-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/product_list_bestsellers.js:99
+#: amazon-gutenberg-block/src/components/product_selector.js:164
+#: amazon-gutenberg-block/src/components/product_selector_multiple.js:150
+#: amazon-gutenberg-block/src/components/product_selector_multiple.js:202
+#: amazon-gutenberg-block/src/components/product_selector_multiple.js:265
+#: mercado-gutenberg-block/dist/index.js:1
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:470
+#: amazon-gutenberg-block/dist/index.js:2693
+#: amazon-gutenberg-block/dist/index.js:3189
+#: amazon-gutenberg-block/dist/index.js:3241
+#: amazon-gutenberg-block/dist/index.js:3304
+msgid ""
+"Don’t worry. You can edit the layout and product in the Block configuration "
+"in the right sidebar anytime."
+msgstr "걱정하지 마세요. 오른쪽 사이드바의 블록 구성에서 언제든지 레이아웃과 제품을 편집할 수 있습니다."
+
+#. translators: %s: product asin.
+#: src/Localization/AdminTranslations.php:270
+#, php-format
+msgid "Duplicate ASIN: %s was not added."
+msgstr "중복된 ASIN: %s가 추가되지 않았습니다."
+
+#: src/Localization/AdminTranslations.php:101
+msgid "Earn Commissions"
+msgstr "커미션 적립"
+
+#: src/Localization/AdminTranslations.php:142
+msgid "Edit your Amazon API details"
+msgstr "Amazon API 세부 정보 편집"
+
+#: src/Localization/AdminTranslations.php:291
+msgid "Egypt"
+msgstr "이집트"
+
+#: src/Api/Mercado/Client.php:116
+#, fuzzy
+msgid "Empty response from proxy API."
+msgstr "프록시 API의 빈 응답입니다."
+
+#: src/Localization/AdminTranslations.php:257
+msgid "Enable at least two products to continue"
+msgstr "계속하려면 최소 두 개의 제품을 사용하도록 설정하세요"
+
+#: mercado-gutenberg-block/dist/index.js:2
+msgid "Enable Mercado Livre store in settings"
+msgstr "설정에서 Mercado Livre 스토어 활성화"
+
+#: mercado-gutenberg-block/dist/index.js:2
+msgid "Enter affiliate url"
+msgstr "제휴사 URL 입력"
+
+#: amazon-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/products_selected.js:359
+#: amazon-gutenberg-block/src/components/products_selected.js:367
+#: amazon-gutenberg-block/src/components/product_selector.js:156
+#: amazon-gutenberg-block/src/components/product_selector_multiple.js:193
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:2685
+#: amazon-gutenberg-block/dist/index.js:3232
+#: amazon-gutenberg-block/dist/index.js:3714
+#: amazon-gutenberg-block/dist/index.js:3722
+msgid "Enter ASIN here"
+msgstr "여기에 ASIN 입력"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:556
+#: amazon-gutenberg-block/dist/index.js:4473
+msgid "Enter ASIN here..."
+msgstr "여기에 ASIN을 입력하세요..."
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/products_selected.js:358
+#: amazon-gutenberg-block/src/components/products_selected.js:366
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3713
+#: amazon-gutenberg-block/dist/index.js:3721
+msgid "Enter product ID here"
+msgstr "여기에 제품 ID를 입력하세요"
+
+#: mercado-gutenberg-block/dist/index.js:2
+msgid "Enter product ID here..."
+msgstr "여기에 제품 ID를 입력하세요..."
+
+#: amazon-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/src/components/product_list_bestsellers.js:92
+#: amazon-gutenberg-block/dist/index.js:463
+msgid "Enter product keywords here, example: corsair rgb keyboard"
+msgstr "여기에 제품 키워드를 입력합니다(예: Corsair RGB 키보드)"
+
+#: src/Localization/AdminTranslations.php:248
+msgid "Enter text label. For example: Best Price"
+msgstr "텍스트 레이블을 입력합니다. (예: 최저가)"
+
+#: src/Localization/AdminTranslations.php:203
+msgid "Enter your table name"
+msgstr "테이블 이름을 입력합니다"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/products_selected.js:165
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3520
+msgid "Failed to copy!"
+msgstr "복사하지 못했습니다!"
+
+#: src/Api/Mercado/Client.php:125
+#, fuzzy
+msgid "Failed to decode proxy API response."
+msgstr "프록시 API 응답을 디코딩하지 못했습니다."
+
+#. translators: %s: missing field key name
+#: src/Localization/Messages.php:12
+#, php-format
+msgid "Field %s is empty."
+msgstr "필드 %s가 비어 있습니다."
+
+#: src/Localization/AdminTranslations.php:219
+msgid "Field contains an error"
+msgstr "필드에 오류가 있습니다"
+
+#: src/Localization/AdminTranslations.php:19
+msgid "Fill API details from Amazon Product Advertising dashboard to start"
+msgstr "시작하려면 Amazon 상품 광고 대시보드에서 API 세부 정보를 입력하세요"
+
+#: src/Localization/AdminTranslations.php:54
+msgid "Find your API credentials"
+msgstr "API 자격 증명 찾기"
+
+#: src/Localization/AdminTranslations.php:154
+msgid "Find your Tracking ID"
+msgstr "트래킹 ID 찾기"
+
+#: src/Localization/AdminTranslations.php:166
+msgid ""
+"First thing first, you need to create a post. Make sure to create the post "
+"with the specific niche to be more related with your visitors."
+msgstr "우선, 게시물을 만들어야 합니다. 독자들과의 연관성을 높이기 위해 전문적인 주제 영역을 정해 콘텐츠를 작성하세요."
+
+#: src/Localization/AdminTranslations.php:94
+msgid ""
+"Follow this step-by-step guide to start earning your affiliate commission in "
+"no time."
+msgstr "이 단계별 가이드를 따라 제휴 커미션을 바로 적립하세요."
+
+#: src/Localization/AdminTranslations.php:37
+#: src/Localization/AdminTranslations.php:49
+msgid "For each product, generate and paste your affiliate link."
+msgstr "각 제품에 대해 제휴 링크를 생성하여 붙여넣습니다."
+
+#: src/Localization/AdminTranslations.php:220
+msgid "Form is invalid or already saving"
+msgstr "양식이 유효하지 않거나 이미 저장 중입니다"
+
+#: src/Localization/AdminTranslations.php:292
+msgid "France"
+msgstr "프랑스"
+
+#: src/Localization/AdminTranslations.php:155
+msgid "General"
+msgstr "일반"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:983
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4900
+msgid "General Settings"
+msgstr "일반 설정"
+
+#: src/Localization/AdminTranslations.php:253
+msgid "General settings"
+msgstr "일반 설정"
+
+#: src/Localization/AdminTranslations.php:293
+msgid "Germany"
+msgstr "독일"
+
+#: src/Localization/AdminTranslations.php:114
+msgid "Get Started"
+msgstr "시작하기"
+
+#: src/Localization/AdminTranslations.php:148
+msgid "Get started with our plugin"
+msgstr "플러그인 시작하기"
+
+#: src/Localization/AdminTranslations.php:14
+msgid "Getting Started"
+msgstr "시작하기"
+
+#: src/Localization/AdminTranslations.php:126
+msgid "Getting started"
+msgstr "시작하기"
+
+#: src/Localization/AdminTranslations.php:150
+msgid "Got it"
+msgstr "알겠습니다"
+
+#. translators: %s: Amazon store region
+#: src/Setup/Blocks.php:222
+#, php-format
+msgid "Here you will see products from your store region on <b>%s</b>."
+msgstr "여기에는 스토어 지역의 제품이 <b>%s</b>에 표시됩니다."
+
+#: src/Setup/Blocks.php:224
+msgid "Here you will see products from your store region."
+msgstr "여기에서 스토어 지역의 제품을 볼 수 있습니다."
+
+#: src/Localization/AdminTranslations.php:245
+msgid "Highlight settings"
+msgstr "하이라이트 설정"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:359
+#: amazon-gutenberg-block/src/edit.js:673
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4276
+#: amazon-gutenberg-block/dist/index.js:4590
+msgid "Horizontal cards"
+msgstr "가로 카드"
+
+#. Author of the plugin
+#: hostinger-affiliate-plugin.php
+msgid "Hostinger"
+msgstr "호스팅어"
+
+#: src/Localization/AdminTranslations.php:162
+msgid "Hostinger Academy"
+msgstr "호스팅어 아카데미"
+
+#: src/Localization/AdminTranslations.php:12
+msgid "Hostinger Affiliate"
+msgstr "Hostinger 제휴사"
+
+#. Plugin Name of the plugin
+#: hostinger-affiliate-plugin.php
+#| msgid "Hostinger Amazon Affiliate Marketing Tools"
+msgid "Hostinger Affiliate Marketing Tools"
+msgstr "Hostinger 아마존 제휴 마케팅 도구"
+
+#: src/Admin/Surveys/AmazonSurvey.php:24
+msgid "How could we improve the Hostinger Affiliate plugin for Amazon?"
+msgstr "아마존용 호스팅어 제휴 플러그인을 어떻게 개선할 수 있을까요?"
+
+#: src/Admin/Surveys/MercadoSurvey.php:24
+msgid "How could we improve the Hostinger Affiliate plugin for Mercado Libre?"
+msgstr "메르카도 리브레용 Hostinger 제휴 플러그인을 어떻게 개선할 수 있을까요?"
+
+#: amazon-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/src/components/product_selector.js:74
+#: amazon-gutenberg-block/src/components/product_selector.js:143
+#: amazon-gutenberg-block/src/components/product_selector_multiple.js:97
+#: mercado-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/dist/index.js:2603
+#: amazon-gutenberg-block/dist/index.js:2672
+#: amazon-gutenberg-block/dist/index.js:3136
+msgid "How do you want to add the product?"
+msgstr "제품을 어떻게 추가하시겠습니까?"
+
+#: amazon-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4
+#: amazon-gutenberg-block/src/components/product_list_bestsellers.js:74
+#: amazon-gutenberg-block/src/components/product_list_type_selector.js:17
+#: amazon-gutenberg-block/src/components/product_selector_multiple.js:86
+#: mercado-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/dist/index.js:445
+#: amazon-gutenberg-block/dist/index.js:3125
+#: amazon-gutenberg-block/dist/index.js:5081
+msgid "How do you want to generate the list of the products?"
+msgstr "제품 목록을 어떻게 생성하길 원하나요?"
+
+#: src/Localization/AdminTranslations.php:178
+msgid "How to create a product listing using our plugin?"
+msgstr "플러그인을 사용하여 제품 목록을 생성하는 방법은 무엇인가요?"
+
+#: src/Localization/AdminTranslations.php:16
+msgid "How to create a product listing with our plugin?"
+msgstr "플러그인으로 제품 목록을 생성하는 방법은 무엇인가요?"
+
+#: src/Localization/AdminTranslations.php:231
+msgid "How to do that?"
+msgstr "어떻게 하나요?"
+
+#: src/Localization/AdminTranslations.php:199
+msgid "How to get your affiliate link"
+msgstr "제휴 링크를 받는 방법"
+
+#: src/Localization/AdminTranslations.php:163
+#| msgid ""
+#| "How to Set Up Amazon Affiliate with Hostinger Amazon Affiliate Connector -"
+#| " Step by step guide"
+msgid ""
+"How to Set Up Amazon Affiliate with Hostinger Amazon Affiliate - Step by "
+"step guide"
+msgstr "Amazon Affiliate 프로그램을 호스팅어 Amazon Affiliate와 연동하여 세팅하는 방법 - 단계별 안내서"
+
+#: src/Localization/AdminTranslations.php:164
+msgid "How to use this plugin?"
+msgstr "이 플러그인을 어떻게 사용하나요?"
+
+#: src/Admin/Surveys/AmazonSurvey.php:20
+msgid "How would you rate your experience publishing Amazon Affiliate links?"
+msgstr "아마존 제휴 링크를 게시한 경험에 대해 어떻게 평가하시나요?"
+
+#: src/Admin/Surveys/MercadoSurvey.php:20
+msgid ""
+"How would you rate your experience publishing Mercado Libre Affiliate links?"
+msgstr "메르카도 리브레 제휴사 링크를 게시한 경험에 대해 어떻게 평가하시나요?"
+
+#. Plugin URI of the plugin
+#. Author URI of the plugin
+#: hostinger-affiliate-plugin.php
+msgid "https://hostinger.com"
+msgstr "https://hostinger.com"
+
+#: src/Errors/AmazonApiError.php:76
+msgid ""
+"If the problems persists, contact Amazon Associates support for further "
+"assistance."
+msgstr "문제가 지속되면 Amazon Associates 지원팀에 문의하여 추가 지원을 받으십시오."
+
+#: src/Errors/AmazonApiError.php:66 src/Errors/AmazonApiError.php:71
+msgid ""
+"If you're still having trouble after checking your settings, contact Amazon "
+"Associates support for further assistance."
+msgstr "설정을 확인한 후에도 문제가 계속 발생하면 Amazon Associates 지원팀에 문의하여 추가 지원을 받으세요."
+
+#: src/Localization/AdminTranslations.php:21
+msgid ""
+"In order to get the Amazon API information, you need to log in to your <b>"
+"Amazon Associate</b> account."
+msgstr "Amazon API 정보를 얻으려면 <b>Amazon Associates</b> 계정에 로그인해야 합니다."
+
+#: src/Localization/AdminTranslations.php:34
+msgid ""
+"In the editor, type '/' or click the '+' icon. Then, select 'Link Amazon "
+"products'."
+msgstr "편집기에서 '/'를 입력하거나 '+' 아이콘을 클릭합니다. 그런 다음 '아마존 제품 연결'을 선택합니다."
+
+#: src/Localization/AdminTranslations.php:46
+msgid ""
+"In the editor, type '/' or click the '+' icon. Then, select 'Link Mercado "
+"Livre products'."
+msgstr "편집기에서 '/'를 입력하거나 '+' 아이콘을 클릭합니다. 그런 다음 '메르카도 리브르 제품 연결'을 선택합니다."
+
+#: src/Localization/AdminTranslations.php:294
+msgid "India"
+msgstr "인도"
+
+#: src/Errors/AmazonApiError.php:80
+msgid "Input parameter relating to request is invalid or is missing."
+msgstr "요청과 관련된 입력 매개변수가 유효하지 않거나 누락되었습니다."
+
+#: src/Localization/AdminTranslations.php:96
+msgid "Insert API code inside the Amazon Product Advertising dashboard."
+msgstr "아마존 상품 광고 대시보드에 API 코드를 삽입합니다."
+
+#: amazon-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/src/components/product_list_bestsellers.js:85
+#: amazon-gutenberg-block/dist/index.js:456
+msgid "Insert the product keyword, we will show the best-seller products"
+msgstr "제품 키워드를 입력하면 베스트셀러 제품이 표시됩니다"
+
+#: src/Localization/AdminTranslations.php:168
+#| msgid ""
+#| "Inside Block Editor, you can call Hostinger Amazon Affiliate in the block "
+#| "options. You can call it by typing “/” or click the add button in the "
+#| "right side of the paragraph."
+msgid ""
+"Inside Block Editor, you can call Hostinger Amazon Affiliate in the block "
+"options. You can call it by typing \"/\" or click the add button in the "
+"right side of the paragraph."
+msgstr ""
+"블록 편집기 내부의 블록 옵션에서 Hostinger Amazon Affiliate를 호출할 수 있습니다. \"/\"를 입력하거나 단락 "
+"오른쪽에 있는 추가 버튼을 클릭하여 호출할 수 있습니다."
+
+#: src/Localization/AdminTranslations.php:210
+msgid "Invalid ASIN"
+msgstr "유효하지 않은 ASIN"
+
+#: src/Rest/SettingsRoutes.php:223
+msgid "Invalid locale selected. Please choose a valid locale."
+msgstr "잘못된 로캘을 선택했습니다. 올바른 로캘을 선택해 주세요."
+
+#: src/Rest/templates/search-results.php:104
+#: src/Shortcodes/ProductTableShortcode.php:161
+#: src/Shortcodes/templates/lists/horizontal-cards.php:74
+#: src/Shortcodes/templates/lists/list-with-description.php:72
+#: src/Shortcodes/templates/lists/simplified-list.php:66
+#: src/Shortcodes/templates/product-card.php:60
+msgid "Is prime"
+msgstr "프라임"
+
+#: src/Localization/AdminTranslations.php:295
+msgid "Italy"
+msgstr "이탈리아"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:368
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4285
+msgid "Items to show"
+msgstr "표시할 항목"
+
+#: src/Localization/AdminTranslations.php:296
+msgid "Japan"
+msgstr "일본"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:774
+#: amazon-gutenberg-block/dist/index.js:4691
+msgid "Keywords"
+msgstr "키워드"
+
+#: src/Localization/AdminTranslations.php:247
+msgid "Label"
+msgstr "라벨"
+
+#: src/Localization/AdminTranslations.php:60
+msgid "Language"
+msgstr "언어"
+
+#: src/Localization/AdminTranslations.php:63
+msgid "Language of Preference"
+msgstr "기본 설정 언어"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:657
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4574
+msgid "Layout"
+msgstr "레이아웃"
+
+#: src/Localization/AdminTranslations.php:146
+msgid ""
+"Learn how to create product listings using Hostinger's affiliate plugin – "
+"and start earning commission."
+msgstr "Hostinger의 제휴 플러그인을 사용하여 제품 목록을 생성하고 수수료를 받는 방법을 알아보세요."
+
+#: src/Localization/AdminTranslations.php:147
+msgid ""
+"Learn how to use Hostinger's Amazon Affiliate with our tutorials and "
+"documentations"
+msgstr "튜토리얼과 문서를 통해 호스팅어의 아마존 제휴사 사용 방법을 알아보세요"
+
+#: src/Localization/AdminTranslations.php:127
+msgid "Learn how to use our affiliate plugin."
+msgstr "제휴 플러그인 사용 방법을 알아보세요."
+
+#: src/Localization/AdminTranslations.php:149
+msgid "Learn how to use our plugin"
+msgstr "플러그인 사용 방법 알아보기"
+
+#: src/Localization/AdminTranslations.php:145
+msgid "Learn more on how to use this plugin"
+msgstr "이 플러그인 사용 방법에 대해 자세히 알아보기"
+
+#: src/Localization/AdminTranslations.php:159
+msgid "Leave without saving"
+msgstr "저장하지 않고 닫기"
+
+#: amazon-gutenberg-block/dist/index.js:4
+#: amazon-gutenberg-block/src/index.js:11
+#: amazon-gutenberg-block/dist/index.js:5755
+msgid "Link Amazon product(s)"
+msgstr "아마존 상품 링크"
+
+#: src/Localization/AdminTranslations.php:99
+msgid "Link Amazon Products"
+msgstr "아마존 상품 링크"
+
+#: mercado-gutenberg-block/dist/index.js:2
+msgid "Link Mercado Livre products"
+msgstr "Mercado Livre 제품 링크"
+
+#: src/Localization/AdminTranslations.php:83
+#| msgid ""
+#| "Link your Amazon account to your website, start promoting products, and "
+#| "earn rewards."
+msgid ""
+"Link your Amazon account to your website, start promoting products, and earn "
+"rewards. No API key required."
+msgstr "Amazon 계정을 웹사이트에 연결한 다음 제품을 홍보하여 보상을 받으세요. API 없이 가능합니다."
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:349
+#: amazon-gutenberg-block/src/edit.js:665
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4266
+#: amazon-gutenberg-block/dist/index.js:4582
+msgid "List with description"
+msgstr "설명이 포함된 목록"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:907
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4824
+msgid "Lists"
+msgstr "목록"
+
+#: src/Localization/AdminTranslations.php:20
+msgid "Log in to Amazon Associate dashboard"
+msgstr "Amazon Associate 대시보드에 로그인"
+
+#: src/Localization/AdminTranslations.php:22
+msgid "Login"
+msgstr "로그인"
+
+#: src/Errors/AmazonApiError.php:64
+msgid ""
+"Looks like there's a configuration issue with your Amazon Associates account."
+" The access key you provided is not linked to a primary store in your "
+"approved Amazon Associates account. To fix this, head over to Associate "
+"Central and check your account settings. Make sure the access key you're "
+"using is associated with a primary store that's been approved by Amazon "
+"Associates."
+msgstr ""
+"Amazon Associates 계정에 구성 문제가 있는 것 같습니다. 제공한 액세스 키가 승인된 Amazon Associates 계정의 "
+"기본 스토어에 연결되어 있지 않습니다. 이 문제를 해결하려면 Associate Central로 이동하여 계정 설정을 확인하세요. 사용 "
+"중인 액세스 키가 Amazon Associates에서 승인한 기본 스토어와 연결되어 있는지 확인합니다."
+
+#: src/Errors/AmazonApiError.php:94
+msgid ""
+"Looks like there's a configuration issue with your Amazon Associates account."
+" The access key you provided is not valid. To fix this, head over to "
+"Associate Central and check your account settings."
+msgstr ""
+"Amazon Associates 계정에 구성 문제가 있는 것 같습니다. 제공한 액세스 키가 유효하지 않습니다. 이 문제를 해결하려면 "
+"Associate Central로 이동하여 계정 설정을 확인하세요."
+
+#: src/Errors/AmazonApiError.php:69
+msgid ""
+"Looks like there's a configuration issue with your Amazon Associates account."
+" The partner tag you provided is not linked to the access key you’re using. "
+"To fix this, head over to Associate Central and check your account settings. "
+"Make sure the partner tag you're using is associated with a valid store in "
+"your Amazon Associates account for the requested marketplace."
+msgstr ""
+"Amazon Associates 계정에 구성 문제가 있는 것 같습니다. 제공한 파트너 태그가 사용 중인 액세스 키에 연결되어 있지 "
+"않습니다. 이 문제를 해결하려면 Associate Central로 이동하여 계정 설정을 확인하세요. 사용 중인 파트너 태그가 요청된 "
+"마켓플레이스에 대해 Amazon Associates 계정의 유효한 스토어와 연결되어 있는지 확인합니다."
+
+#: src/Errors/AmazonApiError.php:96
+msgid ""
+"Make sure the access key you're using is correct. If you're still having "
+"trouble after checking your settings, contact Amazon Associates support for "
+"further assistance."
+msgstr ""
+"사용 중인 액세스 키가 올바른지 확인하세요. 설정을 확인한 후에도 문제가 계속 발생하면 Amazon Associates 지원팀에 문의하여 "
+"추가 지원을 받으세요."
+
+#: src/Localization/AdminTranslations.php:131
+msgid "Manage"
+msgstr "관리"
+
+#: src/Localization/AdminTranslations.php:17
+msgid "Manage marketplaces"
+msgstr "마켓플레이스 관리"
+
+#: src/Localization/AdminTranslations.php:139
+msgid "Manage table"
+msgstr "테이블 관리"
+
+#: src/Localization/AdminTranslations.php:116
+msgid "Manage your Amazon API and other configurations"
+msgstr "Amazon API 및 기타 구성 관리하기"
+
+#: src/Localization/AdminTranslations.php:129
+#: src/Localization/AdminTranslations.php:187
+msgid "Manage your Amazon API and other settings."
+msgstr "Amazon API 및 기타 설정을 관리합니다."
+
+#: amazon-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/src/components/product_selector_multiple.js:92
+#: amazon-gutenberg-block/src/components/product_selector_multiple.js:172
+#: mercado-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/dist/index.js:3131
+#: amazon-gutenberg-block/dist/index.js:3211
+msgid "Manually add the products"
+msgstr "수동으로 제품 추가"
+
+#: src/Localization/AdminTranslations.php:110
+msgid "Marketplace availability by country"
+msgstr "국가별 마켓플레이스 가용성"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:301
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4218
+msgid "Maximum count of characters for each product description list item."
+msgstr "각 제품 설명 목록 항목의 최대 글자 수입니다."
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:205
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4122
+msgid "Maximum count of characters for the product title."
+msgstr "제품 제목의 최대 글자 수입니다."
+
+#: src/Localization/AdminTranslations.php:26
+#: src/Localization/AdminTranslations.php:153
+#: src/Localization/AdminTranslations.php:244
+msgid "Menu"
+msgstr "메뉴"
+
+#: src/Localization/AdminTranslations.php:71
+msgid "Mercado Livre"
+msgstr "Mercado Livre"
+
+#: src/Localization/AdminTranslations.php:73
+msgid "Mercado Livre Partner"
+msgstr "Mercado Livre 파트너"
+
+#: src/Localization/AdminTranslations.php:111
+msgid "Mercado Livre Partner settings"
+msgstr "메르카도 리브레 파트너 설정"
+
+#: src/Localization/AdminTranslations.php:190
+msgid "Mercado settings were successfully saved!"
+msgstr "메르카도 설정이 성공적으로 저장되었습니다!"
+
+#: src/Localization/AdminTranslations.php:297
+msgid "Mexico"
+msgstr "멕시코"
+
+#: src/Localization/AdminTranslations.php:274
+msgid "More information"
+msgstr "자세한 정보"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/product_selector_multiple.js:195
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3234
+msgid "Multiple ASIN values can be separated by comma"
+msgstr "여러 ASIN 값을 쉼표로 구분할 수 있습니다"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/products_selected.js:388
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3743
+msgid ""
+"Multiple ASIN values can be separated by comma. Press Enter to save changes."
+msgstr "여러 ASIN 값을 쉼표로 구분할 수 있습니다. Enter 키를 눌러 변경 사항을 저장합니다."
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/products_selected.js:387
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3742
+msgid ""
+"Multiple product id values can be separated by comma. Press Enter to save "
+"changes."
+msgstr "여러 제품 ID 값을 쉼표로 구분할 수 있습니다. Enter 키를 눌러 변경 사항을 저장합니다."
+
+#: src/Localization/AdminTranslations.php:108
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:323
+#: amazon-gutenberg-block/src/edit.js:1002
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4240
+#: amazon-gutenberg-block/dist/index.js:4919
+msgid "Multiple Product List"
+msgstr "여러 제품 목록"
+
+#: src/Localization/AdminTranslations.php:284
+msgid "Name"
+msgstr "이름"
+
+#: src/Localization/AdminTranslations.php:260
+msgid "Name field not added to all product data rows."
+msgstr "모든 제품 데이터 행에 이름 필드가 추가되지 않았습니다."
+
+#: src/Localization/AdminTranslations.php:298
+msgid "Netherlands"
+msgstr "네덜란드"
+
+#: src/Localization/AdminTranslations.php:120
+msgid "New comparison table"
+msgstr "새로운 비교 테이블"
+
+#: src/Localization/AdminTranslations.php:182
+msgid "New table"
+msgstr "새 테이블"
+
+#: src/Api/Mercado/Client.php:141
+#, fuzzy
+msgid "No HTML content found in proxy API response."
+msgstr "프록시 API 응답에 HTML 콘텐츠가 없습니다."
+
+#: src/Shortcodes/templates/product-list.php:28
+msgid "No layout selected."
+msgstr "선택한 레이아웃이 없습니다."
+
+#: src/Localization/AdminTranslations.php:267
+#: amazon-gutenberg-block/dist/index.js:4
+#: amazon-gutenberg-block/src/components/ui/List.jsx:13
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:5680
+msgid "No matching options"
+msgstr "일치하는 옵션 없음"
+
+#: src/Localization/AdminTranslations.php:227
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/ui/Dropdown.jsx:48
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3870
+msgid "No options"
+msgstr "옵션 없음"
+
+#: src/Setup/Blocks.php:203
+msgid "No products found"
+msgstr "제품을 찾을 수 없습니다"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/products_selected.js:178
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3533
+msgid "No products selected"
+msgstr "선택한 제품 없음"
+
+#: src/Errors/AmazonApiError.php:99 src/Rest/ItemsRoutes.php:67
+msgid "No results found."
+msgstr "결과를 찾을 수 없습니다."
+
+#: src/Localization/AdminTranslations.php:311
+msgid "Not now"
+msgstr "나중에 할게요"
+
+#: src/Localization/AdminTranslations.php:133
+msgid "Nothing found"
+msgstr "찾을 수 없음"
+
+#: src/Localization/AdminTranslations.php:69
+msgid ""
+"Once you remove it, fetching products from this marketplace in WordPress "
+"will be turned off. Your existing product listings won\\’t be affected. You "
+"can re-add this marketplace anytime."
+msgstr ""
+"제거하면 WordPress에서 이 마켓플레이스에서 제품을 가져오는 기능이 꺼집니다. 기존 제품 목록은 영향을 받지 않습니다. 언제든지 이 "
+"마켓플레이스를 다시 추가할 수 있습니다."
+
+#: src/Localization/AdminTranslations.php:175
+msgid "Open full guide"
+msgstr "전체 가이드 열기"
+
+#: src/Localization/AdminTranslations.php:117
+msgid "Open guide"
+msgstr "가이드 열기"
+
+#: src/Localization/AdminTranslations.php:55
+msgid "Optional"
+msgstr "선택 사항"
+
+#: src/Errors/AmazonApiError.php:53 amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:434
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4351
+msgid "OR"
+msgstr "또는"
+
+#: src/Localization/AdminTranslations.php:209
+#: amazon-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4
+#: amazon-gutenberg-block/src/components/product_list_type_selector.js:42
+#: amazon-gutenberg-block/src/components/product_selector.js:105
+#: amazon-gutenberg-block/src/components/product_selector_multiple.js:128
+#: amazon-gutenberg-block/src/views/TableConfiguration.jsx:69
+#: mercado-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/dist/index.js:2634
+#: amazon-gutenberg-block/dist/index.js:2902
+#: amazon-gutenberg-block/dist/index.js:3167
+#: amazon-gutenberg-block/dist/index.js:5106
+msgid "or"
+msgstr "또는"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:262
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4179
+msgid "Overwrite product description"
+msgstr "제품 설명 덮어쓰기"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:249
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4166
+msgid "Overwrite product description?"
+msgstr "제품 설명을 덮어쓰시겠습니까?"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:225
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4142
+msgid "Overwrite product title?"
+msgstr "제품 제목 덮어쓰기?"
+
+#: src/Localization/AdminTranslations.php:36
+msgid "Paste the ASIN code or type to search for products you want to promote."
+msgstr "ASIN 코드를 붙여넣거나 입력하여 홍보하려는 제품을 검색합니다."
+
+#: src/Localization/AdminTranslations.php:48
+msgid ""
+"Paste the Product ID or type to search for products you want to promote."
+msgstr "제품 ID를 붙여넣거나 입력하여 홍보하려는 제품을 검색합니다."
+
+#: src/Localization/AdminTranslations.php:283
+msgid "Paste the shortcode in Block Editor where you want the table to appear."
+msgstr "블록 편집기에서 표를 표시할 위치에 쇼트코드를 붙여넣습니다."
+
+#: src/Localization/AdminTranslations.php:31
+#: src/Localization/AdminTranslations.php:43
+#: src/Localization/AdminTranslations.php:198
+msgid "Paste your affiliate link"
+msgstr "제휴 링크 붙여넣기"
+
+#: src/Localization/AdminTranslations.php:218
+msgid "Please check the field - see error message above"
+msgstr "필드를 확인하세요 - 위의 오류 메시지 참조"
+
+#: src/Shortcodes/ShortcodeManager.php:62
+msgid "Please choose display type!"
+msgstr "디스플레이 유형을 선택하세요!"
+
+#: src/Localization/AdminTranslations.php:184
+msgid "Please enter a keyword for search!"
+msgstr "검색할 키워드를 입력하세요!"
+
+#: src/Shortcodes/ProductListShortcode.php:99
+#| msgid "Please enter keywords!"
+msgid "Please enter keyword(-s)!"
+msgstr "키워드를 입력하세요!"
+
+#: src/Shortcodes/ProductCardShortcode.php:77
+#: src/Shortcodes/ProductListShortcode.php:112
+msgid "Please enter product(-s) ASIN(-s)!"
+msgstr "제품 ASIN을 입력하세요!"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/products_selected.js:59
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3414
+msgid "Please provide affiliate URLs for all products"
+msgstr "모든 제품에 대한 제휴 URL을 입력하세요"
+
+#: src/Localization/AdminTranslations.php:299
+msgid "Poland"
+msgstr "폴란드"
+
+#: src/Localization/AdminTranslations.php:273
+#: src/Repositories/TableRepository.php:298
+msgid "Price"
+msgstr "가격"
+
+#: src/Repositories/TableRepository.php:299
+msgid "Prime Status"
+msgstr "프라임 상태"
+
+#: src/Setup/Blocks.php:238
+msgid "product"
+msgstr "제품"
+
+#: src/Localization/AdminTranslations.php:201
+msgid "Product data"
+msgstr "제품 데이터"
+
+#: src/Localization/AdminTranslations.php:118
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/products_selected.js:217
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3572
+msgid "Product ID"
+msgstr "제품 ID"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:147
+#: amazon-gutenberg-block/dist/index.js:4064
+msgid "Product limit reached: You can add up to 15 products only."
+msgstr "제품 한도에 도달했습니다: 최대 15개의 제품만 추가할 수 있습니다."
+
+#: src/Localization/AdminTranslations.php:196
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/products_selected.js:247
+#: amazon-gutenberg-block/src/components/products_selected.js:251
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3602
+#: amazon-gutenberg-block/dist/index.js:3606
+msgid "Product URL"
+msgstr "제품 URL"
+
+#: src/Localization/AdminTranslations.php:281
+msgid "Product visible"
+msgstr "제품 표시"
+
+#: src/Localization/AdminTranslations.php:277
+msgid "Products"
+msgstr "제품"
+
+#: src/Setup/Blocks.php:239
+msgid "products"
+msgstr "제품"
+
+#: src/Shortcodes/ProductCardShortcode.php:87
+#: src/Shortcodes/ProductListShortcode.php:123
+msgid "Products not fetched from DB and/or API. Please check debug logs."
+msgstr "DB 및/또는 API에서 제품을 가져오지 못했습니다. 디버그 로그를 확인하세요."
+
+#. translators: %s: Amazon store region
+#: src/Setup/Blocks.php:188
+#, php-format
+msgid ""
+"Products that shown in here is from your store region (%1$s). You can change "
+"store region in <a href=\"%2$s\">Settings page</a>."
+msgstr ""
+"여기에 표시된 제품은 스토어 지역(%1$s)의 제품입니다. 스토어 지역은 <a href=\"%2$s\">설정 페이지</a>에서 변경할 수 "
+"있습니다."
+
+#: src/Localization/AdminTranslations.php:195
+msgid "Products to be compared"
+msgstr "비교 대상 제품"
+
+#: src/Api/Mercado/Client.php:150
+#, fuzzy
+msgid "Proxy API request failed."
+msgstr "프록시 API 요청이 실패했습니다."
+
+#: src/Localization/AdminTranslations.php:240
+msgid "Publish"
+msgstr "발행"
+
+#: src/Localization/AdminTranslations.php:32
+#: src/Localization/AdminTranslations.php:44
+#: src/Localization/AdminTranslations.php:173
+msgid "Publish the post"
+msgstr "게시물 발행"
+
+#: src/Localization/AdminTranslations.php:237
+msgid "Published"
+msgstr "발행됨"
+
+#: src/Localization/AdminTranslations.php:107
+msgid "Put focus on one product only."
+msgstr "하나의 제품에만 집중하세요."
+
+#: src/Localization/AdminTranslations.php:232
+msgid "Quick way to add this table inside the Block Editor."
+msgstr "블록 편집기 내에서 이 표를 빠르게 추가하는 방법."
+
+#: src/Localization/AdminTranslations.php:176
+msgid "Read full documentation"
+msgstr "전체 문서 읽기"
+
+#: src/Localization/AdminTranslations.php:74
+msgid "Remove"
+msgstr "제거"
+
+#: src/Localization/AdminTranslations.php:67
+msgid "Remove Amazon?"
+msgstr "Amazon을 제거하시겠습니까?"
+
+#: src/Localization/AdminTranslations.php:246
+msgid "Remove highlight"
+msgstr "하이라이트 제거"
+
+#: src/Localization/AdminTranslations.php:68
+msgid "Remove Mercado Livre?"
+msgstr "Mercado Livre를 제거하시겠습니까?"
+
+#: src/Errors/AmazonApiError.php:102
+msgid "Request to Amazon API failed."
+msgstr "Amazon API 요청에 실패했습니다."
+
+#: src/Localization/AdminTranslations.php:251
+msgid "Row data"
+msgstr "행 데이터"
+
+#: src/Localization/AdminTranslations.php:278
+msgid "Rows"
+msgstr "행"
+
+#: src/Localization/AdminTranslations.php:301
+msgid "Saudi Arabia"
+msgstr "사우디 아라비아"
+
+#: src/Localization/AdminTranslations.php:80
+msgid "Save"
+msgstr "저장"
+
+#: src/Localization/AdminTranslations.php:160
+msgid "Save & leave"
+msgstr "저장 및 닫기"
+
+#: src/Localization/AdminTranslations.php:156
+#: src/Localization/AdminTranslations.php:252
+msgid "Save changes"
+msgstr "변경 사항 저장"
+
+#: src/Localization/AdminTranslations.php:157
+msgid "Save changes?"
+msgstr "변경 사항을 저장하시겠습니까?"
+
+#: src/Localization/AdminTranslations.php:188 src/Setup/Blocks.php:179
+#: mercado-gutenberg-block/dist/index.js:2
+msgid "Search"
+msgstr "검색"
+
+#: src/Localization/AdminTranslations.php:100
+msgid ""
+"Search for <b>Link to Amazon Products</b> in Gutenberg Blocks, find the "
+"product(s) you want to add, and publish the post."
+msgstr "구텐베르크 블록에서 <b>아마존 제품에 연결하기</b>를 검색하고 추가하려는 제품을 찾은 다음 글을 게시합니다."
+
+#: src/Setup/Blocks.php:217
+msgid "Search for product name that you want to add to your blog post."
+msgstr "블로그 게시물에 추가할 제품 이름을 검색합니다."
+
+#: mercado-gutenberg-block/dist/index.js:2
+msgid "Search for products or enter a product ID"
+msgstr "제품 검색 또는 제품 ID 입력"
+
+#: src/Localization/AdminTranslations.php:250
+msgid "Search for products or enter Product ID"
+msgstr "제품 검색 또는 제품 ID 입력"
+
+#: src/Localization/AdminTranslations.php:249
+msgid "Search for products or enter the ASIN code"
+msgstr "제품 검색 또는 ASIN 코드 입력"
+
+#: src/Localization/AdminTranslations.php:228
+#: amazon-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/dist/index.js:4
+#: amazon-gutenberg-block/src/components/product_list_type_selector.js:55
+#: amazon-gutenberg-block/src/components/product_selector.js:119
+#: amazon-gutenberg-block/src/components/product_selector_multiple.js:142
+#: amazon-gutenberg-block/src/edit.js:640
+#: mercado-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/dist/index.js:2648
+#: amazon-gutenberg-block/dist/index.js:3181
+#: amazon-gutenberg-block/dist/index.js:4557
+#: amazon-gutenberg-block/dist/index.js:5119
+msgid "Search for the product in Amazon"
+msgstr "아마존에서 상품 검색"
+
+#: src/Setup/Blocks.php:200 src/Setup/Blocks.php:211
+msgid "Search icon"
+msgstr "검색 아이콘"
+
+#: src/Setup/Blocks.php:177
+msgid "Search product name ..."
+msgstr "제품 이름 검색 ..."
+
+#: src/Localization/AdminTranslations.php:183
+msgid "Search your table collections"
+msgstr "테이블 컬렉션 검색"
+
+#: src/Setup/Blocks.php:214
+msgid "Searched products will appear here"
+msgstr "검색된 제품이 여기에 표시됩니다"
+
+#: src/Localization/AdminTranslations.php:59
+msgid "Secret key"
+msgstr "비밀 키"
+
+#: src/Localization/AdminTranslations.php:77
+msgid "Secret key must be 40 characters long"
+msgstr "비밀 키는 40자 길이여야 합니다"
+
+#: src/Localization/AdminTranslations.php:78
+msgid ""
+"Secret key must contain only numbers, letters or the special characters \"."
+"\" and \"/\""
+msgstr "비밀 키는 숫자, 문자 또는 특수 문자 \".\" 및 \"/\"만 포함해야 합니다"
+
+#: amazon-gutenberg-block/dist/index.js:4
+#: amazon-gutenberg-block/src/components/DisplayTypeSelector.jsx:42
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:5591
+msgid "Select"
+msgstr "선택"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:985
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4902
+msgid "Select A Display Type"
+msgstr "디스플레이 유형 선택"
+
+#: src/Localization/AdminTranslations.php:25
+msgid "Select a marketplace you’ll use to promote products"
+msgstr "제품 홍보에 사용할 마켓플레이스를 선택합니다"
+
+#: src/Setup/Blocks.php:234
+msgid "Select at least 2 products to continue"
+msgstr "계속하려면 최소 2개 이상의 제품을 선택하세요"
+
+#: src/Localization/AdminTranslations.php:61
+msgid "Select at least one provider"
+msgstr "하나 이상의 공급업체 선택"
+
+#: src/Localization/AdminTranslations.php:56
+msgid "Select country first to find matching tracking ID"
+msgstr "연관된 트래킹 ID를 찾기 위해 국가를 우선 선택하세요"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:621
+#: amazon-gutenberg-block/dist/index.js:4538
+msgid "Select How To Display Products"
+msgstr "제품 표시 방법 선택"
+
+#: src/Localization/AdminTranslations.php:216
+msgid "Select your country"
+msgstr "국가 선택"
+
+#: src/Setup/Blocks.php:240 amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/products_selected.js:182
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3537
+msgid "selected"
+msgstr "선택됨"
+
+#: src/Localization/AdminTranslations.php:222
+msgid "Server error occurred"
+msgstr "서버 오류가 발생했습니다"
+
+#: src/Localization/AdminTranslations.php:221
+msgid "Server returned an error"
+msgstr "서버에서 오류를 반환했습니다"
+
+#: src/Localization/AdminTranslations.php:115
+#: src/Localization/AdminTranslations.php:128
+msgid "Settings"
+msgstr "설정"
+
+#: src/Localization/AdminTranslations.php:233
+msgid "Shortcode"
+msgstr "숏코드"
+
+#: src/Localization/AdminTranslations.php:143
+msgid "Shortcode copied!"
+msgstr "쇼트코드 복사 완료!"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:236
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4153
+msgid "Show product description?"
+msgstr "제품 설명을 표시하시겠습니까?"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:354
+#: amazon-gutenberg-block/src/edit.js:669
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4271
+#: amazon-gutenberg-block/dist/index.js:4586
+msgid "Simplified list"
+msgstr "간소화된 목록"
+
+#: src/Localization/AdminTranslations.php:300
+msgid "Singapore"
+msgstr "싱가포르"
+
+#: src/Localization/AdminTranslations.php:106
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:313
+#: amazon-gutenberg-block/src/edit.js:997
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4230
+#: amazon-gutenberg-block/dist/index.js:4914
+msgid "Single Product Card"
+msgstr "단일 제품 카드"
+
+#: src/Localization/AdminTranslations.php:119
+msgid "Something went wrong"
+msgstr "문제가 발생했습니다"
+
+#: src/Rest/TableRoutes.php:207
+msgid "Sorry, table does not exists."
+msgstr "죄송합니다. 테이블이 존재하지 않습니다."
+
+#: src/Rest/TableRoutes.php:29 src/Rest/TableRoutes.php:180
+#: src/Rest/TableRoutes.php:241
+msgid "Sorry, table id missing"
+msgstr "테이블 ID가 누락되었습니다"
+
+#: src/Rest/ItemsRoutes.php:47 src/Rest/ItemsRoutes.php:123
+#: src/Rest/TableRoutes.php:153 src/Rest/TableRoutes.php:194
+msgid "Sorry, there are validation errors."
+msgstr "유효성 검사 오류가 발생했습니다."
+
+#: src/Api/Amazon/ProxyApi/Client.php:66
+msgid "Sorry, there was a problem with request."
+msgstr "죄송합니다. 요청에 문제가 발생했습니다."
+
+#: src/Rest/SettingsRoutes.php:201 src/Rest/SettingsRoutes.php:235
+msgid "Sorry, you are not allowed to do that."
+msgstr "죄송합니다. 이 작업을 수행할 권한이 없습니다."
+
+#: src/Localization/AdminTranslations.php:302
+msgid "Spain"
+msgstr "스페인"
+
+#: src/Localization/AdminTranslations.php:93
+msgid "Start Earning in Four Easy Steps"
+msgstr "4단계만에 수익 창출 시작"
+
+#: src/Localization/AdminTranslations.php:91
+msgid "Start Earning Now"
+msgstr "수익창출 시작하기"
+
+#: src/Localization/AdminTranslations.php:241
+msgid "Status"
+msgstr "상태"
+
+#: src/Localization/AdminTranslations.php:303
+msgid "Sweden"
+msgstr "스웨덴"
+
+#: src/Setup/Cpts.php:40
+msgid "Table"
+msgstr "테이블"
+
+#: src/Repositories/TableRepository.php:279
+msgid "Table added feature is missing title."
+msgstr "테이블 추가 기능에 제목이 누락되었습니다."
+
+#: src/Repositories/TableRepository.php:263
+msgid "Table added product is missing asin."
+msgstr "추가된 상품의 ASIN 값이 없습니다"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:972
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4889
+msgid "Table Configuration"
+msgstr "테이블 구성"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:860
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4777
+msgid "Table data"
+msgstr "테이블 데이터"
+
+#: src/Localization/AdminTranslations.php:179
+msgid "Table data will be shown in this page"
+msgstr "이 페이지에 테이블 데이터가 표시됩니다"
+
+#: src/Repositories/TableRepository.php:48
+#: src/Repositories/TableRepository.php:58
+#: src/Repositories/TableRepository.php:116
+#: src/Repositories/TableRepository.php:126 src/Rest/TableRoutes.php:253
+#: src/Rest/TableRoutes.php:263
+msgid "Table does not exist."
+msgstr "테이블이 존재하지 않습니다."
+
+#: src/Localization/AdminTranslations.php:193
+#: src/Localization/AdminTranslations.php:276
+msgid "Table name"
+msgstr "테이블 이름"
+
+#: src/Repositories/TableRepository.php:248
+msgid "Table name is missing."
+msgstr "테이블 이름이 누락되었습니다."
+
+#: src/Shortcodes/ProductTableShortcode.php:73
+msgid "Table not found or it is not published."
+msgstr "테이블을 찾을 수 없거나 게시되지 않았습니다."
+
+#: src/Shortcodes/ProductTableShortcode.php:66
+msgid "Table not found."
+msgstr "테이블을 찾을 수 없습니다."
+
+#: src/Repositories/TableRepository.php:269
+msgid "Table should have at least one feature added."
+msgstr "테이블에 기능이 하나 이상 추가되어 있어야 합니다."
+
+#: src/Repositories/TableRepository.php:252
+msgid "Table should have at least one product added."
+msgstr "테이블에 제품이 하나 이상 추가되어 있어야 합니다."
+
+#: src/Repositories/TableRepository.php:285
+msgid "Table status is missing."
+msgstr "테이블 상태가 누락되었습니다."
+
+#: src/Localization/AdminTranslations.php:225
+msgid "Table was successfully created"
+msgstr "테이블이 성공적으로 생성되었습니다"
+
+#: src/Localization/AdminTranslations.php:234
+msgid "Table was successfully deleted"
+msgstr "테이블이 성공적으로 삭제되었습니다"
+
+#: src/Localization/AdminTranslations.php:215
+msgid "Table was successfully saved"
+msgstr "테이블이 성공적으로 저장되었습니다"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:959
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4876
+msgid "Templates and Styles"
+msgstr "템플릿 및 스타일"
+
+#: src/Localization/AdminTranslations.php:102
+msgid ""
+"That's it – every time visitors buy the product from your post, you will "
+"earn a commission from Amazon."
+msgstr "방문자가 게시물을 통해 제품을 구매할 때마다 아마존으로부터 수수료를 받게 됩니다."
+
+#: src/Localization/AdminTranslations.php:174
+#| msgid ""
+#| "That’s it! After your post published, whenever your visitor buy the "
+#| "product from your post, you will earn commissions."
+msgid ""
+"That's it! After your post published, whenever your visitor buy the product "
+"from your post, you will earn commissions."
+msgstr "완료되었습니다! 이제 방문자가 회원님의 게시물을 통해 상품을 구매할 때마다 수수료를 받으실 수 있습니다."
+
+#: src/Localization/AdminTranslations.php:38
+#: src/Localization/AdminTranslations.php:50
+msgid ""
+"That's it! Whenever a visitor buys a product through your link, you'll earn "
+"commission."
+msgstr "이제 끝입니다! 방문자가 링크를 통해 제품을 구매할 때마다 커미션을 받게 됩니다."
+
+#. translators: %s: URL.
+#: src/Errors/AmazonApiError.php:47
+#, php-format
+msgid ""
+"The Access Key is not enabled for accessing Product Advertising API. For "
+"information on registering for Product Advertising API, see <a href=\"%s\" "
+"target=\"_blank\">Register for Product Advertising API</a>"
+msgstr ""
+"제품 광고 API에 액세스하기 위한 액세스 키가 활성화되어 있지 않습니다. 제품 광고 API 등록에 대한 자세한 내용은 <a "
+"href=\"%s\" target=\"_blank\">제품 광고 API 등록</a>를 참조하세요"
+
+#. translators: %s: URL.
+#: src/Errors/AmazonApiError.php:56
+#, php-format
+msgid ""
+"The Access Key is not enabled for accessing this version of Product "
+"Advertising API. Please migrate your credentials as referred here <a "
+"href=\"%s\" target=\"_blank\">Managing your Existing AWS Security "
+"Credentials for the Product Advertising API</a>."
+msgstr ""
+"이 버전의 제품 광고 API에 액세스하기 위한 액세스 키가 활성화되어 있지 않습니다. <a href=\"%s\" "
+"target=\"_blank\">제품 광고 API를 위한 기존 AWS 보안 자격 증명 관리</a>에 참조된 대로 자격 증명을 "
+"마이그레이션하세요."
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:486
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4403
+msgid ""
+"The block you are attempting to use is currently not supported in the Site "
+"Editor. We apologize for any inconvenience this may cause. Our team is "
+"actively working to enhance compatibility, and we appreciate your "
+"understanding. For the best editing experience, please consider using "
+"post/page editor or await future updates."
+msgstr ""
+"사용하려는 블록은 현재 사이트 편집기에서 지원되지 않습니다. 불편을 드려 죄송합니다. 호환성을 개선하기 위해 적극적으로 노력하고 있으며, "
+"양해해 주셔서 감사합니다. 최상의 편집 환경을 위해 글/페이지 편집기를 사용하거나 향후 업데이트를 기다려 주세요."
+
+#. translators: %s: PHP version
+#: hostinger-affiliate-plugin.php:106
+#, php-format
+msgid ""
+"The Hostinger Affiliate plugin requires minimum PHP version of <b>%s</b>. "
+msgstr "호스팅어 제휴 플러그인을 사용하려면 최소 PHP 버전이 <b>%s</b>여야 합니다."
+
+#: src/Services/ProductFetchService.php:190
+msgid ""
+"There is an issue displaying Amazon products. Please contact the "
+"administrator to check that."
+msgstr "아마존 상품을 표시하는 데 문제가 있습니다. 관리자에게 문의하여 확인하시기 바랍니다."
+
+#: src/Errors/AmazonApiError.php:36 src/Errors/AmazonApiError.php:89
+msgid "There seems to be a technical problem with your request."
+msgstr "요청에 기술적인 문제가 있는 것 같습니다."
+
+#: src/Errors/AmazonApiError.php:74
+msgid ""
+"There was a problem with your request. Amazon limits the number of requests "
+"you can make to their Product Advertising API. Note that your account will "
+"lose access to Product Advertising API 5.0 if it has not generated referring "
+"sales for a consecutive 30-day period."
+msgstr ""
+"요청에 문제가 발생했습니다. 아마존은 상품 광고 API에 대해 요청할 수 있는 횟수를 제한합니다. 30일 연속으로 추천 판매를 생성하지 "
+"않은 경우 계정은 제품 광고 API 5.0에 대한 액세스 권한을 잃게 됩니다."
+
+#: src/Localization/AdminTranslations.php:192
+msgid "There was an error saving your settings: "
+msgstr "설정을 저장하는 동안 오류가 발생했습니다:"
+
+#: src/Localization/AdminTranslations.php:185
+msgid "There was an error searching for items: "
+msgstr "항목을 검색하는 동안 오류가 발생했습니다:"
+
+#: amazon-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/products_selected.js:14
+#: amazon-gutenberg-block/src/components/product_selector.js:18
+#: amazon-gutenberg-block/src/components/product_selector_multiple.js:19
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:2547
+#: amazon-gutenberg-block/dist/index.js:3058
+#: amazon-gutenberg-block/dist/index.js:3369
+msgid "There was an error validating product ids: "
+msgstr "제품 ID를 확인하는 동안 오류가 발생했습니다:"
+
+#: mercado-gutenberg-block/dist/index.js:2
+msgid "There was an error: "
+msgstr "오류가 발생했습니다:"
+
+#: src/Localization/AdminTranslations.php:186
+#: amazon-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/products_selected.js:93
+#: amazon-gutenberg-block/src/components/product_selector.js:54
+#: amazon-gutenberg-block/src/components/product_selector_multiple.js:55
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:2583
+#: amazon-gutenberg-block/dist/index.js:3094
+#: amazon-gutenberg-block/dist/index.js:3448
+msgid "There was fatal server error while processing your request."
+msgstr "요청을 처리하는 동안 서버에 심각한 오류가 발생했습니다."
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:479
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4396
+msgid "This block is not supported while using Site Editor"
+msgstr "이 블록은 사이트 편집기를 사용하는 동안에는 지원되지 않습니다"
+
+#: src/Localization/AdminTranslations.php:217
+#: src/Localization/AdminTranslations.php:226
+msgid "This field is required"
+msgstr "이 필드는 필수 입력 사항입니다"
+
+#: src/Localization/AdminTranslations.php:104
+msgid "Three Templates for Your Product(s) Block"
+msgstr "제품 블록을 위한 세 가지 템플릿"
+
+#: src/Localization/AdminTranslations.php:272
+#: src/Repositories/TableRepository.php:297
+msgid "Thumbnail"
+msgstr "썸네일"
+
+#: src/Localization/AdminTranslations.php:271
+#: src/Repositories/TableRepository.php:296
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:571
+#: amazon-gutenberg-block/src/edit.js:920
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4488
+#: amazon-gutenberg-block/dist/index.js:4837
+msgid "Title"
+msgstr "제목"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:192
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4109
+msgid "Title length"
+msgstr "제목 길이"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:219
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4136
+msgid "Title overwrite enabled?"
+msgstr "제목 덮어쓰기를 사용하시나요?"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:513
+#: amazon-gutenberg-block/dist/index.js:4430
+msgid ""
+"To gain full access to this block, you need to connect your Amazon "
+"Partnership account."
+msgstr "이 블록에 대한 전체 액세스 권한을 얻으려면 Amazon 파트너 계정을 연결해야 합니다."
+
+#: mercado-gutenberg-block/dist/index.js:2
+msgid ""
+"To gain full access to this block, you need to enable Mercado Livre "
+"integration."
+msgstr "이 블록에 대한 전체 액세스 권한을 얻으려면 Mercado Livre 통합을 활성화해야 합니다."
+
+#: src/Localization/AdminTranslations.php:33
+#: src/Localization/AdminTranslations.php:45
+msgid "To start promoting products, first create a post."
+msgstr "제품 홍보를 시작하려면 먼저 게시물을 작성하셔야 합니다"
+
+#: src/Localization/AdminTranslations.php:65
+msgid "Tracking ID"
+msgstr "트래킹 ID"
+
+#: src/Localization/AdminTranslations.php:52
+msgid "Tracking ID connected"
+msgstr "연결된 추적 ID"
+
+#: src/Localization/AdminTranslations.php:224
+msgid ""
+"Tracking ID format wrong. Lowercase letters, digits and _-. special chars "
+"are allowed."
+msgstr "추적 ID 형식이 잘못되었습니다. 소문자, 숫자 및 _-. 특수 문자는 허용됩니다."
+
+#: src/Localization/AdminTranslations.php:121
+#: src/Localization/AdminTranslations.php:135
+msgid "Try searching for something else"
+msgstr "다른 검색어를 입력해 주세요"
+
+#: src/Localization/AdminTranslations.php:304
+msgid "Turkey"
+msgstr "튀르키예"
+
+#: src/Localization/AdminTranslations.php:140
+msgid "Tutorial"
+msgstr "튜토리얼"
+
+#: src/Localization/AdminTranslations.php:161
+msgid "Tutorial video by"
+msgstr "튜토리얼 영상 출처"
+
+#: src/Localization/AdminTranslations.php:285
+msgid "Type"
+msgstr "유형"
+
+#: amazon-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/src/components/product_selector.js:100
+#: amazon-gutenberg-block/src/components/product_selector_multiple.js:123
+#: mercado-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/dist/index.js:2629
+#: amazon-gutenberg-block/dist/index.js:3162
+msgid "Type ASIN (Product ID)"
+msgstr "ASIN(제품 ID) 유형"
+
+#: src/Localization/AdminTranslations.php:261
+msgid "Type field not added to all product data rows."
+msgstr "모든 제품 데이터 행에 유형 필드가 추가되지 않았습니다."
+
+#: amazon-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/src/components/product_selector_multiple.js:179
+#: mercado-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/dist/index.js:3218
+msgid "Type the ASINs (Product IDs)"
+msgstr "ASIN(제품 ID)을 입력합니다"
+
+#: src/Localization/AdminTranslations.php:305
+msgid "United Arab Emirates"
+msgstr "아랍에미리트"
+
+#: src/Localization/AdminTranslations.php:306
+msgid "United Kingdom"
+msgstr "영국"
+
+#: src/Localization/AdminTranslations.php:307
+msgid "United States"
+msgstr "미국"
+
+#: src/Localization/Messages.php:24
+msgid "Unknown display type. Please re-select display type."
+msgstr "디스플레이 유형을 알 수 없습니다. 디스플레이 유형을 다시 선택해 주세요."
+
+#: src/Localization/AdminTranslations.php:90
+msgid ""
+"Unlock the full potential of your website – monetize it with our plugin to "
+"earn more."
+msgstr "웹사이트의 잠재력을 최대한 활용하고 플러그인을 통해 수익을 창출하여 더 많은 수익을 올리세요."
+
+#: src/Localization/AdminTranslations.php:239
+msgid "Unpublish"
+msgstr "발행 취소"
+
+#: src/Localization/AdminTranslations.php:264
+#: amazon-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/src/views/TableConfiguration.jsx:36
+#: mercado-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/dist/index.js:2869
+msgid "Use the saved table configuration"
+msgstr "저장된 테이블 구성 사용"
+
+#: src/Localization/AdminTranslations.php:130
+msgid "View guide"
+msgstr "가이드 보기"
+
+#: mercado-gutenberg-block/dist/index.js:2
+msgid "View Product on Mercado Livre"
+msgstr "Mercado Livre에서 제품 보기"
+
+#: src/Localization/AdminTranslations.php:236
+msgid "Visibility"
+msgstr "표시"
+
+#: src/Models/Product.php:284
+msgid "Watch on Amazon Prime"
+msgstr "Amazon Prime에서 시청하기"
+
+#: src/Localization/AdminTranslations.php:89
+#| msgid "Welcome to Hostinger Amazon Affiliate Connector!"
+msgid "Welcome to Hostinger Amazon Affiliate!"
+msgstr "호스팅어 Amazon Affiliate에 오신 것을 환영합니다!"
+
+#. translators: %s: user display name
+#: amazon-gutenberg-block/dist/index.js:4
+#: amazon-gutenberg-block/src/edit.js:1051
+#: amazon-gutenberg-block/dist/index.js:4968
+#, js-format
+msgid "Welcome, %s!"
+msgstr "환영합니다, %s!"
+
+#: src/Localization/AdminTranslations.php:280
+msgid "What's an ASIN code?"
+msgstr "ASIN 코드란 무엇인가요?"
+
+#: src/Localization/AdminTranslations.php:98
+msgid "Write down your content that you want to link your Amazon product with."
+msgstr "아마존 제품에 연결하려는 콘텐츠를 적어 두세요."
+
+#. translators: %s: PHP version
+#: hostinger-affiliate-plugin.php:110
+#, php-format
+msgid "You are running <b>%s</b> PHP version."
+msgstr "<b>%s</b> PHP 버전을 실행 중입니다."
+
+#: src/Localization/AdminTranslations.php:279
+msgid ""
+"You can add unlimited products, but only 6 can be shown in a published table."
+msgstr "제품을 무제한으로 추가할 수 있지만 게시된 테이블에는 6개만 표시할 수 있습니다."
+
+#: src/Localization/AdminTranslations.php:309
+msgid ""
+"You can add your comparison table to any post. Whenever a visitor buys a "
+"product through your affiliate link, you'll earn commission."
+msgstr "모든 글에 비교표를 추가할 수 있습니다. 방문자가 제휴사 링크를 통해 제품을 구매할 때마다 커미션을 받게 됩니다."
+
+#: mercado-gutenberg-block/dist/index.js:2
+msgid "You can also edit your product list later from the right-hand menu."
+msgstr "나중에 오른쪽 메뉴에서 제품 목록을 편집할 수도 있습니다."
+
+#: src/Localization/AdminTranslations.php:214
+#| msgid ""
+#| "You can also hide products so they don’t appear in the table. Products "
+#| "that you delete will need to be added again."
+msgid ""
+"You can also hide products so they don't appear in the table. Products that "
+"you delete will need to be added again."
+msgstr "제품을 숨겨서 테이블에 표시되지 않도록 할 수도 있습니다. 삭제한 제품은 다시 추가해야 합니다."
+
+#: src/Localization/AdminTranslations.php:211
+msgid ""
+"You can also unpublish your table. Deleting it will cause you to lose all "
+"added products."
+msgstr "테이블 게시를 취소할 수도 있습니다. 테이블을 삭제하면 추가된 모든 제품이 손실됩니다."
+
+#: src/Localization/AdminTranslations.php:265
+#: amazon-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/src/views/TableConfiguration.jsx:43
+#: mercado-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/dist/index.js:2876
+msgid "You can edit the existing table configuration after this step"
+msgstr "이 단계 후에 기존 테이블 구성을 편집할 수 있습니다"
+
+#: src/Localization/AdminTranslations.php:23
+msgid ""
+"You can select both marketplaces and then easily add affiliate links to your "
+"content."
+msgstr "두 마켓플레이스를 모두 선택한 다음 콘텐츠에 제휴사 링크를 쉽게 추가할 수 있습니다."
+
+#: src/Localization/AdminTranslations.php:258
+#| msgid "You have added too many products. Only 5 are allowed."
+msgid "You have added too many products to display. Only 6 are allowed."
+msgstr "제품을 너무 많이 추가했습니다. 5개만 허용됩니다."
+
+#: src/Localization/AdminTranslations.php:158
+msgid "You have unsaved changes that will be lost if you leave."
+msgstr "저장되지 않은 변경사항이 있습니다. 페이지를 벗어나면 변경사항이 사라집니다."
+
+#: src/Localization/AdminTranslations.php:262
+msgid ""
+"You need to add at least one row (title, select) to create a table. Check if "
+"all fields are filled."
+msgstr "테이블을 만들려면 행(제목, 선택)을 하나 이상 추가해야 합니다. 모든 필드가 채워졌는지 확인해 주세요."
+
+#: src/Localization/AdminTranslations.php:268
+msgid ""
+"You need to add at least one row, two enabled products (max 5 products) to "
+"save changes. Check if all added fields are filled."
+msgstr ""
+"변경 사항을 저장하려면 최소 한 행, 활성화된 제품 두 개(최대 5개)를 추가해야 합니다. 추가된 모든 필드가 채워졌는지 확인해 주세요."
+
+#: src/Localization/AdminTranslations.php:170
+msgid ""
+"You need to choose the main layout for your product(s) block based on your "
+"needs. You can choose between single product, multiple product, or "
+"comparison."
+msgstr "필요에 따라 제품 블록의 기본 레이아웃을 선택해야 합니다. 단일 제품, 여러 제품 또는 비교 중에서 선택할 수 있습니다."
+
+#: src/Localization/AdminTranslations.php:255
+msgid "You need to enter table name."
+msgstr "테이블 이름을 입력해야 합니다."
+
+#: src/Localization/AdminTranslations.php:122
+msgid "Your comparison tables"
+msgstr "비교 테이블"
+
+#: src/Localization/AdminTranslations.php:181
+msgid "Your tables"
+msgstr "테이블"

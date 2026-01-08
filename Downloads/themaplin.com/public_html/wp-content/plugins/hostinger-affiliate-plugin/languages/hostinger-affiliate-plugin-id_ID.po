@@ -1,0 +1,2592 @@
+# Copyright (C) 2023 Hostinger
+# This file is distributed under the GPL-2.0+.
+msgid ""
+msgstr ""
+"Project-Id-Version: Hostinger Affiliate Plugin 1.0.1\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/hostinger-"
+"affiliate-plugin\n"
+"Last-Translator: Teresia Triutami\n"
+"Language-Team: Indonesian\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2023-11-28T09:55:18+00:00\n"
+"PO-Revision-Date: 2025-10-14 10:56+0000\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Domain: hostinger-affiliate-plugin\n"
+"Language: id_ID\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Loco-Version: 2.8.0; wp-6.8.2; php-8.2.29"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:891
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4808
+msgid " Add new table"
+msgstr "Tambahkan tabel"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:803
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4720
+msgid " Add/Edit products to list"
+msgstr " Tambahkan/Edit produk ke daftar"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:849
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4766
+msgid " Edit table"
+msgstr " Edit tabel"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:449
+#: amazon-gutenberg-block/dist/index.js:4366
+msgid " Search for product(s) without ASIN"
+msgstr " Cari produk tanpa ASIN"
+
+#: mercado-gutenberg-block/dist/index.js:2
+msgid " Search for product(s) without ID"
+msgstr "Cari produk tanpa ID"
+
+#. translators: %s: Product ASIN
+#. translators: %s: Product ID
+#: src/Api/Amazon/ProxyApi/Api/ProductApi.php:72
+#: src/Api/Mercado/Api/ProductApi.php:82
+#, php-format
+msgid "%s Product does not exist anymore."
+msgstr "%s produk sudah tidak tersedia."
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:829
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4746
+msgid "-- Choose table data --"
+msgstr "-- Pilih data tabel --"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:629
+#: amazon-gutenberg-block/src/edit.js:662
+#: amazon-gutenberg-block/src/edit.js:990
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4546
+#: amazon-gutenberg-block/dist/index.js:4579
+#: amazon-gutenberg-block/dist/index.js:4907
+msgid "-- Select from list --"
+msgstr "-- Pilih dari daftar --"
+
+#: src/Localization/AdminTranslations.php:313
+msgid ""
+"<strong>Amazon is available in</strong>: Australia, Belgium, Brazil, Canada, "
+"Egypt, France, Germany, India, Italy, Japan, Mexico, Netherlands, Poland, "
+"Saudi Arabia, Singapore, Spain, Sweden, Turkey, United Arab Emirates, United "
+"Kingdom, United States."
+msgstr ""
+"<strong>Amazon tersedia di</strong>: Australia, Belgia, Brasil, Kanada, "
+"Mesir, Prancis, Jerman, India, Italia, Jepang, Meksiko, Belanda, Polandia, "
+"Arab Saudi, Singapura, Spanyol, Swedia, Turki, Uni Emirat Arab, Inggris, "
+"Amerika Serikat."
+
+#: src/Localization/AdminTranslations.php:314
+#| msgid ""
+#| "<strong>Mercado Livre is available in</strong>: Argentina, Brazil, Mexico."
+msgid "<strong>Mercado Livre is available in</strong>: Brazil, Mexico."
+msgstr ""
+"<strong>Mercado Livre tersedia di</strong>: Argentina, Brasil, Meksiko."
+
+#: src/Localization/AdminTranslations.php:282
+msgid "A table can display up to 6 products."
+msgstr "Tabel dapat menampilkan hingga 6 produk."
+
+#: src/Localization/AdminTranslations.php:58
+msgid "Access key"
+msgstr "Access key"
+
+#: src/Localization/AdminTranslations.php:75
+msgid "Access key cannot contain special characters"
+msgstr "Access key tidak boleh berisi karakter khusus"
+
+#: src/Localization/AdminTranslations.php:76
+msgid "Access key must be 20 characters long"
+msgstr "Access key harus terdiri dari 20 karakter"
+
+#: src/Localization/AdminTranslations.php:66
+msgid "Access key must be combination of letters and numbers"
+msgstr "Access key harus berupa kombinasi huruf dan angka"
+
+#: src/Localization/AdminTranslations.php:229
+msgid "Add"
+msgstr "Tambahkan"
+
+#: src/Localization/AdminTranslations.php:167
+#| msgid "Add “Link Amazon product(s)” in block editor"
+msgid "Add \"Link Amazon product(s)\" in block editor"
+msgstr "Tambahkan \"Link produk Amazon\" di editor blok"
+
+#: src/Localization/AdminTranslations.php:109
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:324
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4241
+msgid "Add a few products and describe them briefly."
+msgstr "Tambahkan beberapa produk dan jelaskan secara singkat."
+
+#: src/Localization/AdminTranslations.php:97
+msgid "Add a new post"
+msgstr "Tambahkan postingan baru"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/products_selected.js:406
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3761
+msgid "Add a new product"
+msgstr "Tambahkan produk baru"
+
+#: src/Localization/AdminTranslations.php:263
+#: amazon-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/src/views/TableConfiguration.jsx:91
+#: mercado-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/dist/index.js:2924
+msgid "Add a new table configuration"
+msgstr "Tambahkan konfigurasi tabel"
+
+#: src/Localization/AdminTranslations.php:28
+#: src/Localization/AdminTranslations.php:40
+msgid "Add a product block"
+msgstr "Tambahkan blok produk"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:314
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4231
+msgid "Add a single product with detailed description."
+msgstr "Tambahkan satu produk dengan deskripsi lengkap."
+
+#: src/Localization/AdminTranslations.php:254
+msgid "Add at least 2 products to continue."
+msgstr "Tambahkan minimal 2 produk untuk melanjutkan."
+
+#: src/Localization/AdminTranslations.php:259
+msgid "Add at least one product data row."
+msgstr "Tambahkan minimal satu baris data produk."
+
+#: src/Localization/AdminTranslations.php:256
+msgid "Add at least two products to continue"
+msgstr "Tambahkan minimal 2 produk untuk melanjutkan"
+
+#: amazon-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/src/components/product_list_bestsellers.js:16
+#: amazon-gutenberg-block/dist/index.js:387
+msgid "Add best-sellers"
+msgstr "Tambahkan produk terlaris"
+
+#: src/Localization/AdminTranslations.php:243
+msgid "Add highlight"
+msgstr "Tambahkan highlight"
+
+#: src/Localization/AdminTranslations.php:113
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:334
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4251
+msgid "Add multiple similar products and compare them."
+msgstr "Tambahkan beberapa produk serupa dan bandingkan."
+
+#: src/Localization/AdminTranslations.php:230
+#: amazon-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/src/components/product_selector.js:172
+#: amazon-gutenberg-block/dist/index.js:2701
+msgid "Add product"
+msgstr "Tambahkan produk"
+
+#: src/Localization/AdminTranslations.php:30
+#: src/Localization/AdminTranslations.php:42
+#: src/Localization/AdminTranslations.php:144
+#: src/Localization/AdminTranslations.php:194
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/product_selector_multiple.js:273
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3312
+msgid "Add products"
+msgstr "Tambahkan produk"
+
+#: src/Localization/AdminTranslations.php:242
+msgid "Add row"
+msgstr "Tambahkan baris"
+
+#: src/Localization/AdminTranslations.php:202
+msgid "Add table"
+msgstr "Tambahkan tabel"
+
+#: src/Localization/AdminTranslations.php:200
+#| msgid "Add the row data"
+msgid "Add the product data"
+msgstr "Tambahkan data produk"
+
+#: src/Localization/AdminTranslations.php:171
+msgid "Add the product(s)"
+msgstr "Tambahkan produk"
+
+#: src/Localization/AdminTranslations.php:24
+msgid ""
+"Add your API credentials to select a language and improve search results. "
+"This step is optional, but recommended."
+msgstr ""
+"Tambahkan kredensial API Anda untuk memilih bahasa dan meningkatkan hasil "
+"pencarian. Langkah ini bersifat opsional, tetapi disarankan."
+
+#: src/Localization/AdminTranslations.php:197
+msgid "Affiliate link"
+msgstr "Link afiliasi"
+
+#: src/Admin/Menus.php:54 src/Admin/Menus.php:55 src/Admin/Menus.php:73
+#: src/Localization/AdminTranslations.php:13
+msgid "Affiliate Marketing"
+msgstr "Affiliate Marketing"
+
+#: src/Setup/Cpts.php:41
+msgid "Affiliate tables"
+msgstr "Tabel afiliasi"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/products_selected.js:285
+#: amazon-gutenberg-block/src/components/products_selected.js:289
+#: amazon-gutenberg-block/src/components/products_selected.js:306
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3640
+#: amazon-gutenberg-block/dist/index.js:3644
+#: amazon-gutenberg-block/dist/index.js:3661
+msgid "Affiliate URL"
+msgstr "URL Afiliasi"
+
+#: src/Localization/AdminTranslations.php:172
+msgid ""
+"After choosing the layout, you need to find the product(s) that you want to "
+"promote in your post. You can copy-paste the ASIN or search the product(s) "
+"manually."
+msgstr ""
+"Setelah memilih layout, pilih produk yang ingin Anda promosikan di postingan "
+"Anda. Anda dapat menyalin ASIN atau mencari produk secara manual."
+
+#: src/Localization/AdminTranslations.php:70
+msgid "Amazon"
+msgstr "Amazon"
+
+#: src/Localization/AdminTranslations.php:141
+msgid "Amazon Affiliate"
+msgstr "Afiliasi Amazon"
+
+#: src/Localization/Messages.php:16
+msgid "Amazon API returned an error."
+msgstr "Amazon API eror."
+
+#: src/Localization/AdminTranslations.php:189
+msgid "Amazon api was disconnected!"
+msgstr "Koneksi ke Amazon API dibatalkan!"
+
+#: src/Localization/AdminTranslations.php:72
+msgid "Amazon Associates"
+msgstr "Amazon Associates"
+
+#: src/Repositories/TableRepository.php:300
+msgid "Amazon Button"
+msgstr "Tombol Amazon"
+
+#: src/Localization/AdminTranslations.php:191
+msgid "Amazon settings were successfully saved!"
+msgstr "Pengaturan Amazon berhasil disimpan!"
+
+#: src/Localization/AdminTranslations.php:223
+msgid "An unexpected error occurred"
+msgstr "Terjadi kesalahan yang tidak terduga"
+
+#: src/Localization/AdminTranslations.php:57
+msgid "API Settings"
+msgstr "Pengaturan API"
+
+#: src/Localization/AdminTranslations.php:82
+msgid "API status"
+msgstr "API status"
+
+#: src/Localization/AdminTranslations.php:289
+msgid "Argentina"
+msgstr "Argentina"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/products_selected.js:217
+#: amazon-gutenberg-block/src/edit.js:553
+#: amazon-gutenberg-block/src/edit.js:791
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3572
+#: amazon-gutenberg-block/dist/index.js:4470
+#: amazon-gutenberg-block/dist/index.js:4708
+msgid "ASIN"
+msgstr "ASIN"
+
+#: src/Localization/AdminTranslations.php:275
+msgid ""
+"ASIN is a unique 10-digit code Amazon assigns to products in its catalog. "
+"You can find it on the product detail page."
+msgstr ""
+"ASIN adalah kode 10 digit unik yang diberikan Amazon untuk produk dalam "
+"katalognya. ASIN bisa ditemukan di halaman detail produk."
+
+#: src/Localization/Messages.php:20 amazon-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/products_selected.js:105
+#: amazon-gutenberg-block/src/components/product_selector.js:65
+#: amazon-gutenberg-block/src/components/product_selector_multiple.js:66
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:2594
+#: amazon-gutenberg-block/dist/index.js:3105
+#: amazon-gutenberg-block/dist/index.js:3460
+msgid "ASIN validation failed. Please check entered product ASIN!"
+msgstr "ASIN salah. Pastikan produk ASIN sudah benar."
+
+#. translators: %s: PHP version
+#: hostinger-affiliate-plugin.php:106
+msgid "Attention:"
+msgstr "Perhatian:"
+
+#: src/Localization/AdminTranslations.php:286
+msgid "Australia"
+msgstr "Australia"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/dist/index.js:4
+#: amazon-gutenberg-block/src/components/product_list_type_selector.js:38
+#: amazon-gutenberg-block/src/edit.js:633
+#: amazon-gutenberg-block/dist/index.js:4550
+#: amazon-gutenberg-block/dist/index.js:5102
+msgid "Automatically based on best-sellers"
+msgstr "Secara otomatis berdasarkan produk terlaris"
+
+#: amazon-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/src/components/product_list_bestsellers.js:80
+#: amazon-gutenberg-block/dist/index.js:451
+msgid "Automatically generate product list"
+msgstr "Membuat daftar produk secara otomatis"
+
+#: src/Localization/AdminTranslations.php:152
+msgid "Back"
+msgstr "Kembali"
+
+#: src/Localization/AdminTranslations.php:287
+msgid "Belgium"
+msgstr "Belgia"
+
+#. translators: %d: bestseller place
+#: src/Shortcodes/templates/lists/horizontal-cards.php:20
+#: src/Shortcodes/templates/lists/list-with-description.php:16
+#: src/Shortcodes/templates/lists/simplified-list.php:37
+#, php-format
+msgid "Bestseller #%d"
+msgstr "#%d Terlaris"
+
+#: src/Localization/AdminTranslations.php:288
+msgid "Brazil"
+msgstr "Brasil"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:946
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4863
+msgid "Buy button"
+msgstr "Tombol beli"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:388
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4305
+msgid "Buy button overwrite enabled?"
+msgstr "Timpa tombol Beli diaktifkan?"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:400
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4317
+msgid "Buy button text"
+msgstr "Teks tombol beli"
+
+#: src/Models/Product.php:275
+msgid "Buy now"
+msgstr "Beli sekarang"
+
+#: src/Models/Product.php:279
+msgid "Buy on Amazon"
+msgstr "Beli di Amazon"
+
+#: src/Localization/AdminTranslations.php:290
+msgid "Canada"
+msgstr "Kanada"
+
+#: src/Localization/AdminTranslations.php:206 src/Setup/Blocks.php:248
+msgid "Cancel"
+msgstr "Batalkan"
+
+#: amazon-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/src/components/selected_display_type.js:32
+#: mercado-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/dist/index.js:784
+msgid "Change main layout"
+msgstr "Ubah layout utama"
+
+#: src/Localization/AdminTranslations.php:151
+msgid ""
+"Check out our quick guide for tips on how to start using this plugin and "
+"start earning."
+msgstr ""
+"Lihat panduan singkat kami untuk mengetahui cara menggunakan plugin ini "
+"untuk menghasilkan uang."
+
+#: src/Setup/Blocks.php:206
+msgid "Check your search term and try again"
+msgstr "Cek istilah pencarian Anda dan coba lagi"
+
+#: src/Localization/AdminTranslations.php:64
+msgid "Choose Amazon region ..."
+msgstr "Pilih lokasi Amazon ..."
+
+#: src/Localization/AdminTranslations.php:105
+msgid ""
+"Choose any template for your needs  – all of them are integrated with the "
+"Gutenberg editor."
+msgstr ""
+"Pilih template sesuai kebutuhan Anda - template sudah terintegrasi dengan "
+"Gutenberg editor."
+
+#: src/Localization/AdminTranslations.php:35
+#: src/Localization/AdminTranslations.php:47
+msgid ""
+"Choose between a single product card, multiple product list, or comparison "
+"table."
+msgstr "Pilih tampilan, satu produk, daftar produk, atau tabel perbandingan."
+
+#: amazon-gutenberg-block/dist/index.js:4
+#: amazon-gutenberg-block/src/edit.js:1057
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4974
+msgid "Choose how the product block will look like in your post"
+msgstr "Pilih tampilan blok produk di postingan Anda"
+
+#: src/Localization/AdminTranslations.php:29
+#: src/Localization/AdminTranslations.php:41
+msgid "Choose how to display products"
+msgstr "Pilih cara menampilkan produk"
+
+#: src/Localization/AdminTranslations.php:169
+msgid "Choose the layout for the product(s) block"
+msgstr "Pilih layout untuk blok produk"
+
+#: amazon-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/product_list_bestsellers.js:24
+#: amazon-gutenberg-block/src/components/product_selector_multiple.js:239
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:395
+#: amazon-gutenberg-block/dist/index.js:3278
+msgid "Choose the layout of your product list"
+msgstr "Pilih layout daftar produk Anda"
+
+#: src/Localization/AdminTranslations.php:266
+#: amazon-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/src/views/TableConfiguration.jsx:54
+#: mercado-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/dist/index.js:2887
+msgid "Choose the table configuration"
+msgstr "Pilih konfigurasi tabel"
+
+#: src/Localization/AdminTranslations.php:136
+#| msgid "Choose which products to compare and set up your table’s rows."
+msgid "Choose which products to compare and set up your table's rows."
+msgstr "Pilih produk yang akan dibandingkan dan atur baris tabel Anda."
+
+#: src/Localization/AdminTranslations.php:205
+msgid "Close"
+msgstr "Tutup"
+
+#: src/Localization/AdminTranslations.php:132
+#: amazon-gutenberg-block/dist/index.js:4
+#: amazon-gutenberg-block/src/components/DisplayTypeSelector.jsx:41
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:5590
+msgid "Coming soon"
+msgstr "Segera hadir"
+
+#: src/Localization/AdminTranslations.php:112
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:333
+#: amazon-gutenberg-block/src/edit.js:1010
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4250
+#: amazon-gutenberg-block/dist/index.js:4927
+msgid "Comparison Table"
+msgstr "Tabel Perbandingan"
+
+#: src/Localization/AdminTranslations.php:124
+msgid "Comparison tables"
+msgstr "Tabel perbandingan"
+
+#: src/Localization/AdminTranslations.php:138
+msgid "Configure"
+msgstr "Konfigurasi"
+
+#: src/Setup/Blocks.php:254
+msgid "Confirm selection"
+msgstr "Konfirmasi pilihan"
+
+#: src/Localization/AdminTranslations.php:81
+msgid "Connect"
+msgstr "Hubungkan"
+
+#: src/Localization/AdminTranslations.php:79
+msgid "Connect Amazon account"
+msgstr "Hubungan akun Amazon"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:527
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4444
+msgid "Connect Now"
+msgstr "Hubungkan Sekarang"
+
+#: src/Localization/AdminTranslations.php:103
+msgid "Connect With Your Amazon Account"
+msgstr "Hubungkan dengan Akun Amazon Anda"
+
+#: src/Localization/AdminTranslations.php:18
+#: src/Localization/AdminTranslations.php:95
+msgid "Connect Your Amazon Account"
+msgstr "Hubungkan Akun Amazon Anda"
+
+#: src/Localization/AdminTranslations.php:92
+msgid "Connect your Amazon Associates Account"
+msgstr "Hubungkan Akun Amazon Associates Anda"
+
+#: src/Localization/AdminTranslations.php:15
+#| msgid "Connect  your Amazon Associates Account"
+msgid "Connect your Amazon Associates account"
+msgstr "Hubungkan Akun Amazon Associates Anda"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:506
+#: amazon-gutenberg-block/dist/index.js:4423
+msgid "Connect Your Amazon Partnership Account"
+msgstr "Hubungkan Akun Amazon Partnership Anda"
+
+#: src/Localization/AdminTranslations.php:51
+#: src/Localization/AdminTranslations.php:84
+msgid "Connected"
+msgstr "Terhubung"
+
+#: src/Localization/AdminTranslations.php:86
+msgid "Connected to Partner ID:"
+msgstr "Hubungkan ke Partner ID:"
+
+#: src/Errors/AmazonApiError.php:41 src/Errors/AmazonApiError.php:91
+msgid "Contact Hostinger support for further assistance."
+msgstr "Hubungi bantuan Hostinger untuk bantuan lebih lanjut."
+
+#: src/Localization/AdminTranslations.php:204
+#: amazon-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/product_list_bestsellers.js:53
+#: amazon-gutenberg-block/src/components/product_selector_multiple.js:210
+#: amazon-gutenberg-block/src/views/TableConfiguration.jsx:64
+#: mercado-gutenberg-block/dist/index.js:1
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:424
+#: amazon-gutenberg-block/dist/index.js:2897
+#: amazon-gutenberg-block/dist/index.js:3249
+msgid "Continue"
+msgstr "Lanjutkan"
+
+#: src/Localization/AdminTranslations.php:137
+msgid "Copied successfully!"
+msgstr "Berhasil disalin!"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/products_selected.js:162
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3517
+msgid "Copied to clipboard!"
+msgstr "Disalin ke clipboard!"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/products_selected.js:266
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3621
+msgid "Copy to clipboard"
+msgstr "Salin ke clipboard"
+
+#. translators: %s: ASIN helper page URL
+#: amazon-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/product_selector.js:148
+#: amazon-gutenberg-block/src/components/product_selector_multiple.js:184
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:2677
+#: amazon-gutenberg-block/dist/index.js:3223
+#, js-format
+msgid ""
+"Copy-paste Amazon product ASIN. <a href=\"%s\" target=\"_blank\">Where to "
+"find it?</a>"
+msgstr ""
+"Salin-masukkan ASIN produk Amazon. <a href=\"%s\" target=\"_blank\">Di mana "
+"lokasinya?</a>"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:377
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4294
+msgid "Count of items to show in list."
+msgstr "Jumlah item yang akan ditampilkan dalam daftar."
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:278
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4195
+msgid "Count of list items in product description."
+msgstr "Jumlah item daftar dalam deskripsi produk."
+
+#: src/Localization/AdminTranslations.php:62
+msgid "Country"
+msgstr "Negara"
+
+#: src/Localization/AdminTranslations.php:87
+#: src/Localization/AdminTranslations.php:165
+#: src/Localization/AdminTranslations.php:177
+msgid "Create a new post"
+msgstr "Buat postingan baru"
+
+#: src/Localization/AdminTranslations.php:27
+#: src/Localization/AdminTranslations.php:39
+#: src/Localization/AdminTranslations.php:310
+msgid "Create a post"
+msgstr "Buat postingan"
+
+#: src/Localization/AdminTranslations.php:308
+msgid "Create a post to start promoting products"
+msgstr "Buat postingan untuk mulai mempromosikan produk"
+
+#: src/Localization/AdminTranslations.php:123
+#: src/Localization/AdminTranslations.php:125
+msgid "Create and manage your comparison tables."
+msgstr "Buat dan kelola tabel perbandingan Anda."
+
+#. Description of the plugin
+#: hostinger-affiliate-plugin.php
+msgid ""
+"Create and promote products using affiliate links from different "
+"marketplaces. Easily manage and display affiliate products on your site."
+msgstr ""
+"Buat dan promosikan produk menggunakan link afiliasi dari berbagai "
+"marketplace. Kelola dan tampilkan produk afiliasi dengan mudah di situs Anda."
+
+#: src/Localization/AdminTranslations.php:53
+msgid "Create post"
+msgstr "Buat posting"
+
+#: src/Localization/AdminTranslations.php:180
+#| msgid "Create new table"
+msgid "Create table"
+msgstr "Buat tabel"
+
+#: src/Localization/AdminTranslations.php:134
+msgid "Create your first comparison table"
+msgstr "Buat tabel perbandingan pertama Anda"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:577
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4494
+msgid "Custom product title."
+msgstr "Judul produk kustom."
+
+#: src/Localization/AdminTranslations.php:238
+msgid "Date created"
+msgstr "Tanggal dibuat"
+
+#: src/Localization/AdminTranslations.php:207
+msgid "Delete"
+msgstr "Hapus"
+
+#: src/Localization/AdminTranslations.php:213
+msgid "Delete product?"
+msgstr "Hapus produk?"
+
+#: src/Localization/AdminTranslations.php:208
+#| msgid "Delete table?"
+msgid "Delete table"
+msgstr "Hapus tabel?"
+
+#: src/Localization/AdminTranslations.php:212
+msgid "Delete this table?"
+msgstr "Hapus tabel ini?"
+
+#: src/Localization/AdminTranslations.php:312
+msgid ""
+"Depending on your country, different marketplaces may be available to you."
+msgstr ""
+"Bergantung pada negara Anda, marketplace yang berbeda mungkin tersedia untuk "
+"Anda."
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:256
+#: amazon-gutenberg-block/src/edit.js:933
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4173
+#: amazon-gutenberg-block/dist/index.js:4850
+msgid "Description"
+msgstr "Deskripsi"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:232
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4149
+msgid "Description enabled?"
+msgstr "Aktifkan deskripsi?"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:269
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4186
+msgid "Description Items"
+msgstr "Deskripsi Item"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:288
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4205
+msgid "Description length"
+msgstr "Panjang deskripsi"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:243
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4160
+msgid "Description overwrite enabled?"
+msgstr "Penimpaan deskripsi diaktifkan?"
+
+#: src/Localization/AdminTranslations.php:235
+msgid "Determine who will see the table"
+msgstr "Tentukan siapa saja yang akan melihat tabel"
+
+#: src/Localization/AdminTranslations.php:88
+msgid "Disconnect"
+msgstr "Batalkan"
+
+#: src/Localization/AdminTranslations.php:85
+msgid "Disconnected"
+msgstr "Dibatalkan"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:729
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4646
+msgid "Display Bestseller #"
+msgstr "Tampilkan Produk Terlaris #"
+
+#: amazon-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/product_list_bestsellers.js:99
+#: amazon-gutenberg-block/src/components/product_selector.js:164
+#: amazon-gutenberg-block/src/components/product_selector_multiple.js:150
+#: amazon-gutenberg-block/src/components/product_selector_multiple.js:202
+#: amazon-gutenberg-block/src/components/product_selector_multiple.js:265
+#: mercado-gutenberg-block/dist/index.js:1
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:470
+#: amazon-gutenberg-block/dist/index.js:2693
+#: amazon-gutenberg-block/dist/index.js:3189
+#: amazon-gutenberg-block/dist/index.js:3241
+#: amazon-gutenberg-block/dist/index.js:3304
+msgid ""
+"Don’t worry. You can edit the layout and product in the Block configuration "
+"in the right sidebar anytime."
+msgstr ""
+"Jangan khawatir. Anda bisa mengubah layout dan produk di konfigurasi Blokir "
+"di sidebar kanan kapan saja."
+
+#. translators: %s: product asin.
+#: src/Localization/AdminTranslations.php:270
+#, php-format
+msgid "Duplicate ASIN: %s was not added."
+msgstr "Duplikat ASIN: %s tidak ditambahkan."
+
+#: src/Localization/AdminTranslations.php:101
+msgid "Earn Commissions"
+msgstr "Dapatkan Komisi"
+
+#: src/Localization/AdminTranslations.php:142
+msgid "Edit your Amazon API details"
+msgstr "Edit detail Amazon API Anda"
+
+#: src/Localization/AdminTranslations.php:291
+msgid "Egypt"
+msgstr "Mesir"
+
+#: src/Api/Mercado/Client.php:116
+#, fuzzy
+msgid "Empty response from proxy API."
+msgstr "Respons kosong dari API proxy."
+
+#: src/Localization/AdminTranslations.php:257
+msgid "Enable at least two products to continue"
+msgstr "Aktifkan setidaknya dua produk untuk melanjutkan"
+
+#: mercado-gutenberg-block/dist/index.js:2
+msgid "Enable Mercado Livre store in settings"
+msgstr "Aktifkan toko Mercado Livre di pengaturan"
+
+#: mercado-gutenberg-block/dist/index.js:2
+msgid "Enter affiliate url"
+msgstr "Masukkan url afiliasi"
+
+#: amazon-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/products_selected.js:359
+#: amazon-gutenberg-block/src/components/products_selected.js:367
+#: amazon-gutenberg-block/src/components/product_selector.js:156
+#: amazon-gutenberg-block/src/components/product_selector_multiple.js:193
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:2685
+#: amazon-gutenberg-block/dist/index.js:3232
+#: amazon-gutenberg-block/dist/index.js:3714
+#: amazon-gutenberg-block/dist/index.js:3722
+msgid "Enter ASIN here"
+msgstr "Masukkan ASIN di sini"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:556
+#: amazon-gutenberg-block/dist/index.js:4473
+msgid "Enter ASIN here..."
+msgstr "Masukkan ASIN di sini..."
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/products_selected.js:358
+#: amazon-gutenberg-block/src/components/products_selected.js:366
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3713
+#: amazon-gutenberg-block/dist/index.js:3721
+msgid "Enter product ID here"
+msgstr "Masukkan ID produk di sini"
+
+#: mercado-gutenberg-block/dist/index.js:2
+msgid "Enter product ID here..."
+msgstr "Masukkan ID produk di sini..."
+
+#: amazon-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/src/components/product_list_bestsellers.js:92
+#: amazon-gutenberg-block/dist/index.js:463
+msgid "Enter product keywords here, example: corsair rgb keyboard"
+msgstr "Masukkan kata kunci produk di sini, contoh: keyboard corsair rgb"
+
+#: src/Localization/AdminTranslations.php:248
+msgid "Enter text label. For example: Best Price"
+msgstr "Masukkan label teks. Misalnya: Harga Terbaik"
+
+#: src/Localization/AdminTranslations.php:203
+msgid "Enter your table name"
+msgstr "Masukkan nama tabel Anda"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/products_selected.js:165
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3520
+msgid "Failed to copy!"
+msgstr "Gagal menyalin!"
+
+#: src/Api/Mercado/Client.php:125
+#, fuzzy
+msgid "Failed to decode proxy API response."
+msgstr "Gagal menerjemahkan respons API proxy."
+
+#. translators: %s: missing field key name
+#: src/Localization/Messages.php:12
+#, php-format
+msgid "Field %s is empty."
+msgstr "Kolom %s kosong."
+
+#: src/Localization/AdminTranslations.php:219
+msgid "Field contains an error"
+msgstr "Ada kesalahan pada kolom"
+
+#: src/Localization/AdminTranslations.php:19
+msgid "Fill API details from Amazon Product Advertising dashboard to start"
+msgstr "Isi detail API di dasbor Amazon Product Advertising untuk memulai"
+
+#: src/Localization/AdminTranslations.php:54
+msgid "Find your API credentials"
+msgstr "Temukan kredensial API Anda"
+
+#: src/Localization/AdminTranslations.php:154
+msgid "Find your Tracking ID"
+msgstr "Temukan ID Pelacakan Anda"
+
+#: src/Localization/AdminTranslations.php:166
+msgid ""
+"First thing first, you need to create a post. Make sure to create the post "
+"with the specific niche to be more related with your visitors."
+msgstr ""
+"Pertama, Anda perlu membuat postingan. Buat postingan sesuai niche agar "
+"lebih relevan untuk pengunjung website."
+
+#: src/Localization/AdminTranslations.php:94
+msgid ""
+"Follow this step-by-step guide to start earning your affiliate commission in "
+"no time."
+msgstr "Ikuti panduan berikut untuk sukses mendapatkan komisi afiliasi."
+
+#: src/Localization/AdminTranslations.php:37
+#: src/Localization/AdminTranslations.php:49
+msgid "For each product, generate and paste your affiliate link."
+msgstr "Buat dan masukkan link afiliasi Anda untuk setiap produk."
+
+#: src/Localization/AdminTranslations.php:220
+msgid "Form is invalid or already saving"
+msgstr "Formulir tidak valid atau sudah disimpan"
+
+#: src/Localization/AdminTranslations.php:292
+msgid "France"
+msgstr "Prancis"
+
+#: src/Localization/AdminTranslations.php:155
+msgid "General"
+msgstr "Umum"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:983
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4900
+msgid "General Settings"
+msgstr "Pengaturan Umum"
+
+#: src/Localization/AdminTranslations.php:253
+msgid "General settings"
+msgstr "Pengaturan umum"
+
+#: src/Localization/AdminTranslations.php:293
+msgid "Germany"
+msgstr "Jerman"
+
+#: src/Localization/AdminTranslations.php:114
+msgid "Get Started"
+msgstr "Mulai"
+
+#: src/Localization/AdminTranslations.php:148
+msgid "Get started with our plugin"
+msgstr "Mulai dengan plugin kami"
+
+#: src/Localization/AdminTranslations.php:14
+msgid "Getting Started"
+msgstr "Memulai"
+
+#: src/Localization/AdminTranslations.php:126
+msgid "Getting started"
+msgstr "Memulai"
+
+#: src/Localization/AdminTranslations.php:150
+msgid "Got it"
+msgstr "OK"
+
+#. translators: %s: Amazon store region
+#: src/Setup/Blocks.php:222
+#, php-format
+msgid "Here you will see products from your store region on <b>%s</b>."
+msgstr "Di sini Anda akan melihat produk dari toko  di <b>%s</b>."
+
+#: src/Setup/Blocks.php:224
+msgid "Here you will see products from your store region."
+msgstr "Di sini Anda akan melihat produk dari toko di wilayah Anda."
+
+#: src/Localization/AdminTranslations.php:245
+msgid "Highlight settings"
+msgstr "Pengaturan highlight"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:359
+#: amazon-gutenberg-block/src/edit.js:673
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4276
+#: amazon-gutenberg-block/dist/index.js:4590
+msgid "Horizontal cards"
+msgstr "Kartu horizontal"
+
+#. Author of the plugin
+#: hostinger-affiliate-plugin.php
+msgid "Hostinger"
+msgstr "Hostinger"
+
+#: src/Localization/AdminTranslations.php:162
+msgid "Hostinger Academy"
+msgstr "Hostinger Academy"
+
+#: src/Localization/AdminTranslations.php:12
+msgid "Hostinger Affiliate"
+msgstr "Hostinger Affiliate"
+
+#. Plugin Name of the plugin
+#: hostinger-affiliate-plugin.php
+#| msgid "Hostinger Amazon Affiliate Marketing Tools"
+msgid "Hostinger Affiliate Marketing Tools"
+msgstr "Tool Hostinger Amazon Affiliate Marketing"
+
+#: src/Admin/Surveys/AmazonSurvey.php:24
+msgid "How could we improve the Hostinger Affiliate plugin for Amazon?"
+msgstr ""
+"Bagaimana kami dapat meningkatkan plugin Afiliasi Hostinger untuk Amazon?"
+
+#: src/Admin/Surveys/MercadoSurvey.php:24
+msgid "How could we improve the Hostinger Affiliate plugin for Mercado Libre?"
+msgstr ""
+"Bagaimana kami dapat meningkatkan plugin Afiliasi Hostinger untuk Mercado "
+"Libre?"
+
+#: amazon-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/src/components/product_selector.js:74
+#: amazon-gutenberg-block/src/components/product_selector.js:143
+#: amazon-gutenberg-block/src/components/product_selector_multiple.js:97
+#: mercado-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/dist/index.js:2603
+#: amazon-gutenberg-block/dist/index.js:2672
+#: amazon-gutenberg-block/dist/index.js:3136
+msgid "How do you want to add the product?"
+msgstr "Pilih cara menambahkan produk"
+
+#: amazon-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4
+#: amazon-gutenberg-block/src/components/product_list_bestsellers.js:74
+#: amazon-gutenberg-block/src/components/product_list_type_selector.js:17
+#: amazon-gutenberg-block/src/components/product_selector_multiple.js:86
+#: mercado-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/dist/index.js:445
+#: amazon-gutenberg-block/dist/index.js:3125
+#: amazon-gutenberg-block/dist/index.js:5081
+msgid "How do you want to generate the list of the products?"
+msgstr "Pilih cara membuat daftar produk"
+
+#: src/Localization/AdminTranslations.php:178
+msgid "How to create a product listing using our plugin?"
+msgstr "Cara membuat daftar produk menggunakan plugin kami"
+
+#: src/Localization/AdminTranslations.php:16
+msgid "How to create a product listing with our plugin?"
+msgstr "Cara membuat daftar produk menggunakan plugin kami"
+
+#: src/Localization/AdminTranslations.php:231
+msgid "How to do that?"
+msgstr "Bagaimana caranya?"
+
+#: src/Localization/AdminTranslations.php:199
+msgid "How to get your affiliate link"
+msgstr "Cara mendapatkan link afiliasi Anda"
+
+#: src/Localization/AdminTranslations.php:163
+#| msgid ""
+#| "How to Set Up Amazon Affiliate with Hostinger Amazon Affiliate Connector -"
+#| " Step by step guide"
+msgid ""
+"How to Set Up Amazon Affiliate with Hostinger Amazon Affiliate - Step by "
+"step guide"
+msgstr ""
+"Cara setup Amazon Affiliate dengan Hostinger Amazon Affiliate (Panduan "
+"lengkap)"
+
+#: src/Localization/AdminTranslations.php:164
+msgid "How to use this plugin?"
+msgstr "Bagaimana cara menggunakan plugin ini?"
+
+#: src/Admin/Surveys/AmazonSurvey.php:20
+msgid "How would you rate your experience publishing Amazon Affiliate links?"
+msgstr ""
+"Berikan rating untuk pengalaman Anda saat berbagi link Amazon Affiliate"
+
+#: src/Admin/Surveys/MercadoSurvey.php:20
+msgid ""
+"How would you rate your experience publishing Mercado Libre Affiliate links?"
+msgstr ""
+"Berikan rating untuk pengalaman Anda saat berbagi link Mercado Libre "
+"Affiliate"
+
+#. Plugin URI of the plugin
+#. Author URI of the plugin
+#: hostinger-affiliate-plugin.php
+msgid "https://hostinger.com"
+msgstr "https://hostinger.co.id"
+
+#: src/Errors/AmazonApiError.php:76
+msgid ""
+"If the problems persists, contact Amazon Associates support for further "
+"assistance."
+msgstr ""
+"Jika masalah masih terjadi, silakan hubungi bantuan Amazon Associates untuk "
+"bantuan lebih lanjut."
+
+#: src/Errors/AmazonApiError.php:66 src/Errors/AmazonApiError.php:71
+msgid ""
+"If you're still having trouble after checking your settings, contact Amazon "
+"Associates support for further assistance."
+msgstr ""
+"Jika Anda masih mengalami masalah setelah memeriksa pengaturan Anda, silakan "
+"hubungi dukungan Amazon Associates untuk bantuan lebih lanjut."
+
+#: src/Localization/AdminTranslations.php:21
+msgid ""
+"In order to get the Amazon API information, you need to log in to your <b>"
+"Amazon Associate</b> account."
+msgstr ""
+"Untuk mendapatkan informasi API Amazon, Anda harus login ke akun <b>Amazon "
+"Associate</b> Anda."
+
+#: src/Localization/AdminTranslations.php:34
+msgid ""
+"In the editor, type '/' or click the '+' icon. Then, select 'Link Amazon "
+"products'."
+msgstr ""
+"Di editor, ketik '/' atau klik ikon '+'. Kemudian, pilih 'Tautkan produk "
+"Amazon'."
+
+#: src/Localization/AdminTranslations.php:46
+msgid ""
+"In the editor, type '/' or click the '+' icon. Then, select 'Link Mercado "
+"Livre products'."
+msgstr ""
+"Di editor, ketik '/' atau klik ikon '+'. Kemudian, pilih 'Tautkan produk "
+"Mercado Livre'."
+
+#: src/Localization/AdminTranslations.php:294
+msgid "India"
+msgstr "India"
+
+#: src/Errors/AmazonApiError.php:80
+msgid "Input parameter relating to request is invalid or is missing."
+msgstr "Parameter yang dimasukkan salah atau tidak lengkap."
+
+#: src/Localization/AdminTranslations.php:96
+msgid "Insert API code inside the Amazon Product Advertising dashboard."
+msgstr "Masukkan kode API ke dasbor Amazon Product Advertising."
+
+#: amazon-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/src/components/product_list_bestsellers.js:85
+#: amazon-gutenberg-block/dist/index.js:456
+msgid "Insert the product keyword, we will show the best-seller products"
+msgstr "Masukkan kata kunci produk. Kami akan menampilkan produk terlaris"
+
+#: src/Localization/AdminTranslations.php:168
+#| msgid ""
+#| "Inside Block Editor, you can call Hostinger Amazon Affiliate in the block "
+#| "options. You can call it by typing “/” or click the add button in the "
+#| "right side of the paragraph."
+msgid ""
+"Inside Block Editor, you can call Hostinger Amazon Affiliate in the block "
+"options. You can call it by typing \"/\" or click the add button in the "
+"right side of the paragraph."
+msgstr ""
+"Anda bisa menemukan Hostinger Amazon Affiliate di Block Editor, di menu blok."
+" Anda juga bisa mengetik \"/\" atau klik tombol tambah di sebelah kanan "
+"paragraf."
+
+#: src/Localization/AdminTranslations.php:210
+msgid "Invalid ASIN"
+msgstr "ASIN tidak valid"
+
+#: src/Rest/SettingsRoutes.php:223
+msgid "Invalid locale selected. Please choose a valid locale."
+msgstr "Lokasi tidak valid. Pilih lokasi yang valid."
+
+#: src/Rest/templates/search-results.php:104
+#: src/Shortcodes/ProductTableShortcode.php:161
+#: src/Shortcodes/templates/lists/horizontal-cards.php:74
+#: src/Shortcodes/templates/lists/list-with-description.php:72
+#: src/Shortcodes/templates/lists/simplified-list.php:66
+#: src/Shortcodes/templates/product-card.php:60
+msgid "Is prime"
+msgstr "prime"
+
+#: src/Localization/AdminTranslations.php:295
+msgid "Italy"
+msgstr "Italia"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:368
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4285
+msgid "Items to show"
+msgstr "Item untuk ditampilkan"
+
+#: src/Localization/AdminTranslations.php:296
+msgid "Japan"
+msgstr "Jepang"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:774
+#: amazon-gutenberg-block/dist/index.js:4691
+msgid "Keywords"
+msgstr "Kata kunci"
+
+#: src/Localization/AdminTranslations.php:247
+msgid "Label"
+msgstr "Label"
+
+#: src/Localization/AdminTranslations.php:60
+msgid "Language"
+msgstr "Bahasa"
+
+#: src/Localization/AdminTranslations.php:63
+msgid "Language of Preference"
+msgstr "Bahasa Pilihan"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:657
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4574
+msgid "Layout"
+msgstr "Layout"
+
+#: src/Localization/AdminTranslations.php:146
+msgid ""
+"Learn how to create product listings using Hostinger's affiliate plugin – "
+"and start earning commission."
+msgstr ""
+"Pelajari cara membuat daftar produk menggunakan plugin Hostinger affiliate "
+"dan mulai dapatkan komisi."
+
+#: src/Localization/AdminTranslations.php:147
+msgid ""
+"Learn how to use Hostinger's Amazon Affiliate with our tutorials and "
+"documentations"
+msgstr ""
+"Pelajari Afiliasi Amazon Hostinger di tutorial dan panduan lengkap kami"
+
+#: src/Localization/AdminTranslations.php:127
+msgid "Learn how to use our affiliate plugin."
+msgstr "Pelajari cara menggunakan plugin afiliasi kami."
+
+#: src/Localization/AdminTranslations.php:149
+msgid "Learn how to use our plugin"
+msgstr "Pelajari cara menggunakan plugin kami"
+
+#: src/Localization/AdminTranslations.php:145
+msgid "Learn more on how to use this plugin"
+msgstr "Pelajari cara menggunakan plugin ini"
+
+#: src/Localization/AdminTranslations.php:159
+msgid "Leave without saving"
+msgstr "Keluar tanpa disimpan"
+
+#: amazon-gutenberg-block/dist/index.js:4
+#: amazon-gutenberg-block/src/index.js:11
+#: amazon-gutenberg-block/dist/index.js:5755
+msgid "Link Amazon product(s)"
+msgstr "Hubungkan produk Amazon"
+
+#: src/Localization/AdminTranslations.php:99
+msgid "Link Amazon Products"
+msgstr "Link Produk Amazon"
+
+#: mercado-gutenberg-block/dist/index.js:2
+msgid "Link Mercado Livre products"
+msgstr "Hubungkan produk Mercado Livre"
+
+#: src/Localization/AdminTranslations.php:83
+#| msgid ""
+#| "Link your Amazon account to your website, start promoting products, and "
+#| "earn rewards."
+msgid ""
+"Link your Amazon account to your website, start promoting products, and earn "
+"rewards. No API key required."
+msgstr ""
+"Hubungkan akun Amazon Anda ke website Anda, lalu mulai promosikan produk dan "
+"dapatkan komisi. Tak perlu API key."
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:349
+#: amazon-gutenberg-block/src/edit.js:665
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4266
+#: amazon-gutenberg-block/dist/index.js:4582
+msgid "List with description"
+msgstr "Daftar dengan deskripsi"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:907
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4824
+msgid "Lists"
+msgstr "Daftar"
+
+#: src/Localization/AdminTranslations.php:20
+msgid "Log in to Amazon Associate dashboard"
+msgstr "Login ke dashboard Amazon Associate"
+
+#: src/Localization/AdminTranslations.php:22
+msgid "Login"
+msgstr "Login"
+
+#: src/Errors/AmazonApiError.php:64
+msgid ""
+"Looks like there's a configuration issue with your Amazon Associates account."
+" The access key you provided is not linked to a primary store in your "
+"approved Amazon Associates account. To fix this, head over to Associate "
+"Central and check your account settings. Make sure the access key you're "
+"using is associated with a primary store that's been approved by Amazon "
+"Associates."
+msgstr ""
+"Sepertinya ada masalah konfigurasi dengan akun Amazon Associates Anda. "
+"Access key yang Anda berikan tidak ditautkan ke toko utama di akun Amazon "
+"Associates yang telah disetujui. Untuk mengatasinya, buka Associate Central "
+"dan periksa pengaturan akun Anda. Pastikan access key yang Anda gunakan "
+"dikaitkan dengan toko utama yang telah disetujui oleh Amazon Associates."
+
+#: src/Errors/AmazonApiError.php:94
+msgid ""
+"Looks like there's a configuration issue with your Amazon Associates account."
+" The access key you provided is not valid. To fix this, head over to "
+"Associate Central and check your account settings."
+msgstr ""
+"Sepertinya ada masalah konfigurasi dengan akun Amazon Associates Anda. "
+"Access key yang Anda berikan tidak valid. Untuk mengatasinya, buka Associate "
+"Central dan periksa pengaturan akun Anda."
+
+#: src/Errors/AmazonApiError.php:69
+msgid ""
+"Looks like there's a configuration issue with your Amazon Associates account."
+" The partner tag you provided is not linked to the access key you’re using. "
+"To fix this, head over to Associate Central and check your account settings. "
+"Make sure the partner tag you're using is associated with a valid store in "
+"your Amazon Associates account for the requested marketplace."
+msgstr ""
+"Sepertinya ada masalah konfigurasi dengan akun Amazon Associates Anda. Tag "
+"partner yang Anda berikan tidak ditautkan ke access key yang Anda gunakan. "
+"Untuk mengatasinya, buka Associate Central dan periksa pengaturan akun Anda. "
+"Pastikan tag partner yang Anda gunakan dikaitkan dengan toko yang valid di "
+"akun Amazon Associates Anda untuk marketplace yang diminta."
+
+#: src/Errors/AmazonApiError.php:96
+msgid ""
+"Make sure the access key you're using is correct. If you're still having "
+"trouble after checking your settings, contact Amazon Associates support for "
+"further assistance."
+msgstr ""
+"Pastikan access key yang Anda gunakan sudah benar. Jika Anda masih mengalami "
+"masalah setelah memeriksa pengaturan Anda, hubungi dukungan Amazon "
+"Associates untuk mendapatkan bantuan lebih lanjut."
+
+#: src/Localization/AdminTranslations.php:131
+msgid "Manage"
+msgstr "Kelola"
+
+#: src/Localization/AdminTranslations.php:17
+msgid "Manage marketplaces"
+msgstr "Kelola marketplace"
+
+#: src/Localization/AdminTranslations.php:139
+msgid "Manage table"
+msgstr "Kelola tabel"
+
+#: src/Localization/AdminTranslations.php:116
+msgid "Manage your Amazon API and other configurations"
+msgstr "Kelola Amazon API Anda dan konfigurasi lainnya"
+
+#: src/Localization/AdminTranslations.php:129
+#: src/Localization/AdminTranslations.php:187
+msgid "Manage your Amazon API and other settings."
+msgstr "Kelola API Amazon Anda dan pengaturan lainnya."
+
+#: amazon-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/src/components/product_selector_multiple.js:92
+#: amazon-gutenberg-block/src/components/product_selector_multiple.js:172
+#: mercado-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/dist/index.js:3131
+#: amazon-gutenberg-block/dist/index.js:3211
+msgid "Manually add the products"
+msgstr "Tambahkan produk secara manual"
+
+#: src/Localization/AdminTranslations.php:110
+msgid "Marketplace availability by country"
+msgstr "Ketersediaan marketplace per negara"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:301
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4218
+msgid "Maximum count of characters for each product description list item."
+msgstr "Jumlah maks. karakter untuk setiap item di daftar deskripsi produk."
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:205
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4122
+msgid "Maximum count of characters for the product title."
+msgstr "Jumlah maks. karakter untuk judul produk."
+
+#: src/Localization/AdminTranslations.php:26
+#: src/Localization/AdminTranslations.php:153
+#: src/Localization/AdminTranslations.php:244
+msgid "Menu"
+msgstr "Menu"
+
+#: src/Localization/AdminTranslations.php:71
+msgid "Mercado Livre"
+msgstr "Mercado Livre"
+
+#: src/Localization/AdminTranslations.php:73
+msgid "Mercado Livre Partner"
+msgstr "Mercado Livre Partner"
+
+#: src/Localization/AdminTranslations.php:111
+msgid "Mercado Livre Partner settings"
+msgstr "Pengaturan Mercado Livre Partner"
+
+#: src/Localization/AdminTranslations.php:190
+msgid "Mercado settings were successfully saved!"
+msgstr "Pengaturan Mercado berhasil disimpan."
+
+#: src/Localization/AdminTranslations.php:297
+msgid "Mexico"
+msgstr "Meksiko"
+
+#: src/Localization/AdminTranslations.php:274
+msgid "More information"
+msgstr "Informasi lebih lanjut"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/product_selector_multiple.js:195
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3234
+msgid "Multiple ASIN values can be separated by comma"
+msgstr "Gunakan koma untuk memisahkan beberapa ASIN"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/products_selected.js:388
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3743
+msgid ""
+"Multiple ASIN values can be separated by comma. Press Enter to save changes."
+msgstr ""
+"Gunakan koma untuk memisahkan beberapa ASIN. Tekan Enter untuk menyimpan "
+"perubahan."
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/products_selected.js:387
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3742
+msgid ""
+"Multiple product id values can be separated by comma. Press Enter to save "
+"changes."
+msgstr ""
+"Gunakan koma untuk memisahkan beberapa ID produk. Tekan Enter untuk "
+"menyimpan perubahan."
+
+#: src/Localization/AdminTranslations.php:108
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:323
+#: amazon-gutenberg-block/src/edit.js:1002
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4240
+#: amazon-gutenberg-block/dist/index.js:4919
+msgid "Multiple Product List"
+msgstr "Daftar Banyak Produk"
+
+#: src/Localization/AdminTranslations.php:284
+msgid "Name"
+msgstr "Nama"
+
+#: src/Localization/AdminTranslations.php:260
+msgid "Name field not added to all product data rows."
+msgstr "Kolom nama tidak ditambahkan ke semua baris data produk."
+
+#: src/Localization/AdminTranslations.php:298
+msgid "Netherlands"
+msgstr "Belanda"
+
+#: src/Localization/AdminTranslations.php:120
+msgid "New comparison table"
+msgstr "Tabel perbandingan baru"
+
+#: src/Localization/AdminTranslations.php:182
+msgid "New table"
+msgstr "Tabel baru"
+
+#: src/Api/Mercado/Client.php:141
+#, fuzzy
+msgid "No HTML content found in proxy API response."
+msgstr "Tidak ada konten HTML yang ditemukan dalam respons API proxy."
+
+#: src/Shortcodes/templates/product-list.php:28
+msgid "No layout selected."
+msgstr "Tidak ada layout yang dipilih."
+
+#: src/Localization/AdminTranslations.php:267
+#: amazon-gutenberg-block/dist/index.js:4
+#: amazon-gutenberg-block/src/components/ui/List.jsx:13
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:5680
+msgid "No matching options"
+msgstr "Tidak ada opsi yang cocok"
+
+#: src/Localization/AdminTranslations.php:227
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/ui/Dropdown.jsx:48
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3870
+msgid "No options"
+msgstr "Opsi tidak tersedia"
+
+#: src/Setup/Blocks.php:203
+msgid "No products found"
+msgstr "Produk tidak ditemukan"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/products_selected.js:178
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3533
+msgid "No products selected"
+msgstr "Tidak ada produk yang dipilih"
+
+#: src/Errors/AmazonApiError.php:99 src/Rest/ItemsRoutes.php:67
+msgid "No results found."
+msgstr "Tidak tersedia."
+
+#: src/Localization/AdminTranslations.php:311
+msgid "Not now"
+msgstr "Lewati"
+
+#: src/Localization/AdminTranslations.php:133
+msgid "Nothing found"
+msgstr "Tidak ditemukan apa pun"
+
+#: src/Localization/AdminTranslations.php:69
+msgid ""
+"Once you remove it, fetching products from this marketplace in WordPress "
+"will be turned off. Your existing product listings won\\’t be affected. You "
+"can re-add this marketplace anytime."
+msgstr ""
+"Setelah dihapus, pengambilan produk dari marketplace ini di WordPress akan "
+"dinonaktifkan. Daftar produk yang sudah ada tidak akan terpengaruh. Anda "
+"dapat menambahkan kembali marketplace ini kapan saja."
+
+#: src/Localization/AdminTranslations.php:175
+msgid "Open full guide"
+msgstr "Lihat panduan lengkap"
+
+#: src/Localization/AdminTranslations.php:117
+msgid "Open guide"
+msgstr "Panduan terbuka"
+
+#: src/Localization/AdminTranslations.php:55
+msgid "Optional"
+msgstr "Opsional"
+
+#: src/Errors/AmazonApiError.php:53 amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:434
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4351
+msgid "OR"
+msgstr "ATAU"
+
+#: src/Localization/AdminTranslations.php:209
+#: amazon-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4
+#: amazon-gutenberg-block/src/components/product_list_type_selector.js:42
+#: amazon-gutenberg-block/src/components/product_selector.js:105
+#: amazon-gutenberg-block/src/components/product_selector_multiple.js:128
+#: amazon-gutenberg-block/src/views/TableConfiguration.jsx:69
+#: mercado-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/dist/index.js:2634
+#: amazon-gutenberg-block/dist/index.js:2902
+#: amazon-gutenberg-block/dist/index.js:3167
+#: amazon-gutenberg-block/dist/index.js:5106
+msgid "or"
+msgstr "atau"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:262
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4179
+msgid "Overwrite product description"
+msgstr "Ganti deskripsi produk"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:249
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4166
+msgid "Overwrite product description?"
+msgstr "Ingin ganti deskripsi produk?"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:225
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4142
+msgid "Overwrite product title?"
+msgstr "Ingin ganti judul produk?"
+
+#: src/Localization/AdminTranslations.php:36
+msgid "Paste the ASIN code or type to search for products you want to promote."
+msgstr ""
+"Masukkan kode ASIN atau ketik untuk mencari produk yang ingin dipromosikan."
+
+#: src/Localization/AdminTranslations.php:48
+msgid ""
+"Paste the Product ID or type to search for products you want to promote."
+msgstr ""
+"Masukkan ID Produk atau ketik untuk mencari produk yang ingin dipromosikan."
+
+#: src/Localization/AdminTranslations.php:283
+msgid "Paste the shortcode in Block Editor where you want the table to appear."
+msgstr ""
+"Masukkan shortcode di Editor Blok di mana Anda ingin menampilkan tabel."
+
+#: src/Localization/AdminTranslations.php:31
+#: src/Localization/AdminTranslations.php:43
+#: src/Localization/AdminTranslations.php:198
+msgid "Paste your affiliate link"
+msgstr "Masukkan link afiliasi Anda"
+
+#: src/Localization/AdminTranslations.php:218
+msgid "Please check the field - see error message above"
+msgstr "Periksa kolom dan pesan error di atas"
+
+#: src/Shortcodes/ShortcodeManager.php:62
+msgid "Please choose display type!"
+msgstr "Pilih jenis tampilan!"
+
+#: src/Localization/AdminTranslations.php:184
+msgid "Please enter a keyword for search!"
+msgstr "Masukkan kata kunci untuk pencarian"
+
+#: src/Shortcodes/ProductListShortcode.php:99
+#| msgid "Please enter keywords!"
+msgid "Please enter keyword(-s)!"
+msgstr "Masukkan password!"
+
+#: src/Shortcodes/ProductCardShortcode.php:77
+#: src/Shortcodes/ProductListShortcode.php:112
+msgid "Please enter product(-s) ASIN(-s)!"
+msgstr "Masukkan produk ASIN"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/products_selected.js:59
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3414
+msgid "Please provide affiliate URLs for all products"
+msgstr "Berikan URL affiliate untuk semua produk"
+
+#: src/Localization/AdminTranslations.php:299
+msgid "Poland"
+msgstr "Polandia"
+
+#: src/Localization/AdminTranslations.php:273
+#: src/Repositories/TableRepository.php:298
+msgid "Price"
+msgstr "Harga"
+
+#: src/Repositories/TableRepository.php:299
+msgid "Prime Status"
+msgstr "Prime Status"
+
+#: src/Setup/Blocks.php:238
+msgid "product"
+msgstr "produk"
+
+#: src/Localization/AdminTranslations.php:201
+msgid "Product data"
+msgstr "Data produk"
+
+#: src/Localization/AdminTranslations.php:118
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/products_selected.js:217
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3572
+msgid "Product ID"
+msgstr "ID Produk"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:147
+#: amazon-gutenberg-block/dist/index.js:4064
+msgid "Product limit reached: You can add up to 15 products only."
+msgstr "Limit produk tercapai. Anda hanya bisa menambahkan maks. 15 produk."
+
+#: src/Localization/AdminTranslations.php:196
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/products_selected.js:247
+#: amazon-gutenberg-block/src/components/products_selected.js:251
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3602
+#: amazon-gutenberg-block/dist/index.js:3606
+msgid "Product URL"
+msgstr "URL Produk"
+
+#: src/Localization/AdminTranslations.php:281
+msgid "Product visible"
+msgstr "Produk terlihat"
+
+#: src/Localization/AdminTranslations.php:277
+msgid "Products"
+msgstr "Produk"
+
+#: src/Setup/Blocks.php:239
+msgid "products"
+msgstr "produk"
+
+#: src/Shortcodes/ProductCardShortcode.php:87
+#: src/Shortcodes/ProductListShortcode.php:123
+msgid "Products not fetched from DB and/or API. Please check debug logs."
+msgstr "Gagal memuat produk dari DB dan/atau API. Cek log debug."
+
+#. translators: %s: Amazon store region
+#: src/Setup/Blocks.php:188
+#, php-format
+msgid ""
+"Products that shown in here is from your store region (%1$s). You can change "
+"store region in <a href=\"%2$s\">Settings page</a>."
+msgstr ""
+"Produk yang ditampilkan tersedia di toko (%1$s). Anda bisa mengganti lokasi "
+"toko di <a href=\"%2$s\">Pengaturan</a>."
+
+#: src/Localization/AdminTranslations.php:195
+msgid "Products to be compared"
+msgstr "Produk yang akan dibandingkan"
+
+#: src/Api/Mercado/Client.php:150
+#, fuzzy
+msgid "Proxy API request failed."
+msgstr "Permintaan API proxy gagal."
+
+#: src/Localization/AdminTranslations.php:240
+msgid "Publish"
+msgstr "Terbitkan"
+
+#: src/Localization/AdminTranslations.php:32
+#: src/Localization/AdminTranslations.php:44
+#: src/Localization/AdminTranslations.php:173
+msgid "Publish the post"
+msgstr "Bagikan"
+
+#: src/Localization/AdminTranslations.php:237
+msgid "Published"
+msgstr "Diterbitkan"
+
+#: src/Localization/AdminTranslations.php:107
+msgid "Put focus on one product only."
+msgstr "Hanya fokus pada satu produk."
+
+#: src/Localization/AdminTranslations.php:232
+msgid "Quick way to add this table inside the Block Editor."
+msgstr "Cara cepat menambahkan tabel ini di Block Editor."
+
+#: src/Localization/AdminTranslations.php:176
+msgid "Read full documentation"
+msgstr "Baca dokumentasi lengkap"
+
+#: src/Localization/AdminTranslations.php:74
+msgid "Remove"
+msgstr "Hapus"
+
+#: src/Localization/AdminTranslations.php:67
+msgid "Remove Amazon?"
+msgstr "Hapus Amazon?"
+
+#: src/Localization/AdminTranslations.php:246
+msgid "Remove highlight"
+msgstr "Hapus highlight"
+
+#: src/Localization/AdminTranslations.php:68
+msgid "Remove Mercado Livre?"
+msgstr "Hapus Mercado Livre?"
+
+#: src/Errors/AmazonApiError.php:102
+msgid "Request to Amazon API failed."
+msgstr "Permintaan ke Amazon API gagal."
+
+#: src/Localization/AdminTranslations.php:251
+msgid "Row data"
+msgstr "Data baris"
+
+#: src/Localization/AdminTranslations.php:278
+msgid "Rows"
+msgstr "Baris"
+
+#: src/Localization/AdminTranslations.php:301
+msgid "Saudi Arabia"
+msgstr "Arab Saudi"
+
+#: src/Localization/AdminTranslations.php:80
+msgid "Save"
+msgstr "Simpan"
+
+#: src/Localization/AdminTranslations.php:160
+msgid "Save & leave"
+msgstr "Simpan & keluar"
+
+#: src/Localization/AdminTranslations.php:156
+#: src/Localization/AdminTranslations.php:252
+msgid "Save changes"
+msgstr "Simpan perubahan"
+
+#: src/Localization/AdminTranslations.php:157
+msgid "Save changes?"
+msgstr "Simpan perubahan?"
+
+#: src/Localization/AdminTranslations.php:188 src/Setup/Blocks.php:179
+#: mercado-gutenberg-block/dist/index.js:2
+msgid "Search"
+msgstr "Cari"
+
+#: src/Localization/AdminTranslations.php:100
+msgid ""
+"Search for <b>Link to Amazon Products</b> in Gutenberg Blocks, find the "
+"product(s) you want to add, and publish the post."
+msgstr ""
+"Cari <b>Link ke Produk Amazon</b> di Blok Gutenberg, temukan produk yang "
+"ingin ditambahkan, dan bagikan postingan."
+
+#: src/Setup/Blocks.php:217
+msgid "Search for product name that you want to add to your blog post."
+msgstr "Cari nama produk yang akan ditambahkan di postingan blog Anda."
+
+#: mercado-gutenberg-block/dist/index.js:2
+msgid "Search for products or enter a product ID"
+msgstr "Cari produk atau ID produk"
+
+#: src/Localization/AdminTranslations.php:250
+msgid "Search for products or enter Product ID"
+msgstr "Cari produk atau masukkan ID Produk"
+
+#: src/Localization/AdminTranslations.php:249
+msgid "Search for products or enter the ASIN code"
+msgstr "Cari produk atau masukkan kode ASIN"
+
+#: src/Localization/AdminTranslations.php:228
+#: amazon-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/dist/index.js:4
+#: amazon-gutenberg-block/src/components/product_list_type_selector.js:55
+#: amazon-gutenberg-block/src/components/product_selector.js:119
+#: amazon-gutenberg-block/src/components/product_selector_multiple.js:142
+#: amazon-gutenberg-block/src/edit.js:640
+#: mercado-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/dist/index.js:2648
+#: amazon-gutenberg-block/dist/index.js:3181
+#: amazon-gutenberg-block/dist/index.js:4557
+#: amazon-gutenberg-block/dist/index.js:5119
+msgid "Search for the product in Amazon"
+msgstr "Cari produk di Amazon"
+
+#: src/Setup/Blocks.php:200 src/Setup/Blocks.php:211
+msgid "Search icon"
+msgstr "Cari ikon"
+
+#: src/Setup/Blocks.php:177
+msgid "Search product name ..."
+msgstr "Cari nama produk ..."
+
+#: src/Localization/AdminTranslations.php:183
+msgid "Search your table collections"
+msgstr "Cari koleksi tabel Anda"
+
+#: src/Setup/Blocks.php:214
+msgid "Searched products will appear here"
+msgstr "Hasil pencarian akan ditampilkan di sini"
+
+#: src/Localization/AdminTranslations.php:59
+msgid "Secret key"
+msgstr "Secret key"
+
+#: src/Localization/AdminTranslations.php:77
+msgid "Secret key must be 40 characters long"
+msgstr "Secret key harus terdiri dari 40 karakter"
+
+#: src/Localization/AdminTranslations.php:78
+msgid ""
+"Secret key must contain only numbers, letters or the special characters \"."
+"\" and \"/\""
+msgstr ""
+"Secret key hanya boleh berisi angka, huruf, atau karakter \".\" dan \"/\""
+
+#: amazon-gutenberg-block/dist/index.js:4
+#: amazon-gutenberg-block/src/components/DisplayTypeSelector.jsx:42
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:5591
+msgid "Select"
+msgstr "Pilih"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:985
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4902
+msgid "Select A Display Type"
+msgstr "Pilih Jenis A Display"
+
+#: src/Localization/AdminTranslations.php:25
+msgid "Select a marketplace you’ll use to promote products"
+msgstr "Pilih marketplace untuk promosi produk"
+
+#: src/Setup/Blocks.php:234
+msgid "Select at least 2 products to continue"
+msgstr "Pilih minimal 2 produk untuk melanjutkan"
+
+#: src/Localization/AdminTranslations.php:61
+msgid "Select at least one provider"
+msgstr "Pilih setidaknya satu penyedia layanan"
+
+#: src/Localization/AdminTranslations.php:56
+msgid "Select country first to find matching tracking ID"
+msgstr "Pilih negara untuk menemukan ID pelacakan yang cocok"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:621
+#: amazon-gutenberg-block/dist/index.js:4538
+msgid "Select How To Display Products"
+msgstr "Pilih Tampilan Produk"
+
+#: src/Localization/AdminTranslations.php:216
+msgid "Select your country"
+msgstr "Pilih negara"
+
+#: src/Setup/Blocks.php:240 amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/products_selected.js:182
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3537
+msgid "selected"
+msgstr "dipilih"
+
+#: src/Localization/AdminTranslations.php:222
+msgid "Server error occurred"
+msgstr "Terjadi error server"
+
+#: src/Localization/AdminTranslations.php:221
+msgid "Server returned an error"
+msgstr "Server mengalami error"
+
+#: src/Localization/AdminTranslations.php:115
+#: src/Localization/AdminTranslations.php:128
+msgid "Settings"
+msgstr "Pengaturan"
+
+#: src/Localization/AdminTranslations.php:233
+msgid "Shortcode"
+msgstr "Shortcode"
+
+#: src/Localization/AdminTranslations.php:143
+msgid "Shortcode copied!"
+msgstr "Shortcode disalin!"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:236
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4153
+msgid "Show product description?"
+msgstr "Ingin tampilkan deskripsi produk?"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:354
+#: amazon-gutenberg-block/src/edit.js:669
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4271
+#: amazon-gutenberg-block/dist/index.js:4586
+msgid "Simplified list"
+msgstr "Daftar ringkas"
+
+#: src/Localization/AdminTranslations.php:300
+msgid "Singapore"
+msgstr "Singapura"
+
+#: src/Localization/AdminTranslations.php:106
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:313
+#: amazon-gutenberg-block/src/edit.js:997
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4230
+#: amazon-gutenberg-block/dist/index.js:4914
+msgid "Single Product Card"
+msgstr "Single Product Card"
+
+#: src/Localization/AdminTranslations.php:119
+msgid "Something went wrong"
+msgstr "Terjadi error"
+
+#: src/Rest/TableRoutes.php:207
+msgid "Sorry, table does not exists."
+msgstr "Maaf, tabel tidak tersedia."
+
+#: src/Rest/TableRoutes.php:29 src/Rest/TableRoutes.php:180
+#: src/Rest/TableRoutes.php:241
+msgid "Sorry, table id missing"
+msgstr "Maaf, id tabel tidak ditemukan"
+
+#: src/Rest/ItemsRoutes.php:47 src/Rest/ItemsRoutes.php:123
+#: src/Rest/TableRoutes.php:153 src/Rest/TableRoutes.php:194
+msgid "Sorry, there are validation errors."
+msgstr "Maaf, data yang dimasukkan salah."
+
+#: src/Api/Amazon/ProxyApi/Client.php:66
+msgid "Sorry, there was a problem with request."
+msgstr "Maaf, terjadi kendala pada permintaan"
+
+#: src/Rest/SettingsRoutes.php:201 src/Rest/SettingsRoutes.php:235
+msgid "Sorry, you are not allowed to do that."
+msgstr "Maaf, Anda dilarang melakukan hal ini."
+
+#: src/Localization/AdminTranslations.php:302
+msgid "Spain"
+msgstr "Spanyol"
+
+#: src/Localization/AdminTranslations.php:93
+msgid "Start Earning in Four Easy Steps"
+msgstr "Empat Langkah Mudah Dapat Komisi"
+
+#: src/Localization/AdminTranslations.php:91
+msgid "Start Earning Now"
+msgstr "Daftar Sekarang"
+
+#: src/Localization/AdminTranslations.php:241
+msgid "Status"
+msgstr "Status"
+
+#: src/Localization/AdminTranslations.php:303
+msgid "Sweden"
+msgstr "Swedia"
+
+#: src/Setup/Cpts.php:40
+msgid "Table"
+msgstr "Tabel"
+
+#: src/Repositories/TableRepository.php:279
+msgid "Table added feature is missing title."
+msgstr "Fitur yang ditambahkan ke tabel belum memiliki judul."
+
+#: src/Repositories/TableRepository.php:263
+msgid "Table added product is missing asin."
+msgstr "Produk yang ditambahkan ke tabel belum memiliki ASIN."
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:972
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4889
+msgid "Table Configuration"
+msgstr "Konfigurasi Tabel"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:860
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4777
+msgid "Table data"
+msgstr "Data tabel"
+
+#: src/Localization/AdminTranslations.php:179
+msgid "Table data will be shown in this page"
+msgstr "Data tabel akan ditampilkan di halaman ini"
+
+#: src/Repositories/TableRepository.php:48
+#: src/Repositories/TableRepository.php:58
+#: src/Repositories/TableRepository.php:116
+#: src/Repositories/TableRepository.php:126 src/Rest/TableRoutes.php:253
+#: src/Rest/TableRoutes.php:263
+msgid "Table does not exist."
+msgstr "Tabel tidak tersedia."
+
+#: src/Localization/AdminTranslations.php:193
+#: src/Localization/AdminTranslations.php:276
+msgid "Table name"
+msgstr "Nama tabel"
+
+#: src/Repositories/TableRepository.php:248
+msgid "Table name is missing."
+msgstr "Nama tabel belum diisi."
+
+#: src/Shortcodes/ProductTableShortcode.php:73
+msgid "Table not found or it is not published."
+msgstr "Tabel tidak ditemukan atau belum diterbitkan."
+
+#: src/Shortcodes/ProductTableShortcode.php:66
+msgid "Table not found."
+msgstr "Tabel tidak ditemukan."
+
+#: src/Repositories/TableRepository.php:269
+msgid "Table should have at least one feature added."
+msgstr "Tabel harus memiliki minimal satu fitur."
+
+#: src/Repositories/TableRepository.php:252
+msgid "Table should have at least one product added."
+msgstr "Tabel harus memiliki minimal satu produk."
+
+#: src/Repositories/TableRepository.php:285
+msgid "Table status is missing."
+msgstr "Status tabel belum diisi."
+
+#: src/Localization/AdminTranslations.php:225
+msgid "Table was successfully created"
+msgstr "Tabel berhasil dibuat"
+
+#: src/Localization/AdminTranslations.php:234
+msgid "Table was successfully deleted"
+msgstr "Tabel berhasil dihapus"
+
+#: src/Localization/AdminTranslations.php:215
+msgid "Table was successfully saved"
+msgstr "Tabel berhasil disimpan"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:959
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4876
+msgid "Templates and Styles"
+msgstr "Template dan Gaya"
+
+#: src/Localization/AdminTranslations.php:102
+msgid ""
+"That's it – every time visitors buy the product from your post, you will "
+"earn a commission from Amazon."
+msgstr ""
+"Selesai! Anda akan mendapatkan komisi dari Amazon untuk setiap pembelian "
+"produk melalui postingan Anda."
+
+#: src/Localization/AdminTranslations.php:174
+#| msgid ""
+#| "That’s it! After your post published, whenever your visitor buy the "
+#| "product from your post, you will earn commissions."
+msgid ""
+"That's it! After your post published, whenever your visitor buy the product "
+"from your post, you will earn commissions."
+msgstr ""
+"Selesai! Setelah postingan dibagikan, Anda akan mendapatkan komisi dari "
+"setiap pembelian produk melalui postingan Anda."
+
+#: src/Localization/AdminTranslations.php:38
+#: src/Localization/AdminTranslations.php:50
+msgid ""
+"That's it! Whenever a visitor buys a product through your link, you'll earn "
+"commission."
+msgstr ""
+"Selesai! Anda akan mendapatkan komisi setiap kali pengunjung membeli produk "
+"melalui link yang Anda bagikan."
+
+#. translators: %s: URL.
+#: src/Errors/AmazonApiError.php:47
+#, php-format
+msgid ""
+"The Access Key is not enabled for accessing Product Advertising API. For "
+"information on registering for Product Advertising API, see <a href=\"%s\" "
+"target=\"_blank\">Register for Product Advertising API</a>"
+msgstr ""
+"Access Key tidak diaktifkan untuk mengakses Product Advertising API. Untuk "
+"informasi tentang cara mendaftar Product Advertising API, lihat <a "
+"href=\"%s\" target=\"_blank\">Register for Product Advertising API</a>"
+
+#. translators: %s: URL.
+#: src/Errors/AmazonApiError.php:56
+#, php-format
+msgid ""
+"The Access Key is not enabled for accessing this version of Product "
+"Advertising API. Please migrate your credentials as referred here <a "
+"href=\"%s\" target=\"_blank\">Managing your Existing AWS Security "
+"Credentials for the Product Advertising API</a>."
+msgstr ""
+"Access Key tidak diaktifkan untuk mengakses versi Product Advertising API "
+"ini. Harap pindahkan kredensial Anda seperti yang dijelaskan di <a "
+"href=\"%s\" target=\"_blank\">Managing your Existing AWS Security "
+"Credentials for the Product Advertising API</a>."
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:486
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4403
+msgid ""
+"The block you are attempting to use is currently not supported in the Site "
+"Editor. We apologize for any inconvenience this may cause. Our team is "
+"actively working to enhance compatibility, and we appreciate your "
+"understanding. For the best editing experience, please consider using "
+"post/page editor or await future updates."
+msgstr ""
+"Maaf, blok yang Anda pilih belum didukung di Site Editor. Tim kami sedang "
+"berupaya mengembangkan fitur ini. Sementara itu, silakan gunakan editor "
+"postingan/halaman atau tunggu update berikutnya."
+
+#. translators: %s: PHP version
+#: hostinger-affiliate-plugin.php:106
+#, php-format
+msgid ""
+"The Hostinger Affiliate plugin requires minimum PHP version of <b>%s</b>. "
+msgstr "Plugin Afiliasi Hostinger membutuhkan versi PHP minimum <b>%s</b>."
+
+#: src/Services/ProductFetchService.php:190
+#| msgid ""
+#| "There is an issue displaying Amazon products. Please contact "
+#| "administrator to check that."
+msgid ""
+"There is an issue displaying Amazon products. Please contact the "
+"administrator to check that."
+msgstr ""
+"Produk Amazon gagal ditampilkan. Silakan hubungi administrator untuk "
+"informasi lebih lanjut."
+
+#: src/Errors/AmazonApiError.php:36 src/Errors/AmazonApiError.php:89
+msgid "There seems to be a technical problem with your request."
+msgstr "Terjadi masalah teknis dengan permintaan Anda."
+
+#: src/Errors/AmazonApiError.php:74
+msgid ""
+"There was a problem with your request. Amazon limits the number of requests "
+"you can make to their Product Advertising API. Note that your account will "
+"lose access to Product Advertising API 5.0 if it has not generated referring "
+"sales for a consecutive 30-day period."
+msgstr ""
+"Terjadi masalah dengan permintaan Anda. Amazon membatasi jumlah permintaan "
+"yang bisa Anda buat ke Product Advertising API. Akun Anda akan kehilangan "
+"akses ke Product Advertising API 5.0 jika tidak mendapatkan referral selama "
+"periode 30 hari berturut-turut."
+
+#: src/Localization/AdminTranslations.php:192
+msgid "There was an error saving your settings: "
+msgstr "Pengaturan tidak dapat disimpan:"
+
+#: src/Localization/AdminTranslations.php:185
+msgid "There was an error searching for items: "
+msgstr "Item tidak dapat ditemukan:"
+
+#: amazon-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/products_selected.js:14
+#: amazon-gutenberg-block/src/components/product_selector.js:18
+#: amazon-gutenberg-block/src/components/product_selector_multiple.js:19
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:2547
+#: amazon-gutenberg-block/dist/index.js:3058
+#: amazon-gutenberg-block/dist/index.js:3369
+msgid "There was an error validating product ids: "
+msgstr "Terjadi error saat memvalidasi ID produk:"
+
+#: mercado-gutenberg-block/dist/index.js:2
+msgid "There was an error: "
+msgstr "Terjadi error:"
+
+#: src/Localization/AdminTranslations.php:186
+#: amazon-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/products_selected.js:93
+#: amazon-gutenberg-block/src/components/product_selector.js:54
+#: amazon-gutenberg-block/src/components/product_selector_multiple.js:55
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:2583
+#: amazon-gutenberg-block/dist/index.js:3094
+#: amazon-gutenberg-block/dist/index.js:3448
+msgid "There was fatal server error while processing your request."
+msgstr "Maaf, terjadi server eror saat memproses permintaan Anda."
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:479
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4396
+msgid "This block is not supported while using Site Editor"
+msgstr "Blok ini tidak didukung saat menggunakan Site Editor"
+
+#: src/Localization/AdminTranslations.php:217
+#: src/Localization/AdminTranslations.php:226
+msgid "This field is required"
+msgstr "Kolom wajib diisi"
+
+#: src/Localization/AdminTranslations.php:104
+msgid "Three Templates for Your Product(s) Block"
+msgstr "Tiga Template untuk Blok Produk"
+
+#: src/Localization/AdminTranslations.php:272
+#: src/Repositories/TableRepository.php:297
+msgid "Thumbnail"
+msgstr "Thumbnail"
+
+#: src/Localization/AdminTranslations.php:271
+#: src/Repositories/TableRepository.php:296
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:571
+#: amazon-gutenberg-block/src/edit.js:920
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4488
+#: amazon-gutenberg-block/dist/index.js:4837
+msgid "Title"
+msgstr "Judul"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:192
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4109
+msgid "Title length"
+msgstr "Panjang judul"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:219
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4136
+msgid "Title overwrite enabled?"
+msgstr "Ingin aktifkan penggantian judul?"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:513
+#: amazon-gutenberg-block/dist/index.js:4430
+msgid ""
+"To gain full access to this block, you need to connect your Amazon "
+"Partnership account."
+msgstr ""
+"Untuk mendapatkan akses penuh ke blok ini, hubungkan akun Amazon Partnership "
+"Anda."
+
+#: mercado-gutenberg-block/dist/index.js:2
+msgid ""
+"To gain full access to this block, you need to enable Mercado Livre "
+"integration."
+msgstr ""
+"Untuk mendapatkan akses penuh ke blok ini, aktifkan integrasi Mercado Livre."
+
+#: src/Localization/AdminTranslations.php:33
+#: src/Localization/AdminTranslations.php:45
+msgid "To start promoting products, first create a post."
+msgstr ""
+"Untuk mulai mempromosikan produk, Anda harus membuat postingan terlebih "
+"dahulu."
+
+#: src/Localization/AdminTranslations.php:65
+msgid "Tracking ID"
+msgstr "ID Pelacakan"
+
+#: src/Localization/AdminTranslations.php:52
+msgid "Tracking ID connected"
+msgstr "ID pelacakan terhubung"
+
+#: src/Localization/AdminTranslations.php:224
+msgid ""
+"Tracking ID format wrong. Lowercase letters, digits and _-. special chars "
+"are allowed."
+msgstr ""
+"Format ID pelacakan salah. Huruf kecil, angka, dan _-. karakter khusus "
+"diizinkan."
+
+#: src/Localization/AdminTranslations.php:121
+#: src/Localization/AdminTranslations.php:135
+msgid "Try searching for something else"
+msgstr "Coba cari produk lainnya"
+
+#: src/Localization/AdminTranslations.php:304
+msgid "Turkey"
+msgstr "Turki"
+
+#: src/Localization/AdminTranslations.php:140
+msgid "Tutorial"
+msgstr "Tutorial"
+
+#: src/Localization/AdminTranslations.php:161
+msgid "Tutorial video by"
+msgstr "Video tutorial"
+
+#: src/Localization/AdminTranslations.php:285
+msgid "Type"
+msgstr "Jenis"
+
+#: amazon-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/src/components/product_selector.js:100
+#: amazon-gutenberg-block/src/components/product_selector_multiple.js:123
+#: mercado-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/dist/index.js:2629
+#: amazon-gutenberg-block/dist/index.js:3162
+msgid "Type ASIN (Product ID)"
+msgstr "Masukkan ASIN (ID Produk)"
+
+#: src/Localization/AdminTranslations.php:261
+msgid "Type field not added to all product data rows."
+msgstr "Kolom jenis tidak ditambahkan ke semua baris data produk."
+
+#: amazon-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/src/components/product_selector_multiple.js:179
+#: mercado-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/dist/index.js:3218
+msgid "Type the ASINs (Product IDs)"
+msgstr "Masukkan ASIN (ID Produk)"
+
+#: src/Localization/AdminTranslations.php:305
+msgid "United Arab Emirates"
+msgstr "Uni Emirat Arab"
+
+#: src/Localization/AdminTranslations.php:306
+msgid "United Kingdom"
+msgstr "Inggris"
+
+#: src/Localization/AdminTranslations.php:307
+msgid "United States"
+msgstr "Amerika Serikat"
+
+#: src/Localization/Messages.php:24
+msgid "Unknown display type. Please re-select display type."
+msgstr "Jenis tampilan tidak dikenal. Pilih jenis tampilan lain."
+
+#: src/Localization/AdminTranslations.php:90
+msgid ""
+"Unlock the full potential of your website – monetize it with our plugin to "
+"earn more."
+msgstr ""
+"Monetisasi website dengan plugin Hostinger dan dapatkan penghasilan lebih "
+"besar."
+
+#: src/Localization/AdminTranslations.php:239
+msgid "Unpublish"
+msgstr "Batalkan penerbitan"
+
+#: src/Localization/AdminTranslations.php:264
+#: amazon-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/src/views/TableConfiguration.jsx:36
+#: mercado-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/dist/index.js:2869
+msgid "Use the saved table configuration"
+msgstr "Gunakan konfigurasi tabel yang tersimpan"
+
+#: src/Localization/AdminTranslations.php:130
+msgid "View guide"
+msgstr "Lihat panduan"
+
+#: mercado-gutenberg-block/dist/index.js:2
+msgid "View Product on Mercado Livre"
+msgstr "Lihat Produk di Mercado Livre"
+
+#: src/Localization/AdminTranslations.php:236
+msgid "Visibility"
+msgstr "Visibilitas"
+
+#: src/Models/Product.php:284
+msgid "Watch on Amazon Prime"
+msgstr "Tonton di Amazon Prime"
+
+#: src/Localization/AdminTranslations.php:89
+#| msgid "Welcome to Hostinger Amazon Affiliate Connector!"
+msgid "Welcome to Hostinger Amazon Affiliate!"
+msgstr "Selamat Datang di Hostinger Amazon Affiliate!"
+
+#. translators: %s: user display name
+#: amazon-gutenberg-block/dist/index.js:4
+#: amazon-gutenberg-block/src/edit.js:1051
+#: amazon-gutenberg-block/dist/index.js:4968
+#, js-format
+msgid "Welcome, %s!"
+msgstr "Selamat datang, %s!"
+
+#: src/Localization/AdminTranslations.php:280
+msgid "What's an ASIN code?"
+msgstr "Apa itu kode ASIN?"
+
+#: src/Localization/AdminTranslations.php:98
+msgid "Write down your content that you want to link your Amazon product with."
+msgstr "Tuliskan konten untuk membagikan link produk Amazon Anda."
+
+#. translators: %s: PHP version
+#: hostinger-affiliate-plugin.php:110
+#, php-format
+msgid "You are running <b>%s</b> PHP version."
+msgstr "Anda menggunakan versi PHP <b>%s</b>."
+
+#: src/Localization/AdminTranslations.php:279
+msgid ""
+"You can add unlimited products, but only 6 can be shown in a published table."
+msgstr ""
+"Anda bisa menambahkan produk sebanyak mungkin, tapi hanya 6 produk yang akan "
+"muncul di tabel."
+
+#: src/Localization/AdminTranslations.php:309
+msgid ""
+"You can add your comparison table to any post. Whenever a visitor buys a "
+"product through your affiliate link, you'll earn commission."
+msgstr ""
+"Tambahkan tabel perbandingan ke postingan Anda. Dapatkan komisi setiap kali "
+"pengunjung membeli produk lewat link afiliasi Anda."
+
+#: mercado-gutenberg-block/dist/index.js:2
+msgid "You can also edit your product list later from the right-hand menu."
+msgstr "Anda dapat mengedit daftar produk kapan saja dari menu sebelah kanan."
+
+#: src/Localization/AdminTranslations.php:214
+#| msgid ""
+#| "You can also hide products so they don’t appear in the table. Products "
+#| "that you delete will need to be added again."
+msgid ""
+"You can also hide products so they don't appear in the table. Products that "
+"you delete will need to be added again."
+msgstr ""
+"Anda juga bisa menyembunyikan produk agar tidak muncul di tabel. Produk yang "
+"Anda hapus perlu ditambahkan lagi."
+
+#: src/Localization/AdminTranslations.php:211
+msgid ""
+"You can also unpublish your table. Deleting it will cause you to lose all "
+"added products."
+msgstr ""
+"Anda juga dapat membatalkan publikasi tabel Anda. Menghapusnya akan "
+"menyebabkan Anda kehilangan semua produk yang ditambahkan."
+
+#: src/Localization/AdminTranslations.php:265
+#: amazon-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/src/views/TableConfiguration.jsx:43
+#: mercado-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/dist/index.js:2876
+msgid "You can edit the existing table configuration after this step"
+msgstr "Anda bisa mengedit konfigurasi tabel setelah langkah ini"
+
+#: src/Localization/AdminTranslations.php:23
+msgid ""
+"You can select both marketplaces and then easily add affiliate links to your "
+"content."
+msgstr ""
+"Anda dapat memilih kedua marketplace dan menambahkan link affiliate ke "
+"konten Anda."
+
+#: src/Localization/AdminTranslations.php:258
+#| msgid "You have added too many products. Only 5 are allowed."
+msgid "You have added too many products to display. Only 6 are allowed."
+msgstr "Anda menambahkan terlalu banyak produk. Maksimal 5 produk."
+
+#: src/Localization/AdminTranslations.php:158
+msgid "You have unsaved changes that will be lost if you leave."
+msgstr "Perubahan belum disimpan dan akan hilang jika Anda keluar."
+
+#: src/Localization/AdminTranslations.php:262
+msgid ""
+"You need to add at least one row (title, select) to create a table. Check if "
+"all fields are filled."
+msgstr ""
+"Tambahkan minimal satu baris (judul, pilih) untuk membuat tabel. Pastikan "
+"semua kolom telah diisi."
+
+#: src/Localization/AdminTranslations.php:268
+#| msgid ""
+#| "You need to add at least one row, two enabled products to save changes. "
+#| "Check if all added fields are filled."
+msgid ""
+"You need to add at least one row, two enabled products (max 5 products) to "
+"save changes. Check if all added fields are filled."
+msgstr ""
+"Tambahkan minimal satu baris dan dua produk aktif (maksimal 5 produk) untuk "
+"menyimpan perubahan. Pastikan semua kolom yang ditambahkan telah diisi."
+
+#: src/Localization/AdminTranslations.php:170
+msgid ""
+"You need to choose the main layout for your product(s) block based on your "
+"needs. You can choose between single product, multiple product, or "
+"comparison."
+msgstr ""
+"Pilih layout utama produk sesuai kebutuhan Anda. Bisa pilih satu produk, "
+"banyak produk, atau perbandingan."
+
+#: src/Localization/AdminTranslations.php:255
+msgid "You need to enter table name."
+msgstr "Nama tabel harus diisi."
+
+#: src/Localization/AdminTranslations.php:122
+msgid "Your comparison tables"
+msgstr "Tabel perbandingan Anda"
+
+#: src/Localization/AdminTranslations.php:181
+msgid "Your tables"
+msgstr "Tabel Anda"

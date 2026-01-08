@@ -1,0 +1,1695 @@
+# Copyright (C) 2024 Hostinger
+# This file is distributed under the GPL-2.0+.
+msgid ""
+msgstr ""
+"Project-Id-Version: Hostinger Affiliate Plugin 1.1.6\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/hostinger-"
+"affiliate-plugin\n"
+"Last-Translator: \n"
+"Language-Team: Hindi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2024-04-10T12:09:58+00:00\n"
+"PO-Revision-Date: 2025-06-12 08:25+0000\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Domain: hostinger-affiliate-plugin\n"
+"Language: hi_IN\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Loco-Version: 2.7.2; wp-6.8.1"
+
+#. %s: Product ASIN
+#: src/Api/Amazon/ProxyApi/Api/ProductApi.php:72
+#, php-format
+msgid "%s Product does not exist anymore."
+msgstr ""
+
+#: src/Localization/AdminTranslations.php:306
+msgid ""
+"<strong>Amazon is available in</strong>: Australia, Belgium, Brazil, Canada, "
+"Egypt, France, Germany, India, Italy, Japan, Mexico, Netherlands, Poland, "
+"Saudi Arabia, Singapore, Spain, Sweden, Turkey, United Arab Emirates, United "
+"Kingdom, United States."
+msgstr ""
+
+#: src/Localization/AdminTranslations.php:307
+msgid ""
+"<strong>Mercado Livre is available in</strong>: Argentina, Brazil, Mexico."
+msgstr ""
+
+#: src/Localization/AdminTranslations.php:275
+msgid "A table can display up to 6 products."
+msgstr "एक टेबल अधिकतम 6 उत्पाद प्रदर्शित कर सकता है।"
+
+#: src/Localization/AdminTranslations.php:58
+msgid "Access key"
+msgstr "ऍक्सेस कुंजी"
+
+#: src/Localization/AdminTranslations.php:75
+msgid "Access key cannot contain special characters"
+msgstr "ऍक्सेस कुंजी में विशेष वर्णों का समावेश नहीं होना चाहिए"
+
+#: src/Localization/AdminTranslations.php:76
+msgid "Access key must be 20 characters long"
+msgstr "ऍक्सेस कुंजी में 20 वर्ण होने चाहिए"
+
+#: src/Localization/AdminTranslations.php:66
+msgid "Access key must be combination of letters and numbers"
+msgstr "ऍक्सेस कुंजी में अक्षरों और संख्याओं का संयोजन होना चाहिए"
+
+#: src/Localization/AdminTranslations.php:222
+msgid "Add"
+msgstr "जोड़ें"
+
+#: src/Localization/AdminTranslations.php:167
+#| msgid "Add “Link Amazon product(s)” in block editor"
+msgid "Add \"Link Amazon product(s)\" in block editor"
+msgstr "ब्लॉक एडिटर में \"Amazon उत्पाद लिंक करें\" जोड़ें"
+
+#: src/Localization/AdminTranslations.php:109
+msgid "Add a few products and describe them briefly."
+msgstr "कुछ उत्पाद जोड़ें और उनका संक्षिप्त वर्णन दें।"
+
+#: src/Localization/AdminTranslations.php:97
+msgid "Add a new post"
+msgstr "नया पोस्ट जोड़ें"
+
+#: src/Localization/AdminTranslations.php:256
+msgid "Add a new table configuration"
+msgstr "नया टेबल कॉन्फिगरेशन जोड़ें"
+
+#: src/Localization/AdminTranslations.php:28
+#: src/Localization/AdminTranslations.php:40
+msgid "Add a product block"
+msgstr "प्रोडक्ट ब्लॉक जोड़ें"
+
+#: src/Localization/AdminTranslations.php:247
+msgid "Add at least 2 products to continue."
+msgstr "आगे बढ़ने के लिए कम से कम 2 उत्पाद जोड़ें"
+
+#: src/Localization/AdminTranslations.php:252
+msgid "Add at least one product data row."
+msgstr "कम से कम एक प्रोडक्ट डेटा रो जोड़ें"
+
+#: src/Localization/AdminTranslations.php:249
+msgid "Add at least two products to continue"
+msgstr "आगे बढ़ने के लिए कम से कम दो उत्पाद जोड़ें"
+
+#: src/Localization/AdminTranslations.php:236
+msgid "Add highlight"
+msgstr "हाईलाइट जोड़ें"
+
+#: src/Localization/AdminTranslations.php:113
+msgid "Add multiple similar products and compare them."
+msgstr "एकाधिक समान उत्पाद जोड़ें और उनकी तुलना करें।"
+
+#: src/Localization/AdminTranslations.php:223
+msgid "Add product"
+msgstr "उत्पाद जोड़ें"
+
+#: src/Localization/AdminTranslations.php:30
+#: src/Localization/AdminTranslations.php:42
+#: src/Localization/AdminTranslations.php:144
+#: src/Localization/AdminTranslations.php:193
+msgid "Add products"
+msgstr "उत्पाद जोड़ें"
+
+#: src/Localization/AdminTranslations.php:235
+msgid "Add row"
+msgstr "रो जोड़ें"
+
+#: src/Localization/AdminTranslations.php:201
+msgid "Add table"
+msgstr "टेबल जोड़ें"
+
+#: src/Localization/AdminTranslations.php:199
+msgid "Add the product data"
+msgstr "उत्पाद की जानकारी जोड़ें"
+
+#: src/Localization/AdminTranslations.php:171
+msgid "Add the product(s)"
+msgstr "उत्पाद जोड़ें"
+
+#: src/Localization/AdminTranslations.php:24
+msgid ""
+"Add your API credentials to select a language and improve search results. "
+"This step is optional, but recommended."
+msgstr ""
+
+#: src/Localization/AdminTranslations.php:196
+msgid "Affiliate link"
+msgstr "एफिलिएट लिंक"
+
+#: src/Localization/AdminTranslations.php:13 src/Admin/Menus.php:54
+#: src/Admin/Menus.php:55 src/Admin/Menus.php:73
+msgid "Affiliate Marketing"
+msgstr "एफिलिएट मार्केटिंग"
+
+#: src/Setup/Cpts.php:41
+msgid "Affiliate tables"
+msgstr "एफिलिएट टेबल्स"
+
+#: src/Localization/AdminTranslations.php:172
+msgid ""
+"After choosing the layout, you need to find the product(s) that you want to "
+"promote in your post. You can copy-paste the ASIN or search the product(s) "
+"manually."
+msgstr ""
+"लेआउट चुनने के बाद आपको वो उत्पाद ढूंढने होंगे जिसे आप अपनी पोस्ट में "
+"प्रचारित करना चाहते हैं। आप ASIN को कॉपी-पेस्ट कर सकते हैं या उत्पाद को "
+"मैन्युअल रूप से खोज सकते हैं।"
+
+#: src/Localization/AdminTranslations.php:70
+msgid "Amazon"
+msgstr "Amazon"
+
+#: src/Localization/AdminTranslations.php:141
+msgid "Amazon Affiliate"
+msgstr "Amazon एफिलिएट"
+
+#: src/Localization/Messages.php:16
+msgid "Amazon API returned an error."
+msgstr "Amazon API ने त्रुटि लौटाई है।"
+
+#: src/Localization/AdminTranslations.php:189
+msgid "Amazon api was disconnected!"
+msgstr "Amazon API डिस्कनेक्ट हो गया था!"
+
+#: src/Localization/AdminTranslations.php:72
+msgid "Amazon Associates"
+msgstr "Amazon Associates"
+
+#: src/Repositories/TableRepository.php:300
+msgid "Amazon Button"
+msgstr "Amazon बटन"
+
+#: src/Localization/AdminTranslations.php:190
+msgid "Amazon settings were successfully saved!"
+msgstr "Amazon सेटिंग्स सफलतापूर्वक सेव की जा चुकी हैं!"
+
+#: src/Localization/AdminTranslations.php:57
+msgid "API Settings"
+msgstr "API सेटिंग्स"
+
+#: src/Localization/AdminTranslations.php:82
+msgid "API status"
+msgstr "API स्टेटस"
+
+#: src/Localization/AdminTranslations.php:282
+msgid "Argentina"
+msgstr ""
+
+#: src/Localization/AdminTranslations.php:268
+msgid ""
+"ASIN is a unique 10-digit code Amazon assigns to products in its catalog. "
+"You can find it on the product detail page."
+msgstr ""
+"ASIN एक अनोखा 10-अंकीय कोड होता है जो Amazon अपने कैटलॉग में उत्पादों को "
+"आवंटित करता है। आप इसे उत्पाद विवरण पेज पर देख सकते हैं।"
+
+#: src/Localization/Messages.php:20
+msgid "ASIN validation failed. Please check entered product ASIN!"
+msgstr "ASIN का सत्यापन विफल रहा। कृपया दर्ज किए गए उत्पाद ASIN की जांच करें!"
+
+#. %s: PHP version
+#: hostinger-affiliate-plugin.php:104
+msgid "Attention:"
+msgstr "कृपया ध्यान दें:"
+
+#: src/Localization/AdminTranslations.php:279
+msgid "Australia"
+msgstr "ऑस्ट्रेलिया"
+
+#: src/Localization/AdminTranslations.php:152
+msgid "Back"
+msgstr "पीछे जाएं"
+
+#: src/Localization/AdminTranslations.php:280
+msgid "Belgium"
+msgstr "बेल्जियम"
+
+#. %d: bestseller place
+#: src/Shortcodes/templates/lists/simplified-list.php:37
+#: src/Shortcodes/templates/lists/list-with-description.php:16
+#: src/Shortcodes/templates/lists/horizontal-cards.php:20
+msgid "Bestseller #%d"
+msgstr "बेस्टसेलर #%d"
+
+#: src/Localization/AdminTranslations.php:281
+msgid "Brazil"
+msgstr "ब्राज़ील"
+
+#: src/Models/Product.php:275
+msgid "Buy now"
+msgstr "अभी खरीदें"
+
+#: src/Models/Product.php:279
+msgid "Buy on Amazon"
+msgstr "Amazon पर खरीदें"
+
+#: src/Localization/AdminTranslations.php:283
+msgid "Canada"
+msgstr "कनाडा"
+
+#: src/Setup/Blocks.php:248 src/Localization/AdminTranslations.php:205
+msgid "Cancel"
+msgstr "रद्द करें"
+
+#: src/Localization/AdminTranslations.php:151
+msgid ""
+"Check out our quick guide for tips on how to start using this plugin and "
+"start earning."
+msgstr ""
+"हमारी क्विक गाइड देखें और जानें कि इस प्लगइन का उपयोग और इससे कमाई करना कैसे "
+"शुरू करें।"
+
+#: src/Setup/Blocks.php:206
+msgid "Check your search term and try again"
+msgstr "अपना सर्च टर्म जांचें और दोबारा प्रयास करें"
+
+#: src/Localization/AdminTranslations.php:64
+msgid "Choose Amazon region ..."
+msgstr "Amazon क्षेत्र चुनें ..."
+
+#: src/Localization/AdminTranslations.php:105
+msgid ""
+"Choose any template for your needs  – all of them are integrated with the "
+"Gutenberg editor."
+msgstr ""
+"अपनी ज़रूरतों के लिए कोई भी टेम्पलेट चुनें - सभी टेम्पलेट्स Gutenberg  एडिटर "
+"के साथ एकीकृत हैं।"
+
+#: src/Localization/AdminTranslations.php:35
+#: src/Localization/AdminTranslations.php:47
+msgid ""
+"Choose between a single product card, multiple product list, or comparison "
+"table."
+msgstr ""
+"एकल उत्पाद कार्ड, एकाधिक उत्पादों की सूची या कम्पैरिज़न टेबल के बीच चयन करें।"
+
+#: src/Localization/AdminTranslations.php:29
+#: src/Localization/AdminTranslations.php:41
+msgid "Choose how to display products"
+msgstr "तय करें कि आप अपने उत्पाद कैसे प्रदर्शित करना चाहते हैं"
+
+#: src/Localization/AdminTranslations.php:169
+msgid "Choose the layout for the product(s) block"
+msgstr "उत्पाद ब्लॉक के लिए लेआउट चुनें"
+
+#: src/Localization/AdminTranslations.php:259
+msgid "Choose the table configuration"
+msgstr "टेबल कॉन्फिगरेशन चुनें"
+
+#: src/Localization/AdminTranslations.php:136
+#| msgid "Choose which products to compare and set up your table’s rows."
+msgid "Choose which products to compare and set up your table's rows."
+msgstr "किन उत्पादों की तुलना करनी है यह तय कर अपने टेबल के रो सेट अप करें।"
+
+#: src/Localization/AdminTranslations.php:204
+msgid "Close"
+msgstr "बंद करें"
+
+#: src/Localization/AdminTranslations.php:132
+msgid "Coming soon"
+msgstr "जल्द आ रहा है"
+
+#: src/Localization/AdminTranslations.php:112
+msgid "Comparison Table"
+msgstr "कम्पैरिज़न टेबल"
+
+#: src/Localization/AdminTranslations.php:124
+msgid "Comparison tables"
+msgstr "कम्पैरिज़न टेबल्स"
+
+#: src/Localization/AdminTranslations.php:138
+msgid "Configure"
+msgstr "कॉन्फिगर करें"
+
+#: src/Setup/Blocks.php:254
+msgid "Confirm selection"
+msgstr "चयन की पुष्टि करें"
+
+#: src/Localization/AdminTranslations.php:81
+msgid "Connect"
+msgstr "कनेक्ट करें"
+
+#: src/Localization/AdminTranslations.php:79
+msgid "Connect Amazon account"
+msgstr "Amazon अकाउंट कनेक्ट करें"
+
+#: src/Localization/AdminTranslations.php:103
+msgid "Connect With Your Amazon Account"
+msgstr "अपने Amazon अकाउंट के साथ कनेक्ट करें"
+
+#: src/Localization/AdminTranslations.php:18
+#: src/Localization/AdminTranslations.php:95
+msgid "Connect Your Amazon Account"
+msgstr "अपना Amazon अकाउंट कनेक्ट करें"
+
+#: src/Localization/AdminTranslations.php:92
+msgid "Connect your Amazon Associates Account"
+msgstr "अपना Amazon Associates अकाउंट जोड़ें"
+
+#: src/Localization/AdminTranslations.php:15
+#| msgid "Connect  your Amazon Associates Account"
+msgid "Connect your Amazon Associates account"
+msgstr "अपना Amazon Associates अकाउंट कनेक्ट करें"
+
+#: src/Localization/AdminTranslations.php:51
+#: src/Localization/AdminTranslations.php:84
+msgid "Connected"
+msgstr "कनेक्ट हो चुका है"
+
+#: src/Localization/AdminTranslations.php:86
+msgid "Connected to Partner ID:"
+msgstr "पार्टनर ID से कनेक्ट किया जा चुका है"
+
+#: src/Errors/AmazonApiError.php:41 src/Errors/AmazonApiError.php:91
+msgid "Contact Hostinger support for further assistance."
+msgstr "अधिक सहायता के लिए Hostinger सपोर्ट से संपर्क करें।"
+
+#: src/Localization/AdminTranslations.php:203
+msgid "Continue"
+msgstr "जारी रखें"
+
+#: src/Localization/AdminTranslations.php:137
+msgid "Copied successfully!"
+msgstr "सफलतापूर्वक कॉपी किया जा चुका है"
+
+#: src/Localization/AdminTranslations.php:62
+msgid "Country"
+msgstr "देश"
+
+#: src/Localization/AdminTranslations.php:87
+#: src/Localization/AdminTranslations.php:165
+#: src/Localization/AdminTranslations.php:177
+msgid "Create a new post"
+msgstr "नया पोस्ट बनाएं"
+
+#: src/Localization/AdminTranslations.php:27
+#: src/Localization/AdminTranslations.php:39
+#: src/Localization/AdminTranslations.php:303
+msgid "Create a post"
+msgstr "पोस्ट बनाएं"
+
+#: src/Localization/AdminTranslations.php:301
+msgid "Create a post to start promoting products"
+msgstr "उत्पादों का प्रचार करने के लिए पोस्ट बनाएं"
+
+#: src/Localization/AdminTranslations.php:123
+#: src/Localization/AdminTranslations.php:125
+msgid "Create and manage your comparison tables."
+msgstr "अपने कंपैरिज़न टेबल्स बनाएं और प्रबंधित करें।"
+
+#. Description of the plugin
+msgid ""
+"Create and promote products using affiliate links from different "
+"marketplaces. Easily manage and display affiliate products on your site."
+msgstr ""
+
+#: src/Localization/AdminTranslations.php:53
+msgid "Create post"
+msgstr "पोस्ट बनाएं"
+
+#: src/Localization/AdminTranslations.php:180
+#| msgid "Create new table"
+msgid "Create table"
+msgstr "नया टेबल बनाएं"
+
+#: src/Localization/AdminTranslations.php:134
+msgid "Create your first comparison table"
+msgstr "अपना कंपैरिज़न टेबल बनाएं"
+
+#: src/Localization/AdminTranslations.php:231
+msgid "Date created"
+msgstr "बनाए जाने की तिथि"
+
+#: src/Localization/AdminTranslations.php:206
+msgid "Delete"
+msgstr "हटाएं"
+
+#: src/Localization/AdminTranslations.php:212
+msgid "Delete product?"
+msgstr "उत्पाद हटाएं"
+
+#: src/Localization/AdminTranslations.php:207
+#| msgid "Delete table?"
+msgid "Delete table"
+msgstr "टेबल हटाएं?"
+
+#: src/Localization/AdminTranslations.php:211
+msgid "Delete this table?"
+msgstr "यह टेबल हटाएं?"
+
+#: src/Localization/AdminTranslations.php:305
+msgid ""
+"Depending on your country, different marketplaces may be available to you."
+msgstr ""
+
+#: src/Localization/AdminTranslations.php:228
+msgid "Determine who will see the table"
+msgstr "तय करें कि टेबल कौन देख सकता है"
+
+#: src/Localization/AdminTranslations.php:88
+msgid "Disconnect"
+msgstr "डिस्कनेक्ट करें"
+
+#: src/Localization/AdminTranslations.php:85
+msgid "Disconnected"
+msgstr "डिस्कनेक्ट किया जा चुका है"
+
+#. %s: product asin.
+#: src/Localization/AdminTranslations.php:263
+#, php-format
+msgid "Duplicate ASIN: %s was not added."
+msgstr "डुप्लिकेट ASIN: %s नहीं जोड़ा गया।"
+
+#: src/Localization/AdminTranslations.php:101
+msgid "Earn Commissions"
+msgstr "कमीशन कमाएं"
+
+#: src/Localization/AdminTranslations.php:142
+msgid "Edit your Amazon API details"
+msgstr "अपना Amazon API विवरण एडिट करें"
+
+#: src/Localization/AdminTranslations.php:284
+msgid "Egypt"
+msgstr "इजिप्ट"
+
+#: src/Localization/AdminTranslations.php:250
+msgid "Enable at least two products to continue"
+msgstr "आगे बढ़ने के लिए कम से कम दो उत्पाद सक्षम करें"
+
+#: src/Localization/AdminTranslations.php:241
+msgid "Enter text label. For example: Best Price"
+msgstr "टेक्स्ट लेबल दर्ज करें। उदाहरण के लिए: सबसे अच्छी कीमत"
+
+#: src/Localization/AdminTranslations.php:202
+msgid "Enter your table name"
+msgstr "अपने टेबल का नाम दर्ज करें"
+
+#. %s: missing field key name
+#: src/Localization/Messages.php:12
+#, php-format
+msgid "Field %s is empty."
+msgstr "फील्ड %s रिक्त है।"
+
+#: src/Localization/AdminTranslations.php:19
+msgid "Fill API details from Amazon Product Advertising dashboard to start"
+msgstr "शुरू करने के लिए Amazon उत्पाद विज्ञापन डैशबोर्ड से API विवरण भरें"
+
+#: src/Localization/AdminTranslations.php:54
+msgid "Find your API credentials"
+msgstr "अपने API क्रेडेंशियल्स ढूंढें"
+
+#: src/Localization/AdminTranslations.php:154
+msgid "Find your Tracking ID"
+msgstr "अपनी ट्रैकिंग ID ढूंढें"
+
+#: src/Localization/AdminTranslations.php:166
+msgid ""
+"First thing first, you need to create a post. Make sure to create the post "
+"with the specific niche to be more related with your visitors."
+msgstr ""
+"सबसे पहले आपको एक पोस्ट बनाना होगा। अपने विज़िटर्स के साथ गहरे स्तर पर जुड़ने "
+"के लिए विशिष्ट विषय पर पोस्ट बनाना न भूलें।"
+
+#: src/Localization/AdminTranslations.php:94
+msgid ""
+"Follow this step-by-step guide to start earning your affiliate commission in "
+"no time."
+msgstr ""
+"कुछ ही समय में अपनी एफिलिएट कमीशन कमाना शुरू करने के लिए इस स्टेप-बाय-स्टेप "
+"मार्गदर्शिका का पालन करें।"
+
+#: src/Localization/AdminTranslations.php:37
+#: src/Localization/AdminTranslations.php:49
+msgid "For each product, generate and paste your affiliate link."
+msgstr "प्रत्येक उत्पाद के लिए अपनी एफिलिएट लिंक जनरेट करें और पेस्ट करें।"
+
+#: src/Localization/AdminTranslations.php:285
+msgid "France"
+msgstr "फ्रांस"
+
+#: src/Localization/AdminTranslations.php:155
+msgid "General"
+msgstr "सामान्य"
+
+#: src/Localization/AdminTranslations.php:246
+msgid "General settings"
+msgstr "सामान्य सेटिंग्स"
+
+#: src/Localization/AdminTranslations.php:286
+msgid "Germany"
+msgstr "जर्मनी"
+
+#: src/Localization/AdminTranslations.php:114
+msgid "Get Started"
+msgstr "शुरू करें"
+
+#: src/Localization/AdminTranslations.php:148
+msgid "Get started with our plugin"
+msgstr "हमारे प्लगइन के साथ शुरुआत करें"
+
+#: src/Localization/AdminTranslations.php:14
+msgid "Getting Started"
+msgstr "शुरुआत करें"
+
+#: src/Localization/AdminTranslations.php:126
+msgid "Getting started"
+msgstr "शुरुआत करें"
+
+#: src/Localization/AdminTranslations.php:150
+msgid "Got it"
+msgstr "समझ गए"
+
+#. %s: Amazon store region
+#: src/Setup/Blocks.php:222
+#, php-format
+msgid "Here you will see products from your store region on <b>%s</b>."
+msgstr "यहां आपको <b>%s</b> पर अपने स्टोर क्षेत्र के उत्पाद दिखाई देंगे।"
+
+#: src/Setup/Blocks.php:224
+msgid "Here you will see products from your store region."
+msgstr "यहां आपको अपने स्टोर क्षेत्र के उत्पाद दिखाई देंगे।"
+
+#: src/Localization/AdminTranslations.php:238
+msgid "Highlight settings"
+msgstr "हाईलाइट की सेटिंग्स"
+
+#. Author of the plugin
+msgid "Hostinger"
+msgstr "Hostinger"
+
+#: src/Localization/AdminTranslations.php:162
+msgid "Hostinger Academy"
+msgstr "Hostinger अकादमी"
+
+#: src/Localization/AdminTranslations.php:12
+msgid "Hostinger Affiliate"
+msgstr "Hostinger Affiliate"
+
+#. Name of the plugin
+#, fuzzy
+#| msgid "Hostinger Amazon Affiliate Marketing Tools"
+msgid "Hostinger Affiliate Marketing Tools"
+msgstr "Hostinger Amazon Affiliate मार्केटिंग टूल्स"
+
+#: src/Admin/Surveys/AmazonSurvey.php:24
+msgid "How could we improve the Hostinger Affiliate plugin for Amazon?"
+msgstr ""
+
+#: src/Admin/Surveys/MercadoSurvey.php:24
+msgid "How could we improve the Hostinger Affiliate plugin for Mercado Libre?"
+msgstr ""
+
+#: src/Localization/AdminTranslations.php:178
+msgid "How to create a product listing using our plugin?"
+msgstr "हमारे प्लगइन का उपयोग कर उत्पादों की सूची कैसे बनाएं?"
+
+#: src/Localization/AdminTranslations.php:16
+msgid "How to create a product listing with our plugin?"
+msgstr "हमारे प्लगइन का उपयोग कर उत्पादों की सूची कैसे बनाएं?"
+
+#: src/Localization/AdminTranslations.php:224
+msgid "How to do that?"
+msgstr "यह कैसे करें?"
+
+#: src/Localization/AdminTranslations.php:198
+msgid "How to get your affiliate link"
+msgstr "अपनी एफिलिएट लिंक कैसे पाएं"
+
+#: src/Localization/AdminTranslations.php:163
+#| msgid ""
+#| "How to Set Up Amazon Affiliate with Hostinger Amazon Affiliate Connector -"
+#| " Step by step guide"
+msgid ""
+"How to Set Up Amazon Affiliate with Hostinger Amazon Affiliate - Step by "
+"step guide"
+msgstr ""
+"Hostinger Amazon Affiliate Connector के साथ Amazon Affiliate कैसे सेट अप "
+"करें - स्टेप बाय स्टेप गाइड"
+
+#: src/Localization/AdminTranslations.php:164
+msgid "How to use this plugin?"
+msgstr "यह प्लगइन कैसे इस्तेमाल करें?"
+
+#: src/Admin/Surveys/AmazonSurvey.php:20
+msgid "How would you rate your experience publishing Amazon Affiliate links?"
+msgstr ""
+
+#: src/Admin/Surveys/MercadoSurvey.php:20
+msgid ""
+"How would you rate your experience publishing Mercado Libre Affiliate links?"
+msgstr ""
+
+#. URI of the plugin
+#. Author URI of the plugin
+msgid "https://hostinger.com"
+msgstr "https://hostinger.in"
+
+#: src/Errors/AmazonApiError.php:76
+msgid ""
+"If the problems persists, contact Amazon Associates support for further "
+"assistance."
+msgstr ""
+"यदि समस्या बनी रहती है, तो सहायता पाने के लिए Amazon Associates सपोर्ट से "
+"संपर्क करें।"
+
+#: src/Errors/AmazonApiError.php:66 src/Errors/AmazonApiError.php:71
+msgid ""
+"If you're still having trouble after checking your settings, contact Amazon "
+"Associates support for further assistance."
+msgstr ""
+"यदि अपनी सेटिंग्स की जांच करने के बाद भी आपको समस्या हो रही है, तो सहायता "
+"पाने के लिए Amazon Associates सहायता से संपर्क करें।"
+
+#: src/Localization/AdminTranslations.php:21
+msgid ""
+"In order to get the Amazon API information, you need to log in to your <b>"
+"Amazon Associate</b> account."
+msgstr ""
+"Amazon API की जानकारी पाने के लिए आपको अपने <b>Amazon Associate</b> अकाउंट "
+"में लॉग इन करना होगा।"
+
+#: src/Localization/AdminTranslations.php:34
+msgid ""
+"In the editor, type '/' or click the '+' icon. Then, select 'Link Amazon "
+"products'."
+msgstr ""
+"एडिटर में '/' टाइप करें या '+' आइकॉन पर क्लिक करें। फिर 'Amazon उत्पाद लिंक "
+"करें' का चयन करें।"
+
+#: src/Localization/AdminTranslations.php:46
+msgid ""
+"In the editor, type '/' or click the '+' icon. Then, select 'Link Mercado "
+"Livre products'."
+msgstr ""
+"एडिटर में '/' टाइप करें या '+' आइकॉन पर क्लिक करें। फिर 'Mercado Livre के "
+"उत्पाद लिंक करें' का चयन करें।"
+
+#: src/Localization/AdminTranslations.php:287
+msgid "India"
+msgstr "भारत"
+
+#: src/Errors/AmazonApiError.php:80
+msgid "Input parameter relating to request is invalid or is missing."
+msgstr "अनुरोध से संबंधित इनपुट पैरामीटर वैध नहीं है या रिक्त है।"
+
+#: src/Localization/AdminTranslations.php:96
+msgid "Insert API code inside the Amazon Product Advertising dashboard."
+msgstr " Amazon Product Advertising डैशबोर्ड के अंदर API कोड दर्ज करें।"
+
+#: src/Localization/AdminTranslations.php:168
+#| msgid ""
+#| "Inside Block Editor, you can call Hostinger Amazon Affiliate in the block "
+#| "options. You can call it by typing “/” or click the add button in the "
+#| "right side of the paragraph."
+msgid ""
+"Inside Block Editor, you can call Hostinger Amazon Affiliate in the block "
+"options. You can call it by typing \"/\" or click the add button in the "
+"right side of the paragraph."
+msgstr ""
+"ब्लॉक एडिटर के अंदर आप ब्लॉक ऑप्शन में Hostinger Amazon Affiliate को कॉल कर "
+"सकते हैं। आप \"/\" टाइप करके कॉल कर सकते हैं या पैराग्राफ के दाईं ओर ऐड बटन "
+"पर क्लिक कर सकते हैं।"
+
+#: src/Localization/AdminTranslations.php:209
+msgid "Invalid ASIN"
+msgstr "अमान्य ASIN"
+
+#: src/Rest/SettingsRoutes.php:222
+msgid "Invalid locale selected. Please choose a valid locale."
+msgstr ""
+
+#: src/Shortcodes/ProductTableShortcode.php:161
+#: src/Shortcodes/templates/product-card.php:60
+#: src/Rest/templates/search-results.php:86
+#: src/Shortcodes/templates/lists/simplified-list.php:66
+#: src/Shortcodes/templates/lists/list-with-description.php:72
+#: src/Shortcodes/templates/lists/horizontal-cards.php:74
+msgid "Is prime"
+msgstr "प्रधान है"
+
+#: src/Localization/AdminTranslations.php:288
+msgid "Italy"
+msgstr "इटली"
+
+#: src/Localization/AdminTranslations.php:289
+msgid "Japan"
+msgstr "जापान"
+
+#: src/Localization/AdminTranslations.php:240
+msgid "Label"
+msgstr "लेबल"
+
+#: src/Localization/AdminTranslations.php:60
+msgid "Language"
+msgstr "भाषा"
+
+#: src/Localization/AdminTranslations.php:63
+msgid "Language of Preference"
+msgstr "पसंदीदा भाषा"
+
+#: src/Localization/AdminTranslations.php:146
+msgid ""
+"Learn how to create product listings using Hostinger's affiliate plugin – "
+"and start earning commission."
+msgstr ""
+"Hostinger के एफिलिएट प्लगइन का उपयोग कर उत्पाद की सूची बनाना सीखें – और "
+"कमीशन कामना शुरू करें।"
+
+#: src/Localization/AdminTranslations.php:147
+msgid ""
+"Learn how to use Hostinger's Amazon Affiliate with our tutorials and "
+"documentations"
+msgstr ""
+"हमारे ट्यूटोरियल्स और दस्तावेज़ों से जानें कि Hostinger के Amazon Affiliate "
+"का उपयोग कैसे करें"
+
+#: src/Localization/AdminTranslations.php:127
+msgid "Learn how to use our affiliate plugin."
+msgstr "हमारे एफिलिएट प्लगइन का उपयोग करना सीखें।"
+
+#: src/Localization/AdminTranslations.php:149
+msgid "Learn how to use our plugin"
+msgstr "जानें कि हमारे प्लगइन का उपयोग कैसे करते हैं"
+
+#: src/Localization/AdminTranslations.php:145
+msgid "Learn more on how to use this plugin"
+msgstr "इस प्लगइन का उपयोग करने पर अधिक जानकारी पाएं"
+
+#: src/Localization/AdminTranslations.php:159
+msgid "Leave without saving"
+msgstr "बिना सेव किए बाहर आएं"
+
+#: src/Localization/AdminTranslations.php:99
+msgid "Link Amazon Products"
+msgstr "Amazon उत्पाद लिंक करें"
+
+#: src/Localization/AdminTranslations.php:83
+#| msgid ""
+#| "Link your Amazon account to your website, start promoting products, and "
+#| "earn rewards."
+msgid ""
+"Link your Amazon account to your website, start promoting products, and earn "
+"rewards. No API key required."
+msgstr ""
+"अपना Amazon अकाउंट अपनी वेबसाइट से लिंक करें, उत्पादों का प्रचार करना शुरू "
+"करें और रिवॉर्ड्स पाएं।"
+
+#: src/Localization/AdminTranslations.php:20
+msgid "Log in to Amazon Associate dashboard"
+msgstr "Amazon Associate डैशबोर्ड में लॉगिन करें"
+
+#: src/Localization/AdminTranslations.php:22
+msgid "Login"
+msgstr "लॉगिन करें"
+
+#: src/Errors/AmazonApiError.php:64
+msgid ""
+"Looks like there's a configuration issue with your Amazon Associates account."
+" The access key you provided is not linked to a primary store in your "
+"approved Amazon Associates account. To fix this, head over to Associate "
+"Central and check your account settings. Make sure the access key you're "
+"using is associated with a primary store that's been approved by Amazon "
+"Associates."
+msgstr ""
+"लगता है कि आपके Amazon Associates अकाउंट में कॉन्फिगरेशन को लेकर कोई समस्या "
+"है। आपके द्वारा प्रदान की गई एक्सेस कुंजी आपके स्वीकृत Amazon Associates "
+"अकाउंट के प्राथमिक स्टोर से लिंक्ड नहीं है। इसे ठीक करने के लिए Associate "
+"Central पर जाएं और अपनी अकाउंट सेटिंग्स की जांच करें। सुनिश्चित करें कि आप "
+"जिस एक्सेस कुंजी का उपयोग कर रहे हैं वह Amazon Associates द्वारा स्वीकृत किए "
+"गए आपके प्राथमिक स्टोर से जुड़ी हुई है।"
+
+#: src/Errors/AmazonApiError.php:94
+msgid ""
+"Looks like there's a configuration issue with your Amazon Associates account."
+" The access key you provided is not valid. To fix this, head over to "
+"Associate Central and check your account settings."
+msgstr ""
+"लगता है कि आपके Amazon Associates अकाउंट में कॉन्फिगरेशन को लेकर कोई समस्या "
+"है। आपके द्वारा प्रदान की गई एक्सेस कुंजी वैध नहीं है। इस समस्या को ठीक करने "
+"के लिए Associate Central पर जाएं और अपनी अकाउंट सेटिंग्स की जांच करें।"
+
+#: src/Errors/AmazonApiError.php:69
+msgid ""
+"Looks like there's a configuration issue with your Amazon Associates account."
+" The partner tag you provided is not linked to the access key you’re using. "
+"To fix this, head over to Associate Central and check your account settings. "
+"Make sure the partner tag you're using is associated with a valid store in "
+"your Amazon Associates account for the requested marketplace."
+msgstr ""
+"लगता है कि आपके Amazon Associates अकाउंट में कॉन्फिगरेशन को लेकर कोई समस्या "
+"है। आपके द्वारा प्रदान किया गया पार्टनर टैग आपकी एक्सेस कुंजी से लिंक्ड नहीं "
+"है। इसे ठीक करने के लिए Associate Central पर जाएं और अपनी अकाउंट सेटिंग्स की "
+"जांच करें। सुनिश्चित करें कि आप जिस पार्टनर टैग का उपयोग कर रहे हैं, वह आपके "
+"Amazon Associates अकाउंट में अनुरोधित मार्केटप्लेस के लिए वैध स्टोर से जुड़ा "
+"हुआ है।"
+
+#: src/Errors/AmazonApiError.php:96
+msgid ""
+"Make sure the access key you're using is correct. If you're still having "
+"trouble after checking your settings, contact Amazon Associates support for "
+"further assistance."
+msgstr ""
+"ध्यान रहे कि आप जिस एक्सेस कुंजी का उपयोग कर रहे हैं, वह सही है। यदि अपनी "
+"सेटिंग्स की जांच करने के बाद भी आपको समस्या हो रही है, तो सहायता पाने के लिए "
+"Amazon Associates सपोर्ट से संपर्क करें।"
+
+#: src/Localization/AdminTranslations.php:131
+msgid "Manage"
+msgstr "प्रबंधित करें"
+
+#: src/Localization/AdminTranslations.php:17
+msgid "Manage marketplaces"
+msgstr "मार्केटप्लेस प्रबंधित करें"
+
+#: src/Localization/AdminTranslations.php:139
+msgid "Manage table"
+msgstr "टेबल प्रबंधित करें"
+
+#: src/Localization/AdminTranslations.php:116
+msgid "Manage your Amazon API and other configurations"
+msgstr "अपना Amazon API और अन्य कॉन्फिगरेशन प्रबंधित करें"
+
+#: src/Localization/AdminTranslations.php:129
+#: src/Localization/AdminTranslations.php:187
+msgid "Manage your Amazon API and other settings."
+msgstr "अपना Amazon API और अन्य सेटिंग्स प्रबंधित करें।"
+
+#: src/Localization/AdminTranslations.php:110
+msgid "Marketplace availability by country"
+msgstr ""
+
+#: src/Localization/AdminTranslations.php:26
+#: src/Localization/AdminTranslations.php:153
+#: src/Localization/AdminTranslations.php:237
+msgid "Menu"
+msgstr "मेन्यू"
+
+#: src/Localization/AdminTranslations.php:71
+msgid "Mercado Livre"
+msgstr "Mercado Livre"
+
+#: src/Localization/AdminTranslations.php:73
+msgid "Mercado Livre Partner"
+msgstr "Mercado Livre पार्टनर"
+
+#: src/Localization/AdminTranslations.php:111
+msgid "Mercado Livre Partner settings"
+msgstr ""
+
+#: src/Localization/AdminTranslations.php:290
+msgid "Mexico"
+msgstr "मेक्सिको"
+
+#: src/Localization/AdminTranslations.php:267
+msgid "More information"
+msgstr "अधिक जानकारी"
+
+#: src/Localization/AdminTranslations.php:108
+msgid "Multiple Product List"
+msgstr "एकाधिक उत्पाद सूचियां"
+
+#: src/Localization/AdminTranslations.php:277
+msgid "Name"
+msgstr "नाम"
+
+#: src/Localization/AdminTranslations.php:253
+msgid "Name field not added to all product data rows."
+msgstr "सभी उत्पाद डेटा रो में नाम के लिए फील्ड नहीं जोड़ी गई है।"
+
+#: src/Localization/AdminTranslations.php:291
+msgid "Netherlands"
+msgstr "नीदरलैंड"
+
+#: src/Localization/AdminTranslations.php:120
+msgid "New comparison table"
+msgstr "नया कंपैरिज़न टेबल"
+
+#: src/Localization/AdminTranslations.php:182
+msgid "New table"
+msgstr "नया टेबल"
+
+#: src/Shortcodes/templates/product-list.php:28
+msgid "No layout selected."
+msgstr "कोई लेआउट चुना नहीं गया है"
+
+#: src/Localization/AdminTranslations.php:260
+msgid "No matching options"
+msgstr "कोई मिलता-जुलता विकल्प नहीं है"
+
+#: src/Localization/AdminTranslations.php:220
+msgid "No options"
+msgstr "कोई विकल्प नहीं है"
+
+#: src/Setup/Blocks.php:203
+msgid "No products found"
+msgstr "कोई उत्पाद नहीं मिला है"
+
+#: src/Errors/AmazonApiError.php:99 src/Rest/ItemsRoutes.php:67
+msgid "No results found."
+msgstr "कोई परिणाम नहीं मिला"
+
+#: src/Localization/AdminTranslations.php:304
+msgid "Not now"
+msgstr "अभी नहीं"
+
+#: src/Localization/AdminTranslations.php:133
+msgid "Nothing found"
+msgstr "कुछ नहीं मिला"
+
+#: src/Localization/AdminTranslations.php:69
+msgid ""
+"Once you remove it, fetching products from this marketplace in WordPress "
+"will be turned off. Your existing product listings won\\’t be affected. You "
+"can re-add this marketplace anytime."
+msgstr ""
+"एक बार जब आप इसे हटा देते हैं, आप WordPress पर इसके मार्केटप्लेस से उत्पाद "
+"फेच नहीं कर पाएंगे। आपकी मौजूदा उत्पाद सूची पर इसका कोई प्रभाव नहीं होगा। आप "
+"किसी भी समय इस मार्केटप्लेस को दोबारा जोड़ सकते हैं।"
+
+#: src/Localization/AdminTranslations.php:175
+msgid "Open full guide"
+msgstr "पूरी गाइड खोलें"
+
+#: src/Localization/AdminTranslations.php:117
+msgid "Open guide"
+msgstr "गाइड खोलें"
+
+#: src/Localization/AdminTranslations.php:55
+msgid "Optional"
+msgstr "वैकल्पिक"
+
+#: src/Errors/AmazonApiError.php:53
+msgid "OR"
+msgstr "या"
+
+#: src/Localization/AdminTranslations.php:208
+msgid "or"
+msgstr "या"
+
+#: src/Localization/AdminTranslations.php:36
+msgid "Paste the ASIN code or type to search for products you want to promote."
+msgstr "ASIN कोड पेस्ट करें या वो उत्पाद खोजें जिनका आप प्रचार करना चाहते हैं।"
+
+#: src/Localization/AdminTranslations.php:48
+msgid ""
+"Paste the Product ID or type to search for products you want to promote."
+msgstr ""
+"उत्पाद ID पेस्ट करें या वो उत्पाद खोजें जिनका आप प्रचार करना चाहते हैं।"
+
+#: src/Localization/AdminTranslations.php:276
+msgid "Paste the shortcode in Block Editor where you want the table to appear."
+msgstr ""
+"शॉर्टकोड को ब्लॉक एडिटर में वहां पेस्ट करें जहां आप टेबल दिखाना चाहते हैं।"
+
+#: src/Localization/AdminTranslations.php:31
+#: src/Localization/AdminTranslations.php:43
+#: src/Localization/AdminTranslations.php:197
+msgid "Paste your affiliate link"
+msgstr "अपनी एफिलिएट लिंक पेस्ट करें"
+
+#: src/Shortcodes/ShortcodeManager.php:56
+msgid "Please choose display type!"
+msgstr "डिस्प्ले का प्रकार चुनें!"
+
+#: src/Localization/AdminTranslations.php:184
+msgid "Please enter a keyword for search!"
+msgstr "कृपया खोजने के लिए कोई कीवर्ड दर्ज करें!"
+
+#: src/Shortcodes/ProductListShortcode.php:113
+#| msgid "Please enter keywords!"
+msgid "Please enter keyword(-s)!"
+msgstr "कृपया कीवर्ड्स दर्ज करें!"
+
+#: src/Shortcodes/ProductCardShortcode.php:88
+#: src/Shortcodes/ProductListShortcode.php:125
+msgid "Please enter product(-s) ASIN(-s)!"
+msgstr "कृपया उत्पाद(-उत्पादों) को ASIN दर्ज करें!"
+
+#: src/Localization/AdminTranslations.php:292
+msgid "Poland"
+msgstr "पोलैंड"
+
+#: src/Repositories/TableRepository.php:298
+#: src/Localization/AdminTranslations.php:266
+msgid "Price"
+msgstr "कीमत"
+
+#: src/Repositories/TableRepository.php:299
+msgid "Prime Status"
+msgstr "प्राइम स्टेटस"
+
+#: src/Setup/Blocks.php:238
+msgid "product"
+msgstr "उत्पाद"
+
+#: src/Localization/AdminTranslations.php:200
+msgid "Product data"
+msgstr "उत्पाद डेटा"
+
+#: src/Localization/AdminTranslations.php:118
+msgid "Product ID"
+msgstr "उत्पाद ID"
+
+#: src/Localization/AdminTranslations.php:195
+msgid "Product URL"
+msgstr "उत्पाद URL"
+
+#: src/Localization/AdminTranslations.php:274
+msgid "Product visible"
+msgstr "उत्पाद दिख रहा है"
+
+#: src/Localization/AdminTranslations.php:270
+msgid "Products"
+msgstr "उत्पाद"
+
+#: src/Setup/Blocks.php:239
+msgid "products"
+msgstr "उत्पाद"
+
+#: src/Shortcodes/ProductCardShortcode.php:98
+#: src/Shortcodes/ProductListShortcode.php:136
+msgid "Products not fetched from DB and/or API. Please check debug logs."
+msgstr "उत्पाद DB और/या API फेच नहीं किए गए। कृपया डीबग लॉग जांचें।"
+
+#. %s: Amazon store region
+#: src/Setup/Blocks.php:188
+#, php-format
+msgid ""
+"Products that shown in here is from your store region (%1$s). You can change "
+"store region in <a href=\"%2$s\">Settings page</a>."
+msgstr ""
+"यहां दिखाए गए उत्पाद आपके स्टोर क्षेत्र (%1$s) से हैं। आप <a href=\"%2$s\">"
+"सेटिंग्स पेज</a> से स्टोर का क्षेत्र बदल सकते हैं।"
+
+#: src/Localization/AdminTranslations.php:194
+msgid "Products to be compared"
+msgstr "जिन उत्पादों की तुलना की जानी है"
+
+#: src/Localization/AdminTranslations.php:233
+msgid "Publish"
+msgstr "पब्लिश करें"
+
+#: src/Localization/AdminTranslations.php:32
+#: src/Localization/AdminTranslations.php:44
+#: src/Localization/AdminTranslations.php:173
+msgid "Publish the post"
+msgstr "पोस्ट पब्लिश करें"
+
+#: src/Localization/AdminTranslations.php:230
+msgid "Published"
+msgstr "पब्लिश किया जा चुका है"
+
+#: src/Localization/AdminTranslations.php:107
+msgid "Put focus on one product only."
+msgstr "केवल एक उत्पाद पर ध्यान केंद्रित करें।"
+
+#: src/Localization/AdminTranslations.php:225
+msgid "Quick way to add this table inside the Block Editor."
+msgstr "इस टेबल को ब्लॉक एडिटर के अंदर जोड़ने का त्वरित तरीका।"
+
+#: src/Localization/AdminTranslations.php:176
+msgid "Read full documentation"
+msgstr "पूरा दस्तावेज़ पढ़ें"
+
+#: src/Localization/AdminTranslations.php:74
+msgid "Remove"
+msgstr "हटाएं"
+
+#: src/Localization/AdminTranslations.php:67
+msgid "Remove Amazon?"
+msgstr "Amazon हटाएं?"
+
+#: src/Localization/AdminTranslations.php:239
+msgid "Remove highlight"
+msgstr "हाईलाइट हटाएं"
+
+#: src/Localization/AdminTranslations.php:68
+msgid "Remove Mercado Livre?"
+msgstr "Mercado Livre हटाएं?"
+
+#: src/Errors/AmazonApiError.php:102
+msgid "Request to Amazon API failed."
+msgstr "Amazon API के लिए अनुरोध विफल रहा।"
+
+#: src/Localization/AdminTranslations.php:244
+msgid "Row data"
+msgstr "रो डेटा"
+
+#: src/Localization/AdminTranslations.php:271
+msgid "Rows"
+msgstr "रो"
+
+#: src/Localization/AdminTranslations.php:294
+msgid "Saudi Arabia"
+msgstr "सऊदी अरब"
+
+#: src/Localization/AdminTranslations.php:80
+msgid "Save"
+msgstr "सेव करें"
+
+#: src/Localization/AdminTranslations.php:160
+msgid "Save & leave"
+msgstr "सेव करें और बाहर आएं"
+
+#: src/Localization/AdminTranslations.php:156
+#: src/Localization/AdminTranslations.php:245
+msgid "Save changes"
+msgstr "परिवर्तन सेव करें"
+
+#: src/Localization/AdminTranslations.php:157
+msgid "Save changes?"
+msgstr "परिवर्तन सेव करें?"
+
+#: src/Setup/Blocks.php:179 src/Localization/AdminTranslations.php:188
+msgid "Search"
+msgstr "खोजें"
+
+#: src/Localization/AdminTranslations.php:100
+msgid ""
+"Search for <b>Link to Amazon Products</b> in Gutenberg Blocks, find the "
+"product(s) you want to add, and publish the post."
+msgstr ""
+"Gutenberg ब्लॉक्स में <b>Amazon उत्पादों से लिंक करें</b> खोजें, वो उत्पाद "
+"ढूंढें जिन्हें आप जोड़ना चाहते हैं और फिर पोस्ट पब्लिश करें।"
+
+#: src/Setup/Blocks.php:217
+msgid "Search for product name that you want to add to your blog post."
+msgstr "उस उत्पाद का नाम खोजें जिसे आप अपने ब्लॉग पोस्ट में जोड़ना चाहते हैं।"
+
+#: src/Localization/AdminTranslations.php:243
+msgid "Search for products or enter Product ID"
+msgstr "उत्पाद खोजें या उत्पाद ID दर्ज करें"
+
+#: src/Localization/AdminTranslations.php:242
+msgid "Search for products or enter the ASIN code"
+msgstr "उत्पाद ढूंढें या ASIN कोड दर्ज करें"
+
+#: src/Localization/AdminTranslations.php:221
+msgid "Search for the product in Amazon"
+msgstr "Amazon पर उत्पाद खोजें"
+
+#: src/Setup/Blocks.php:200 src/Setup/Blocks.php:211
+msgid "Search icon"
+msgstr "सर्च आइकॉन"
+
+#: src/Setup/Blocks.php:177
+msgid "Search product name ..."
+msgstr "उत्पाद का नाम खोजें ..."
+
+#: src/Localization/AdminTranslations.php:183
+msgid "Search your table collections"
+msgstr "अपने टेबल कलेक्शंस सर्च करें"
+
+#: src/Setup/Blocks.php:214
+msgid "Searched products will appear here"
+msgstr "खोजे गए उत्पाद यहां दिखाई देंगे"
+
+#: src/Localization/AdminTranslations.php:59
+msgid "Secret key"
+msgstr "गुप्त कुंजी"
+
+#: src/Localization/AdminTranslations.php:78
+msgid "Secret key contains of numbers, letters and special characters"
+msgstr "गुप्त कुंजी में संख्याओं, अक्षरों और विशेष वर्णों का समावेश होता है"
+
+#: src/Localization/AdminTranslations.php:77
+msgid "Secret key must be 40 characters long"
+msgstr "गुप्त कुंजी में 40 वर्णों का समावेश होना चाहिए"
+
+#: src/Localization/AdminTranslations.php:25
+msgid "Select a marketplace you’ll use to promote products"
+msgstr ""
+
+#: src/Setup/Blocks.php:234
+msgid "Select at least 2 products to continue"
+msgstr "जारी रखने के लिए कम से कम 2 उत्पाद चुनें"
+
+#: src/Localization/AdminTranslations.php:61
+msgid "Select at least one provider"
+msgstr "कम से कम एक प्रदाता चुनें"
+
+#: src/Localization/AdminTranslations.php:56
+msgid "Select country first to find matching tracking ID"
+msgstr "मेल खाती ट्रैकिंग ID ढूंढने के लिए पहले देश चुनें"
+
+#: src/Localization/AdminTranslations.php:215
+msgid "Select your country"
+msgstr ""
+
+#: src/Setup/Blocks.php:240
+msgid "selected"
+msgstr "चुना गया"
+
+#: src/Localization/AdminTranslations.php:115
+#: src/Localization/AdminTranslations.php:128
+msgid "Settings"
+msgstr "सेटिंग्स"
+
+#: src/Localization/AdminTranslations.php:226
+msgid "Shortcode"
+msgstr "Shortcode"
+
+#: src/Localization/AdminTranslations.php:143
+msgid "Shortcode copied!"
+msgstr "शॉर्टकोड कॉपी किया जा चुका है!"
+
+#: src/Localization/AdminTranslations.php:293
+msgid "Singapore"
+msgstr "सिंगपोर"
+
+#: src/Localization/AdminTranslations.php:106
+msgid "Single Product Card"
+msgstr "एकल उत्पाद कार्ड"
+
+#: src/Localization/AdminTranslations.php:119
+msgid "Something went wrong"
+msgstr ""
+
+#: src/Rest/TableRoutes.php:207
+msgid "Sorry, table does not exists."
+msgstr "क्षमा करें, टेबल अस्तित्व में नहीं है।"
+
+#: src/Rest/TableRoutes.php:29 src/Rest/TableRoutes.php:180
+#: src/Rest/TableRoutes.php:241
+msgid "Sorry, table id missing"
+msgstr "क्षमा करें, टेबल ID नहीं है"
+
+#: src/Rest/TableRoutes.php:153 src/Rest/TableRoutes.php:194
+#: src/Rest/ItemsRoutes.php:47 src/Rest/ItemsRoutes.php:123
+msgid "Sorry, there are validation errors."
+msgstr "क्षमा करें, सत्यापन संबंधी त्रुटियां पेश आई हैं।"
+
+#: src/Api/Mercado/Client.php:83 src/Api/Mercado/ClientMercado.php:69
+#: src/Api/Amazon/ProxyApi/Client.php:66
+msgid "Sorry, there was a problem with request."
+msgstr "क्षमा करें, इस अनुरोध में कोई समस्या पेश आई थी।"
+
+#: src/Rest/SettingsRoutes.php:200 src/Rest/SettingsRoutes.php:234
+msgid "Sorry, you are not allowed to do that."
+msgstr "क्षमा करें, आपको ऐसा करने की अनुमति नहीं है।"
+
+#: src/Localization/AdminTranslations.php:295
+msgid "Spain"
+msgstr "स्पेन"
+
+#: src/Localization/AdminTranslations.php:93
+msgid "Start Earning in Four Easy Steps"
+msgstr "चार आसान स्टेप्स में पैसे कमाना शुरू करें"
+
+#: src/Localization/AdminTranslations.php:91
+msgid "Start Earning Now"
+msgstr "अभी पैसे कमाना शुरू करें"
+
+#: src/Localization/AdminTranslations.php:234
+msgid "Status"
+msgstr "स्टेटस"
+
+#: src/Localization/AdminTranslations.php:296
+msgid "Sweden"
+msgstr "स्वीडन"
+
+#: src/Setup/Cpts.php:40
+msgid "Table"
+msgstr "टेबल"
+
+#: src/Repositories/TableRepository.php:279
+msgid "Table added feature is missing title."
+msgstr "टेबल में जोड़ी गई विशेषताओं के टाइटल रिक्त हैं।"
+
+#: src/Repositories/TableRepository.php:263
+msgid "Table added product is missing asin."
+msgstr "टेबल में जोड़े गए उत्पादों के ASIN रिक्त हैं।"
+
+#: src/Localization/AdminTranslations.php:179
+msgid "Table data will be shown in this page"
+msgstr "इस पेज पर टेबल डेटा दिखाया जाएगा"
+
+#: src/Repositories/TableRepository.php:48
+#: src/Repositories/TableRepository.php:58
+#: src/Repositories/TableRepository.php:116
+#: src/Repositories/TableRepository.php:126 src/Rest/TableRoutes.php:253
+#: src/Rest/TableRoutes.php:263
+msgid "Table does not exist."
+msgstr "टेबल अस्तित्व में नहीं है"
+
+#: src/Localization/AdminTranslations.php:192
+#: src/Localization/AdminTranslations.php:269
+msgid "Table name"
+msgstr "टेबल का नाम"
+
+#: src/Repositories/TableRepository.php:248
+msgid "Table name is missing."
+msgstr "टेबल का नाम दर्ज नहीं किया गया है।"
+
+#: src/Shortcodes/ProductTableShortcode.php:73
+msgid "Table not found or it is not published."
+msgstr "टेबल नहीं मिल पाया या टेबल पब्लिश नहीं किया गया है।"
+
+#: src/Shortcodes/ProductTableShortcode.php:66
+msgid "Table not found."
+msgstr "टेबल नहीं मिल पाया।"
+
+#: src/Repositories/TableRepository.php:269
+msgid "Table should have at least one feature added."
+msgstr "टेबल में कम से कम एक विशेषता जोड़ी जानी चाहिए।"
+
+#: src/Repositories/TableRepository.php:252
+msgid "Table should have at least one product added."
+msgstr "टेबल में कम से कम एक उत्पाद जोड़ा जाना चाहिए।"
+
+#: src/Repositories/TableRepository.php:285
+msgid "Table status is missing."
+msgstr "टेबल स्टेटस रिक्त है।"
+
+#: src/Localization/AdminTranslations.php:218
+msgid "Table was successfully created"
+msgstr "टेबल सफलतापूर्वक बनाया गया है"
+
+#: src/Localization/AdminTranslations.php:227
+msgid "Table was successfully deleted"
+msgstr "टेबल सफलतापूर्वक हटाया गया है"
+
+#: src/Localization/AdminTranslations.php:214
+msgid "Table was successfully saved"
+msgstr "टेबल सफलतापूर्वक सेव किया गया है"
+
+#: src/Localization/AdminTranslations.php:102
+msgid ""
+"That's it – every time visitors buy the product from your post, you will "
+"earn a commission from Amazon."
+msgstr ""
+"जब भी विज़िटर्स आपके पोस्ट से उत्पाद खरीदेंगे, तो आप Amazon से कमीशन अर्जित "
+"करेंगे।"
+
+#: src/Localization/AdminTranslations.php:174
+#| msgid ""
+#| "That’s it! After your post published, whenever your visitor buy the "
+#| "product from your post, you will earn commissions."
+msgid ""
+"That's it! After your post published, whenever your visitor buy the product "
+"from your post, you will earn commissions."
+msgstr ""
+"आपकी पोस्ट पब्लिश होने के बाद जब भी आपके विज़िटर्स आपकी पोस्ट से उत्पाद "
+"खरीदेंगे, तो आप कमीशन अर्जित करेंगे।"
+
+#: src/Localization/AdminTranslations.php:38
+#: src/Localization/AdminTranslations.php:50
+msgid ""
+"That's it! Whenever a visitor buys a product through your link, you'll earn "
+"commission."
+msgstr ""
+"और बस! जब कोई विज़िटर आपकी लिंक के माध्यम से कोई उत्पाद खरीदते हैं, आप कमीशन "
+"कमाते हैं।"
+
+#. %s: URL.
+#: src/Errors/AmazonApiError.php:47
+#, php-format
+msgid ""
+"The Access Key is not enabled for accessing Product Advertising API. For "
+"information on registering for Product Advertising API, see <a href=\"%s\" "
+"target=\"_blank\">Register for Product Advertising API</a>"
+msgstr ""
+"Product Advertising API एक्सेस करने के लिए एक्सेस कुंजी सक्रीय नहीं की गई "
+"है। Product Advertising API के रजिस्ट्रेशन पर अधिक जानकारी पाने के लिए यह "
+"देखें - <a href=\"%s\" target=\"_blank\">Product Advertising API के लिए "
+"रजिस्टर करें</a>"
+
+#. %s: URL.
+#: src/Errors/AmazonApiError.php:56
+#, php-format
+msgid ""
+"The Access Key is not enabled for accessing this version of Product "
+"Advertising API. Please migrate your credentials as referred here <a "
+"href=\"%s\" target=\"_blank\">Managing your Existing AWS Security "
+"Credentials for the Product Advertising API</a>."
+msgstr ""
+"Product Advertising API का यह संस्करण एक्सेस के लिए एक्सेस कुंजी सक्षम नहीं "
+"है। कृपया जैसा यहां बताया गया है वैसे अपने क्रेडेंशियल माइग्रेट करें- <a "
+"href=\"%s\" target=\"_blank\">Product Advertising API के लिए अपने मौजूदा AWS "
+"सिक्योरिटी क्रेडेंशियल प्रबंधित करें</a>।"
+
+#: hostinger-affiliate-plugin.php:104
+#, php-format
+msgid ""
+"The Hostinger Affiliate plugin requires minimum PHP version of <b>%s</b>. "
+msgstr ""
+"Hostinger Affiliate प्लगइन को न्यूनतम PHP संस्करण <b>%s</b> की ज़रुरत होती है।"
+
+#: src/Services/ProductFetchService.php:190
+msgid ""
+"There is an issue displaying Amazon products. Please contact the "
+"administrator to check that."
+msgstr ""
+"Amazon उत्पाद डिस्प्ले करने में समस्या पेश आ रही है। कृपया इसकी जांच करने के "
+"लिए एडमिन से संपर्क करें।"
+
+#: src/Errors/AmazonApiError.php:36 src/Errors/AmazonApiError.php:89
+msgid "There seems to be a technical problem with your request."
+msgstr "लगता है कि आपके अनुरोध में कोई तकनीकी समस्या है।"
+
+#: src/Errors/AmazonApiError.php:74
+msgid ""
+"There was a problem with your request. Amazon limits the number of requests "
+"you can make to their Product Advertising API. Note that your account will "
+"lose access to Product Advertising API 5.0 if it has not generated referring "
+"sales for a consecutive 30-day period."
+msgstr ""
+"आपके अनुरोध को लेकर समस्या पेश आई है। Amazon अपने Product Advertising API "
+"में आपके द्वारा किए जाने वाले अनुरोधों की संख्या पर सीमा लागू करता है। ध्यान "
+"रहे कि यदि आपका अकाउंट लगातार 30 दिन के लिए कोई रेफरिंग बिक्री जनरेट नहीं कर "
+"पाया, तो आपका अकाउंट Product Advertising API 5.0 का एक्सेस खो देगा।"
+
+#: src/Localization/AdminTranslations.php:191
+msgid "There was an error saving your settings: "
+msgstr "आपकी सेटिंग्स सेव करने में त्रुटि पेश आई है:"
+
+#: src/Localization/AdminTranslations.php:185
+msgid "There was an error searching for items: "
+msgstr "आइटम्स खोजने में त्रुटि पेश आई है:"
+
+#: src/Localization/AdminTranslations.php:186
+msgid "There was fatal server error while processing your request."
+msgstr "आपका अनुरोध संसाधित करते समय गंभीर सर्वर त्रुटि पेश आई है।"
+
+#: src/Localization/AdminTranslations.php:216
+#: src/Localization/AdminTranslations.php:219
+msgid "This field is required"
+msgstr "यह फील्ड अनिवार्य है"
+
+#: src/Localization/AdminTranslations.php:104
+msgid "Three Templates for Your Product(s) Block"
+msgstr "आपके उत्पाद ब्लॉक के लिए तीन टेम्पलेट्स"
+
+#: src/Repositories/TableRepository.php:297
+#: src/Localization/AdminTranslations.php:265
+msgid "Thumbnail"
+msgstr "थंबनेल"
+
+#: src/Repositories/TableRepository.php:296
+#: src/Localization/AdminTranslations.php:264
+msgid "Title"
+msgstr "टाइटल"
+
+#: src/Localization/AdminTranslations.php:33
+#: src/Localization/AdminTranslations.php:45
+msgid "To start promoting products, first create a post."
+msgstr "उत्पादों का प्रचार करने के लिए पहले एक पोस्ट बनाएं।"
+
+#: src/Localization/AdminTranslations.php:65
+msgid "Tracking ID"
+msgstr "ट्रैकिंग ID"
+
+#: src/Localization/AdminTranslations.php:52
+msgid "Tracking ID connected"
+msgstr "ट्रैकिंग ID कनेक्ट की जा चुकी है"
+
+#: src/Localization/AdminTranslations.php:217
+msgid ""
+"Tracking ID format wrong. Lowercase letters, digits and _-. special chars "
+"are allowed."
+msgstr ""
+"ट्रैकिंग ID का फॉर्मैट गलत है। इसमें केवल छोटे अक्षरों, अंकों और _-. विशेष "
+"वर्णों का उपयोग किया जा सकता है।"
+
+#: src/Localization/AdminTranslations.php:121
+#: src/Localization/AdminTranslations.php:135
+msgid "Try searching for something else"
+msgstr "कुछ और खोजने का प्रयास करें"
+
+#: src/Localization/AdminTranslations.php:297
+msgid "Turkey"
+msgstr "तुर्की"
+
+#: src/Localization/AdminTranslations.php:140
+msgid "Tutorial"
+msgstr "ट्यूटोरियल"
+
+#: src/Localization/AdminTranslations.php:161
+msgid "Tutorial video by"
+msgstr "ट्यूटोरियल वीडियो के प्रस्तुतकर्ता"
+
+#: src/Localization/AdminTranslations.php:278
+msgid "Type"
+msgstr "प्रकार"
+
+#: src/Localization/AdminTranslations.php:254
+msgid "Type field not added to all product data rows."
+msgstr "सभी प्रोडक्ट डेटा रो में टाइप फील्ड नहीं नहीं जोड़ी गई है।"
+
+#: src/Localization/AdminTranslations.php:298
+msgid "United Arab Emirates"
+msgstr "संयुक्त अरब अमीरात"
+
+#: src/Localization/AdminTranslations.php:299
+msgid "United Kingdom"
+msgstr "यूनाइटेड किंगडम"
+
+#: src/Localization/AdminTranslations.php:300
+msgid "United States"
+msgstr "संयुक्त राज्य अमेरिका"
+
+#: src/Localization/Messages.php:24
+msgid "Unknown display type. Please re-select display type."
+msgstr "अज्ञात डिस्प्ले का प्रकार। कृपया डिस्प्ले का प्रकार दोबारा चुनें।"
+
+#: src/Localization/AdminTranslations.php:90
+msgid ""
+"Unlock the full potential of your website – monetize it with our plugin to "
+"earn more."
+msgstr ""
+"अपनी वेबसाइट की पूरी क्षमता अनलॉक करें - अधिक कमाई करने के लिए इसे हमारे "
+"प्लगइन के साथ मॉनेटाइज़ करें।"
+
+#: src/Localization/AdminTranslations.php:232
+msgid "Unpublish"
+msgstr "अनपब्लिश करें"
+
+#: src/Localization/AdminTranslations.php:257
+msgid "Use the saved table configuration"
+msgstr "सेव किए गए टेबल कॉन्फिगरेशन का इस्तेमाल करें"
+
+#: src/Localization/AdminTranslations.php:130
+msgid "View guide"
+msgstr "गाइड देखें"
+
+#: src/Localization/AdminTranslations.php:229
+msgid "Visibility"
+msgstr "दृश्यता"
+
+#: src/Models/Product.php:284
+msgid "Watch on Amazon Prime"
+msgstr "Amazon Prime पर देखें"
+
+#: src/Localization/AdminTranslations.php:89
+#| msgid "Welcome to Hostinger Amazon Affiliate Connector!"
+msgid "Welcome to Hostinger Amazon Affiliate!"
+msgstr "Hostinger Amazon Affiliate पर आपका स्वागत है!"
+
+#: src/Localization/AdminTranslations.php:273
+msgid "What's an ASIN code?"
+msgstr "ASIN कोड क्या होता है?"
+
+#: src/Localization/AdminTranslations.php:98
+msgid "Write down your content that you want to link your Amazon product with."
+msgstr "वह कॉन्टेंट लिखें जिसके साथ आप अपने Amazon उत्पाद लिंक करना चाहते हैं।"
+
+#. %s: PHP version
+#: hostinger-affiliate-plugin.php:108
+#, php-format
+msgid "You are running <b>%s</b> PHP version."
+msgstr "आप <b>%s</b> PHP संस्करण चला रहे हैं।"
+
+#: src/Localization/AdminTranslations.php:272
+msgid ""
+"You can add unlimited products, but only 6 can be shown in a published table."
+msgstr ""
+"आप अनगिनत उत्पाद जोड़ सकते हैं, लेकिन पब्लिश किए गए टेबल में केवल 6 उत्पाद "
+"दिखाए जाएंगे।"
+
+#: src/Localization/AdminTranslations.php:302
+msgid ""
+"You can add your comparison table to any post. Whenever a visitor buys a "
+"product through your affiliate link, you'll earn commission."
+msgstr ""
+"आप अपने किसी भी पोस्ट में कम्पैरिज़न टेबल जोड़ सकते हैं। जब भी कोई विज़िटर आपकी "
+"एफिलिएट लिंक के माध्यम से कोई उत्पाद खरीदतें हैं ,  तब आप कमीशन कमाएंगे।"
+
+#: src/Localization/AdminTranslations.php:213
+#| msgid ""
+#| "You can also hide products so they don’t appear in the table. Products "
+#| "that you delete will need to be added again."
+msgid ""
+"You can also hide products so they don't appear in the table. Products that "
+"you delete will need to be added again."
+msgstr ""
+"आप उत्पादों को छिपा भी सकते हैं ताकि वे टेबल में दिखाई न दें। जो उत्पाद आप "
+"हटाएंगे, आपको उन्हें दोबारा इस टेबल में जोड़ना पड़ेगा।"
+
+#: src/Localization/AdminTranslations.php:210
+msgid ""
+"You can also unpublish your table. Deleting it will cause you to lose all "
+"added products."
+msgstr ""
+"आप अपने टेबल अनपब्लिश भी कर सकते हैं। टेबल हटाने पर आप उसमें जोड़े गए "
+"उत्पादों की जानकारी खो देंगे।"
+
+#: src/Localization/AdminTranslations.php:258
+msgid "You can edit the existing table configuration after this step"
+msgstr "आप इस स्टेप के बाद मौजूदा टेबल कॉन्फिगरेशन एडिट कर सकते हैं"
+
+#: src/Localization/AdminTranslations.php:23
+msgid ""
+"You can select both marketplaces and then easily add affiliate links to your "
+"content."
+msgstr ""
+
+#: src/Localization/AdminTranslations.php:251
+#| msgid "You have added too many products. Only 5 are allowed."
+msgid "You have added too many products to display. Only 6 are allowed."
+msgstr "आपने बहुत सारे उत्पाद जोड़ दिए हैं। केवल 5 उत्पाद जोड़े जा सकते हैं।"
+
+#: src/Localization/AdminTranslations.php:158
+msgid "You have unsaved changes that will be lost if you leave."
+msgstr ""
+"कुछ परिवर्तन हैं जो सेव नहीं किए गए हैं और आपके बाहर जाने पर वे खो जाएंगे।"
+
+#: src/Localization/AdminTranslations.php:255
+msgid ""
+"You need to add at least one row (title, select) to create a table. Check if "
+"all fields are filled."
+msgstr ""
+"टेबल बनाने के लिए आपको कम से कम एक रो (टाइटल, चयन) जोड़ना होगा। देखें कि "
+"क्या सभी फील्ड्स भरी हुई  हैं।"
+
+#: src/Localization/AdminTranslations.php:261
+msgid ""
+"You need to add at least one row, two enabled products (max 5 products) to "
+"save changes. Check if all added fields are filled."
+msgstr ""
+"परिवर्तनों को सेव करने के लिए आपको कम से कम एक रो, दो सक्रिय उत्पाद (अधिकतम "
+"5 उत्पाद) जोड़ने होंगे। देखें कि क्या सभी जोड़ी गई फील्ड्स भरी हुई हैं।"
+
+#: src/Localization/AdminTranslations.php:170
+msgid ""
+"You need to choose the main layout for your product(s) block based on your "
+"needs. You can choose between single product, multiple product, or "
+"comparison."
+msgstr ""
+"आपको अपनी ज़रूरतों के आधार पर अपने उत्पाद ब्लॉक के लिए मुख्य लेआउट चुनना "
+"होगा। आप एकल उत्पाद, एकाधिक उत्पाद या तुलना करने के बीच चयन कर सकते हैं।"
+
+#: src/Localization/AdminTranslations.php:248
+msgid "You need to enter table name."
+msgstr "आपको टेबल का नाम दर्ज करना होगा।"
+
+#: src/Localization/AdminTranslations.php:122
+msgid "Your comparison tables"
+msgstr "आपके कंपैरिज़न टेबल्स"
+
+#: src/Localization/AdminTranslations.php:181
+msgid "Your tables"
+msgstr "आपके टेबल्स"

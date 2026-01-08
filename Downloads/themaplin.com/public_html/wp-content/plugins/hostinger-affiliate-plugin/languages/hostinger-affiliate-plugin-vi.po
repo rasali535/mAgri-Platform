@@ -1,0 +1,2599 @@
+# Copyright (C) 2024 Hostinger
+# This file is distributed under the GPL-2.0+.
+msgid ""
+msgstr ""
+"Project-Id-Version: Hostinger Amazon Affiliate Connector 2.0.11\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/hostinger-"
+"affiliate-plugin\n"
+"Last-Translator: \n"
+"Language-Team: Vietnamese\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2024-10-09T12:50:04+00:00\n"
+"PO-Revision-Date: 2025-10-14 10:57+0000\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Domain: hostinger-affiliate-plugin\n"
+"Language: vi\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Loco-Version: 2.8.0; wp-6.8.2; php-8.2.29"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:891
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4808
+msgid " Add new table"
+msgstr " Thêm bảng mới"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:803
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4720
+msgid " Add/Edit products to list"
+msgstr " Thêm/Sửa sản phẩm vào danh sách"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:849
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4766
+msgid " Edit table"
+msgstr " Chỉnh sửa bảng"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:449
+#: amazon-gutenberg-block/dist/index.js:4366
+msgid " Search for product(s) without ASIN"
+msgstr " Tìm kiếm sản phẩm không có ASIN"
+
+#: mercado-gutenberg-block/dist/index.js:2
+msgid " Search for product(s) without ID"
+msgstr " Tìm kiếm sản phẩm không có ID"
+
+#. translators: %s: Product ASIN
+#. translators: %s: Product ID
+#: src/Api/Amazon/ProxyApi/Api/ProductApi.php:72
+#: src/Api/Mercado/Api/ProductApi.php:82
+#, php-format
+msgid "%s Product does not exist anymore."
+msgstr "%s Sản phẩm không còn tồn tại."
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:829
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4746
+msgid "-- Choose table data --"
+msgstr "-- Chọn dữ liệu bảng --"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:629
+#: amazon-gutenberg-block/src/edit.js:662
+#: amazon-gutenberg-block/src/edit.js:990
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4546
+#: amazon-gutenberg-block/dist/index.js:4579
+#: amazon-gutenberg-block/dist/index.js:4907
+msgid "-- Select from list --"
+msgstr "-- Chọn từ danh sách --"
+
+#: src/Localization/AdminTranslations.php:313
+msgid ""
+"<strong>Amazon is available in</strong>: Australia, Belgium, Brazil, Canada, "
+"Egypt, France, Germany, India, Italy, Japan, Mexico, Netherlands, Poland, "
+"Saudi Arabia, Singapore, Spain, Sweden, Turkey, United Arab Emirates, United "
+"Kingdom, United States."
+msgstr ""
+"<strong>Amazon khả dụng tại</strong>: Úc, Bỉ, Brazil, Canada, Ai Cập, Pháp, "
+"Đức, Ấn Độ, Ý, Nhật Bản, Mexico, Hà Lan, Ba Lan, Ả Rập Xê Út, Singapore, Tây "
+"Ban Nha, Thụy Điển, Thổ Nhĩ Kỳ, Các Tiểu vương quốc Ả Rập Thống nhất, Vương "
+"quốc Anh, Hoa Kỳ."
+
+#: src/Localization/AdminTranslations.php:314
+#| msgid ""
+#| "<strong>Mercado Livre is available in</strong>: Argentina, Brazil, Mexico."
+msgid "<strong>Mercado Livre is available in</strong>: Brazil, Mexico."
+msgstr "<strong>Mercado Livre khả dụng tại</strong>: Brazil, Mexico."
+
+#: src/Localization/AdminTranslations.php:282
+msgid "A table can display up to 6 products."
+msgstr "Một bảng có thể hiển thị lên đến 6 sản phẩm."
+
+#: src/Localization/AdminTranslations.php:58
+msgid "Access key"
+msgstr "Khóa truy cập"
+
+#: src/Localization/AdminTranslations.php:75
+msgid "Access key cannot contain special characters"
+msgstr "Khóa truy cập không thể chứa ký tự đặc biệt"
+
+#: src/Localization/AdminTranslations.php:76
+msgid "Access key must be 20 characters long"
+msgstr "Khóa truy cập phải dài 20 ký tự"
+
+#: src/Localization/AdminTranslations.php:66
+msgid "Access key must be combination of letters and numbers"
+msgstr "Khóa truy cập phải kết hợp chữ và số"
+
+#: src/Localization/AdminTranslations.php:229
+msgid "Add"
+msgstr "Thêm"
+
+#: src/Localization/AdminTranslations.php:167
+#| msgid "Add “Link Amazon product(s)” in block editor"
+msgid "Add \"Link Amazon product(s)\" in block editor"
+msgstr "Thêm \"Đường dẫn sản phẩm Amazon\" trong trình chỉnh sửa khối"
+
+#: src/Localization/AdminTranslations.php:109
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:324
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4241
+msgid "Add a few products and describe them briefly."
+msgstr "Thêm một ít sản phẩm và mô tả ngắn gọn chúng."
+
+#: src/Localization/AdminTranslations.php:97
+msgid "Add a new post"
+msgstr "Thêm bài đăng mới"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/products_selected.js:406
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3761
+msgid "Add a new product"
+msgstr "Thêm sản phẩm mới"
+
+#: src/Localization/AdminTranslations.php:263
+#: amazon-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/src/views/TableConfiguration.jsx:91
+#: mercado-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/dist/index.js:2924
+msgid "Add a new table configuration"
+msgstr "Thêm bảng cấu hình mới"
+
+#: src/Localization/AdminTranslations.php:28
+#: src/Localization/AdminTranslations.php:40
+msgid "Add a product block"
+msgstr "Thêm khối sản phẩm"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:314
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4231
+msgid "Add a single product with detailed description."
+msgstr "Thêm một sản phẩm đơn kèm mô tả chi tiết."
+
+#: src/Localization/AdminTranslations.php:254
+msgid "Add at least 2 products to continue."
+msgstr "Thêm tối thiểu 2 sản phẩm để tiếp tục."
+
+#: src/Localization/AdminTranslations.php:259
+msgid "Add at least one product data row."
+msgstr "Thêm tối thiểu một hàng dữ liệu sản phẩm"
+
+#: src/Localization/AdminTranslations.php:256
+msgid "Add at least two products to continue"
+msgstr "Thêm tối thiểu hai sản phẩm để tiếp tục"
+
+#: amazon-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/src/components/product_list_bestsellers.js:16
+#: amazon-gutenberg-block/dist/index.js:387
+msgid "Add best-sellers"
+msgstr "Thêm các sản phẩm bán chạy nhất"
+
+#: src/Localization/AdminTranslations.php:243
+msgid "Add highlight"
+msgstr "Thêm sản phẩm nổi bật"
+
+#: src/Localization/AdminTranslations.php:113
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:334
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4251
+msgid "Add multiple similar products and compare them."
+msgstr "Thêm nhiều sản phẩm tương tự và so sánh chúng."
+
+#: src/Localization/AdminTranslations.php:230
+#: amazon-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/src/components/product_selector.js:172
+#: amazon-gutenberg-block/dist/index.js:2701
+msgid "Add product"
+msgstr "Thêm sản phẩm"
+
+#: src/Localization/AdminTranslations.php:30
+#: src/Localization/AdminTranslations.php:42
+#: src/Localization/AdminTranslations.php:144
+#: src/Localization/AdminTranslations.php:194
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/product_selector_multiple.js:273
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3312
+msgid "Add products"
+msgstr "Thêm sản phẩm"
+
+#: src/Localization/AdminTranslations.php:242
+msgid "Add row"
+msgstr "Thêm hàng"
+
+#: src/Localization/AdminTranslations.php:202
+msgid "Add table"
+msgstr "Thêm bảng"
+
+#: src/Localization/AdminTranslations.php:200
+msgid "Add the product data"
+msgstr "Thêm dữ liệu sản phẩm"
+
+#: src/Localization/AdminTranslations.php:171
+msgid "Add the product(s)"
+msgstr "Thêm sản phẩm"
+
+#: src/Localization/AdminTranslations.php:24
+msgid ""
+"Add your API credentials to select a language and improve search results. "
+"This step is optional, but recommended."
+msgstr ""
+"Thêm thông tin đăng nhập API để chọn ngôn ngữ và cải thiện kết quả tìm kiếm. "
+"Bước này là tùy chọn nhưng được khuyến nghị."
+
+#: src/Localization/AdminTranslations.php:197
+msgid "Affiliate link"
+msgstr "Đường dẫn liên kết"
+
+#: src/Admin/Menus.php:54 src/Admin/Menus.php:55 src/Admin/Menus.php:73
+#: src/Localization/AdminTranslations.php:13
+msgid "Affiliate Marketing"
+msgstr "Tiếp thị liên kết"
+
+#: src/Setup/Cpts.php:41
+msgid "Affiliate tables"
+msgstr "Bảng liên kết"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/products_selected.js:285
+#: amazon-gutenberg-block/src/components/products_selected.js:289
+#: amazon-gutenberg-block/src/components/products_selected.js:306
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3640
+#: amazon-gutenberg-block/dist/index.js:3644
+#: amazon-gutenberg-block/dist/index.js:3661
+msgid "Affiliate URL"
+msgstr "URL liên kết"
+
+#: src/Localization/AdminTranslations.php:172
+msgid ""
+"After choosing the layout, you need to find the product(s) that you want to "
+"promote in your post. You can copy-paste the ASIN or search the product(s) "
+"manually."
+msgstr ""
+"Sau khi chọn bố cục, bạn cần tìm sản phẩm mà bạn muốn quảng bá trong bài "
+"đăng. Bạn có thể sao chép và dán ASIN hoặc tìm tự tìm sản phẩm."
+
+#: src/Localization/AdminTranslations.php:70
+msgid "Amazon"
+msgstr "Amazon"
+
+#: src/Localization/AdminTranslations.php:141
+msgid "Amazon Affiliate"
+msgstr "Liên kết Amazon"
+
+#: src/Localization/Messages.php:16
+msgid "Amazon API returned an error."
+msgstr "API Amazon trả lại lỗi."
+
+#: src/Localization/AdminTranslations.php:189
+msgid "Amazon api was disconnected!"
+msgstr "API Amazon đã ngắt kết nối!"
+
+#: src/Localization/AdminTranslations.php:72
+msgid "Amazon Associates"
+msgstr "Amazon Associates"
+
+#: src/Repositories/TableRepository.php:300
+msgid "Amazon Button"
+msgstr "Nút Amazon"
+
+#: src/Localization/AdminTranslations.php:191
+msgid "Amazon settings were successfully saved!"
+msgstr "Thiết lập Amazon đã lưu thành công!"
+
+#: src/Localization/AdminTranslations.php:223
+msgid "An unexpected error occurred"
+msgstr "Đã xảy ra lỗi không mong muốn"
+
+#: src/Localization/AdminTranslations.php:57
+msgid "API Settings"
+msgstr "Thiết lập API"
+
+#: src/Localization/AdminTranslations.php:82
+msgid "API status"
+msgstr "Tình trạng API"
+
+#: src/Localization/AdminTranslations.php:289
+msgid "Argentina"
+msgstr "Argentina"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/products_selected.js:217
+#: amazon-gutenberg-block/src/edit.js:553
+#: amazon-gutenberg-block/src/edit.js:791
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3572
+#: amazon-gutenberg-block/dist/index.js:4470
+#: amazon-gutenberg-block/dist/index.js:4708
+msgid "ASIN"
+msgstr "ASIN"
+
+#: src/Localization/AdminTranslations.php:275
+msgid ""
+"ASIN is a unique 10-digit code Amazon assigns to products in its catalog. "
+"You can find it on the product detail page."
+msgstr ""
+"ASIN là mã gồm 10 số độc nhất mà Amazon gán cho sản phẩm trong danh mục. Bạn "
+"có thể tìm thấy nó trong trang chi tiết sản phẩm."
+
+#: src/Localization/Messages.php:20 amazon-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/products_selected.js:105
+#: amazon-gutenberg-block/src/components/product_selector.js:65
+#: amazon-gutenberg-block/src/components/product_selector_multiple.js:66
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:2594
+#: amazon-gutenberg-block/dist/index.js:3105
+#: amazon-gutenberg-block/dist/index.js:3460
+msgid "ASIN validation failed. Please check entered product ASIN!"
+msgstr "Xác nhận ASIN thất bại. Vui lòng kiểm tra mã ASIN sản phẩm đã nhập!"
+
+#. translators: %s: PHP version
+#: hostinger-affiliate-plugin.php:106
+msgid "Attention:"
+msgstr "Chú ý:"
+
+#: src/Localization/AdminTranslations.php:286
+msgid "Australia"
+msgstr "Úc"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/dist/index.js:4
+#: amazon-gutenberg-block/src/components/product_list_type_selector.js:38
+#: amazon-gutenberg-block/src/edit.js:633
+#: amazon-gutenberg-block/dist/index.js:4550
+#: amazon-gutenberg-block/dist/index.js:5102
+msgid "Automatically based on best-sellers"
+msgstr "Tự động dựa trên các mặt hàng bán chạy nhất"
+
+#: amazon-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/src/components/product_list_bestsellers.js:80
+#: amazon-gutenberg-block/dist/index.js:451
+msgid "Automatically generate product list"
+msgstr "Tự động tạo danh sách sản phẩm"
+
+#: src/Localization/AdminTranslations.php:152
+msgid "Back"
+msgstr "Quay lại"
+
+#: src/Localization/AdminTranslations.php:287
+msgid "Belgium"
+msgstr "Bỉ"
+
+#. translators: %d: bestseller place
+#: src/Shortcodes/templates/lists/horizontal-cards.php:20
+#: src/Shortcodes/templates/lists/list-with-description.php:16
+#: src/Shortcodes/templates/lists/simplified-list.php:37
+#, php-format
+msgid "Bestseller #%d"
+msgstr "Sản phẩm bán chạy #%d"
+
+#: src/Localization/AdminTranslations.php:288
+msgid "Brazil"
+msgstr "Brazil"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:946
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4863
+msgid "Buy button"
+msgstr "Nút Mua"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:388
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4305
+msgid "Buy button overwrite enabled?"
+msgstr "Kích hoạt ghi đè nút Mua?"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:400
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4317
+msgid "Buy button text"
+msgstr "Văn bản nút Mua"
+
+#: src/Models/Product.php:275
+msgid "Buy now"
+msgstr "Mua ngay"
+
+#: src/Models/Product.php:279
+msgid "Buy on Amazon"
+msgstr "Mua trên Amazon"
+
+#: src/Localization/AdminTranslations.php:290
+msgid "Canada"
+msgstr "Canada"
+
+#: src/Localization/AdminTranslations.php:206 src/Setup/Blocks.php:248
+msgid "Cancel"
+msgstr "Hủy"
+
+#: amazon-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/src/components/selected_display_type.js:32
+#: mercado-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/dist/index.js:784
+msgid "Change main layout"
+msgstr "Thay đổi bố cục chính"
+
+#: src/Localization/AdminTranslations.php:151
+msgid ""
+"Check out our quick guide for tips on how to start using this plugin and "
+"start earning."
+msgstr ""
+"Xem hướng dẫn nhanh của chúng tôi để biết các mẹo bắt đầu sử dụng plugin này "
+"và bắt đầu kiếm tiền."
+
+#: src/Setup/Blocks.php:206
+msgid "Check your search term and try again"
+msgstr "Kiểm tra thuật ngữ tìm kiếm và thử lại"
+
+#: src/Localization/AdminTranslations.php:64
+msgid "Choose Amazon region ..."
+msgstr "Chọn khu vực Amazon ..."
+
+#: src/Localization/AdminTranslations.php:105
+msgid ""
+"Choose any template for your needs  – all of them are integrated with the "
+"Gutenberg editor."
+msgstr ""
+"Chọn bất kỳ mẫu nào phù hợp nhu cầu - tất cả chúng đều được tích hợp với "
+"trình chỉnh sửa Gutenberg."
+
+#: src/Localization/AdminTranslations.php:35
+#: src/Localization/AdminTranslations.php:47
+msgid ""
+"Choose between a single product card, multiple product list, or comparison "
+"table."
+msgstr ""
+"Chọn giữa một thẻ sản phẩm, danh sách nhiều sản phẩm hoặc bảng so sánh."
+
+#: amazon-gutenberg-block/dist/index.js:4
+#: amazon-gutenberg-block/src/edit.js:1057
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4974
+msgid "Choose how the product block will look like in your post"
+msgstr "Chọn cách hiển thị khối sản phẩm trong bài đăng"
+
+#: src/Localization/AdminTranslations.php:29
+#: src/Localization/AdminTranslations.php:41
+msgid "Choose how to display products"
+msgstr "Chọn cách hiển thị sản phẩm"
+
+#: src/Localization/AdminTranslations.php:169
+msgid "Choose the layout for the product(s) block"
+msgstr "Chọn bố cục cho khối sản phẩm"
+
+#: amazon-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/product_list_bestsellers.js:24
+#: amazon-gutenberg-block/src/components/product_selector_multiple.js:239
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:395
+#: amazon-gutenberg-block/dist/index.js:3278
+msgid "Choose the layout of your product list"
+msgstr "Chọn bố cục cho danh sách sản phẩm"
+
+#: src/Localization/AdminTranslations.php:266
+#: amazon-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/src/views/TableConfiguration.jsx:54
+#: mercado-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/dist/index.js:2887
+msgid "Choose the table configuration"
+msgstr "Chọn cấu hình bảng"
+
+#: src/Localization/AdminTranslations.php:136
+#| msgid "Choose which products to compare and set up your table’s rows."
+msgid "Choose which products to compare and set up your table's rows."
+msgstr "Chọn sản phẩm để so sánh và thiết lập các hàng trên bảng."
+
+#: src/Localization/AdminTranslations.php:205
+msgid "Close"
+msgstr "Đóng"
+
+#: src/Localization/AdminTranslations.php:132
+#: amazon-gutenberg-block/dist/index.js:4
+#: amazon-gutenberg-block/src/components/DisplayTypeSelector.jsx:41
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:5590
+msgid "Coming soon"
+msgstr "Sắp ra mắt"
+
+#: src/Localization/AdminTranslations.php:112
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:333
+#: amazon-gutenberg-block/src/edit.js:1010
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4250
+#: amazon-gutenberg-block/dist/index.js:4927
+msgid "Comparison Table"
+msgstr "Bảng so sánh"
+
+#: src/Localization/AdminTranslations.php:124
+msgid "Comparison tables"
+msgstr "Bảng so sánh"
+
+#: src/Localization/AdminTranslations.php:138
+msgid "Configure"
+msgstr "Cấu hình"
+
+#: src/Setup/Blocks.php:254
+msgid "Confirm selection"
+msgstr "Xác nhận lựa chọn"
+
+#: src/Localization/AdminTranslations.php:81
+msgid "Connect"
+msgstr "Kết nối"
+
+#: src/Localization/AdminTranslations.php:79
+msgid "Connect Amazon account"
+msgstr "Kết nối tài khoản Amazon"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:527
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4444
+msgid "Connect Now"
+msgstr "Kết nối ngay"
+
+#: src/Localization/AdminTranslations.php:103
+msgid "Connect With Your Amazon Account"
+msgstr "Kết nối với tài khoản Amazon của bạn"
+
+#: src/Localization/AdminTranslations.php:18
+#: src/Localization/AdminTranslations.php:95
+msgid "Connect Your Amazon Account"
+msgstr "Kết nối tài khoản Amazon của bạn"
+
+#: src/Localization/AdminTranslations.php:92
+msgid "Connect your Amazon Associates Account"
+msgstr "Kết nối tài khoản Amazon Associates"
+
+#: src/Localization/AdminTranslations.php:15
+#| msgid "Connect  your Amazon Associates Account"
+msgid "Connect your Amazon Associates account"
+msgstr "Kết nối tài khoản Amazon Associates"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:506
+#: amazon-gutenberg-block/dist/index.js:4423
+msgid "Connect Your Amazon Partnership Account"
+msgstr "Kết nối tài khoản đối tác Amazon"
+
+#: src/Localization/AdminTranslations.php:51
+#: src/Localization/AdminTranslations.php:84
+msgid "Connected"
+msgstr "Đã kết nối"
+
+#: src/Localization/AdminTranslations.php:86
+msgid "Connected to Partner ID:"
+msgstr "Kết nối với Người cộng tác ID:"
+
+#: src/Errors/AmazonApiError.php:41 src/Errors/AmazonApiError.php:91
+msgid "Contact Hostinger support for further assistance."
+msgstr "Liên hệ hỗ trợ Hostinger để được hỗ trợ thêm."
+
+#: src/Localization/AdminTranslations.php:204
+#: amazon-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/product_list_bestsellers.js:53
+#: amazon-gutenberg-block/src/components/product_selector_multiple.js:210
+#: amazon-gutenberg-block/src/views/TableConfiguration.jsx:64
+#: mercado-gutenberg-block/dist/index.js:1
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:424
+#: amazon-gutenberg-block/dist/index.js:2897
+#: amazon-gutenberg-block/dist/index.js:3249
+msgid "Continue"
+msgstr "Tiếp tục"
+
+#: src/Localization/AdminTranslations.php:137
+msgid "Copied successfully!"
+msgstr "Đã sao chép thành công!"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/products_selected.js:162
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3517
+msgid "Copied to clipboard!"
+msgstr "Đã sao chép vào khay nhớ tạm!"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/products_selected.js:266
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3621
+msgid "Copy to clipboard"
+msgstr "Sao chép vào khay nhớ tạm"
+
+#. translators: %s: ASIN helper page URL
+#: amazon-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/product_selector.js:148
+#: amazon-gutenberg-block/src/components/product_selector_multiple.js:184
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:2677
+#: amazon-gutenberg-block/dist/index.js:3223
+#, js-format
+msgid ""
+"Copy-paste Amazon product ASIN. <a href=\"%s\" target=\"_blank\">Where to "
+"find it?</a>"
+msgstr ""
+"Sao chép và dán mã ASIN sản phẩm Amazon. <a href=\"%s\" target=\"_blank\">"
+"Tìm nó ở đâu?</a>"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:377
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4294
+msgid "Count of items to show in list."
+msgstr "Số lượng mục hiển thị trong danh sách."
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:278
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4195
+msgid "Count of list items in product description."
+msgstr "Số lượng danh sách vật phẩm trong mô tả sản phẩm."
+
+#: src/Localization/AdminTranslations.php:62
+msgid "Country"
+msgstr "Quốc gia"
+
+#: src/Localization/AdminTranslations.php:87
+#: src/Localization/AdminTranslations.php:165
+#: src/Localization/AdminTranslations.php:177
+msgid "Create a new post"
+msgstr "Tạo bài đăng mới"
+
+#: src/Localization/AdminTranslations.php:27
+#: src/Localization/AdminTranslations.php:39
+#: src/Localization/AdminTranslations.php:310
+msgid "Create a post"
+msgstr "Tạo bài đăng"
+
+#: src/Localization/AdminTranslations.php:308
+msgid "Create a post to start promoting products"
+msgstr "Tạo bài đăng để bắt đầu quảng bá sản phẩm"
+
+#: src/Localization/AdminTranslations.php:123
+#: src/Localization/AdminTranslations.php:125
+msgid "Create and manage your comparison tables."
+msgstr "Tạo và quản lý bảng so sánh."
+
+#. Description of the plugin
+#: hostinger-affiliate-plugin.php
+msgid ""
+"Create and promote products using affiliate links from different "
+"marketplaces. Easily manage and display affiliate products on your site."
+msgstr ""
+"Tạo và quảng bá sản phẩm thông qua các đường dẫn liên kết từ các sàn thương "
+"mại điện tử khác nhau. Quản lý và hiển thị sản phẩm liên kết một cách dễ "
+"dàng trên trang web."
+
+#: src/Localization/AdminTranslations.php:53
+msgid "Create post"
+msgstr "Tạo bài đăng"
+
+#: src/Localization/AdminTranslations.php:180
+#| msgid "Create new table"
+msgid "Create table"
+msgstr "Tạo bảng"
+
+#: src/Localization/AdminTranslations.php:134
+msgid "Create your first comparison table"
+msgstr "Tạo bảng so sánh lần đầu"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:577
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4494
+msgid "Custom product title."
+msgstr "Tiêu đề sản phẩm tùy chỉnh."
+
+#: src/Localization/AdminTranslations.php:238
+msgid "Date created"
+msgstr "Ngày tạo"
+
+#: src/Localization/AdminTranslations.php:207
+msgid "Delete"
+msgstr "Xóa"
+
+#: src/Localization/AdminTranslations.php:213
+msgid "Delete product?"
+msgstr "Xóa sản phẩm?"
+
+#: src/Localization/AdminTranslations.php:208
+#| msgid "Delete table?"
+msgid "Delete table"
+msgstr "Xóa bảng"
+
+#: src/Localization/AdminTranslations.php:212
+msgid "Delete this table?"
+msgstr "Xóa bảng này?"
+
+#: src/Localization/AdminTranslations.php:312
+msgid ""
+"Depending on your country, different marketplaces may be available to you."
+msgstr ""
+"Tùy thuộc vào quốc gia của bạn, có thể có các nền tảng thương mại điện tử "
+"khác nhau khả dụng."
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:256
+#: amazon-gutenberg-block/src/edit.js:933
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4173
+#: amazon-gutenberg-block/dist/index.js:4850
+msgid "Description"
+msgstr "Mô tả"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:232
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4149
+msgid "Description enabled?"
+msgstr "Kích hoạt mô tả?"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:269
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4186
+msgid "Description Items"
+msgstr "Mô tả Vật phẩm"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:288
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4205
+msgid "Description length"
+msgstr "Độ dài mô tả"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:243
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4160
+msgid "Description overwrite enabled?"
+msgstr "Kích hoạt ghi đè mô tả?"
+
+#: src/Localization/AdminTranslations.php:235
+msgid "Determine who will see the table"
+msgstr "Xác định người sẽ nhìn thấy bảng"
+
+#: src/Localization/AdminTranslations.php:88
+msgid "Disconnect"
+msgstr "Ngắt kết nối"
+
+#: src/Localization/AdminTranslations.php:85
+msgid "Disconnected"
+msgstr "Đã ngắt kết nối"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:729
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4646
+msgid "Display Bestseller #"
+msgstr "Hiển thị mặt hàng bán chạy nhất #"
+
+#: amazon-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/product_list_bestsellers.js:99
+#: amazon-gutenberg-block/src/components/product_selector.js:164
+#: amazon-gutenberg-block/src/components/product_selector_multiple.js:150
+#: amazon-gutenberg-block/src/components/product_selector_multiple.js:202
+#: amazon-gutenberg-block/src/components/product_selector_multiple.js:265
+#: mercado-gutenberg-block/dist/index.js:1
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:470
+#: amazon-gutenberg-block/dist/index.js:2693
+#: amazon-gutenberg-block/dist/index.js:3189
+#: amazon-gutenberg-block/dist/index.js:3241
+#: amazon-gutenberg-block/dist/index.js:3304
+msgid ""
+"Don’t worry. You can edit the layout and product in the Block configuration "
+"in the right sidebar anytime."
+msgstr ""
+"Đừng lo lắng. Bạn có thể chỉnh sửa bố cục và sản phẩm trong phần Cấu hình "
+"khối ở thanh bên phải bất cứ lúc nào."
+
+#. translators: %s: product asin.
+#: src/Localization/AdminTranslations.php:270
+#, php-format
+msgid "Duplicate ASIN: %s was not added."
+msgstr "Trùng ASIN: %s không được thêm."
+
+#: src/Localization/AdminTranslations.php:101
+msgid "Earn Commissions"
+msgstr "Kiếm hoa hồng"
+
+#: src/Localization/AdminTranslations.php:142
+msgid "Edit your Amazon API details"
+msgstr "Chỉnh sửa thông tin API Amazon của bạn"
+
+#: src/Localization/AdminTranslations.php:291
+msgid "Egypt"
+msgstr "Ai Cập"
+
+#: src/Api/Mercado/Client.php:116
+#, fuzzy
+msgid "Empty response from proxy API."
+msgstr "Phản hồi trống từ API proxy."
+
+#: src/Localization/AdminTranslations.php:257
+msgid "Enable at least two products to continue"
+msgstr "Bật tối thiểu hai sản phẩm để tiếp tục"
+
+#: mercado-gutenberg-block/dist/index.js:2
+msgid "Enable Mercado Livre store in settings"
+msgstr "Bật cửa hàng Mercado Livre trong cài đặt"
+
+#: mercado-gutenberg-block/dist/index.js:2
+msgid "Enter affiliate url"
+msgstr "Nhập URL liên kết"
+
+#: amazon-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/products_selected.js:359
+#: amazon-gutenberg-block/src/components/products_selected.js:367
+#: amazon-gutenberg-block/src/components/product_selector.js:156
+#: amazon-gutenberg-block/src/components/product_selector_multiple.js:193
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:2685
+#: amazon-gutenberg-block/dist/index.js:3232
+#: amazon-gutenberg-block/dist/index.js:3714
+#: amazon-gutenberg-block/dist/index.js:3722
+msgid "Enter ASIN here"
+msgstr "Nhập ASIN ở đây"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:556
+#: amazon-gutenberg-block/dist/index.js:4473
+msgid "Enter ASIN here..."
+msgstr "Nhập ASIN ở đây..."
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/products_selected.js:358
+#: amazon-gutenberg-block/src/components/products_selected.js:366
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3713
+#: amazon-gutenberg-block/dist/index.js:3721
+msgid "Enter product ID here"
+msgstr "Nhập mã sản phẩm ở đây"
+
+#: mercado-gutenberg-block/dist/index.js:2
+msgid "Enter product ID here..."
+msgstr "Nhập mã sản phẩm ở đây..."
+
+#: amazon-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/src/components/product_list_bestsellers.js:92
+#: amazon-gutenberg-block/dist/index.js:463
+msgid "Enter product keywords here, example: corsair rgb keyboard"
+msgstr "Nhập từ khóa sản phẩm ở đây, ví dụ: bàn phím Corsair RGB"
+
+#: src/Localization/AdminTranslations.php:248
+msgid "Enter text label. For example: Best Price"
+msgstr "Nhập văn bản nhãn. Ví dụ: Giá tốt nhất"
+
+#: src/Localization/AdminTranslations.php:203
+msgid "Enter your table name"
+msgstr "Nhập tên bảng"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/products_selected.js:165
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3520
+msgid "Failed to copy!"
+msgstr "Không thể sao chép!"
+
+#: src/Api/Mercado/Client.php:125
+#, fuzzy
+msgid "Failed to decode proxy API response."
+msgstr "Không thể giải mã phản hồi từ API proxy."
+
+#. translators: %s: missing field key name
+#: src/Localization/Messages.php:12
+#, php-format
+msgid "Field %s is empty."
+msgstr "Trường %s trống."
+
+#: src/Localization/AdminTranslations.php:219
+msgid "Field contains an error"
+msgstr "Trường chứa lỗi"
+
+#: src/Localization/AdminTranslations.php:19
+msgid "Fill API details from Amazon Product Advertising dashboard to start"
+msgstr ""
+"Điền thông tin API từ bảng điều khiển Quảng cáo Sản phẩm Amazon để bắt đầu"
+
+#: src/Localization/AdminTranslations.php:54
+msgid "Find your API credentials"
+msgstr "Tìm thông tin API"
+
+#: src/Localization/AdminTranslations.php:154
+msgid "Find your Tracking ID"
+msgstr "Tìm ID theo dõi"
+
+#: src/Localization/AdminTranslations.php:166
+msgid ""
+"First thing first, you need to create a post. Make sure to create the post "
+"with the specific niche to be more related with your visitors."
+msgstr ""
+"Trước tiên, bạn cần tạo một bài đăng. Hãy đảm bảo tạo bài đăng với lĩnh vực "
+"cụ thể để liên quan hơn đến khách truy cập."
+
+#: src/Localization/AdminTranslations.php:94
+msgid ""
+"Follow this step-by-step guide to start earning your affiliate commission in "
+"no time."
+msgstr ""
+"Làm theo hướng dẫn từng bước này để bắt đầu kiếm hoa hồng liên kết ngay."
+
+#: src/Localization/AdminTranslations.php:37
+#: src/Localization/AdminTranslations.php:49
+msgid "For each product, generate and paste your affiliate link."
+msgstr "Cho mỗi sản phẩm, tạo và dán đường dẫn liên kết của bạn."
+
+#: src/Localization/AdminTranslations.php:220
+msgid "Form is invalid or already saving"
+msgstr "Biểu mẫu không hợp lệ hoặc đã được lưu"
+
+#: src/Localization/AdminTranslations.php:292
+msgid "France"
+msgstr "Pháp"
+
+#: src/Localization/AdminTranslations.php:155
+msgid "General"
+msgstr "Chung"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:983
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4900
+msgid "General Settings"
+msgstr "Cài đặt chung"
+
+#: src/Localization/AdminTranslations.php:253
+msgid "General settings"
+msgstr "Thiết lập chung"
+
+#: src/Localization/AdminTranslations.php:293
+msgid "Germany"
+msgstr "Đức"
+
+#: src/Localization/AdminTranslations.php:114
+msgid "Get Started"
+msgstr "Bắt đầu"
+
+#: src/Localization/AdminTranslations.php:148
+msgid "Get started with our plugin"
+msgstr "Bắt đầu với plugin của chúng tôi"
+
+#: src/Localization/AdminTranslations.php:14
+msgid "Getting Started"
+msgstr "Bắt đầu"
+
+#: src/Localization/AdminTranslations.php:126
+msgid "Getting started"
+msgstr "Bắt đầu"
+
+#: src/Localization/AdminTranslations.php:150
+msgid "Got it"
+msgstr "Hiểu rồi"
+
+#. translators: %s: Amazon store region
+#: src/Setup/Blocks.php:222
+#, php-format
+msgid "Here you will see products from your store region on <b>%s</b>."
+msgstr ""
+"Ở đây bạn sẽ thấy các sản phẩm từ khu vực cửa hàng của bạn trên <b>%s</b>."
+
+#: src/Setup/Blocks.php:224
+msgid "Here you will see products from your store region."
+msgstr "Ở đây bạn sẽ thấy các sản phẩm từ khu vực cửa hàng của bạn."
+
+#: src/Localization/AdminTranslations.php:245
+msgid "Highlight settings"
+msgstr "Thiết lập nổi bật"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:359
+#: amazon-gutenberg-block/src/edit.js:673
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4276
+#: amazon-gutenberg-block/dist/index.js:4590
+msgid "Horizontal cards"
+msgstr "Thẻ ngang"
+
+#. Author of the plugin
+#: hostinger-affiliate-plugin.php
+msgid "Hostinger"
+msgstr "Hostinger"
+
+#: src/Localization/AdminTranslations.php:162
+msgid "Hostinger Academy"
+msgstr "Học viện Hostinger"
+
+#: src/Localization/AdminTranslations.php:12
+msgid "Hostinger Affiliate"
+msgstr "Hostinger Affiliate"
+
+#. Plugin Name of the plugin
+#: hostinger-affiliate-plugin.php
+#| msgid "Hostinger Amazon Affiliate Marketing Tools"
+msgid "Hostinger Affiliate Marketing Tools"
+msgstr "Công cụ tiếp thị liên kết Hostinger"
+
+#: src/Admin/Surveys/AmazonSurvey.php:24
+msgid "How could we improve the Hostinger Affiliate plugin for Amazon?"
+msgstr ""
+"Làm thế nào chúng tôi có thể cải thiện plugin Liên kết Hostinger cho Amazon?"
+
+#: src/Admin/Surveys/MercadoSurvey.php:24
+msgid "How could we improve the Hostinger Affiliate plugin for Mercado Libre?"
+msgstr ""
+"Làm thế nào chúng tôi có thể cải thiện plugin Liên kết Hostinger cho Mercado "
+"Libre?"
+
+#: amazon-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/src/components/product_selector.js:74
+#: amazon-gutenberg-block/src/components/product_selector.js:143
+#: amazon-gutenberg-block/src/components/product_selector_multiple.js:97
+#: mercado-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/dist/index.js:2603
+#: amazon-gutenberg-block/dist/index.js:2672
+#: amazon-gutenberg-block/dist/index.js:3136
+msgid "How do you want to add the product?"
+msgstr "Bạn muốn thêm sản phẩm như thế nào?"
+
+#: amazon-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4
+#: amazon-gutenberg-block/src/components/product_list_bestsellers.js:74
+#: amazon-gutenberg-block/src/components/product_list_type_selector.js:17
+#: amazon-gutenberg-block/src/components/product_selector_multiple.js:86
+#: mercado-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/dist/index.js:445
+#: amazon-gutenberg-block/dist/index.js:3125
+#: amazon-gutenberg-block/dist/index.js:5081
+msgid "How do you want to generate the list of the products?"
+msgstr "Bạn muốn tạo danh sách sản phẩm như thế nào?"
+
+#: src/Localization/AdminTranslations.php:178
+msgid "How to create a product listing using our plugin?"
+msgstr "Làm thế nào để tạo danh sách sản phẩm với plugin của chúng tôi?"
+
+#: src/Localization/AdminTranslations.php:16
+msgid "How to create a product listing with our plugin?"
+msgstr "Làm thế nào để tạo danh sách sản phẩm với plugin của chúng tôi?"
+
+#: src/Localization/AdminTranslations.php:231
+msgid "How to do that?"
+msgstr "Làm như thế nào?"
+
+#: src/Localization/AdminTranslations.php:199
+msgid "How to get your affiliate link"
+msgstr "Làm thế nào để nhận đường dẫn liên kết?"
+
+#: src/Localization/AdminTranslations.php:163
+#| msgid ""
+#| "How to Set Up Amazon Affiliate with Hostinger Amazon Affiliate Connector -"
+#| " Step by step guide"
+msgid ""
+"How to Set Up Amazon Affiliate with Hostinger Amazon Affiliate - Step by "
+"step guide"
+msgstr ""
+"Cách thiết lập Amazon Affiliate với Hostinger Amazon Affiliate - Hướng dẫn "
+"từng bước"
+
+#: src/Localization/AdminTranslations.php:164
+msgid "How to use this plugin?"
+msgstr "Cách dùng plugin này?"
+
+#: src/Admin/Surveys/AmazonSurvey.php:20
+msgid "How would you rate your experience publishing Amazon Affiliate links?"
+msgstr ""
+"Bạn đánh giá thế nào về trải nghiệm của mình khi đăng các liên kết liên kết "
+"Amazon?"
+
+#: src/Admin/Surveys/MercadoSurvey.php:20
+msgid ""
+"How would you rate your experience publishing Mercado Libre Affiliate links?"
+msgstr ""
+"Bạn đánh giá thế nào về trải nghiệm của mình khi đăng các liên kết liên kết "
+"Mercado Libre?"
+
+#. Plugin URI of the plugin
+#. Author URI of the plugin
+#: hostinger-affiliate-plugin.php
+msgid "https://hostinger.com"
+msgstr "https://hostinger.vn"
+
+#: src/Errors/AmazonApiError.php:76
+msgid ""
+"If the problems persists, contact Amazon Associates support for further "
+"assistance."
+msgstr ""
+"Nếu sự cố vẫn còn, liên hệ đội hỗ trợ Amazon Associates để được giúp đỡ."
+
+#: src/Errors/AmazonApiError.php:66 src/Errors/AmazonApiError.php:71
+msgid ""
+"If you're still having trouble after checking your settings, contact Amazon "
+"Associates support for further assistance."
+msgstr ""
+"Nếu bạn vẫn gặp sự cố sau khi đã kiểm tra thiết lập, liên hệ đội hỗ trợ "
+"Amazon Associates để được giúp đỡ."
+
+#: src/Localization/AdminTranslations.php:21
+msgid ""
+"In order to get the Amazon API information, you need to log in to your <b>"
+"Amazon Associate</b> account."
+msgstr ""
+"Để nhận thông tin API Amazon, bạn cần đăng nhập vào tài khoản <b>Amazon "
+"Associates</b> của bạn."
+
+#: src/Localization/AdminTranslations.php:34
+msgid ""
+"In the editor, type '/' or click the '+' icon. Then, select 'Link Amazon "
+"products'."
+msgstr ""
+"Trong trình chỉnh sửa, nhập '/' hoặc nhấp biểu tượng '+'. Sau đó, chọn 'Liên "
+"kết sản phẩm Amazon'."
+
+#: src/Localization/AdminTranslations.php:46
+msgid ""
+"In the editor, type '/' or click the '+' icon. Then, select 'Link Mercado "
+"Livre products'."
+msgstr ""
+"Trong trình chỉnh sửa, nhập '/' hoặc nhấp biểu tượng '+'. Sau đó, chọn 'Liên "
+"kết sản phẩm Mercado Livre'."
+
+#: src/Localization/AdminTranslations.php:294
+msgid "India"
+msgstr "Ấn Độ"
+
+#: src/Errors/AmazonApiError.php:80
+msgid "Input parameter relating to request is invalid or is missing."
+msgstr "Tham số nhập vào liên quan đến yêu cầu không hợp lệ hoặc thiếu."
+
+#: src/Localization/AdminTranslations.php:96
+msgid "Insert API code inside the Amazon Product Advertising dashboard."
+msgstr "Nhập mã API vào bảng điều khiển Quảng cáo Sản phẩm Amazon."
+
+#: amazon-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/src/components/product_list_bestsellers.js:85
+#: amazon-gutenberg-block/dist/index.js:456
+msgid "Insert the product keyword, we will show the best-seller products"
+msgstr ""
+"Nhập từ khóa sản phẩm, chúng tôi sẽ hiển thị các sản phẩm bán chạy nhất"
+
+#: src/Localization/AdminTranslations.php:168
+#| msgid ""
+#| "Inside Block Editor, you can call Hostinger Amazon Affiliate in the block "
+#| "options. You can call it by typing “/” or click the add button in the "
+#| "right side of the paragraph."
+msgid ""
+"Inside Block Editor, you can call Hostinger Amazon Affiliate in the block "
+"options. You can call it by typing \"/\" or click the add button in the "
+"right side of the paragraph."
+msgstr ""
+"Bên trong Trình chỉnh sửa Khối, bạn có thể gọi Amazon Affiliate của "
+"Hostinger trong lựa chọn khối. Bạn có thể gọi nó bằng cách gõ \"/\" hoặc "
+"nhấp nút thêm ở phía bên phải đoạn văn."
+
+#: src/Localization/AdminTranslations.php:210
+msgid "Invalid ASIN"
+msgstr "ASIN không hợp lệ"
+
+#: src/Rest/SettingsRoutes.php:223
+msgid "Invalid locale selected. Please choose a valid locale."
+msgstr "Đã chọn vùng không hợp lệ. Vui lòng chọn một vùng hợp lệ."
+
+#: src/Rest/templates/search-results.php:104
+#: src/Shortcodes/ProductTableShortcode.php:161
+#: src/Shortcodes/templates/lists/horizontal-cards.php:74
+#: src/Shortcodes/templates/lists/list-with-description.php:72
+#: src/Shortcodes/templates/lists/simplified-list.php:66
+#: src/Shortcodes/templates/product-card.php:60
+msgid "Is prime"
+msgstr "Quan trọng"
+
+#: src/Localization/AdminTranslations.php:295
+msgid "Italy"
+msgstr "Ý"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:368
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4285
+msgid "Items to show"
+msgstr "Các mục cần hiển thị"
+
+#: src/Localization/AdminTranslations.php:296
+msgid "Japan"
+msgstr "Nhật Bản"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:774
+#: amazon-gutenberg-block/dist/index.js:4691
+msgid "Keywords"
+msgstr "Từ khóa"
+
+#: src/Localization/AdminTranslations.php:247
+msgid "Label"
+msgstr "Nhãn"
+
+#: src/Localization/AdminTranslations.php:60
+msgid "Language"
+msgstr "Ngôn ngữ"
+
+#: src/Localization/AdminTranslations.php:63
+msgid "Language of Preference"
+msgstr "Ngôn ngữ yêu thích"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:657
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4574
+msgid "Layout"
+msgstr "Bố cục"
+
+#: src/Localization/AdminTranslations.php:146
+msgid ""
+"Learn how to create product listings using Hostinger's affiliate plugin – "
+"and start earning commission."
+msgstr ""
+"Tìm hiểu cách tạo danh sách sản phẩm với plugin liên kết của Hostinger - và "
+"bắt đầu kiếm hoa hồng."
+
+#: src/Localization/AdminTranslations.php:147
+msgid ""
+"Learn how to use Hostinger's Amazon Affiliate with our tutorials and "
+"documentations"
+msgstr ""
+"Học cách để sử dụng Liên kết Amazon của Hostinger với tài liệu và hướng dẫn "
+"của chúng tôi"
+
+#: src/Localization/AdminTranslations.php:127
+msgid "Learn how to use our affiliate plugin."
+msgstr "Tìm hiểu cách để dùng plugin liên kết của chúng tôi."
+
+#: src/Localization/AdminTranslations.php:149
+msgid "Learn how to use our plugin"
+msgstr "Học cách sử dụng plugin của chúng tôi"
+
+#: src/Localization/AdminTranslations.php:145
+msgid "Learn more on how to use this plugin"
+msgstr "Tìm hiểu thêm về cách dùng plugin này"
+
+#: src/Localization/AdminTranslations.php:159
+msgid "Leave without saving"
+msgstr "Rời đi mà không lưu"
+
+#: amazon-gutenberg-block/dist/index.js:4
+#: amazon-gutenberg-block/src/index.js:11
+#: amazon-gutenberg-block/dist/index.js:5755
+msgid "Link Amazon product(s)"
+msgstr "Liên kết sản phẩm Amazon"
+
+#: src/Localization/AdminTranslations.php:99
+msgid "Link Amazon Products"
+msgstr "Đường dẫn sản phẩm Amazon"
+
+#: mercado-gutenberg-block/dist/index.js:2
+msgid "Link Mercado Livre products"
+msgstr "Liên kết sản phẩm Mercado Livre"
+
+#: src/Localization/AdminTranslations.php:83
+#| msgid ""
+#| "Link your Amazon account to your website, start promoting products, and "
+#| "earn rewards."
+msgid ""
+"Link your Amazon account to your website, start promoting products, and earn "
+"rewards. No API key required."
+msgstr ""
+"Liên kết tài khoản Amazon với trang web, bắt đầu quảng bá sản phẩm và nhận "
+"thưởng. Không cần khóa API."
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:349
+#: amazon-gutenberg-block/src/edit.js:665
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4266
+#: amazon-gutenberg-block/dist/index.js:4582
+msgid "List with description"
+msgstr "Danh sách kèm mô tả"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:907
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4824
+msgid "Lists"
+msgstr "Danh sách"
+
+#: src/Localization/AdminTranslations.php:20
+msgid "Log in to Amazon Associate dashboard"
+msgstr "Đăng nhập bảng điều khiển Amazon Associates"
+
+#: src/Localization/AdminTranslations.php:22
+msgid "Login"
+msgstr "Đăng nhập"
+
+#: src/Errors/AmazonApiError.php:64
+msgid ""
+"Looks like there's a configuration issue with your Amazon Associates account."
+" The access key you provided is not linked to a primary store in your "
+"approved Amazon Associates account. To fix this, head over to Associate "
+"Central and check your account settings. Make sure the access key you're "
+"using is associated with a primary store that's been approved by Amazon "
+"Associates."
+msgstr ""
+"Dường như đã vấn đề về cấu hình với tài khoản Amazon Associates của bạn. "
+"Khóa truy cập bạn cung cấp không được kết nối cửa hàng chính được chấp nhận "
+"ở trong tài khoản Amazon Associates. Để sửa lỗi này, đi đến Associates "
+"Central và kiểm tra thiết lập tài khoản. Hãy đảm bảo khóa truy cập bạn đang "
+"dùng được liên kết với cửa hàng chính mà được chấp nhận bởi Amazon "
+"Associates."
+
+#: src/Errors/AmazonApiError.php:94
+msgid ""
+"Looks like there's a configuration issue with your Amazon Associates account."
+" The access key you provided is not valid. To fix this, head over to "
+"Associate Central and check your account settings."
+msgstr ""
+"Dường như đã vấn đề về cấu hình với tài khoản Amazon Associates của bạn. "
+"Khóa truy cập bạn cung cấp không hợp lệ. Để sửa lỗi này, đi đến Associates "
+"Central và kiểm tra thiết lập tài khoản."
+
+#: src/Errors/AmazonApiError.php:69
+msgid ""
+"Looks like there's a configuration issue with your Amazon Associates account."
+" The partner tag you provided is not linked to the access key you’re using. "
+"To fix this, head over to Associate Central and check your account settings. "
+"Make sure the partner tag you're using is associated with a valid store in "
+"your Amazon Associates account for the requested marketplace."
+msgstr ""
+"Dường như đã vấn đề về cấu hình với tài khoản Amazon Associates của bạn. Thẻ "
+"đối tác bạn cung cấp không được liên kết với khóa truy cập bạn sử dụng. Để "
+"sửa lỗi này, đi đến Associates Central và kiểm tra thiết lập tài khoản. Hãy "
+"đảm bảo thẻ đối tác bạn đang dùng được liên kết với cửa hàng được chấp thuận "
+"bởi Amazon Associates cho thị trường yêu cầu."
+
+#: src/Errors/AmazonApiError.php:96
+msgid ""
+"Make sure the access key you're using is correct. If you're still having "
+"trouble after checking your settings, contact Amazon Associates support for "
+"further assistance."
+msgstr ""
+"Hãy đảm bảo khóa truy cập bạn đang dùng là chính xác. Nếu bạn vẫn gặp vấn đề "
+"sau khi kiểm tra thiết lập, liên hệ đội hỗ trợ của Amazon Associates để được "
+"trợ giúp thêm."
+
+#: src/Localization/AdminTranslations.php:131
+msgid "Manage"
+msgstr "Quản lý"
+
+#: src/Localization/AdminTranslations.php:17
+msgid "Manage marketplaces"
+msgstr "Quản lý thị trường"
+
+#: src/Localization/AdminTranslations.php:139
+msgid "Manage table"
+msgstr "Quản lý bảng"
+
+#: src/Localization/AdminTranslations.php:116
+msgid "Manage your Amazon API and other configurations"
+msgstr "Quản lý API Amazon và các thiết lập khác"
+
+#: src/Localization/AdminTranslations.php:129
+#: src/Localization/AdminTranslations.php:187
+msgid "Manage your Amazon API and other settings."
+msgstr "Quản lý API Amazon và các thiết lập khác."
+
+#: amazon-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/src/components/product_selector_multiple.js:92
+#: amazon-gutenberg-block/src/components/product_selector_multiple.js:172
+#: mercado-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/dist/index.js:3131
+#: amazon-gutenberg-block/dist/index.js:3211
+msgid "Manually add the products"
+msgstr "Thêm sản phẩm thủ công"
+
+#: src/Localization/AdminTranslations.php:110
+msgid "Marketplace availability by country"
+msgstr "Thị trường khả dụng theo quốc gia"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:301
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4218
+msgid "Maximum count of characters for each product description list item."
+msgstr "Số ký tự tối đa cho mỗi mục trong danh sách mô tả sản phẩm."
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:205
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4122
+msgid "Maximum count of characters for the product title."
+msgstr "Số ký tự tối đa cho tiêu đề sản phẩm."
+
+#: src/Localization/AdminTranslations.php:26
+#: src/Localization/AdminTranslations.php:153
+#: src/Localization/AdminTranslations.php:244
+msgid "Menu"
+msgstr "Thực đơn"
+
+#: src/Localization/AdminTranslations.php:71
+msgid "Mercado Livre"
+msgstr "Mercado Livre"
+
+#: src/Localization/AdminTranslations.php:73
+msgid "Mercado Livre Partner"
+msgstr "Đối tác Mercado Livre"
+
+#: src/Localization/AdminTranslations.php:111
+msgid "Mercado Livre Partner settings"
+msgstr "Cài đặt đối tác Mercado Livre"
+
+#: src/Localization/AdminTranslations.php:190
+msgid "Mercado settings were successfully saved!"
+msgstr "Cài đặt Mercado đã được lưu thành công!"
+
+#: src/Localization/AdminTranslations.php:297
+msgid "Mexico"
+msgstr "Mexico"
+
+#: src/Localization/AdminTranslations.php:274
+msgid "More information"
+msgstr "Thông tin thêm"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/product_selector_multiple.js:195
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3234
+msgid "Multiple ASIN values can be separated by comma"
+msgstr "Nhiều giá trị ASIN có thể được phân tách bằng dấu phẩy"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/products_selected.js:388
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3743
+msgid ""
+"Multiple ASIN values can be separated by comma. Press Enter to save changes."
+msgstr ""
+"Nhiều giá trị ASIN có thể được phân tách bằng dấu phẩy. Nhấn Enter để lưu "
+"thay đổi."
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/products_selected.js:387
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3742
+msgid ""
+"Multiple product id values can be separated by comma. Press Enter to save "
+"changes."
+msgstr ""
+"Nhiều ID sản phẩm có thể được phân tách bằng dấu phẩy. Nhấn Enter để lưu "
+"thay đổi."
+
+#: src/Localization/AdminTranslations.php:108
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:323
+#: amazon-gutenberg-block/src/edit.js:1002
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4240
+#: amazon-gutenberg-block/dist/index.js:4919
+msgid "Multiple Product List"
+msgstr "Nhiều danh sách sản phẩm"
+
+#: src/Localization/AdminTranslations.php:284
+msgid "Name"
+msgstr "Tên"
+
+#: src/Localization/AdminTranslations.php:260
+msgid "Name field not added to all product data rows."
+msgstr "Trường tên không được thêm vào tất cả các hàng dữ liệu sản phẩm."
+
+#: src/Localization/AdminTranslations.php:298
+msgid "Netherlands"
+msgstr "Hà Lan"
+
+#: src/Localization/AdminTranslations.php:120
+msgid "New comparison table"
+msgstr "Bảng so sánh mới"
+
+#: src/Localization/AdminTranslations.php:182
+msgid "New table"
+msgstr "Bảng mới"
+
+#: src/Api/Mercado/Client.php:141
+#, fuzzy
+msgid "No HTML content found in proxy API response."
+msgstr "Không tìm thấy nội dung HTML trong phản hồi của API proxy."
+
+#: src/Shortcodes/templates/product-list.php:28
+msgid "No layout selected."
+msgstr "Chưa chọn bố cục."
+
+#: src/Localization/AdminTranslations.php:267
+#: amazon-gutenberg-block/dist/index.js:4
+#: amazon-gutenberg-block/src/components/ui/List.jsx:13
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:5680
+msgid "No matching options"
+msgstr "Không có lựa chọn phù hợp"
+
+#: src/Localization/AdminTranslations.php:227
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/ui/Dropdown.jsx:48
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3870
+msgid "No options"
+msgstr "Không có lựa chọn"
+
+#: src/Setup/Blocks.php:203
+msgid "No products found"
+msgstr "Không tìm thấy sản phẩm"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/products_selected.js:178
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3533
+msgid "No products selected"
+msgstr "Không có sản phẩm nào được chọn"
+
+#: src/Errors/AmazonApiError.php:99 src/Rest/ItemsRoutes.php:67
+msgid "No results found."
+msgstr "Không tìm thấy kết quả."
+
+#: src/Localization/AdminTranslations.php:311
+msgid "Not now"
+msgstr "Không phải bây giờ"
+
+#: src/Localization/AdminTranslations.php:133
+msgid "Nothing found"
+msgstr "Không tìm thấy gì"
+
+#: src/Localization/AdminTranslations.php:69
+msgid ""
+"Once you remove it, fetching products from this marketplace in WordPress "
+"will be turned off. Your existing product listings won\\’t be affected. You "
+"can re-add this marketplace anytime."
+msgstr ""
+"Sau khi bạn xóa nó, việc lấy sản phẩm từ thị trường này trong WordPress sẽ "
+"bị tắt. Danh sách sản phẩm hiện tại sẽ không bị ảnh hưởng. Bạn có thể thêm "
+"lại thị trường này bất kỳ lúc nào."
+
+#: src/Localization/AdminTranslations.php:175
+msgid "Open full guide"
+msgstr "Mở hướng dẫn đầy đủ"
+
+#: src/Localization/AdminTranslations.php:117
+msgid "Open guide"
+msgstr "Mở hướng dẫn"
+
+#: src/Localization/AdminTranslations.php:55
+msgid "Optional"
+msgstr "Tùy chọn"
+
+#: src/Errors/AmazonApiError.php:53 amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:434
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4351
+msgid "OR"
+msgstr "HOẶC"
+
+#: src/Localization/AdminTranslations.php:209
+#: amazon-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4
+#: amazon-gutenberg-block/src/components/product_list_type_selector.js:42
+#: amazon-gutenberg-block/src/components/product_selector.js:105
+#: amazon-gutenberg-block/src/components/product_selector_multiple.js:128
+#: amazon-gutenberg-block/src/views/TableConfiguration.jsx:69
+#: mercado-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/dist/index.js:2634
+#: amazon-gutenberg-block/dist/index.js:2902
+#: amazon-gutenberg-block/dist/index.js:3167
+#: amazon-gutenberg-block/dist/index.js:5106
+msgid "or"
+msgstr "hoặc"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:262
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4179
+msgid "Overwrite product description"
+msgstr "Ghi đè mô tả sản phẩm"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:249
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4166
+msgid "Overwrite product description?"
+msgstr "Ghi đè mô tả sản phẩm?"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:225
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4142
+msgid "Overwrite product title?"
+msgstr "Ghi đè tiêu đề sản phẩm?"
+
+#: src/Localization/AdminTranslations.php:36
+msgid "Paste the ASIN code or type to search for products you want to promote."
+msgstr "Dán mã ASIN hoặc gõ để tìm kiếm sản phẩm bạn muốn quảng bá."
+
+#: src/Localization/AdminTranslations.php:48
+msgid ""
+"Paste the Product ID or type to search for products you want to promote."
+msgstr "Dán ID sản phẩm hoặc gõ để tìm kiếm sản phẩm bạn muốn quảng bá."
+
+#: src/Localization/AdminTranslations.php:283
+msgid "Paste the shortcode in Block Editor where you want the table to appear."
+msgstr "Dán mã ngắn vào Trình chỉnh sửa Khối nơi bạn muốn bảng hiển thị."
+
+#: src/Localization/AdminTranslations.php:31
+#: src/Localization/AdminTranslations.php:43
+#: src/Localization/AdminTranslations.php:198
+msgid "Paste your affiliate link"
+msgstr "Dán đường dẫn liên kết của bạn"
+
+#: src/Localization/AdminTranslations.php:218
+msgid "Please check the field - see error message above"
+msgstr "Vui lòng kiểm tra trường - xem thông báo lỗi ở trên"
+
+#: src/Shortcodes/ShortcodeManager.php:62
+msgid "Please choose display type!"
+msgstr "Chọn loại hiển thị!"
+
+#: src/Localization/AdminTranslations.php:184
+msgid "Please enter a keyword for search!"
+msgstr "Vui lòng nhập từ khóa để tìm kiếm!"
+
+#: src/Shortcodes/ProductListShortcode.php:99
+#| msgid "Please enter keywords!"
+msgid "Please enter keyword(-s)!"
+msgstr "Vui lòng nhập từ khóa!"
+
+#: src/Shortcodes/ProductCardShortcode.php:77
+#: src/Shortcodes/ProductListShortcode.php:112
+msgid "Please enter product(-s) ASIN(-s)!"
+msgstr "Vui lòng nhập ASIN sản phẩm!"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/products_selected.js:59
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3414
+msgid "Please provide affiliate URLs for all products"
+msgstr ""
+"Vui lòng cung cấp các URL liên kết (affiliate URLs) cho tất cả các sản phẩm"
+
+#: src/Localization/AdminTranslations.php:299
+msgid "Poland"
+msgstr "Ba Lan"
+
+#: src/Localization/AdminTranslations.php:273
+#: src/Repositories/TableRepository.php:298
+msgid "Price"
+msgstr "Giá"
+
+#: src/Repositories/TableRepository.php:299
+msgid "Prime Status"
+msgstr "Trạng thái chính"
+
+#: src/Setup/Blocks.php:238
+msgid "product"
+msgstr "sản phẩm"
+
+#: src/Localization/AdminTranslations.php:201
+msgid "Product data"
+msgstr "Dữ liệu sản phẩm"
+
+#: src/Localization/AdminTranslations.php:118
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/products_selected.js:217
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3572
+msgid "Product ID"
+msgstr "ID sản phẩm"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:147
+#: amazon-gutenberg-block/dist/index.js:4064
+msgid "Product limit reached: You can add up to 15 products only."
+msgstr "Đã đạt giới hạn sản phẩm: Bạn chỉ có thể thêm tối đa 15 sản phẩm."
+
+#: src/Localization/AdminTranslations.php:196
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/products_selected.js:247
+#: amazon-gutenberg-block/src/components/products_selected.js:251
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3602
+#: amazon-gutenberg-block/dist/index.js:3606
+msgid "Product URL"
+msgstr "URL sản phẩm"
+
+#: src/Localization/AdminTranslations.php:281
+msgid "Product visible"
+msgstr "Sản phẩm hiển thị"
+
+#: src/Localization/AdminTranslations.php:277
+msgid "Products"
+msgstr "Sản phẩm"
+
+#: src/Setup/Blocks.php:239
+msgid "products"
+msgstr "sản phẩm"
+
+#: src/Shortcodes/ProductCardShortcode.php:87
+#: src/Shortcodes/ProductListShortcode.php:123
+msgid "Products not fetched from DB and/or API. Please check debug logs."
+msgstr ""
+"Sản phẩm không lấy được từ Cơ sở dữ liệu hoặc API. Vui lòng kiểm tra nhật ký "
+"gỡ lỗi."
+
+#. translators: %s: Amazon store region
+#: src/Setup/Blocks.php:188
+#, php-format
+msgid ""
+"Products that shown in here is from your store region (%1$s). You can change "
+"store region in <a href=\"%2$s\">Settings page</a>."
+msgstr ""
+"Sản phẩm được hiển thị ở đây là từ khu vực cửa hàng (%1$s) của bạn. Bạn có "
+"thể thay đổi khu vực cửa hàng ở <a href=\"%2$s\">trang Thiết lập</a>."
+
+#: src/Localization/AdminTranslations.php:195
+msgid "Products to be compared"
+msgstr "Các sản phẩm so sánh"
+
+#: src/Api/Mercado/Client.php:150
+#, fuzzy
+msgid "Proxy API request failed."
+msgstr "Yêu cầu API qua proxy đã thất bại."
+
+#: src/Localization/AdminTranslations.php:240
+msgid "Publish"
+msgstr "Xuất bản"
+
+#: src/Localization/AdminTranslations.php:32
+#: src/Localization/AdminTranslations.php:44
+#: src/Localization/AdminTranslations.php:173
+msgid "Publish the post"
+msgstr "Xuất bản bài đăng"
+
+#: src/Localization/AdminTranslations.php:237
+msgid "Published"
+msgstr "Xuất bản"
+
+#: src/Localization/AdminTranslations.php:107
+msgid "Put focus on one product only."
+msgstr "Chỉ tập trung vào một sản phẩm."
+
+#: src/Localization/AdminTranslations.php:232
+msgid "Quick way to add this table inside the Block Editor."
+msgstr "Cách để thêm nhanh bảng này vào trong Trình chỉnh sửa Khối."
+
+#: src/Localization/AdminTranslations.php:176
+msgid "Read full documentation"
+msgstr "Đọc đầy đủ tài liệu"
+
+#: src/Localization/AdminTranslations.php:74
+msgid "Remove"
+msgstr "Xóa"
+
+#: src/Localization/AdminTranslations.php:67
+msgid "Remove Amazon?"
+msgstr "Xóa Amazon?"
+
+#: src/Localization/AdminTranslations.php:246
+msgid "Remove highlight"
+msgstr "Xóa điểm nổi bật"
+
+#: src/Localization/AdminTranslations.php:68
+msgid "Remove Mercado Livre?"
+msgstr "Xóa Mercado Livre?"
+
+#: src/Errors/AmazonApiError.php:102
+msgid "Request to Amazon API failed."
+msgstr "Yêu cầu API Amazon đã thất bại."
+
+#: src/Localization/AdminTranslations.php:251
+msgid "Row data"
+msgstr "Dữ liệu hàng"
+
+#: src/Localization/AdminTranslations.php:278
+msgid "Rows"
+msgstr "Hàng"
+
+#: src/Localization/AdminTranslations.php:301
+msgid "Saudi Arabia"
+msgstr "Ả Rập Xê Út"
+
+#: src/Localization/AdminTranslations.php:80
+msgid "Save"
+msgstr "Lưu"
+
+#: src/Localization/AdminTranslations.php:160
+msgid "Save & leave"
+msgstr "Lưu & rời đi"
+
+#: src/Localization/AdminTranslations.php:156
+#: src/Localization/AdminTranslations.php:252
+msgid "Save changes"
+msgstr "Lưu thay đổi"
+
+#: src/Localization/AdminTranslations.php:157
+msgid "Save changes?"
+msgstr "Lưu thay đổi?"
+
+#: src/Localization/AdminTranslations.php:188 src/Setup/Blocks.php:179
+#: mercado-gutenberg-block/dist/index.js:2
+msgid "Search"
+msgstr "Tìm kiếm"
+
+#: src/Localization/AdminTranslations.php:100
+msgid ""
+"Search for <b>Link to Amazon Products</b> in Gutenberg Blocks, find the "
+"product(s) you want to add, and publish the post."
+msgstr ""
+"Tìm <b>Đường dẫn đến Sản phẩm Amazon</b> trong Khối Gutenberg, tìm sản phẩm "
+"bạn muốn thêm và xuất bản bài đăng."
+
+#: src/Setup/Blocks.php:217
+msgid "Search for product name that you want to add to your blog post."
+msgstr "Tìm tên sản phẩm mà bạn muốn thêm vào bài đăng blog."
+
+#: mercado-gutenberg-block/dist/index.js:2
+msgid "Search for products or enter a product ID"
+msgstr "Tìm kiếm sản phẩm hoặc nhập mã sản phẩm"
+
+#: src/Localization/AdminTranslations.php:250
+msgid "Search for products or enter Product ID"
+msgstr "Tìm kiếm sản phẩm hoặc nhập ID sản phẩm"
+
+#: src/Localization/AdminTranslations.php:249
+msgid "Search for products or enter the ASIN code"
+msgstr "Tìm kiếm sản phẩm hoặc nhập mã ASIN"
+
+#: src/Localization/AdminTranslations.php:228
+#: amazon-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/dist/index.js:4
+#: amazon-gutenberg-block/src/components/product_list_type_selector.js:55
+#: amazon-gutenberg-block/src/components/product_selector.js:119
+#: amazon-gutenberg-block/src/components/product_selector_multiple.js:142
+#: amazon-gutenberg-block/src/edit.js:640
+#: mercado-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/dist/index.js:2648
+#: amazon-gutenberg-block/dist/index.js:3181
+#: amazon-gutenberg-block/dist/index.js:4557
+#: amazon-gutenberg-block/dist/index.js:5119
+msgid "Search for the product in Amazon"
+msgstr "Tìm kiếm sản phẩm trên Amazon"
+
+#: src/Setup/Blocks.php:200 src/Setup/Blocks.php:211
+msgid "Search icon"
+msgstr "Tìm biểu tượng"
+
+#: src/Setup/Blocks.php:177
+msgid "Search product name ..."
+msgstr "Tìm tên sản phẩm ..."
+
+#: src/Localization/AdminTranslations.php:183
+msgid "Search your table collections"
+msgstr "Tìm kiếm bộ sưu tập bảng"
+
+#: src/Setup/Blocks.php:214
+msgid "Searched products will appear here"
+msgstr "Các sản phẩm được tìm thấy sẽ hiển thị ở đây"
+
+#: src/Localization/AdminTranslations.php:59
+msgid "Secret key"
+msgstr "Khóa bí mật"
+
+#: src/Localization/AdminTranslations.php:77
+msgid "Secret key must be 40 characters long"
+msgstr "Khóa truy cập phải dài 40 ký tự"
+
+#: src/Localization/AdminTranslations.php:78
+msgid ""
+"Secret key must contain only numbers, letters or the special characters \"."
+"\" and \"/\""
+msgstr ""
+"Khóa bí mật phải chỉ chứa các số, chữ cái hoặc các ký tự đặc biệt \".\" và "
+"\"/\""
+
+#: amazon-gutenberg-block/dist/index.js:4
+#: amazon-gutenberg-block/src/components/DisplayTypeSelector.jsx:42
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:5591
+msgid "Select"
+msgstr "Chọn"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:985
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4902
+msgid "Select A Display Type"
+msgstr "Chọn loại hiển thị"
+
+#: src/Localization/AdminTranslations.php:25
+msgid "Select a marketplace you’ll use to promote products"
+msgstr "Chọn thị trường mà bạn sẽ sử dụng để quảng bá sản phẩm"
+
+#: src/Setup/Blocks.php:234
+msgid "Select at least 2 products to continue"
+msgstr "Chọn ít nhất 2 sản phẩm để tiếp tục"
+
+#: src/Localization/AdminTranslations.php:61
+msgid "Select at least one provider"
+msgstr "Chọn tối thiểu một nhà cung cấp"
+
+#: src/Localization/AdminTranslations.php:56
+msgid "Select country first to find matching tracking ID"
+msgstr "Chọn quốc gia trước tiên để tìm ID theo dõi phù hợp"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:621
+#: amazon-gutenberg-block/dist/index.js:4538
+msgid "Select How To Display Products"
+msgstr "Chọn cách hiển thị sản phẩm"
+
+#: src/Localization/AdminTranslations.php:216
+msgid "Select your country"
+msgstr "Chọn quốc gia của bạn"
+
+#: src/Setup/Blocks.php:240 amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/products_selected.js:182
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3537
+msgid "selected"
+msgstr "đã chọn"
+
+#: src/Localization/AdminTranslations.php:222
+msgid "Server error occurred"
+msgstr "Đã xảy ra lỗi máy chủ"
+
+#: src/Localization/AdminTranslations.php:221
+msgid "Server returned an error"
+msgstr "Máy chủ đã trả về lỗi"
+
+#: src/Localization/AdminTranslations.php:115
+#: src/Localization/AdminTranslations.php:128
+msgid "Settings"
+msgstr "Thiết lập"
+
+#: src/Localization/AdminTranslations.php:233
+msgid "Shortcode"
+msgstr "Mã ngắn"
+
+#: src/Localization/AdminTranslations.php:143
+msgid "Shortcode copied!"
+msgstr "Đã sao chép mã ngắn!"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:236
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4153
+msgid "Show product description?"
+msgstr "Hiển thị mô tả sản phẩm?"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:354
+#: amazon-gutenberg-block/src/edit.js:669
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4271
+#: amazon-gutenberg-block/dist/index.js:4586
+msgid "Simplified list"
+msgstr "Danh sách thu gọn"
+
+#: src/Localization/AdminTranslations.php:300
+msgid "Singapore"
+msgstr "Singapore"
+
+#: src/Localization/AdminTranslations.php:106
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:313
+#: amazon-gutenberg-block/src/edit.js:997
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4230
+#: amazon-gutenberg-block/dist/index.js:4914
+msgid "Single Product Card"
+msgstr "Thẻ sản phẩm đơn lẻ"
+
+#: src/Localization/AdminTranslations.php:119
+msgid "Something went wrong"
+msgstr "Có sự cố xảy ra"
+
+#: src/Rest/TableRoutes.php:207
+msgid "Sorry, table does not exists."
+msgstr "Xin lỗi, bảng không tồn tại."
+
+#: src/Rest/TableRoutes.php:29 src/Rest/TableRoutes.php:180
+#: src/Rest/TableRoutes.php:241
+msgid "Sorry, table id missing"
+msgstr "Xin lỗi, thiếu ID bảng"
+
+#: src/Rest/ItemsRoutes.php:47 src/Rest/ItemsRoutes.php:123
+#: src/Rest/TableRoutes.php:153 src/Rest/TableRoutes.php:194
+msgid "Sorry, there are validation errors."
+msgstr "Xin lỗi, đã có lỗi xác thực."
+
+#: src/Api/Amazon/ProxyApi/Client.php:66
+msgid "Sorry, there was a problem with request."
+msgstr "Xin lỗi, yêu cầu đã xảy ra lỗi."
+
+#: src/Rest/SettingsRoutes.php:201 src/Rest/SettingsRoutes.php:235
+msgid "Sorry, you are not allowed to do that."
+msgstr "Xin lỗi, bạn không được phép làm điều đó."
+
+#: src/Localization/AdminTranslations.php:302
+msgid "Spain"
+msgstr "Tây Ban Nha"
+
+#: src/Localization/AdminTranslations.php:93
+msgid "Start Earning in Four Easy Steps"
+msgstr "Bắt đầu kiếm tiền với 4 bước đơn giản"
+
+#: src/Localization/AdminTranslations.php:91
+msgid "Start Earning Now"
+msgstr "Bắt đầu kiếm tiền ngay"
+
+#: src/Localization/AdminTranslations.php:241
+msgid "Status"
+msgstr "Trạng thái"
+
+#: src/Localization/AdminTranslations.php:303
+msgid "Sweden"
+msgstr "Thụy Điển"
+
+#: src/Setup/Cpts.php:40
+msgid "Table"
+msgstr "Bảng"
+
+#: src/Repositories/TableRepository.php:279
+msgid "Table added feature is missing title."
+msgstr "Tính năng thêm vào bảng thiếu tiêu đề."
+
+#: src/Repositories/TableRepository.php:263
+msgid "Table added product is missing asin."
+msgstr "Sản phẩm thêm vào bảng thiếu ASIN."
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:972
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4889
+msgid "Table Configuration"
+msgstr "Cấu hình bảng"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:860
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4777
+msgid "Table data"
+msgstr "Dữ liệu bảng"
+
+#: src/Localization/AdminTranslations.php:179
+msgid "Table data will be shown in this page"
+msgstr "Bảng dữ liệu sẽ hiển thị ở trang này"
+
+#: src/Repositories/TableRepository.php:48
+#: src/Repositories/TableRepository.php:58
+#: src/Repositories/TableRepository.php:116
+#: src/Repositories/TableRepository.php:126 src/Rest/TableRoutes.php:253
+#: src/Rest/TableRoutes.php:263
+msgid "Table does not exist."
+msgstr "Bảng không tồn tại"
+
+#: src/Localization/AdminTranslations.php:193
+#: src/Localization/AdminTranslations.php:276
+msgid "Table name"
+msgstr "Tên bảng"
+
+#: src/Repositories/TableRepository.php:248
+msgid "Table name is missing."
+msgstr "Thiếu tên bảng."
+
+#: src/Shortcodes/ProductTableShortcode.php:73
+msgid "Table not found or it is not published."
+msgstr "Không tìm thấy bảng hoặc bảng chưa xuất bản."
+
+#: src/Shortcodes/ProductTableShortcode.php:66
+msgid "Table not found."
+msgstr "Không tìm thấy bảng."
+
+#: src/Repositories/TableRepository.php:269
+msgid "Table should have at least one feature added."
+msgstr "Bảng phải được thêm tối thiểu một tính năng."
+
+#: src/Repositories/TableRepository.php:252
+msgid "Table should have at least one product added."
+msgstr "Bảng phải được thêm tối thiểu một sản phẩm."
+
+#: src/Repositories/TableRepository.php:285
+msgid "Table status is missing."
+msgstr "Thiếu trạng thái bảng."
+
+#: src/Localization/AdminTranslations.php:225
+msgid "Table was successfully created"
+msgstr "Bảng đã được tạo thành công"
+
+#: src/Localization/AdminTranslations.php:234
+msgid "Table was successfully deleted"
+msgstr "Bảng đã được xóa thành công"
+
+#: src/Localization/AdminTranslations.php:215
+msgid "Table was successfully saved"
+msgstr "Bảng đã được lưu thành công"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:959
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4876
+msgid "Templates and Styles"
+msgstr "Mẫu và Phong cách"
+
+#: src/Localization/AdminTranslations.php:102
+msgid ""
+"That's it – every time visitors buy the product from your post, you will "
+"earn a commission from Amazon."
+msgstr ""
+"Chỉ vậy thôi - mỗi khi khách truy cập mua sản phẩm từ bài đăng của bạn, bạn "
+"sẽ nhận được hoa hồng từ Amazon."
+
+#: src/Localization/AdminTranslations.php:174
+#| msgid ""
+#| "That’s it! After your post published, whenever your visitor buy the "
+#| "product from your post, you will earn commissions."
+msgid ""
+"That's it! After your post published, whenever your visitor buy the product "
+"from your post, you will earn commissions."
+msgstr ""
+"Chỉ vậy thôi! Sau khi bạn xuất bản bài đăng, khách truy cập mua sản phẩm từ "
+"bài đăng của bạn, bạn sẽ nhận được hoa hồng."
+
+#: src/Localization/AdminTranslations.php:38
+#: src/Localization/AdminTranslations.php:50
+msgid ""
+"That's it! Whenever a visitor buys a product through your link, you'll earn "
+"commission."
+msgstr ""
+"Vậy là xong! Bất cứ khi nào khách truy cập mua sản phẩm thông qua liên kết "
+"của bạn, bạn sẽ kiếm được hoa hồng."
+
+#. translators: %s: URL.
+#: src/Errors/AmazonApiError.php:47
+#, php-format
+msgid ""
+"The Access Key is not enabled for accessing Product Advertising API. For "
+"information on registering for Product Advertising API, see <a href=\"%s\" "
+"target=\"_blank\">Register for Product Advertising API</a>"
+msgstr ""
+"Chìa khóa truy cập không khả dụng cho truy cập API Quảng cáo Sản phẩm. Để "
+"biết thông tin về đăng ký cho API Quảng cáo Sản phẩm, xem <a href=\"%s\" "
+"target=\"_blank\">Đăng ký API Quảng cáo Sản phẩm</a>"
+
+#. translators: %s: URL.
+#: src/Errors/AmazonApiError.php:56
+#, php-format
+msgid ""
+"The Access Key is not enabled for accessing this version of Product "
+"Advertising API. Please migrate your credentials as referred here <a "
+"href=\"%s\" target=\"_blank\">Managing your Existing AWS Security "
+"Credentials for the Product Advertising API</a>."
+msgstr ""
+"Chìa khóa truy cập không khả dụng cho truy cập phiên bản API Quảng cáo Sản "
+"phẩm này. Vui lòng chuyển thông tin đăng nhập tại đây <a href=\"%s\" "
+"target=\"_blank\">Quản lý Bảo mật đăng nhập AWS hiện có cho API Quảng cáo "
+"Sản phẩm</a>."
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:486
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4403
+msgid ""
+"The block you are attempting to use is currently not supported in the Site "
+"Editor. We apologize for any inconvenience this may cause. Our team is "
+"actively working to enhance compatibility, and we appreciate your "
+"understanding. For the best editing experience, please consider using "
+"post/page editor or await future updates."
+msgstr ""
+"Khối mà bạn đang cố gắng sử dụng hiện tại không được hỗ trợ trong Trình "
+"chỉnh sửa trang. Chúng tôi xin lỗi vì bất kỳ sự bất tiện nào mà điều này có "
+"thể gây ra. Đội ngũ của chúng tôi đang tích cực làm việc để cải thiện tính "
+"tương thích, và chúng tôi đánh giá cao sự thông cảm của bạn. Để có trải "
+"nghiệm chỉnh sửa tốt nhất, vui lòng xem xét sử dụng trình chỉnh sửa bài "
+"viết/trang hoặc chờ các bản cập nhật trong tương lai."
+
+#. translators: %s: PHP version
+#: hostinger-affiliate-plugin.php:106
+#, php-format
+msgid ""
+"The Hostinger Affiliate plugin requires minimum PHP version of <b>%s</b>. "
+msgstr ""
+"Plugin Liên kết Hostinger yêu cầu phiên bản PHP tối thiểu là <b>%s</b>."
+
+#: src/Services/ProductFetchService.php:190
+msgid ""
+"There is an issue displaying Amazon products. Please contact the "
+"administrator to check that."
+msgstr ""
+"Đã xảy ra vấn đề khi hiển thị sản phẩm Amazon. Vui lòng liên hệ quản trị "
+"viên để kiểm tra."
+
+#: src/Errors/AmazonApiError.php:36 src/Errors/AmazonApiError.php:89
+msgid "There seems to be a technical problem with your request."
+msgstr "Dường như đã có vấn đề kỹ thuật với yêu cầu của bạn."
+
+#: src/Errors/AmazonApiError.php:74
+msgid ""
+"There was a problem with your request. Amazon limits the number of requests "
+"you can make to their Product Advertising API. Note that your account will "
+"lose access to Product Advertising API 5.0 if it has not generated referring "
+"sales for a consecutive 30-day period."
+msgstr ""
+"Đã có vấn đề với yêu cầu của bạn. Amazon giới hạn số lượng yêu cầu bạn gửi "
+"đến API Quảng cáo Sản phẩm. Lưu ý rằng tài khoản của bạn sẽ mất quyền truy "
+"cập API Quảng cáo Sản phẩm 5.0 nếu không tạo được doanh số giới thiệu trong "
+"liên tục 30 ngày."
+
+#: src/Localization/AdminTranslations.php:192
+msgid "There was an error saving your settings: "
+msgstr "Đã xảy ra lỗi khi lưu cài đặt:"
+
+#: src/Localization/AdminTranslations.php:185
+msgid "There was an error searching for items: "
+msgstr "Đã xảy ra lỗi khi tìm kiếm vật phẩm:"
+
+#: amazon-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/products_selected.js:14
+#: amazon-gutenberg-block/src/components/product_selector.js:18
+#: amazon-gutenberg-block/src/components/product_selector_multiple.js:19
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:2547
+#: amazon-gutenberg-block/dist/index.js:3058
+#: amazon-gutenberg-block/dist/index.js:3369
+msgid "There was an error validating product ids: "
+msgstr "Đã xảy ra lỗi khi xác thực ID sản phẩm:"
+
+#: mercado-gutenberg-block/dist/index.js:2
+msgid "There was an error: "
+msgstr "Đã xảy ra lỗi:"
+
+#: src/Localization/AdminTranslations.php:186
+#: amazon-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/components/products_selected.js:93
+#: amazon-gutenberg-block/src/components/product_selector.js:54
+#: amazon-gutenberg-block/src/components/product_selector_multiple.js:55
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:2583
+#: amazon-gutenberg-block/dist/index.js:3094
+#: amazon-gutenberg-block/dist/index.js:3448
+msgid "There was fatal server error while processing your request."
+msgstr "Đã xảy ra lỗi máy chủ nghiêm trọng khi xử lý yêu cầu của bạn."
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:479
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4396
+msgid "This block is not supported while using Site Editor"
+msgstr "Khối này không được hỗ trợ khi sử dụng Trình chỉnh sửa trang"
+
+#: src/Localization/AdminTranslations.php:217
+#: src/Localization/AdminTranslations.php:226
+msgid "This field is required"
+msgstr "Trường này bắt buộc"
+
+#: src/Localization/AdminTranslations.php:104
+msgid "Three Templates for Your Product(s) Block"
+msgstr "Ba mẫu dành cho Khối sản phẩm của bạn"
+
+#: src/Localization/AdminTranslations.php:272
+#: src/Repositories/TableRepository.php:297
+msgid "Thumbnail"
+msgstr "Hình thu nhỏ"
+
+#: src/Localization/AdminTranslations.php:271
+#: src/Repositories/TableRepository.php:296
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:571
+#: amazon-gutenberg-block/src/edit.js:920
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4488
+#: amazon-gutenberg-block/dist/index.js:4837
+msgid "Title"
+msgstr "Tiêu đề"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:192
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4109
+msgid "Title length"
+msgstr "Độ dài tiêu đề"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:219
+#: mercado-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/dist/index.js:4136
+msgid "Title overwrite enabled?"
+msgstr "Bật ghi đè tiêu đề?"
+
+#: amazon-gutenberg-block/dist/index.js:3
+#: amazon-gutenberg-block/src/edit.js:513
+#: amazon-gutenberg-block/dist/index.js:4430
+msgid ""
+"To gain full access to this block, you need to connect your Amazon "
+"Partnership account."
+msgstr ""
+"Để có quyền truy cập đầy đủ vào khối này, bạn cần kết nối tài khoản Amazon "
+"Partnership của mình."
+
+#: mercado-gutenberg-block/dist/index.js:2
+msgid ""
+"To gain full access to this block, you need to enable Mercado Livre "
+"integration."
+msgstr ""
+"Để có quyền truy cập đầy đủ vào khối này, bạn cần kích hoạt tích hợp Mercado "
+"Livre."
+
+#: src/Localization/AdminTranslations.php:33
+#: src/Localization/AdminTranslations.php:45
+msgid "To start promoting products, first create a post."
+msgstr "Để bắt đầu quảng bá sản phẩm, đầu tiên tạo một bài đăng."
+
+#: src/Localization/AdminTranslations.php:65
+msgid "Tracking ID"
+msgstr "ID theo dõi"
+
+#: src/Localization/AdminTranslations.php:52
+msgid "Tracking ID connected"
+msgstr "Theo dõi ID đã kết nối"
+
+#: src/Localization/AdminTranslations.php:224
+msgid ""
+"Tracking ID format wrong. Lowercase letters, digits and _-. special chars "
+"are allowed."
+msgstr ""
+"Định dạng ID theo dõi không đúng. Chữ thường, chữ số và ký tự đặc biệt _-. "
+"được phép."
+
+#: src/Localization/AdminTranslations.php:121
+#: src/Localization/AdminTranslations.php:135
+msgid "Try searching for something else"
+msgstr "Thử tìm kiếm gì khác"
+
+#: src/Localization/AdminTranslations.php:304
+msgid "Turkey"
+msgstr "Thổ Nhĩ Kỳ"
+
+#: src/Localization/AdminTranslations.php:140
+msgid "Tutorial"
+msgstr "Hướng dẫn"
+
+#: src/Localization/AdminTranslations.php:161
+msgid "Tutorial video by"
+msgstr "Video hướng dẫn bởi"
+
+#: src/Localization/AdminTranslations.php:285
+msgid "Type"
+msgstr "Loại"
+
+#: amazon-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/src/components/product_selector.js:100
+#: amazon-gutenberg-block/src/components/product_selector_multiple.js:123
+#: mercado-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/dist/index.js:2629
+#: amazon-gutenberg-block/dist/index.js:3162
+msgid "Type ASIN (Product ID)"
+msgstr "Nhập ASIN (Mã sản phẩm)"
+
+#: src/Localization/AdminTranslations.php:261
+msgid "Type field not added to all product data rows."
+msgstr "Trường loại không được thêm vào vào tất cả hàng dữ liệu sản phẩm."
+
+#: amazon-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/src/components/product_selector_multiple.js:179
+#: mercado-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/dist/index.js:3218
+msgid "Type the ASINs (Product IDs)"
+msgstr "Nhập ASIN (Mã sản phẩm)"
+
+#: src/Localization/AdminTranslations.php:305
+msgid "United Arab Emirates"
+msgstr "Các Tiểu vương quốc Ả Rập Thống Nhất"
+
+#: src/Localization/AdminTranslations.php:306
+msgid "United Kingdom"
+msgstr "Vương quốc Anh"
+
+#: src/Localization/AdminTranslations.php:307
+msgid "United States"
+msgstr "Hoa Kỳ"
+
+#: src/Localization/Messages.php:24
+msgid "Unknown display type. Please re-select display type."
+msgstr "Loại hiển thị không xác định. Vui lòng chọn lại loại hiển thị."
+
+#: src/Localization/AdminTranslations.php:90
+msgid ""
+"Unlock the full potential of your website – monetize it with our plugin to "
+"earn more."
+msgstr ""
+"Mở khóa hoàn toàn tiềm năng trang web - kiếm thêm nhiều tiền với plugin của "
+"chúng tôi."
+
+#: src/Localization/AdminTranslations.php:239
+msgid "Unpublish"
+msgstr "Không xuất bản"
+
+#: src/Localization/AdminTranslations.php:264
+#: amazon-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/src/views/TableConfiguration.jsx:36
+#: mercado-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/dist/index.js:2869
+msgid "Use the saved table configuration"
+msgstr "Dùng cấu hình bảng đã lưu"
+
+#: src/Localization/AdminTranslations.php:130
+msgid "View guide"
+msgstr "Xem hướng dẫn"
+
+#: mercado-gutenberg-block/dist/index.js:2
+msgid "View Product on Mercado Livre"
+msgstr "Xem sản phẩm trên Mercado Livre"
+
+#: src/Localization/AdminTranslations.php:236
+msgid "Visibility"
+msgstr "Khả năng hiển thị"
+
+#: src/Models/Product.php:284
+msgid "Watch on Amazon Prime"
+msgstr "Xem trên Amazon Prime"
+
+#: src/Localization/AdminTranslations.php:89
+#| msgid "Welcome to Hostinger Amazon Affiliate Connector!"
+msgid "Welcome to Hostinger Amazon Affiliate!"
+msgstr "Chào mừng đến Hostinger Amazon Affiliate!"
+
+#. translators: %s: user display name
+#: amazon-gutenberg-block/dist/index.js:4
+#: amazon-gutenberg-block/src/edit.js:1051
+#: amazon-gutenberg-block/dist/index.js:4968
+#, js-format
+msgid "Welcome, %s!"
+msgstr "Chào mừng, %s!"
+
+#: src/Localization/AdminTranslations.php:280
+msgid "What's an ASIN code?"
+msgstr "Mã ASIN là gì?"
+
+#: src/Localization/AdminTranslations.php:98
+msgid "Write down your content that you want to link your Amazon product with."
+msgstr "Nhập nội dung mà bạn muốn sản phẩm Amazon liên kết tới."
+
+#. translators: %s: PHP version
+#: hostinger-affiliate-plugin.php:110
+#, php-format
+msgid "You are running <b>%s</b> PHP version."
+msgstr "Bạn đang sử dụng phiên bản PHP %s."
+
+#: src/Localization/AdminTranslations.php:279
+msgid ""
+"You can add unlimited products, but only 6 can be shown in a published table."
+msgstr ""
+"Bạn có thể thêm không giới hạn sản phẩm, nhưng có thể hiển thị 6 trong bảng "
+"xuất bản."
+
+#: src/Localization/AdminTranslations.php:309
+msgid ""
+"You can add your comparison table to any post. Whenever a visitor buys a "
+"product through your affiliate link, you'll earn commission."
+msgstr ""
+"Bạn có thể thêm bảng so sánh vào bất kỳ bài đăng nào. Mỗi khi khách truy cập "
+"mua một sản phẩm thông qua đường dẫn liên kết của bạn, bạn sẽ nhận được hoa "
+"hồng."
+
+#: mercado-gutenberg-block/dist/index.js:2
+msgid "You can also edit your product list later from the right-hand menu."
+msgstr ""
+"Bạn cũng có thể chỉnh sửa danh sách sản phẩm của mình sau này từ menu bên "
+"phải."
+
+#: src/Localization/AdminTranslations.php:214
+#| msgid ""
+#| "You can also hide products so they don’t appear in the table. Products "
+#| "that you delete will need to be added again."
+msgid ""
+"You can also hide products so they don't appear in the table. Products that "
+"you delete will need to be added again."
+msgstr ""
+"Bạn cũng có thể ẩn sản phẩm để nó không hiện trong bảng. Sản phẩm mà bạn xóa "
+"sẽ phải thêm lại."
+
+#: src/Localization/AdminTranslations.php:211
+msgid ""
+"You can also unpublish your table. Deleting it will cause you to lose all "
+"added products."
+msgstr ""
+"Bạn cũng có thể không xuất bản bảng. Nếu xóa nó, bạn sẽ mất tất cả các sản "
+"phẩm đã thêm."
+
+#: src/Localization/AdminTranslations.php:265
+#: amazon-gutenberg-block/dist/index.js:2
+#: amazon-gutenberg-block/src/views/TableConfiguration.jsx:43
+#: mercado-gutenberg-block/dist/index.js:1
+#: amazon-gutenberg-block/dist/index.js:2876
+msgid "You can edit the existing table configuration after this step"
+msgstr "Bạn có thể chỉnh sửa cấu hình bảng hiện có sau bước này"
+
+#: src/Localization/AdminTranslations.php:23
+msgid ""
+"You can select both marketplaces and then easily add affiliate links to your "
+"content."
+msgstr ""
+"Bạn có thể chọn cả thị trường và sau đó dễ dàng thêm các đường dẫn liên kết "
+"vào nội dung của mình."
+
+#: src/Localization/AdminTranslations.php:258
+#| msgid "You have added too many products. Only 5 are allowed."
+msgid "You have added too many products to display. Only 6 are allowed."
+msgstr "Bạn đã thêm quá nhiều sản phẩm. Chỉ cho phép tối đa 6."
+
+#: src/Localization/AdminTranslations.php:158
+msgid "You have unsaved changes that will be lost if you leave."
+msgstr "Bạn có các thay đổi chưa được lưu sẽ mất nếu bạn rời đi."
+
+#: src/Localization/AdminTranslations.php:262
+msgid ""
+"You need to add at least one row (title, select) to create a table. Check if "
+"all fields are filled."
+msgstr ""
+"Bạn cần thêm tối thiểu một hàng (tiêu đề, lựa chọn) để tạo bảng. Đảm bảo "
+"rằng tất cả các trường đều đã điền."
+
+#: src/Localization/AdminTranslations.php:268
+msgid ""
+"You need to add at least one row, two enabled products (max 5 products) to "
+"save changes. Check if all added fields are filled."
+msgstr ""
+"Bạn cần thêm tối thiểu một hàng, hai sản phẩm khả dụng (tối đa 5 sản phẩm) "
+"để lưu thay đổi. Đảm bảo rằng tất cả các trường thêm vào đều đã điền."
+
+#: src/Localization/AdminTranslations.php:170
+msgid ""
+"You need to choose the main layout for your product(s) block based on your "
+"needs. You can choose between single product, multiple product, or "
+"comparison."
+msgstr ""
+"Bạn cần chọn bố cục chính cho khối sản phẩm dựa theo nhu cầu. Bạn có thể "
+"chọn giữa sản phẩm đơn lẻ, nhiều sản phẩm hoặc so sánh."
+
+#: src/Localization/AdminTranslations.php:255
+msgid "You need to enter table name."
+msgstr "Bạn cần phải nhập tên bảng."
+
+#: src/Localization/AdminTranslations.php:122
+msgid "Your comparison tables"
+msgstr "Bảng so sánh của bạn"
+
+#: src/Localization/AdminTranslations.php:181
+msgid "Your tables"
+msgstr "Bảng của bạn"
