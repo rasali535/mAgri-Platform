@@ -7,6 +7,7 @@ import FinanceTab from './components/FinanceTab';
 import ArchitectureTab from './components/ArchitectureTab';
 import AgronomistDashboard from './components/AgronomistDashboard';
 import CreditApplication from './components/CreditApplication';
+import InsuranceApplication from './components/InsuranceApplication';
 import USSDSettings from './components/USSDSettings';
 
 export default function App() {
@@ -43,6 +44,7 @@ export default function App() {
             {activeTab === 'finance' && <FinanceTab onNavigate={setActiveTab} />}
             {activeTab === 'architecture' && <ArchitectureTab />}
             {activeTab === 'credit_apply' && <CreditApplication onBack={() => setActiveTab('finance')} />}
+            {activeTab === 'insurance_apply' && <InsuranceApplication onBack={() => setActiveTab('finance')} />}
             {activeTab === 'ussd' && <USSDSettings onBack={() => setActiveTab('home')} />}
           </>
         )}
@@ -54,7 +56,7 @@ export default function App() {
           <NavItem icon={<Home size={20} />} label="Home" isActive={activeTab === 'home'} onClick={() => setActiveTab('home')} />
           <NavItem icon={<Camera size={20} />} label="Diagnose" isActive={activeTab === 'diagnose'} onClick={() => setActiveTab('diagnose')} />
           <NavItem icon={<MessageSquare size={20} />} label="Ask AI" isActive={activeTab === 'chat'} onClick={() => setActiveTab('chat')} />
-          <NavItem icon={<Wallet size={20} />} label="Finance" isActive={activeTab === 'finance' || activeTab === 'credit_apply'} onClick={() => setActiveTab('finance')} />
+          <NavItem icon={<Wallet size={20} />} label="Finance" isActive={activeTab === 'finance' || activeTab === 'credit_apply' || activeTab === 'insurance_apply'} onClick={() => setActiveTab('finance')} />
           <NavItem icon={<FileText size={20} />} label="Arch" isActive={activeTab === 'architecture'} onClick={() => setActiveTab('architecture')} />
         </nav>
       )}

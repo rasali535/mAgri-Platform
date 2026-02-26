@@ -29,6 +29,7 @@ export default function FinanceTab({ onNavigate }: { onNavigate?: (tab: string) 
             icon={<ShieldCheck className="text-yellow-500" />}
             title="MTN MoMo Crop Insurance"
             description="Protect your maize yield against drought."
+            onClick={() => onNavigate && onNavigate('insurance_apply')}
           />
         </div>
       </div>

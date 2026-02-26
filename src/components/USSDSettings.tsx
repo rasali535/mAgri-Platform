@@ -1,7 +1,10 @@
 import React from 'react';
-import { WifiOff, Smartphone, RefreshCw, Database } from 'lucide-react';
+import { WifiOff, Smartphone, RefreshCw, Database, Key } from 'lucide-react';
 
 export default function USSDSettings({ onBack }: { onBack: () => void }) {
+  const apiKey = process.env.GEMINI_API_KEY;
+  const isApiKeySet = !!apiKey && apiKey.length > 0;
+  const maskedKey = isApiKeySet ? `${apiKey.substring(0, 8)}...` : 'Not Configured';
   return (
     <div className="p-4 space-y-6">
       <div className="space-y-2">
@@ -23,6 +26,19 @@ export default function USSDSettings({ onBack }: { onBack: () => void }) {
         <p className="text-sm text-emerald-800 leading-relaxed">
           Your crop history and credit score are saved offline. You can safely disconnect from the internet.
         </p>
+      </div>
+
+      <div className="bg-white border border-stone-200 rounded-2xl p-5 shadow-sm">
+        <div className="flex items-center space-x-3 mb-2">
+          <Key size={20} className={isApiKeySet ? "text-emerald-500" : "text-red-500"} />
+          <h3 className="font-semibold text-stone-800 text-sm">API Key Status</h3>
+        </div>
+        <div className="flex justify-between items-center mt-3">
+          <span className="text-xs text-stone-500">Gemini API Key:</span>
+          <span className={`text-xs font-mono font-medium px-2 py-1 rounded-md ${isApiKeySet ? 'bg-emerald-100 text-emerald-800' : 'bg-red-100 text-red-800'}`}>
+            {maskedKey}
+          </span>
+        </div>
       </div>
 
       <div className="space-y-4">
