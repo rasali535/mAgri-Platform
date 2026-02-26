@@ -1,0 +1,65 @@
+import React from 'react';
+import { WifiOff, Smartphone, RefreshCw, Database } from 'lucide-react';
+
+export default function USSDSettings({ onBack }: { onBack: () => void }) {
+  return (
+    <div className="p-4 space-y-6">
+      <div className="space-y-2">
+        <h2 className="text-xl font-bold text-stone-800">Offline & USSD Bridge</h2>
+        <p className="text-sm text-stone-500">Manage connectivity settings</p>
+      </div>
+
+      <div className="bg-emerald-50 border border-emerald-200 rounded-3xl p-6 text-center space-y-4">
+        <div className="flex justify-center">
+          <div className="bg-emerald-100 p-4 rounded-full relative">
+            <Database size={32} className="text-emerald-600" />
+            <div className="absolute top-0 right-0 w-4 h-4 bg-emerald-500 border-2 border-emerald-50 rounded-full"></div>
+          </div>
+        </div>
+        <div>
+          <h3 className="font-bold text-emerald-900">Data Synced</h3>
+          <p className="text-xs text-emerald-700 mt-1">Last sync: Just now</p>
+        </div>
+        <p className="text-sm text-emerald-800 leading-relaxed">
+          Your crop history and credit score are saved offline. You can safely disconnect from the internet.
+        </p>
+      </div>
+
+      <div className="space-y-4">
+        <h3 className="font-semibold text-stone-800 text-sm">USSD Shortcodes</h3>
+        <p className="text-xs text-stone-500">Dial these codes from your feature phone when you have no internet access (2G only).</p>
+        
+        <div className="bg-white border border-stone-200 rounded-2xl overflow-hidden shadow-sm">
+          <ShortcodeItem code="*123*1#" action="Check Credit Score" />
+          <div className="h-px bg-stone-100 w-full"></div>
+          <ShortcodeItem code="*123*2#" action="Apply for Micro-Credit" />
+          <div className="h-px bg-stone-100 w-full"></div>
+          <ShortcodeItem code="*123*3#" action="Check Weather Forecast" />
+          <div className="h-px bg-stone-100 w-full"></div>
+          <ShortcodeItem code="*123*4#" action="SMS Agronomist" />
+        </div>
+      </div>
+
+      <div className="bg-stone-50 rounded-2xl p-5 border border-stone-200 flex items-start space-x-4">
+        <WifiOff className="text-stone-400 mt-1" />
+        <div>
+          <h4 className="font-semibold text-stone-800 text-sm">How the Bridge Works</h4>
+          <p className="text-xs text-stone-600 mt-1 leading-relaxed">
+            When you move from a 4G zone to a 2G zone, the WebApp caches your session. Any actions taken via USSD will automatically sync back to this app when you reconnect to the internet.
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ShortcodeItem({ code, action }: { code: string, action: string }) {
+  return (
+    <div className="p-4 flex items-center justify-between">
+      <span className="text-sm font-medium text-stone-700">{action}</span>
+      <a href={`tel:${code}`} className="bg-stone-100 text-stone-800 font-mono text-sm px-3 py-1.5 rounded-lg font-bold hover:bg-stone-200">
+        {code}
+      </a>
+    </div>
+  );
+}
