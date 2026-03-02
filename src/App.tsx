@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Home, Camera, MessageSquare, Wallet, FileText, Settings, UserCircle } from 'lucide-react';
+import { Home, Camera, MessageSquare, Wallet, FileText, Settings, UserCircle, Store } from 'lucide-react';
 import HomeTab from './components/HomeTab';
 import DiagnoseTab from './components/DiagnoseTab';
 import ChatTab from './components/ChatTab';
@@ -9,6 +9,7 @@ import AgronomistDashboard from './components/AgronomistDashboard';
 import CreditApplication from './components/CreditApplication';
 import InsuranceApplication from './components/InsuranceApplication';
 import USSDSettings from './components/USSDSettings';
+import MarketplaceTab from './components/MarketplaceTab';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<string>('home');
@@ -39,6 +40,7 @@ export default function App() {
         ) : (
           <>
             {activeTab === 'home' && <HomeTab onNavigate={setActiveTab} />}
+            {activeTab === 'market' && <MarketplaceTab />}
             {activeTab === 'diagnose' && <DiagnoseTab />}
             {activeTab === 'chat' && <ChatTab />}
             {activeTab === 'finance' && <FinanceTab onNavigate={setActiveTab} />}
@@ -52,8 +54,9 @@ export default function App() {
 
       {/* Bottom Navigation (Hidden in Agronomist View) */}
       {!isAgronomist && (
-        <nav className="absolute bottom-0 w-full bg-white border-t border-stone-200 flex justify-around items-center h-16 pb-safe z-20">
+        <nav className="absolute bottom-0 w-full bg-white border-t border-stone-200 flex justify-around items-center h-16 pb-safe z-20 px-1">
           <NavItem icon={<Home size={20} />} label="Home" isActive={activeTab === 'home'} onClick={() => setActiveTab('home')} />
+          <NavItem icon={<Store size={20} />} label="Market" isActive={activeTab === 'market'} onClick={() => setActiveTab('market')} />
           <NavItem icon={<Camera size={20} />} label="Diagnose" isActive={activeTab === 'diagnose'} onClick={() => setActiveTab('diagnose')} />
           <NavItem icon={<MessageSquare size={20} />} label="Ask AI" isActive={activeTab === 'chat'} onClick={() => setActiveTab('chat')} />
           <NavItem icon={<Wallet size={20} />} label="Finance" isActive={activeTab === 'finance' || activeTab === 'credit_apply' || activeTab === 'insurance_apply'} onClick={() => setActiveTab('finance')} />
