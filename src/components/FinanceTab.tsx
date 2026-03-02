@@ -1,7 +1,10 @@
 import React from 'react';
 import { Wallet, ShieldCheck, TrendingUp, ArrowRight, Smartphone } from 'lucide-react';
+import { useCurrency } from '../CurrencyContext';
 
 export default function FinanceTab({ onNavigate }: { onNavigate?: (tab: string) => void }) {
+  const { formatCurrency } = useCurrency();
+
   return (
     <div className="p-4 space-y-6">
       <div className="bg-gradient-to-br from-indigo-600 to-violet-700 rounded-3xl p-6 text-white shadow-lg relative overflow-hidden">
@@ -21,13 +24,13 @@ export default function FinanceTab({ onNavigate }: { onNavigate?: (tab: string) 
         <div className="space-y-3">
           <ServiceCard 
             icon={<Wallet className="text-orange-500" />}
-            title="Orange Money Micro-Credit"
-            description="Apply for up to 50,000 XOF for seeds and fertilizer."
+            title="Mobile Money Micro-Credit"
+            description={`Apply for up to ${formatCurrency(2000)} for seeds and fertilizer.`}
             onClick={() => onNavigate && onNavigate('credit_apply')}
           />
           <ServiceCard 
             icon={<ShieldCheck className="text-yellow-500" />}
-            title="MTN MoMo Crop Insurance"
+            title="Mobile Money Crop Insurance"
             description="Protect your maize yield against drought."
             onClick={() => onNavigate && onNavigate('insurance_apply')}
           />

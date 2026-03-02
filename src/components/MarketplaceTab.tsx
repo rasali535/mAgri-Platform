@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { Store, Plus, MapPin, Phone, Search, ShoppingBag, X } from 'lucide-react';
+import { useCurrency } from '../CurrencyContext';
 
 type Listing = {
   id: string;
   type: 'sell' | 'buy';
   produce: string;
   quantity: string;
-  price: string;
+  basePrice: number | null;
   location: string;
   user: string;
   isMine: boolean;
@@ -16,12 +17,13 @@ export default function MarketplaceTab() {
   const [view, setView] = useState<'browse' | 'my_listings'>('browse');
   const [showAddModal, setShowAddModal] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const { formatCurrency, country } = useCurrency();
 
   const [listings, setListings] = useState<Listing[]>([
-    { id: '1', type: 'buy', produce: 'Maize', quantity: '5 Tons', price: 'Negotiable', location: 'Lusaka, Zambia', user: 'AgriCorp Buyers', isMine: false },
-    { id: '2', type: 'sell', produce: 'Cocoa Beans', quantity: '200 kg', price: '1,500 XOF / kg', location: 'Abidjan, CI', user: 'Kouame', isMine: false },
-    { id: '3', type: 'buy', produce: 'Cashew Nuts', quantity: '1 Ton', price: 'Market Rate', location: 'Bouaké, CI', user: 'Export Co.', isMine: false },
-    { id: '4', type: 'sell', produce: 'Tomatoes', quantity: '50 kg', price: '300 ZMW / box', location: 'Ndola, Zambia', user: 'Grace', isMine: false },
+    { id: '1', type: 'buy', produce: 'Maize', quantity: '5 Tons', basePrice: null, location: 'Lusaka, Zambia', user: 'AgriCorp Buyers', isMine: false },
+    { id: '2', type: 'sell', produce: 'Cocoa Beans', quantity: '200 kg', basePrice: 60, location: 'Abidjan, CI', user: 'Kouame', isMine: false },
+    { id: '3', type: 'buy', produce: 'Cashew Nuts', quantity: '1 Ton', basePrice: null, location: 'Bouaké, CI', user: 'Export Co.', isMine: false },
+    { id: '4', type: 'sell', produce: 'Tomatoes', quantity: '50 kg', basePrice: 300, location: 'Ndola, Zambia', user: 'Grace', isMine: false },
   ]);
 
   const [newListing, setNewListing] = useState({ produce: '', quantity: '', price: '', location: '' });
@@ -29,12 +31,15 @@ export default function MarketplaceTab() {
   const handleAddListing = () => {
     if (!newListing.produce || !newListing.quantity) return;
     
+    const parsedPrice = parseFloat(newListing.price);
+    const basePrice = isNaN(parsedPrice) ? null : parsedPrice / country.rate;
+
     const listing: Listing = {
       id: Math.random().toString(36).substr(2, 9),
       type: 'sell',
       produce: newListing.produce,
       quantity: newListing.quantity,
-      price: newListing.price || 'Negotiable',
+      basePrice: basePrice,
       location: newListing.location || 'My Farm',
       user: 'Me',
       isMine: true
@@ -105,7 +110,9 @@ export default function MarketplaceTab() {
                     <h3 className="font-bold text-stone-800 text-lg mt-2">{listing.produce}</h3>
                   </div>
                   <div className="text-right">
-                    <p className="font-semibold text-stone-800">{listing.price}</p>
+                    <p className="font-semibold text-stone-800">
+                      {listing.basePrice ? formatCurrency(listing.basePrice) : 'Negotiable'}
+                    </p>
                     <p className="text-xs text-stone-500">{listing.quantity}</p>
                   </div>
                 </div>
@@ -175,7 +182,7 @@ export default function MarketplaceTab() {
                   <label className="text-xs font-medium text-stone-600 ml-1">Price (Optional)</label>
                   <input 
                     type="text" 
-                    placeholder="e.g., 150 ZMW" 
+                    placeholder={`e.g., ${Math.round(150 * country.rate)}`} 
                     value={newListing.price}
                     onChange={e => setNewListing({...newListing, price: e.target.value})}
                     className="w-full border border-stone-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-emerald-500 outline-none"

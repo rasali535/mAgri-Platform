@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { ArrowLeft, CheckCircle, ShieldCheck, Smartphone, CloudRain } from 'lucide-react';
+import { useCurrency } from '../CurrencyContext';
 
 export default function InsuranceApplication({ onBack }: { onBack: () => void }) {
   const [step, setStep] = useState(1);
   const [acres, setAcres] = useState(2);
+  const { formatCurrency, country } = useCurrency();
 
   const handleApply = () => {
     setStep(2);
@@ -24,7 +26,7 @@ export default function InsuranceApplication({ onBack }: { onBack: () => void })
       {step === 1 && (
         <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4">
           <div>
-            <h2 className="text-2xl font-bold text-stone-800">MTN MoMo Crop Insurance</h2>
+            <h2 className="text-2xl font-bold text-stone-800">Mobile Money Crop Insurance</h2>
             <p className="text-sm text-stone-500 mt-1">Protect your maize yield against drought and pests.</p>
           </div>
 
@@ -52,15 +54,15 @@ export default function InsuranceApplication({ onBack }: { onBack: () => void })
             <h3 className="font-semibold text-stone-800 text-sm">Coverage Details</h3>
             <div className="flex justify-between text-sm">
               <span className="text-stone-500">Total Coverage</span>
-              <span className="font-medium text-stone-800">{coverage.toLocaleString()} ZMW</span>
+              <span className="font-medium text-stone-800">{formatCurrency(coverage)}</span>
             </div>
             <div className="flex justify-between text-sm">
               <span className="text-stone-500">Premium (One-time)</span>
-              <span className="font-medium text-stone-800">{premium.toLocaleString()} ZMW</span>
+              <span className="font-medium text-stone-800">{formatCurrency(premium)}</span>
             </div>
             <div className="flex justify-between text-sm">
               <span className="text-stone-500">Payment Method</span>
-              <span className="font-medium text-stone-800">MTN MoMo Wallet</span>
+              <span className="font-medium text-stone-800">Mobile Money Wallet</span>
             </div>
           </div>
 
@@ -79,8 +81,8 @@ export default function InsuranceApplication({ onBack }: { onBack: () => void })
             <div className="w-16 h-16 border-4 border-yellow-200 border-t-yellow-500 rounded-full animate-spin"></div>
             <Smartphone size={24} className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-yellow-500" />
           </div>
-          <p className="font-medium text-stone-600">Processing via MTN MoMo API...</p>
-          <p className="text-xs text-stone-400">Deducting {premium.toLocaleString()} ZMW from wallet</p>
+          <p className="font-medium text-stone-600">Processing via Mobile Money API...</p>
+          <p className="text-xs text-stone-400">Deducting {formatCurrency(premium)} from wallet</p>
         </div>
       )}
 
@@ -98,7 +100,7 @@ export default function InsuranceApplication({ onBack }: { onBack: () => void })
           
           <div className="bg-stone-50 w-full rounded-2xl p-4 border border-stone-200 text-center">
             <p className="text-xs text-stone-500 mb-1">Policy Number</p>
-            <p className="font-mono text-sm text-stone-800">MOMO-INS-{Math.floor(Math.random() * 1000000)}</p>
+            <p className="font-mono text-sm text-stone-800">MM-INS-{Math.floor(Math.random() * 1000000)}</p>
           </div>
 
           <button 

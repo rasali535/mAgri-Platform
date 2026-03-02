@@ -1,8 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { Send, Bot } from 'lucide-react';
 
-// const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
-
 type Message = { role: 'user' | 'model'; text: string };
 
 export default function ChatTab() {

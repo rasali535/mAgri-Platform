@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import { Send, Radio, MessageSquare, MapPin, Package, CheckCircle, Clock, Smartphone } from 'lucide-react';
+import { useCurrency } from '../CurrencyContext';
 
 export default function BuyerDashboard() {
+  const { formatCurrency, country } = useCurrency();
   const [requests, setRequests] = useState([
-    { id: 'REQ-001', crop: 'Soybeans', quantity: '5 Tons', price: '800 ZMW/Ton', status: 'active', responses: 2 }
+    { id: 'REQ-001', crop: 'Soybeans', quantity: '5 Tons', basePrice: 800, status: 'active', responses: 2 }
   ]);
   
   const [ussdResponses, setUssdResponses] = useState([
-    { id: 'RES-1', reqId: 'REQ-001', farmer: 'John Banda', phone: '+260 97 123 4567', offer: '2 Tons available', price: '850 ZMW/Ton', location: 'Kabwe', time: '10 mins ago' },
-    { id: 'RES-2', reqId: 'REQ-001', farmer: 'Mary Phiri', phone: '+260 96 765 4321', offer: '3.5 Tons available', price: '800 ZMW/Ton', location: 'Chisamba', time: '25 mins ago' }
+    { id: 'RES-1', reqId: 'REQ-001', farmer: 'John Banda', phone: '+260 97 123 4567', offer: '2 Tons available', basePrice: 850, location: 'Kabwe', time: '10 mins ago' },
+    { id: 'RES-2', reqId: 'REQ-001', farmer: 'Mary Phiri', phone: '+260 96 765 4321', offer: '3.5 Tons available', basePrice: 800, location: 'Chisamba', time: '25 mins ago' }
   ]);
 
   const [isBroadcasting, setIsBroadcasting] = useState(false);
@@ -19,6 +21,9 @@ export default function BuyerDashboard() {
     if (!newReq.crop || !newReq.quantity) return;
     setIsBroadcasting(true);
     
+    const parsedPrice = parseFloat(newReq.price);
+    const basePrice = isNaN(parsedPrice) ? null : parsedPrice / country.rate;
+
     // Simulate SMS broadcast delay
     setTimeout(() => {
       setIsBroadcasting(false);
@@ -27,7 +32,7 @@ export default function BuyerDashboard() {
         id: `REQ-00${requests.length + 2}`,
         crop: newReq.crop,
         quantity: newReq.quantity,
-        price: newReq.price || 'Negotiable',
+        basePrice: basePrice,
         status: 'active',
         responses: 0
       }, ...requests]);
@@ -80,7 +85,7 @@ export default function BuyerDashboard() {
                 <label className="text-xs font-medium text-stone-600 ml-1">Target Price</label>
                 <input 
                   type="text" 
-                  placeholder="e.g., 3000 ZMW" 
+                  placeholder={`e.g., ${Math.round(3000 * country.rate)}`} 
                   value={newReq.price}
                   onChange={e => setNewReq({...newReq, price: e.target.value})}
                   className="w-full border border-stone-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-indigo-500 outline-none bg-stone-50"
@@ -148,7 +153,9 @@ export default function BuyerDashboard() {
               </div>
               <div className="flex justify-between text-sm">
                 <span className="text-stone-500">Asking Price</span>
-                <span className="font-medium text-emerald-700">{res.price}</span>
+                <span className="font-medium text-emerald-700">
+                  {res.basePrice ? `${formatCurrency(res.basePrice)}/Ton` : 'Negotiable'}
+                </span>
               </div>
             </div>
 

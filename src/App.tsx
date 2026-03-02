@@ -11,10 +11,12 @@ import CreditApplication from './components/CreditApplication';
 import InsuranceApplication from './components/InsuranceApplication';
 import USSDSettings from './components/USSDSettings';
 import MarketplaceTab from './components/MarketplaceTab';
+import { useCurrency, COUNTRIES } from './CurrencyContext';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<string>('home');
   const [userRole, setUserRole] = useState<'farmer' | 'agronomist' | 'buyer'>('farmer');
+  const { country, setCountry } = useCurrency();
 
   const cycleRole = () => {
     setUserRole(r => r === 'farmer' ? 'agronomist' : r === 'agronomist' ? 'buyer' : 'farmer');
@@ -25,10 +27,20 @@ export default function App() {
       {/* Header */}
       <header className="bg-emerald-700 text-white p-4 shadow-md z-10 flex justify-between items-center">
         <div>
-          <h1 className="text-xl font-semibold tracking-tight">mAgri Platform</h1>
+          <h1 className="text-xl font-semibold tracking-tight">Brastorne mARI Platform</h1>
           <p className="text-emerald-100 text-xs">Brastorne Digital Inclusion</p>
         </div>
-        <div className="flex space-x-3">
+        <div className="flex space-x-3 items-center">
+          <select 
+            value={country.code}
+            onChange={(e) => setCountry(COUNTRIES.find(c => c.code === e.target.value) || COUNTRIES[0])}
+            className="bg-emerald-800 text-white text-xs font-medium rounded-lg px-2 py-1.5 outline-none border border-emerald-700 cursor-pointer appearance-none"
+            title="Select Country/Currency"
+          >
+            {COUNTRIES.map(c => (
+              <option key={c.code} value={c.code}>{c.flag} {c.currency}</option>
+            ))}
+          </select>
           <button 
             onClick={cycleRole} 
             className="p-2 bg-emerald-800 rounded-full hover:bg-emerald-600 transition-colors flex items-center space-x-1" 

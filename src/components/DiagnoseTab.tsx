@@ -1,8 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { Camera, AlertTriangle, CheckCircle, User, Loader2 } from 'lucide-react';
 
-// const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
-
 export default function DiagnoseTab() {
   const [image, setImage] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
