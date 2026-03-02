@@ -1,8 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { Send, Bot } from 'lucide-react';
-import { GoogleGenAI } from '@google/genai';
 
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+// const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
 type Message = { role: 'user' | 'model'; text: string };
 
@@ -31,16 +30,12 @@ export default function ChatTab() {
     setLoading(true);
 
     try {
-      const chat = ai.chats.create({
-        model: 'gemini-3-flash-preview',
-        config: {
-          systemInstruction: 'You are an agricultural assistant for farmers in Sub-Saharan Africa (Côte d\'Ivoire, Zambia, Botswana). You understand and can respond in Setswana, Bemba, Nyanja, and English. Keep answers concise, practical, and tailored to local farming realities (e.g., staple crops like maize, cocoa, cashew).',
-        }
-      });
-
-      const response = await chat.sendMessage({ message: userMsg });
+      // Mocking the API response to bypass the actual API call
+      await new Promise(resolve => setTimeout(resolve, 1500));
       
-      setMessages(prev => [...prev, { role: 'model', text: response.text || 'Sorry, I could not process that.' }]);
+      const mockResponse = "This is a simulated response. The AI is currently running in offline/demo mode. To get real answers about your crops, please configure the Gemini API key.";
+      
+      setMessages(prev => [...prev, { role: 'model', text: mockResponse }]);
     } catch (error) {
       console.error('Chat error:', error);
       setMessages(prev => [...prev, { role: 'model', text: 'Network error. Please try again later.' }]);

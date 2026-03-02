@@ -53,6 +53,8 @@ export default function USSDSettings({ onBack }: { onBack: () => void }) {
           <ShortcodeItem code="*123*3#" action="Check Weather Forecast" />
           <div className="h-px bg-stone-100 w-full"></div>
           <ShortcodeItem code="*123*4#" action="SMS Agronomist" />
+          <div className="h-px bg-stone-100 w-full"></div>
+          <ShortcodeItem code="*123*5#" action="View/Respond to Buyer SMS" />
         </div>
       </div>
 
