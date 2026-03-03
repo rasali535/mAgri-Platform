@@ -5,7 +5,7 @@ import { useCurrency } from '../CurrencyContext';
 export default function BuyerDashboard() {
   const { formatCurrency, country } = useCurrency();
   const [requests, setRequests] = useState([
-    { id: 'REQ-001', crop: 'Soybeans', quantity: '5 Tons', basePrice: 800, status: 'active', responses: 2 }
+    { id: 'REQ-001', crop: 'Soybeans', quantity: '5 Tons', basePrice: 800, location: 'Lusaka', status: 'active', responses: 2 }
   ]);
   
   const [ussdResponses, setUssdResponses] = useState([
@@ -15,7 +15,7 @@ export default function BuyerDashboard() {
 
   const [isBroadcasting, setIsBroadcasting] = useState(false);
   const [broadcastSuccess, setBroadcastSuccess] = useState(false);
-  const [newReq, setNewReq] = useState({ crop: '', quantity: '', price: '' });
+  const [newReq, setNewReq] = useState({ crop: '', quantity: '', price: '', location: '' });
 
   const handleBroadcast = () => {
     if (!newReq.crop || !newReq.quantity) return;
@@ -33,10 +33,11 @@ export default function BuyerDashboard() {
         crop: newReq.crop,
         quantity: newReq.quantity,
         basePrice: basePrice,
+        location: newReq.location || 'Anywhere',
         status: 'active',
         responses: 0
       }, ...requests]);
-      setNewReq({ crop: '', quantity: '', price: '' });
+      setNewReq({ crop: '', quantity: '', price: '', location: '' });
       
       setTimeout(() => setBroadcastSuccess(false), 4000);
     }, 2500);
@@ -67,6 +68,16 @@ export default function BuyerDashboard() {
                 placeholder="e.g., Maize, Soybeans, Cashew" 
                 value={newReq.crop}
                 onChange={e => setNewReq({...newReq, crop: e.target.value})}
+                className="w-full border border-stone-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-indigo-500 outline-none bg-stone-50"
+              />
+            </div>
+            <div>
+              <label className="text-xs font-medium text-stone-600 ml-1">Target Location</label>
+              <input 
+                type="text" 
+                placeholder="e.g., Lusaka, Ndola, Abidjan" 
+                value={newReq.location}
+                onChange={e => setNewReq({...newReq, location: e.target.value})}
                 className="w-full border border-stone-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-indigo-500 outline-none bg-stone-50"
               />
             </div>
