@@ -25,24 +25,60 @@ export default function DiagnoseTab() {
     if (!image) return;
     setLoading(true);
     try {
-      // Mocking the API response to bypass the actual API call
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      const mockData = {
-        disease: 'Fall Armyworm (Spodoptera frugiperda)',
-        confidence: 85,
-        recommendation: 'Apply neem oil extract immediately. If infestation is severe, consider using Emamectin benzoate. Ensure proper weed management around the field.'
-      };
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'gpt-4o', // Must use a model that supports vision
+          messages: [
+            {
+              role: 'system',
+              content: 'You are an expert agronomist AI analyzing crop imagery. You must respond with valid JSON only. Your JSON must precisely match this format {"disease": "Disease Name", "confidence": 95, "recommendation": "Detailed recommendation."}'
+            },
+            {
+              role: 'user',
+              content: [
+                { type: 'text', text: 'Analyze this crop image and provide a diagnosis.' },
+                { type: 'image_url', image_url: { url: image } }
+              ]
+            }
+          ]
+        })
+      });
 
-      setResult(mockData);
-      
-      // Human-AI Escalation Logic
-      if (mockData.confidence < 90) {
-        setEscalated(true);
+      if (!response.ok) throw new Error(`API error: ${response.status}`);
+
+      const payload = await response.json();
+
+      try {
+        // Strip markdown blocks if the AI returned them alongside JSON
+        let textContent = payload.content.trim();
+        if (textContent.startsWith('```json')) {
+          textContent = textContent.replace(/^```json\n?/, '').replace(/\n?```$/, '');
+        } else if (textContent.startsWith('```')) {
+          textContent = textContent.replace(/^```\n?/, '').replace(/\n?```$/, '');
+        }
+
+        const dataData = JSON.parse(textContent);
+
+        const resultData = {
+          disease: dataData.disease || 'Unknown Diagnosis',
+          confidence: dataData.confidence || 0,
+          recommendation: dataData.recommendation || 'No recommendation available.'
+        };
+
+        setResult(resultData);
+        // Human-AI Escalation Logic
+        if (resultData.confidence < 90) {
+          setEscalated(true);
+        }
+      } catch (parseError) {
+        console.error('Failed to parse JSON response:', payload.content);
+        alert('Failed to interpret model analysis. Please try again.');
       }
     } catch (error) {
       console.error('Error analyzing image:', error);
-      alert('Failed to analyze image. Please try again.');
+      alert('Failed to connect to diagnostic service. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -56,7 +92,7 @@ export default function DiagnoseTab() {
       </div>
 
       {!image ? (
-        <div 
+        <div
           onClick={() => fileInputRef.current?.click()}
           className="border-2 border-dashed border-emerald-300 bg-emerald-50 rounded-3xl p-8 flex flex-col items-center justify-center text-center cursor-pointer hover:bg-emerald-100 transition-colors h-64"
         >
@@ -65,10 +101,10 @@ export default function DiagnoseTab() {
           </div>
           <p className="font-medium text-emerald-900">Tap to take a photo</p>
           <p className="text-xs text-emerald-600 mt-2">or upload from gallery</p>
-          <input 
-            type="file" 
-            accept="image/*" 
-            className="hidden" 
+          <input
+            type="file"
+            accept="image/*"
+            className="hidden"
             ref={fileInputRef}
             onChange={handleImageUpload}
           />
@@ -77,7 +113,7 @@ export default function DiagnoseTab() {
         <div className="space-y-4">
           <div className="relative rounded-3xl overflow-hidden shadow-md">
             <img src={image} alt="Crop" className="w-full h-64 object-cover" />
-            <button 
+            <button
               onClick={() => { setImage(null); setResult(null); setEscalated(false); }}
               className="absolute top-4 right-4 bg-black/50 text-white px-3 py-1 rounded-full text-xs backdrop-blur-sm"
             >
@@ -86,7 +122,7 @@ export default function DiagnoseTab() {
           </div>
 
           {!result && !loading && (
-            <button 
+            <button
               onClick={analyzeImage}
               className="w-full bg-emerald-600 text-white font-medium py-4 rounded-2xl shadow-sm hover:bg-emerald-700 active:scale-[0.98] transition-all"
             >
@@ -114,7 +150,7 @@ export default function DiagnoseTab() {
                   <AlertTriangle size={24} className="text-amber-500" />
                 )}
               </div>
-              
+
               <div className="bg-stone-50 p-4 rounded-xl">
                 <p className="text-sm text-stone-700 leading-relaxed">{result.recommendation}</p>
               </div>
