@@ -21,19 +21,35 @@ export default function ChatTab() {
 
   const handleSend = async () => {
     if (!input.trim()) return;
-    
+
     const userMsg = input.trim();
     setInput('');
     setMessages(prev => [...prev, { role: 'user', text: userMsg }]);
     setLoading(true);
 
     try {
-      // Mocking the API response to bypass the actual API call
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      const mockResponse = "This is a simulated response. The AI is currently running in offline/demo mode. To get real answers about your crops, please configure the Gemini API key.";
-      
-      setMessages(prev => [...prev, { role: 'model', text: mockResponse }]);
+      const apiMessages = [
+        ...messages.map(m => ({
+          role: m.role === 'model' ? 'assistant' : 'user',
+          content: m.text
+        })),
+        { role: 'user', content: userMsg }
+      ];
+
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ messages: apiMessages })
+      });
+
+      if (!response.ok) {
+        throw new Error(`API error: ${response.status}`);
+      }
+
+      const data = await response.json();
+      setMessages(prev => [...prev, { role: 'model', text: data.content }]);
     } catch (error) {
       console.error('Chat error:', error);
       setMessages(prev => [...prev, { role: 'model', text: 'Network error. Please try again later.' }]);
@@ -57,11 +73,10 @@ export default function ChatTab() {
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
         {messages.map((msg, i) => (
           <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-            <div className={`max-w-[80%] rounded-2xl p-3 text-sm ${
-              msg.role === 'user' 
-                ? 'bg-emerald-600 text-white rounded-tr-sm' 
+            <div className={`max-w-[80%] rounded-2xl p-3 text-sm ${msg.role === 'user'
+                ? 'bg-emerald-600 text-white rounded-tr-sm'
                 : 'bg-white border border-stone-200 text-stone-800 rounded-tl-sm shadow-sm'
-            }`}>
+              }`}>
               {msg.text}
             </div>
           </div>
@@ -80,15 +95,15 @@ export default function ChatTab() {
 
       <div className="p-3 bg-white border-t border-stone-200">
         <div className="flex items-center bg-stone-100 rounded-full p-1 pr-2">
-          <input 
-            type="text" 
+          <input
+            type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleSend()}
             placeholder="Ask about crops, weather, pests..."
             className="flex-1 bg-transparent px-4 py-2 text-sm focus:outline-none"
           />
-          <button 
+          <button
             onClick={handleSend}
             disabled={!input.trim() || loading}
             className="bg-emerald-600 text-white p-2 rounded-full disabled:opacity-50"
