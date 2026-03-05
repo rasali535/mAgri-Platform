@@ -25,9 +25,12 @@ export default function DiagnoseTab() {
     if (!image) return;
     setLoading(true);
     try {
-      const response = await fetch('/api/chat', {
+      const response = await fetch('https://api.openai.com/v1/chat/completions', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${import.meta.env.VITE_OPENAI_API_KEY}`
+        },
         body: JSON.stringify({
           model: 'gpt-4o', // Must use a model that supports vision
           messages: [
@@ -52,7 +55,7 @@ export default function DiagnoseTab() {
 
       try {
         // Strip markdown blocks if the AI returned them alongside JSON
-        let textContent = payload.content.trim();
+        let textContent = payload.choices[0].message.content.trim();
         if (textContent.startsWith('```json')) {
           textContent = textContent.replace(/^```json\n?/, '').replace(/\n?```$/, '');
         } else if (textContent.startsWith('```')) {

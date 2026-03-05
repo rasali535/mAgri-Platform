@@ -36,12 +36,16 @@ export default function ChatTab() {
         { role: 'user', content: userMsg }
       ];
 
-      const response = await fetch('/api/chat', {
+      const response = await fetch('https://api.openai.com/v1/chat/completions', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${import.meta.env.VITE_OPENAI_API_KEY}`
         },
-        body: JSON.stringify({ messages: apiMessages })
+        body: JSON.stringify({
+          model: 'gpt-4o-mini',
+          messages: apiMessages
+        })
       });
 
       if (!response.ok) {
@@ -49,7 +53,7 @@ export default function ChatTab() {
       }
 
       const data = await response.json();
-      setMessages(prev => [...prev, { role: 'model', text: data.content }]);
+      setMessages(prev => [...prev, { role: 'model', text: data.choices[0].message.content }]);
     } catch (error) {
       console.error('Chat error:', error);
       setMessages(prev => [...prev, { role: 'model', text: 'Network error. Please try again later.' }]);
@@ -74,8 +78,8 @@ export default function ChatTab() {
         {messages.map((msg, i) => (
           <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
             <div className={`max-w-[80%] rounded-2xl p-3 text-sm ${msg.role === 'user'
-                ? 'bg-emerald-600 text-white rounded-tr-sm'
-                : 'bg-white border border-stone-200 text-stone-800 rounded-tl-sm shadow-sm'
+              ? 'bg-emerald-600 text-white rounded-tr-sm'
+              : 'bg-white border border-stone-200 text-stone-800 rounded-tl-sm shadow-sm'
               }`}>
               {msg.text}
             </div>
