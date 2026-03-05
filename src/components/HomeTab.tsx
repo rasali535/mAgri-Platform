@@ -1,4 +1,4 @@
-import { CloudSun, TrendingUp, AlertCircle, ChevronRight } from 'lucide-react';
+import { CloudSun, TrendingUp, AlertCircle, ChevronRight, Store } from 'lucide-react';
 
 export default function HomeTab({ onNavigate }: { onNavigate: (tab: string) => void }) {
   return (
@@ -14,27 +14,35 @@ export default function HomeTab({ onNavigate }: { onNavigate: (tab: string) => v
       </div>
 
       {/* Quick Actions */}
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-3 gap-3">
         <button 
           onClick={() => onNavigate('diagnose')}
-          className="bg-emerald-50 rounded-2xl p-4 border border-emerald-100 flex flex-col items-start text-left active:bg-emerald-100 transition-colors"
+          className="bg-emerald-50 rounded-2xl p-3 border border-emerald-100 flex flex-col items-center text-center active:bg-emerald-100 transition-colors"
         >
-          <div className="bg-emerald-200 p-2 rounded-full mb-3">
-            <AlertCircle size={20} className="text-emerald-700" />
+          <div className="bg-emerald-200 p-2 rounded-full mb-2">
+            <AlertCircle size={18} className="text-emerald-700" />
           </div>
-          <h3 className="font-semibold text-emerald-900">Crop Scan</h3>
-          <p className="text-xs text-emerald-700 mt-1">Identify diseases offline</p>
+          <h3 className="font-semibold text-emerald-900 text-xs">Crop Scan</h3>
         </button>
         
         <button 
-          onClick={() => onNavigate('finance')}
-          className="bg-indigo-50 rounded-2xl p-4 border border-indigo-100 flex flex-col items-start text-left active:bg-indigo-100 transition-colors"
+          onClick={() => onNavigate('market')}
+          className="bg-amber-50 rounded-2xl p-3 border border-amber-100 flex flex-col items-center text-center active:bg-amber-100 transition-colors"
         >
-          <div className="bg-indigo-200 p-2 rounded-full mb-3">
-            <TrendingUp size={20} className="text-indigo-700" />
+          <div className="bg-amber-200 p-2 rounded-full mb-2">
+            <Store size={18} className="text-amber-700" />
           </div>
-          <h3 className="font-semibold text-indigo-900">Micro-Credit</h3>
-          <p className="text-xs text-indigo-700 mt-1">Check your eligibility</p>
+          <h3 className="font-semibold text-amber-900 text-xs">Market</h3>
+        </button>
+
+        <button 
+          onClick={() => onNavigate('finance')}
+          className="bg-indigo-50 rounded-2xl p-3 border border-indigo-100 flex flex-col items-center text-center active:bg-indigo-100 transition-colors"
+        >
+          <div className="bg-indigo-200 p-2 rounded-full mb-2">
+            <TrendingUp size={18} className="text-indigo-700" />
+          </div>
+          <h3 className="font-semibold text-indigo-900 text-xs">Finance</h3>
         </button>
       </div>
 

@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { ArrowLeft, CheckCircle, ShieldCheck, Smartphone } from 'lucide-react';
+import { useCurrency } from '../CurrencyContext';
 
 export default function CreditApplication({ onBack }: { onBack: () => void }) {
   const [step, setStep] = useState(1);
-  const [amount, setAmount] = useState(25000);
+  const [baseAmount, setBaseAmount] = useState(1000); // Base in ZMW
+  const { formatCurrency, country } = useCurrency();
 
   const handleApply = () => {
     setStep(2);
@@ -21,27 +23,27 @@ export default function CreditApplication({ onBack }: { onBack: () => void }) {
       {step === 1 && (
         <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4">
           <div>
-            <h2 className="text-2xl font-bold text-stone-800">Orange Money Micro-Credit</h2>
+            <h2 className="text-2xl font-bold text-stone-800">Mobile Money Micro-Credit</h2>
             <p className="text-sm text-stone-500 mt-1">Based on your alternative credit score of 742</p>
           </div>
 
           <div className="bg-white border border-orange-200 rounded-3xl p-6 shadow-sm text-center space-y-4">
             <p className="text-sm font-medium text-stone-500 uppercase tracking-wider">Eligible Amount</p>
             <div className="text-5xl font-bold text-orange-600">
-              {amount.toLocaleString()} <span className="text-2xl text-orange-400">XOF</span>
+              {Math.round(baseAmount * country.rate).toLocaleString()} <span className="text-2xl text-orange-400">{country.currency}</span>
             </div>
             <input 
               type="range" 
-              min="5000" 
-              max="50000" 
-              step="1000"
-              value={amount}
-              onChange={(e) => setAmount(Number(e.target.value))}
+              min="200" 
+              max="2000" 
+              step="50"
+              value={baseAmount}
+              onChange={(e) => setBaseAmount(Number(e.target.value))}
               className="w-full accent-orange-500"
             />
             <div className="flex justify-between text-xs text-stone-400 font-medium">
-              <span>5,000 XOF</span>
-              <span>50,000 XOF</span>
+              <span>{formatCurrency(200)}</span>
+              <span>{formatCurrency(2000)}</span>
             </div>
           </div>
 
@@ -57,7 +59,7 @@ export default function CreditApplication({ onBack }: { onBack: () => void }) {
             </div>
             <div className="flex justify-between text-sm">
               <span className="text-stone-500">Repayment</span>
-              <span className="font-medium text-stone-800">{(amount * 1.135).toLocaleString()} XOF</span>
+              <span className="font-medium text-stone-800">{formatCurrency(baseAmount * 1.135)}</span>
             </div>
           </div>
 
@@ -76,7 +78,7 @@ export default function CreditApplication({ onBack }: { onBack: () => void }) {
             <div className="w-16 h-16 border-4 border-orange-200 border-t-orange-500 rounded-full animate-spin"></div>
             <Smartphone size={24} className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-orange-500" />
           </div>
-          <p className="font-medium text-stone-600">Processing via Orange Money API...</p>
+          <p className="font-medium text-stone-600">Processing via Mobile Money API...</p>
           <p className="text-xs text-stone-400">Verifying alternative credit score</p>
         </div>
       )}
@@ -89,13 +91,13 @@ export default function CreditApplication({ onBack }: { onBack: () => void }) {
           <div className="text-center space-y-2">
             <h2 className="text-2xl font-bold text-stone-800">Funds Disbursed!</h2>
             <p className="text-stone-600">
-              {amount.toLocaleString()} XOF has been sent to your Orange Money wallet.
+              {formatCurrency(baseAmount)} has been sent to your Mobile Money wallet.
             </p>
           </div>
           
           <div className="bg-stone-50 w-full rounded-2xl p-4 border border-stone-200 text-center">
             <p className="text-xs text-stone-500 mb-1">Transaction ID</p>
-            <p className="font-mono text-sm text-stone-800">OM-TXN-{Math.floor(Math.random() * 1000000)}</p>
+            <p className="font-mono text-sm text-stone-800">MM-TXN-{Math.floor(Math.random() * 1000000)}</p>
           </div>
 
           <button 

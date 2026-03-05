@@ -1,8 +1,5 @@
 import React, { useState, useRef } from 'react';
 import { Camera, AlertTriangle, CheckCircle, User, Loader2 } from 'lucide-react';
-import { GoogleGenAI, Type } from '@google/genai';
-
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
 export default function DiagnoseTab() {
   const [image, setImage] = useState<string | null>(null);
@@ -28,36 +25,19 @@ export default function DiagnoseTab() {
     if (!image) return;
     setLoading(true);
     try {
-      const base64Data = image.split(',')[1];
-      const mimeType = image.split(';')[0].split(':')[1];
+      // Mocking the API response to bypass the actual API call
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      const mockData = {
+        disease: 'Fall Armyworm (Spodoptera frugiperda)',
+        confidence: 85,
+        recommendation: 'Apply neem oil extract immediately. If infestation is severe, consider using Emamectin benzoate. Ensure proper weed management around the field.'
+      };
 
-      const response = await ai.models.generateContent({
-        model: 'gemini-3-flash-preview',
-        contents: {
-          parts: [
-            { inlineData: { data: base64Data, mimeType } },
-            { text: 'Analyze this crop leaf image. Identify any diseases. Return JSON with "disease" (string), "confidence" (number 0-100), and "recommendation" (string).' }
-          ]
-        },
-        config: {
-          responseMimeType: 'application/json',
-          responseSchema: {
-            type: Type.OBJECT,
-            properties: {
-              disease: { type: Type.STRING },
-              confidence: { type: Type.NUMBER },
-              recommendation: { type: Type.STRING }
-            },
-            required: ['disease', 'confidence', 'recommendation']
-          }
-        }
-      });
-
-      const data = JSON.parse(response.text || '{}');
-      setResult(data);
+      setResult(mockData);
       
       // Human-AI Escalation Logic
-      if (data.confidence < 90) {
+      if (mockData.confidence < 90) {
         setEscalated(true);
       }
     } catch (error) {
