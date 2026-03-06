@@ -20,9 +20,7 @@ $text = isset($_POST['text']) ? $_POST['text'] : (isset($_GET['text']) ? $_GET['
 // Fix missing '+' due to URL decoding replacing it with a space
 $phoneNumber = str_replace(' ', '+', $phoneNumber);
 
-// Log
-$logEntry = date('Y-m-d H:i:s') . " | Session: $sessionId | Phone: $phoneNumber | Input: '$text'\n";
-file_put_contents(__DIR__ . '/ussd_log.txt', $logEntry, FILE_APPEND);
+$phoneNumber = str_replace(' ', '+', $phoneNumber);
 
 // Parse the input levels
 $levels = $text === '' ? [] : explode('*', $text);
@@ -52,6 +50,10 @@ if (file_exists($prefs_file)) {
 } else {
     $prefs_data = [];
 }
+
+// Log
+$logEntry = date('Y-m-d H:i:s') . " | Session: $sessionId | Phone: $phoneNumber | Lang: $userLang | Input: '$text'\n";
+file_put_contents(__DIR__ . '/ussd_log.txt', $logEntry, FILE_APPEND);
 
 
 // Define location based on phone number prefix
