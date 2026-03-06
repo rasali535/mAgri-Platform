@@ -170,7 +170,7 @@ app.post('/api/chat', async (req, res) => {
 app.get('*', (req, res) => {
     // If it's a browser request (has Accept: text/html), serve the app
     if (req.headers.accept && req.headers.accept.includes('text/html')) {
-        return res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+        return res.sendFile(path.join(__dirname, 'dist', 'app.html'));
     }
 
     // Otherwise, return debug info as JSON
