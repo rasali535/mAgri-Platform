@@ -2,15 +2,11 @@
   RewriteEngine On
   RewriteBase /
   
-  # 1. API & USSD (Send to Node)
-  RewriteCond %{REQUEST_URI} ^/api/
-  RewriteRule ^(.*)$ index.js [L]
-  
-  # 2. SPA Frontend fallback
+  # Forward everything that isn't a real file to Node.js
   RewriteRule ^index\.html$ - [L]
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
-  RewriteRule . /index.html [L]
+  RewriteRule . /index.js [L]
 </IfModule>
 
 # Phusion Passenger Setup
