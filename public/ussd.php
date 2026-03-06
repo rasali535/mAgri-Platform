@@ -849,18 +849,20 @@ function translateMenu($text, $language)
     if (!$apiKey)
         return $text;
 
+    $messages = [
+        [
+            "role" => "system",
+            "content" => "You are a strict translator for a USSD menu. Translate the target string exactly into $language. Keep all structural formats, line breaks, 'CON' or 'END' prefixes, and option numbers completely intact. Do not add any conversational filler."
+        ],
+        [
+            "role" => "user",
+            "content" => $text
+        ]
+    ];
+
     $data = [
         "model" => "gpt-4o-mini",
-        "messages" => [
-            [
-                "role" => "system",
-                "content" => "You are a strict translator for a USSD menu. Translate the target string exactly into $language. Keep all structural formats, line breaks, 'CON' or 'END' prefixes, and option numbers completely intact. Do not add any conversational filler."
-            ],
-            [
-                "role" => "user",
-                "content" => $text
-            ]
-        ],
+        "messages" => $messages,
         "max_tokens" => 250,
         "temperature" => 0.2
     ];
@@ -873,10 +875,15 @@ function translateMenu($text, $language)
         'Content-Type: application/json',
         'Authorization: Bearer ' . $apiKey
     ]);
-    curl_setopt($ch, CURLOPT_TIMEOUT, 6);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 10);
 
     $apiResponse = curl_exec($ch);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    $curlError = curl_error($ch);
     curl_close($ch);
+
+    $logMsg = date('Y-m-d H:i:s') . " | TRANSLATE to $language | HTTP $httpCode | Err: $curlError | Resp: $apiResponse\n";
+    file_put_contents(__DIR__ . '/ussd_log.txt', $logMsg, FILE_APPEND);
 
     if ($apiResponse) {
         $json = json_decode($apiResponse, true);
