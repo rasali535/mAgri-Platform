@@ -14,19 +14,13 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true }));
 
-// Global Request Logger for Debugging on Hostinger
-app.use((req, res, next) => {
-    console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
-    next();
+app.get('/', (req, res) => {
+    res.send('mAgri Platform Node Server - Operational');
 });
 
-app.get('/debug-req', (req, res) => {
-    res.json({
-        url: req.url,
-        originalUrl: req.originalUrl,
-        path: req.path,
-        headers: req.headers
-    });
+// Legacy /api/ussd for backward compatibility
+app.all(['/api/ussd', '/api/ussd/'], (req, res) => {
+    res.redirect(307, '/ussd');
 });
 
 // Diagnostic route to see what URL Express is receiving
