@@ -191,14 +191,9 @@ app.get('*', (req, res) => {
     // If it's a browser request (has Accept: text/html), serve the app
     const accept = req.headers.accept || '';
     if (accept.includes('text/html')) {
-        // Try build/app.html first, then fall back to index.html
-        return res.sendFile(path.join(__dirname, 'build', 'app.html'), (err) => {
+        return res.sendFile(path.join(__dirname, 'build', 'index.html'), (err) => {
             if (err) {
-                res.sendFile(path.join(__dirname, 'build', 'index.html'), (err2) => {
-                    if (err2) {
-                        res.status(404).send('mAgri SPA not found. Please run build.');
-                    }
-                });
+                res.status(404).send('mAgri SPA not found. Please run build.');
             }
         });
     }
