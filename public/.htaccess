@@ -5,6 +5,14 @@ RewriteBase /
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^(.*)$ index.js [L]
 
+# Phusion Passenger Setup
+<IfModule mod_passenger.c>
+  PassengerEnabled on
+  PassengerAppRoot /
+  PassengerStartupFile index.js
+  PassengerAppType node
+</IfModule>
+
 # Security Headers
 <IfModule mod_headers.c>
   Header set X-Content-Type-Options "nosniff"

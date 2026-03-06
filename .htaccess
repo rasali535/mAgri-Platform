@@ -1,4 +1,14 @@
 RewriteEngine On
 RewriteBase /
+
+# Force everything to Node.js
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^(.*)$ index.js [L]
+
+# Phusion Passenger Setup
+<IfModule mod_passenger.c>
+  PassengerEnabled on
+  PassengerAppRoot /
+  PassengerStartupFile index.js
+  PassengerAppType node
+</IfModule>
