@@ -32,15 +32,13 @@ app.get('/debug-req', (req, res) => {
 // Diagnostic route to see what URL Express is receiving
 app.all('/index.js', (req, res) => {
     const originalUrl = req.headers['x-original-uri'] || req.url;
-    console.log(`Diagnostic: Received request for ${req.url}, Original: ${originalUrl}`);
 
-    if (originalUrl.includes('ussd-health')) {
-        res.set('Content-Type', 'text/plain');
-        return res.send('CON Health Check OK (via rewrite)');
-    }
-
-    // Fallback to serving the app
-    res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+    res.json({
+        msg: "Intercepted by /index.js handler",
+        reqUrl: req.url,
+        originalUrl: originalUrl,
+        headers: req.headers
+    });
 });
 
 // USSD Specific Health Check (Plain Text) - PRIORITY 1
