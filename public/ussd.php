@@ -47,7 +47,8 @@ if ($depth === 0) {
     $response .= "3. Crop Diagnose\n";
     $response .= "4. Ask Agronomist\n";
     $response .= "5. Finance\n";
-    $response .= "6. My Account";
+    $response .= "6. My Account\n";
+    $response .= "7. Change Language";
 }
 
 // ========================================
@@ -86,7 +87,8 @@ elseif ($depth === 1) {
         $response .= "1. Report Crop Problem\n";
         $response .= "2. Check Diagnosis Status\n";
         $response .= "3. Common Diseases Guide\n";
-        $response .= "4. Request Expert Review\n\n";
+        $response .= "4. Request Expert Review\n";
+        $response .= "5. Use Smartphone Camera\n\n";
         $response .= "0. Back";
     }
 
@@ -121,9 +123,19 @@ elseif ($depth === 1) {
         $response .= "Phone: $phoneNumber\n";
         $response .= "Role: Farmer\n\n";
         $response .= "1. Update Profile\n";
-        $response .= "2. Change Language\n";
-        $response .= "3. View SMS Messages\n";
-        $response .= "4. Help & Support\n\n";
+        $response .= "2. View SMS Messages\n";
+        $response .= "3. Help & Support\n\n";
+        $response .= "0. Back";
+    }
+
+    // --- 7. CHANGE LANGUAGE ---
+    elseif ($levels[0] === '7') {
+        $response = "CON Select Language\n\n";
+        $response .= "1. English\n";
+        $response .= "2. Setswana\n";
+        $response .= "3. Bemba\n";
+        $response .= "4. Nyanja\n";
+        $response .= "5. French\n\n";
         $response .= "0. Back";
     } else {
         $response = "CON Invalid option.\n\n0. Back to Main Menu";
@@ -268,6 +280,12 @@ elseif ($depth === 2) {
             $response .= "A human agronomist will contact you via SMS within 24 hours.\n";
             $response .= "Reference: ESC-" . rand(10000, 99999);
             sendSMS($phoneNumber, "mAgri: Your expert review request has been received. An agronomist will contact you within 24 hours. Ref: ESC-" . rand(10000, 99999));
+        } elseif ($levels[1] === '5') {
+            // Camera Tool
+            $response = "END Smartphone Camera Tool\n\n";
+            $response .= "An SMS link has been sent to your phone.\n\n";
+            $response .= "Click the link to upload a photo of your crop for instant AI diagnosis.";
+            sendSMS($phoneNumber, "mAgri Camera Tool: Click here to upload a photo for instant AI diagnosis: https://navajowhite-monkey-252201.hostingersite.com");
         } else {
             $response = "CON Invalid option.\n\n0. Back";
         }
@@ -314,7 +332,8 @@ elseif ($depth === 2) {
         } elseif ($levels[1] === '5') {
             // Type question
             $response = "CON Type your question below:\n\n";
-            $response .= "(Type your farming question)";
+            $response .= "(Type your farming question)\n\n";
+            $response .= "0. Back";
         } else {
             $response = "CON Invalid option.\n\n0. Back";
         }
@@ -392,14 +411,6 @@ elseif ($depth === 2) {
             $response .= "4. Update Crops Grown\n\n";
             $response .= "0. Back";
         } elseif ($levels[1] === '2') {
-            $response = "CON Select Language\n\n";
-            $response .= "1. English\n";
-            $response .= "2. Setswana\n";
-            $response .= "3. Bemba\n";
-            $response .= "4. Nyanja\n";
-            $response .= "5. French\n\n";
-            $response .= "0. Back";
-        } elseif ($levels[1] === '3') {
             $response = "CON SMS Messages\n\n";
             $response .= "1. Buyer: Interested in\n";
             $response .= "   500kg Maize (NEW)\n";
@@ -408,7 +419,7 @@ elseif ($depth === 2) {
             $response .= "3. Expert: Your cocoa looks\n";
             $response .= "   healthy, continue care\n\n";
             $response .= "0. Back";
-        } elseif ($levels[1] === '4') {
+        } elseif ($levels[1] === '3') {
             $response = "CON Help & Support\n\n";
             $response .= "1. How to use USSD\n";
             $response .= "2. Contact Support\n";
@@ -443,7 +454,7 @@ elseif ($depth === 3) {
             $response .= "Ref: SCAN-" . rand(10000, 99999);
             sendSMS($phoneNumber, "mAgri Crop Scan: Your report for '{$symptoms[$levels[2]]}' has been received. AI analysis in progress. You will receive results via SMS.");
         } else {
-            $response = "CON Please describe the problem:\n(Type your description)";
+            $response = "CON Please describe the problem:\n(Type your description)\n\n0. Back";
         }
     }
 
@@ -474,6 +485,15 @@ elseif ($depth === 3) {
         $name = isset($produces[$levels[2]]) ? $produces[$levels[2]] : $levels[2];
         $response = "CON Selling: $name\n\n";
         $response .= "Enter quantity (e.g. 50kg):\n\n";
+        $response .= "0. Back";
+    }
+
+    // --- 2.4.X - Market > Search Result ---
+    elseif ($levels[0] === '2' && $levels[1] === '4') {
+        $search = $levels[2];
+        $response = "CON Search Results for '$search':\n\n";
+        $response .= "1. [SELL] $search 100kg - Lusaka\n";
+        $response .= "2. [BUY] $search 50kg - Ndola\n\n";
         $response .= "0. Back";
     }
 
@@ -589,19 +609,19 @@ elseif ($depth === 3) {
         }
     }
 
-    // --- 6.2.X - Language Selection ---
-    elseif ($levels[0] === '6' && $levels[1] === '2') {
+    // --- 7.X - Language Selection ---
+    elseif ($levels[0] === '7') {
         $langs = ['1' => 'English', '2' => 'Setswana', '3' => 'Bemba', '4' => 'Nyanja', '5' => 'French'];
-        if (isset($langs[$levels[2]])) {
-            $response = "END Language changed to {$langs[$levels[2]]}!\n\nYour USSD menus will now display in {$langs[$levels[2]]}.";
-            sendSMS($phoneNumber, "mAgri: Your language has been updated to {$langs[$levels[2]]}.");
+        if (isset($langs[$levels[1]])) {
+            $response = "END Language changed to {$langs[$levels[1]]}!\n\nYour USSD menus will now display in {$langs[$levels[1]]}.";
+            sendSMS($phoneNumber, "mAgri: Your language has been updated to {$langs[$levels[1]]}.");
         } else {
             $response = "CON Invalid option.\n\n0. Back";
         }
     }
 
-    // --- 6.3.X - View SMS Message Detail ---
-    elseif ($levels[0] === '6' && $levels[1] === '3') {
+    // --- 6.2.X - View SMS Message Detail ---
+    elseif ($levels[0] === '6' && $levels[1] === '2') {
         $msgs = [
             '1' => "Buyer Message:\n\"Interested in 500kg Maize.\nCan offer KES 45/kg.\nContact: +254700123456\"\n\n1. Reply to buyer",
             '2' => "Weather Alert:\nHeavy rain expected tomorrow.\nSecure harvested crops.\nEnsure drainage is clear.",
@@ -614,8 +634,8 @@ elseif ($depth === 3) {
         }
     }
 
-    // --- 6.4.X - Help Sub-options ---
-    elseif ($levels[0] === '6' && $levels[1] === '4') {
+    // --- 6.3.X - Help Sub-options ---
+    elseif ($levels[0] === '6' && $levels[1] === '3') {
         if ($levels[2] === '1') {
             $response = "CON How to Use USSD\n\n";
             $response .= "Dial *384*14032# to access.\n";
@@ -744,10 +764,10 @@ elseif ($depth === 4) {
         }
     }
 
-    // --- 6.3.1.reply - Reply to buyer ---
-    elseif ($levels[0] === '6' && $levels[1] === '3' && $levels[2] === '1' && $levels[3] === '1') {
+    // --- 6.2.1.reply - Reply to buyer ---
+    elseif ($levels[0] === '6' && $levels[1] === '2' && $levels[2] === '1' && $levels[3] === '1') {
         $response = "CON Reply to Buyer\n\n";
-        $response .= "Type your reply message:";
+        $response .= "Type your reply message:\n\n0. Back";
     } else {
         $response = "END Thank you for using mAgri Platform!\n\nDial *384*14032# again anytime.";
     }
@@ -758,15 +778,15 @@ elseif ($depth === 4) {
 // ========================================
 elseif ($depth >= 5) {
 
-    // --- 6.3.1.1.X - Buyer Reply Message ---
-    if ($levels[0] === '6' && $levels[1] === '3' && $levels[2] === '1' && $levels[3] === '1') {
+    // --- 6.2.1.1.X - Buyer Reply Message ---
+    if ($levels[0] === '6' && $levels[1] === '2' && $levels[2] === '1' && $levels[3] === '1') {
         $reply = $levels[4];
         $response = "END Reply sent to buyer!\n\n\"$reply\"\n\nThey will receive your message via SMS.";
         sendSMS($phoneNumber, "mAgri Market: Your reply has been sent to the buyer. They will respond via SMS.");
     }
 
-    // --- 6.4.3.X - Report Problem Text ---
-    elseif ($levels[0] === '6' && $levels[1] === '4' && $levels[2] === '3') {
+    // --- 6.3.3.X - Report Problem Text ---
+    elseif ($levels[0] === '6' && $levels[1] === '3' && $levels[2] === '3') {
         $issue = $levels[3];
         $response = "END Problem reported!\n\n\"$issue\"\n\nOur support team will contact you within 24 hours.\nRef: SUP-" . rand(10000, 99999);
         sendSMS($phoneNumber, "mAgri Support: Your issue has been reported. Our team will contact you within 24 hours.");
