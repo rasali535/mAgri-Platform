@@ -42,8 +42,10 @@ $response = '';
 // Load user language preferences
 $prefs_file = __DIR__ . '/ussd_prefs.json';
 $userLang = 'English';
+$rawPrefs = '';
 if (file_exists($prefs_file)) {
-    $prefs_data = json_decode(file_get_contents($prefs_file), true);
+    $rawPrefs = file_get_contents($prefs_file);
+    $prefs_data = json_decode($rawPrefs, true);
     if (is_array($prefs_data) && isset($prefs_data[$phoneNumber])) {
         $userLang = $prefs_data[$phoneNumber];
     }
@@ -52,7 +54,7 @@ if (file_exists($prefs_file)) {
 }
 
 // Log
-$logEntry = date('Y-m-d H:i:s') . " | Session: $sessionId | Phone: $phoneNumber | Lang: $userLang | Input: '$text'\n";
+$logEntry = date('Y-m-d H:i:s') . " | Session: $sessionId | Phone: $phoneNumber | Lang: $userLang | Input: '$text' | RAW_JSON: $rawPrefs\n";
 file_put_contents(__DIR__ . '/ussd_log.txt', $logEntry, FILE_APPEND);
 
 
