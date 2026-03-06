@@ -1,0 +1,2 @@
+RewriteEngine On
+RewriteRule ^test-node$ index.js [L]
