@@ -8,7 +8,7 @@ RewriteRule ^(.*)$ index.js [L]
 # Phusion Passenger Setup
 <IfModule mod_passenger.c>
   PassengerEnabled on
-  PassengerAppRoot /
+  PassengerAppRoot /home/u723774100/domains/navajowhite-monkey-252201.hostingersite.com/public_html
   PassengerStartupFile index.js
   PassengerAppType node
 </IfModule>
