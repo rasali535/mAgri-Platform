@@ -1,9 +1,10 @@
 RewriteEngine On
 RewriteBase /
 
-# Force everything to Node.js
+# Let Passenger handle everything that isn't a static file
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^(.*)$ index.js [L]
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ - [L]
 
 # Phusion Passenger Setup
 <IfModule mod_passenger.c>
