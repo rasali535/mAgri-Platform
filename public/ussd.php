@@ -282,9 +282,10 @@ elseif ($depth === 2) {
             sendSMS($phoneNumber, "mAgri: Your expert review request has been received. An agronomist will contact you within 24 hours. Ref: ESC-" . rand(10000, 99999));
         } elseif ($levels[1] === '5') {
             // Camera Tool
-            $response = "END Smartphone Camera Tool\n\n";
+            $response = "CON Smartphone Camera Tool\n\n";
             $response .= "An SMS link has been sent to your phone.\n\n";
-            $response .= "Click the link to upload a photo of your crop for instant AI diagnosis.";
+            $response .= "Click the link to upload a photo of your crop for instant AI diagnosis.\n\n";
+            $response .= "0. Back";
             sendSMS($phoneNumber, "mAgri Camera Tool: Click here to upload a photo for instant AI diagnosis: https://navajowhite-monkey-252201.hostingersite.com");
         } else {
             $response = "CON Invalid option.\n\n0. Back";
@@ -613,7 +614,7 @@ elseif ($depth === 3) {
     elseif ($levels[0] === '7') {
         $langs = ['1' => 'English', '2' => 'Setswana', '3' => 'Bemba', '4' => 'Nyanja', '5' => 'French'];
         if (isset($langs[$levels[1]])) {
-            $response = "END Language changed to {$langs[$levels[1]]}!\n\nYour USSD menus will now display in {$langs[$levels[1]]}.";
+            $response = "CON Language changed to {$langs[$levels[1]]}!\n\nYour menus will now display in {$langs[$levels[1]]}.\n\n0. Back to Main Menu";
             sendSMS($phoneNumber, "mAgri: Your language has been updated to {$langs[$levels[1]]}.");
         } else {
             $response = "CON Invalid option.\n\n0. Back";
