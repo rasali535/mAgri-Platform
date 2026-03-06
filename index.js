@@ -139,6 +139,12 @@ app.post('/api/chat', async (req, res) => {
 });
 
 
+// USSD Specific Health Check (Plain Text)
+app.get('/api/ussd-health', (req, res) => {
+    res.set('Content-Type', 'text/plain');
+    res.send('CON Health Check OK');
+});
+
 // Handle all other routes by serving the index.html file
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'dist', 'index.html'));
@@ -147,3 +153,5 @@ app.get('*', (req, res) => {
 app.listen(PORT, '0.0.0.0', () => {
     console.log(`Server is running on port ${PORT}`);
 });
+
+export default app;

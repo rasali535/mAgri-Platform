@@ -2,13 +2,21 @@
   RewriteEngine On
   RewriteBase /
   
-  # Avoid intercepting API routes
-  RewriteRule ^api/.*$ - [L]
+  # 1. Direct API requests to the Node.js entry point
+  RewriteRule ^api/.*$ index.js [L]
   
+  # 2. Standard SPA Rewriting
   RewriteRule ^index\.html$ - [L]
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
   RewriteRule . /index.html [L]
+</IfModule>
+
+# Handle Node.js via Passenger (if supported)
+<IfModule mod_passenger.c>
+  PassengerAppRoot /
+  PassengerAppType node
+  PassengerStartupFile index.js
 </IfModule>
 
 # Security Headers
