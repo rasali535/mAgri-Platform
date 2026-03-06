@@ -10,14 +10,33 @@
  */
 
 header('Content-Type: text/plain');
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 
 // Debug endpoints to skip Cloudflare captcha / Hostinger WAF on static files
 if (isset($_GET['dump_log'])) {
-    echo file_get_contents(__DIR__ . '/ussd_log.txt');
+    $f = __DIR__ . '/ussd_log.txt';
+    if (!file_exists($f))
+        echo "FILE DOES NOT EXIST. Writable status of dir: " . (is_writable(__DIR__) ? 'YES' : 'NO');
+    else
+        echo file_get_contents($f);
     exit;
 }
 if (isset($_GET['dump_json'])) {
-    echo file_get_contents(__DIR__ . '/ussd_prefs.json');
+    $f = __DIR__ . '/ussd_prefs.json';
+    if (!file_exists($f))
+        echo "FILE DOES NOT EXIST. Writable status of dir: " . (is_writable(__DIR__) ? 'YES' : 'NO');
+    else
+        echo file_get_contents($f);
+    exit;
+}
+if (isset($_GET['dump_errors'])) {
+    $error_log_path = ini_get('error_log');
+    if ($error_log_path && file_exists($error_log_path)) {
+        echo file_get_contents($error_log_path);
+    } else {
+        echo "PHP error log file not found or not configured. Check 'error_log' in php.ini. Current value: " . ($error_log_path ?: 'Not set');
+    }
     exit;
 }
 
