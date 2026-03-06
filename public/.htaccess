@@ -2,11 +2,16 @@
   RewriteEngine On
   RewriteBase /
   
-  # Forward everything that isn't a real file to Node.js
-  RewriteRule ^index\.html$ - [L]
-  RewriteCond %{REQUEST_FILENAME} !-f
-  RewriteCond %{REQUEST_FILENAME} !-d
-  RewriteRule . /index.js [L]
+  # 1. Route USSD and Health checks directly to Node
+  RewriteRule ^(ussd|ussd-health|health|status)$ index.js [L]
+  RewriteRule ^api/.*$ index.js [L]
+  
+  # 2. Serve static files if they exist
+  RewriteCond %{REQUEST_FILENAME} -f
+  RewriteRule ^(.*)$ - [L]
+  
+  # 3. Fallback everything else to Node (SPA routing)
+  RewriteRule ^(.*)$ index.js [L]
 </IfModule>
 
 # Phusion Passenger Setup
