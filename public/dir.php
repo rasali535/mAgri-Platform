@@ -1,12 +1,7 @@
 <?php
 header('Content-Type: text/plain');
-echo "DIRECTORY LISTING OF PARENT:\n";
-$files = scandir('..');
-foreach ($files as $file) {
-    echo $file . "\n";
-}
-echo "\nDIRECTORY LISTING OF CURRENT:\n";
-$files = scandir('.');
+echo "DIRECTORY LISTING OF ../public_html:\n";
+$files = scandir('../public_html');
 foreach ($files as $file) {
     echo $file . "\n";
 }
