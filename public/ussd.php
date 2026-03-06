@@ -54,6 +54,22 @@ if (file_exists($prefs_file)) {
 }
 
 
+// Define location based on phone number prefix
+$locationDisplay = "Lusaka, Zambia";
+if (strpos($phoneNumber, '+254') === 0) {
+    $locationDisplay = "Nairobi, Kenya";
+} elseif (strpos($phoneNumber, '+267') === 0) {
+    $locationDisplay = "Gaborone, Botswana";
+} elseif (strpos($phoneNumber, '+225') === 0) {
+    $locationDisplay = "Abidjan, Côte d'Ivoire";
+} elseif (strpos($phoneNumber, '+234') === 0) {
+    $locationDisplay = "Lagos, Nigeria";
+} elseif (strpos($phoneNumber, '+260') === 0) {
+    $locationDisplay = "Lusaka, Zambia";
+} elseif (strpos($phoneNumber, '+27') === 0) {
+    $locationDisplay = "Pretoria, South Africa";
+}
+
 // ========================================
 // LEVEL 0 - MAIN MENU
 // ========================================
@@ -78,7 +94,7 @@ elseif ($depth === 1) {
     if ($levels[0] === '1') {
         $response = "CON Home Dashboard\n\n";
         $response .= "Local Weather: 28C Partly Cloudy\n";
-        $response .= "Lusaka, Zambia\n\n";
+        $response .= "$locationDisplay\n\n";
         $response .= "1. Check Weather Forecast\n";
         $response .= "2. Recent Activity\n";
         $response .= "3. Quick Crop Scan\n";
@@ -830,24 +846,45 @@ if ($userLang !== 'English') {
 echo $response;
 
 // ========================================
+// OpenAI Key Helper
+// ========================================
+function getOpenAIKey()
+{
+    $apiKey = getenv('VITE_OPENAI_API_KEY') ?: getenv('OPENAI_API_KEY');
+    if ($apiKey)
+        return $apiKey;
+
+    // Check .env file
+    $env_path = __DIR__ . '/../.env';
+    if (!file_exists($env_path)) {
+        $env_path = __DIR__ . '/.env'; // fallback
+    }
+
+    if (file_exists($env_path)) {
+        $lines = file($env_path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+        foreach ($lines as $line) {
+            if (strpos($line, 'VITE_OPENAI_API_KEY=') === 0 || strpos($line, 'OPENAI_API_KEY=') === 0) {
+                $val = explode('=', $line, 2)[1];
+                return trim(str_replace(['"', "'"], '', $val));
+            }
+        }
+    }
+    return "";
+}
+
+// ========================================
 // Menu Translation Function
 // ========================================
 function translateMenu($text, $language)
 {
-    $apiKey = "";
-    $env_path = __DIR__ . '/../.env';
-    if (file_exists($env_path)) {
-        $lines = file($env_path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-        foreach ($lines as $line) {
-            if (strpos($line, 'VITE_OPENAI_API_KEY=') === 0) {
-                $apiKey = trim(str_replace(['VITE_OPENAI_API_KEY=', '"', "'"], '', $line));
-                break;
-            }
-        }
-    }
+    $apiKey = getOpenAIKey();
 
-    if (!$apiKey)
+    if (!$apiKey) {
+        // Log that translation was skipped due to missing API key
+        $logMsg = date('Y-m-d H:i:s') . " | TRANSLATE WARNING: No API Key found, skipping translation to $language\n";
+        file_put_contents(__DIR__ . '/ussd_log.txt', $logMsg, FILE_APPEND);
         return $text;
+    }
 
     $messages = [
         [
@@ -929,17 +966,7 @@ function sendSMS($to, $message)
 // ========================================
 function callOpenAI($prompt, $language)
 {
-    $apiKey = "";
-    $env_path = __DIR__ . '/../.env';
-    if (file_exists($env_path)) {
-        $lines = file($env_path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-        foreach ($lines as $line) {
-            if (strpos($line, 'VITE_OPENAI_API_KEY=') === 0) {
-                $apiKey = trim(str_replace(['VITE_OPENAI_API_KEY=', '"', "'"], '', $line));
-                break;
-            }
-        }
-    }
+    $apiKey = getOpenAIKey();
 
     if (!$apiKey)
         return "AI is currently unavailable.";
