@@ -24,14 +24,16 @@ file_put_contents(__DIR__ . '/ussd_log.txt', $logEntry, FILE_APPEND);
 // Parse the input levels
 $levels = $text === '' ? [] : explode('*', $text);
 
-// Handle "0" (Back) - pop the last level to go back
-// We process the input BEFORE routing so the user effectively goes "up" one level
-while (count($levels) > 0 && end($levels) === '0') {
-    array_pop($levels); // remove the "0"
-    if (count($levels) > 0) {
-        array_pop($levels); // remove the previous selection (go back)
+// Handle "0" (Back to Main Menu) -> Reset processing
+$processedLevels = [];
+foreach ($levels as $l) {
+    if ($l === '0') {
+        $processedLevels = []; // Reset to Main Menu on '0'
+    } else {
+        $processedLevels[] = $l;
     }
 }
+$levels = $processedLevels;
 
 $depth = count($levels);
 $response = '';
@@ -79,7 +81,7 @@ elseif ($depth === 1) {
         $response .= "3. Quick Crop Scan\n";
         $response .= "4. Quick Market Access\n";
         $response .= "5. Quick Finance Access\n\n";
-        $response .= "0. Back";
+        $response .= "0. Back to Main Menu";
     }
 
     // --- 2. AGRIMARKET ---
@@ -90,7 +92,7 @@ elseif ($depth === 1) {
         $response .= "2. My Produce Listings\n";
         $response .= "3. Post New Listing\n";
         $response .= "4. Search Produce\n\n";
-        $response .= "0. Back";
+        $response .= "0. Back to Main Menu";
     }
 
     // --- 3. CROP DIAGNOSE ---
@@ -102,7 +104,7 @@ elseif ($depth === 1) {
         $response .= "3. Common Diseases Guide\n";
         $response .= "4. Request Expert Review\n";
         $response .= "5. Use Smartphone Camera\n\n";
-        $response .= "0. Back";
+        $response .= "0. Back to Main Menu";
     }
 
     // --- 4. ASK AGRONOMIST ---
@@ -114,7 +116,7 @@ elseif ($depth === 1) {
         $response .= "3. Ask About Pests\n";
         $response .= "4. Ask About Soil\n";
         $response .= "5. Type Your Question\n\n";
-        $response .= "0. Back";
+        $response .= "0. Back to Main Menu";
     }
 
     // --- 5. FINANCE ---
@@ -127,7 +129,7 @@ elseif ($depth === 1) {
         $response .= "3. Crop Insurance\n";
         $response .= "4. Transaction History\n";
         $response .= "5. USSD Bridge Status\n\n";
-        $response .= "0. Back";
+        $response .= "0. Back to Main Menu";
     }
 
     // --- 6. MY ACCOUNT ---
@@ -138,7 +140,7 @@ elseif ($depth === 1) {
         $response .= "1. Update Profile\n";
         $response .= "2. View SMS Messages\n";
         $response .= "3. Help & Support\n\n";
-        $response .= "0. Back";
+        $response .= "0. Back to Main Menu";
     }
 
     // --- 7. CHANGE LANGUAGE ---
@@ -149,7 +151,7 @@ elseif ($depth === 1) {
         $response .= "3. Bemba\n";
         $response .= "4. Nyanja\n";
         $response .= "5. French\n\n";
-        $response .= "0. Back";
+        $response .= "0. Back to Main Menu";
     } else {
         $response = "CON Invalid option.\n\n0. Back to Main Menu";
     }
@@ -171,14 +173,14 @@ elseif ($depth === 2) {
             $response .= "Thu: 25C Thunderstorms\n";
             $response .= "Fri: 27C Partly Cloudy\n\n";
             $response .= "Farming Tip: Good conditions for planting this week.\n\n";
-            $response .= "0. Back";
+            $response .= "0. Back to Main Menu";
         } elseif ($levels[1] === '2') {
             // Recent Activity
             $response = "CON Recent Activity\n\n";
             $response .= "1. Maize Leaf Scan - Healthy (Today)\n";
             $response .= "2. Weather Alert - Rain Expected (Yesterday)\n";
             $response .= "3. MoMo Payment - Completed (Oct 12)\n\n";
-            $response .= "0. Back";
+            $response .= "0. Back to Main Menu";
         } elseif ($levels[1] === '3') {
             // Quick Crop Scan -> redirect to Diagnose
             $response = "CON Crop Scan\n\n";
@@ -190,7 +192,7 @@ elseif ($depth === 2) {
             $response .= "3. Wilting\n";
             $response .= "4. Pest damage\n";
             $response .= "5. Other (type description)\n\n";
-            $response .= "0. Back";
+            $response .= "0. Back to Main Menu";
         } elseif ($levels[1] === '4') {
             // Quick Market -> redirect to Market browse
             $response = "CON Market Quick View\n\n";
@@ -201,16 +203,16 @@ elseif ($depth === 2) {
             $response .= "- Cocoa 200kg (Abidjan)\n";
             $response .= "- Tomatoes 50kg (Ndola)\n\n";
             $response .= "1. Contact a buyer/seller\n\n";
-            $response .= "0. Back";
+            $response .= "0. Back to Main Menu";
         } elseif ($levels[1] === '5') {
             // Quick Finance
             $response = "CON Finance Quick View\n\n";
             $response .= "Credit Score: 742/850 (Good)\n";
             $response .= "Eligible: Up to KES 200,000\n\n";
             $response .= "1. Apply Now\n\n";
-            $response .= "0. Back";
+            $response .= "0. Back to Main Menu";
         } else {
-            $response = "CON Invalid option.\n\n0. Back";
+            $response = "CON Invalid option.\n\n0. Back to Main Menu";
         }
     }
 
@@ -227,13 +229,13 @@ elseif ($depth === 2) {
             $response .= "   Bouake - Export Co.\n";
             $response .= "4. [SELL] Tomatoes 50kg\n";
             $response .= "   Ndola - KES 30,000\n\n";
-            $response .= "0. Back";
+            $response .= "0. Back to Main Menu";
         } elseif ($levels[1] === '2') {
             // My Listings
             $response = "CON My Produce Listings\n\n";
             $response .= "You have no active listings.\n\n";
             $response .= "1. Post a new listing\n\n";
-            $response .= "0. Back";
+            $response .= "0. Back to Main Menu";
         } elseif ($levels[1] === '3') {
             // Post New Listing - Step 1
             $response = "CON Post New Listing\n\n";
@@ -244,15 +246,15 @@ elseif ($depth === 2) {
             $response .= "4. Tomatoes\n";
             $response .= "5. Rice\n";
             $response .= "6. Other (type name)\n\n";
-            $response .= "0. Back";
+            $response .= "0. Back to Main Menu";
         } elseif ($levels[1] === '4') {
             // Search Produce
             $response = "CON Search Produce\n\n";
             $response .= "Type the name of produce\n";
             $response .= "you are looking for:\n\n";
-            $response .= "0. Back";
+            $response .= "0. Back to Main Menu";
         } else {
-            $response = "CON Invalid option.\n\n0. Back";
+            $response = "CON Invalid option.\n\n0. Back to Main Menu";
         }
     }
 
@@ -268,7 +270,7 @@ elseif ($depth === 2) {
             $response .= "4. Rice\n";
             $response .= "5. Tomatoes\n";
             $response .= "6. Other (type name)\n\n";
-            $response .= "0. Back";
+            $response .= "0. Back to Main Menu";
         } elseif ($levels[1] === '2') {
             // Check Status
             $response = "CON Diagnosis Status\n\n";
@@ -277,7 +279,7 @@ elseif ($depth === 2) {
             $response .= "Confidence: 95%\n";
             $response .= "Date: Today 09:41 AM\n\n";
             $response .= "No pending reviews.\n\n";
-            $response .= "0. Back";
+            $response .= "0. Back to Main Menu";
         } elseif ($levels[1] === '3') {
             // Common Diseases Guide
             $response = "CON Common Crop Diseases\n\n";
@@ -286,7 +288,7 @@ elseif ($depth === 2) {
             $response .= "3. Cassava Mosaic\n";
             $response .= "4. Late Blight (Tomato)\n";
             $response .= "5. Rice Blast\n\n";
-            $response .= "0. Back";
+            $response .= "0. Back to Main Menu";
         } elseif ($levels[1] === '4') {
             // Request Expert
             $response = "END Expert Review Requested!\n\n";
@@ -298,10 +300,10 @@ elseif ($depth === 2) {
             $response = "CON Smartphone Camera Tool\n\n";
             $response .= "An SMS link has been sent to your phone.\n\n";
             $response .= "Click the link to upload a photo of your crop for instant AI diagnosis.\n\n";
-            $response .= "0. Back";
+            $response .= "0. Back to Main Menu";
             sendSMS($phoneNumber, "mAgri Camera Tool: Click here to upload a photo for instant AI diagnosis: https://navajowhite-monkey-252201.hostingersite.com");
         } else {
-            $response = "CON Invalid option.\n\n0. Back";
+            $response = "CON Invalid option.\n\n0. Back to Main Menu";
         }
     }
 
@@ -315,7 +317,7 @@ elseif ($depth === 2) {
             $response .= "- Space rows 75cm apart\n";
             $response .= "- Apply fertilizer at 4 weeks\n\n";
             $response .= "1. Get SMS with full guide\n\n";
-            $response .= "0. Back";
+            $response .= "0. Back to Main Menu";
         } elseif ($levels[1] === '2') {
             $response = "CON Weather Advice\n\n";
             $response .= "Current Season: Rainy\n";
@@ -325,7 +327,7 @@ elseif ($depth === 2) {
             $response .= "- Watch for fungal diseases\n";
             $response .= "- Delay fertilizer if heavy rain\n\n";
             $response .= "1. Get SMS weather alerts\n\n";
-            $response .= "0. Back";
+            $response .= "0. Back to Main Menu";
         } elseif ($levels[1] === '3') {
             $response = "CON Pest Management\n\n";
             $response .= "Common pests in your area:\n";
@@ -333,7 +335,7 @@ elseif ($depth === 2) {
             $response .= "2. Aphids - Info\n";
             $response .= "3. Stem Borers - Info\n";
             $response .= "4. Whiteflies - Info\n\n";
-            $response .= "0. Back";
+            $response .= "0. Back to Main Menu";
         } elseif ($levels[1] === '4') {
             $response = "CON Soil Health\n\n";
             $response .= "Tips for healthy soil:\n";
@@ -342,14 +344,14 @@ elseif ($depth === 2) {
             $response .= "- Avoid over-tilling\n";
             $response .= "- Test pH annually\n\n";
             $response .= "1. Get SMS soil guide\n\n";
-            $response .= "0. Back";
+            $response .= "0. Back to Main Menu";
         } elseif ($levels[1] === '5') {
             // Type question
             $response = "CON Type your question below:\n\n";
             $response .= "(Type your farming question)\n\n";
-            $response .= "0. Back";
+            $response .= "0. Back to Main Menu";
         } else {
-            $response = "CON Invalid option.\n\n0. Back";
+            $response = "CON Invalid option.\n\n0. Back to Main Menu";
         }
     }
 
@@ -366,7 +368,7 @@ elseif ($depth === 2) {
             $response .= "- Repayment History: 95%\n\n";
             $response .= "Eligible for micro-credit\n";
             $response .= "up to KES 200,000\n\n";
-            $response .= "0. Back";
+            $response .= "0. Back to Main Menu";
         } elseif ($levels[1] === '2') {
             // Apply Micro-Credit
             $response = "CON Mobile Money Micro-Credit\n\n";
@@ -378,7 +380,7 @@ elseif ($depth === 2) {
             $response .= "5. KES 100,000\n\n";
             $response .= "Interest: 4.5%/month\n";
             $response .= "Duration: 3 months\n\n";
-            $response .= "0. Back";
+            $response .= "0. Back to Main Menu";
         } elseif ($levels[1] === '3') {
             // Crop Insurance
             $response = "CON Crop Insurance\n\n";
@@ -389,7 +391,7 @@ elseif ($depth === 2) {
             $response .= "2. 2 Acres - KES 5,000\n";
             $response .= "3. 5 Acres - KES 12,500\n";
             $response .= "4. 10 Acres - KES 25,000\n\n";
-            $response .= "0. Back";
+            $response .= "0. Back to Main Menu";
         } elseif ($levels[1] === '4') {
             // Transaction History
             $response = "CON Transaction History\n\n";
@@ -399,7 +401,7 @@ elseif ($depth === 2) {
             $response .= "   Oct 5 - Active\n";
             $response .= "3. Market Sale KES 15,000\n";
             $response .= "   Sep 28 - Completed\n\n";
-            $response .= "0. Back";
+            $response .= "0. Back to Main Menu";
         } elseif ($levels[1] === '5') {
             // USSD Bridge Status
             $response = "CON USSD Bridge Status\n\n";
@@ -409,9 +411,9 @@ elseif ($depth === 2) {
             $response .= "Your data is synced between\n";
             $response .= "the web app and USSD.\n";
             $response .= "Dial *384*14032# anytime.\n\n";
-            $response .= "0. Back";
+            $response .= "0. Back to Main Menu";
         } else {
-            $response = "CON Invalid option.\n\n0. Back";
+            $response = "CON Invalid option.\n\n0. Back to Main Menu";
         }
     }
 
@@ -423,7 +425,7 @@ elseif ($depth === 2) {
             $response .= "2. Update Location\n";
             $response .= "3. Update Farm Size\n";
             $response .= "4. Update Crops Grown\n\n";
-            $response .= "0. Back";
+            $response .= "0. Back to Main Menu";
         } elseif ($levels[1] === '2') {
             $response = "CON SMS Messages\n\n";
             $response .= "1. Buyer: Interested in\n";
@@ -432,16 +434,16 @@ elseif ($depth === 2) {
             $response .= "   rain expected tomorrow\n";
             $response .= "3. Expert: Your cocoa looks\n";
             $response .= "   healthy, continue care\n\n";
-            $response .= "0. Back";
+            $response .= "0. Back to Main Menu";
         } elseif ($levels[1] === '3') {
             $response = "CON Help & Support\n\n";
             $response .= "1. How to use USSD\n";
             $response .= "2. Contact Support\n";
             $response .= "3. Report a Problem\n";
             $response .= "4. About mAgri Platform\n\n";
-            $response .= "0. Back";
+            $response .= "0. Back to Main Menu";
         } else {
-            $response = "CON Invalid option.\n\n0. Back";
+            $response = "CON Invalid option.\n\n0. Back to Main Menu";
         }
     }
     // --- 7. CHANGE LANGUAGE ---
@@ -458,7 +460,7 @@ elseif ($depth === 2) {
             $response = "CON Language changed to $newLang!\n\nYour menus and AI Chat will now use $newLang.\n\n0. Back to Main Menu";
             sendSMS($phoneNumber, "mAgri: Your language has been updated to $newLang.");
         } else {
-            $response = "CON Invalid option.\n\n0. Back";
+            $response = "CON Invalid option.\n\n0. Back to Main Menu";
         }
     } else {
         $response = "CON Invalid option.\n\n0. Back to Main Menu";
@@ -485,7 +487,7 @@ elseif ($depth === 3) {
             $response .= "Ref: SCAN-" . rand(10000, 99999);
             sendSMS($phoneNumber, "mAgri Crop Scan: Your report for '{$symptoms[$levels[2]]}' has been received. AI analysis in progress. You will receive results via SMS.");
         } else {
-            $response = "CON Please describe the problem:\n(Type your description)\n\n0. Back";
+            $response = "CON Please describe the problem:\n(Type your description)\n\n0. Back to Main Menu";
         }
     }
 
@@ -504,9 +506,9 @@ elseif ($depth === 3) {
             $response .= "Location: {$l[2]}\n\n";
             $response .= "1. Send SMS to {$l[1]}\n";
             $response .= "2. Express Interest\n\n";
-            $response .= "0. Back";
+            $response .= "0. Back to Main Menu";
         } else {
-            $response = "CON Invalid selection.\n\n0. Back";
+            $response = "CON Invalid selection.\n\n0. Back to Main Menu";
         }
     }
 
@@ -516,7 +518,7 @@ elseif ($depth === 3) {
         $name = isset($produces[$levels[2]]) ? $produces[$levels[2]] : $levels[2];
         $response = "CON Selling: $name\n\n";
         $response .= "Enter quantity (e.g. 50kg):\n\n";
-        $response .= "0. Back";
+        $response .= "0. Back to Main Menu";
     }
 
     // --- 2.4.X - Market > Search Result ---
@@ -525,7 +527,7 @@ elseif ($depth === 3) {
         $response = "CON Search Results for '$search':\n\n";
         $response .= "1. [SELL] $search 100kg - Lusaka\n";
         $response .= "2. [BUY] $search 50kg - Ndola\n\n";
-        $response .= "0. Back";
+        $response .= "0. Back to Main Menu";
     }
 
     // --- 3.1.X - Diagnose > Report > Select Crop ---
@@ -540,7 +542,7 @@ elseif ($depth === 3) {
         $response .= "4. Holes in leaves\n";
         $response .= "5. White powder/mold\n";
         $response .= "6. Other (type it)\n\n";
-        $response .= "0. Back";
+        $response .= "0. Back to Main Menu";
     }
 
     // --- 3.3.X - Common Diseases > Detail ---
@@ -557,9 +559,9 @@ elseif ($depth === 3) {
             $response = "CON {$d[0]}\n\n";
             $response .= "{$d[1]}\n\n";
             $response .= "1. Get full guide via SMS\n\n";
-            $response .= "0. Back";
+            $response .= "0. Back to Main Menu";
         } else {
-            $response = "CON Invalid option.\n\n0. Back";
+            $response = "CON Invalid option.\n\n0. Back to Main Menu";
         }
     }
 
@@ -571,7 +573,7 @@ elseif ($depth === 3) {
             $response = "END $topic guide sent to your phone via SMS!";
             sendSMS($phoneNumber, "mAgri $topic Guide: Detailed information has been sent. Visit our web app for more: navajowhite-monkey-252201.hostingersite.com");
         } else {
-            $response = "CON Invalid option.\n\n0. Back";
+            $response = "CON Invalid option.\n\n0. Back to Main Menu";
         }
     }
 
@@ -588,9 +590,9 @@ elseif ($depth === 3) {
             $response = "CON {$p[0]}\n\n";
             $response .= "{$p[1]}\n\n";
             $response .= "1. Get full guide via SMS\n\n";
-            $response .= "0. Back";
+            $response .= "0. Back to Main Menu";
         } else {
-            $response = "CON Invalid option.\n\n0. Back";
+            $response = "CON Invalid option.\n\n0. Back to Main Menu";
         }
     }
 
@@ -616,9 +618,9 @@ elseif ($depth === 3) {
             $response .= "Total Repayment: KES $repay\n\n";
             $response .= "1. Confirm & Disburse\n";
             $response .= "2. Cancel\n\n";
-            $response .= "0. Back";
+            $response .= "0. Back to Main Menu";
         } else {
-            $response = "CON Invalid amount.\n\n0. Back";
+            $response = "CON Invalid amount.\n\n0. Back to Main Menu";
         }
     }
 
@@ -634,9 +636,9 @@ elseif ($depth === 3) {
             $response .= "Payment: Mobile Money\n\n";
             $response .= "1. Pay & Insure\n";
             $response .= "2. Cancel\n\n";
-            $response .= "0. Back";
+            $response .= "0. Back to Main Menu";
         } else {
-            $response = "CON Invalid option.\n\n0. Back";
+            $response = "CON Invalid option.\n\n0. Back to Main Menu";
         }
     }
 
@@ -648,9 +650,9 @@ elseif ($depth === 3) {
             '3' => "Expert Agronomist:\nYour cocoa crop looks healthy.\nContinue regular care.\nNext inspection in 2 weeks."
         ];
         if (isset($msgs[$levels[2]])) {
-            $response = "CON " . $msgs[$levels[2]] . "\n\n0. Back";
+            $response = "CON " . $msgs[$levels[2]] . "\n\n0. Back to Main Menu";
         } else {
-            $response = "CON Invalid message.\n\n0. Back";
+            $response = "CON Invalid message.\n\n0. Back to Main Menu";
         }
     }
 
@@ -663,13 +665,13 @@ elseif ($depth === 3) {
             $response .= "Press 0 to go back.\n";
             $response .= "Your data syncs with the\n";
             $response .= "web app automatically.\n\n";
-            $response .= "0. Back";
+            $response .= "0. Back to Main Menu";
         } elseif ($levels[2] === '2') {
             $response = "END Contact Support\n\nCall: +254 700 000 000\nSMS: HELP to 14032\nEmail: support@magri.com";
         } elseif ($levels[2] === '3') {
             $response = "CON Report a Problem\n\n";
             $response .= "Type your issue below:\n\n";
-            $response .= "0. Back";
+            $response .= "0. Back to Main Menu";
         } elseif ($levels[2] === '4') {
             $response = "CON About mAgri Platform\n\n";
             $response .= "Brastorne Digital Inclusion\n";
@@ -677,12 +679,12 @@ elseif ($depth === 3) {
             $response .= "AI-powered agriculture\n";
             $response .= "platform for African farmers.\n";
             $response .= "Web + USSD + SMS integrated.\n\n";
-            $response .= "0. Back";
+            $response .= "0. Back to Main Menu";
         } else {
-            $response = "CON Invalid option.\n\n0. Back";
+            $response = "CON Invalid option.\n\n0. Back to Main Menu";
         }
     } else {
-        $response = "CON Invalid option.\n\n0. Back";
+        $response = "CON Invalid option.\n\n0. Back to Main Menu";
     }
 }
 
@@ -788,7 +790,7 @@ elseif ($depth === 4) {
     // --- 6.2.1.reply - Reply to buyer ---
     elseif ($levels[0] === '6' && $levels[1] === '2' && $levels[2] === '1' && $levels[3] === '1') {
         $response = "CON Reply to Buyer\n\n";
-        $response .= "Type your reply message:\n\n0. Back";
+        $response .= "Type your reply message:\n\n0. Back to Main Menu";
     } else {
         $response = "END Thank you for using mAgri Platform!\n\nDial *384*14032# again anytime.";
     }
