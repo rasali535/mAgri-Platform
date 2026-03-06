@@ -820,7 +820,69 @@ elseif ($depth >= 5) {
     $response = "END Thank you for using mAgri Platform!\n\nDial *384*14032# again anytime.";
 }
 
+if ($userLang !== 'English') {
+    $response = translateMenu($response, $userLang);
+}
+
 echo $response;
+
+// ========================================
+// Menu Translation Function
+// ========================================
+function translateMenu($text, $language)
+{
+    $apiKey = "";
+    $env_path = __DIR__ . '/../.env';
+    if (file_exists($env_path)) {
+        $lines = file($env_path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+        foreach ($lines as $line) {
+            if (strpos($line, 'VITE_OPENAI_API_KEY=') === 0) {
+                $apiKey = trim(str_replace(['VITE_OPENAI_API_KEY=', '"', "'"], '', $line));
+                break;
+            }
+        }
+    }
+
+    if (!$apiKey)
+        return $text;
+
+    $data = [
+        "model" => "gpt-4o-mini",
+        "messages" => [
+            [
+                "role" => "system",
+                "content" => "You are a strict translator for a USSD menu. Translate the target string exactly into $language. Keep all structural formats, line breaks, 'CON' or 'END' prefixes, and option numbers completely intact. Do not add any conversational filler."
+            ],
+            [
+                "role" => "user",
+                "content" => $text
+            ]
+        ],
+        "max_tokens" => 250,
+        "temperature" => 0.2
+    ];
+
+    $ch = curl_init('https://api.openai.com/v1/chat/completions');
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        'Content-Type: application/json',
+        'Authorization: Bearer ' . $apiKey
+    ]);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 6);
+
+    $apiResponse = curl_exec($ch);
+    curl_close($ch);
+
+    if ($apiResponse) {
+        $json = json_decode($apiResponse, true);
+        if (isset($json['choices'][0]['message']['content'])) {
+            return trim($json['choices'][0]['message']['content']);
+        }
+    }
+    return $text;
+}
 
 // ========================================
 // SMS Helper Function
