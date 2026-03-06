@@ -20,8 +20,22 @@ app.use((req, res, next) => {
     next();
 });
 
+// Diagnostic route to see what URL Express is receiving
+app.all('/index.js', (req, res) => {
+    const originalUrl = req.headers['x-original-uri'] || req.url;
+    console.log(`Diagnostic: Received request for ${req.url}, Original: ${originalUrl}`);
+
+    if (originalUrl.includes('ussd-health')) {
+        res.set('Content-Type', 'text/plain');
+        return res.send('CON Health Check OK (via rewrite)');
+    }
+
+    // Fallback to serving the app
+    res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+});
+
 // USSD Specific Health Check (Plain Text) - PRIORITY 1
-app.get('/ussd-health', (req, res) => {
+app.all(['/ussd-health', '/ussd-health/'], (req, res) => {
     res.set('Content-Type', 'text/plain');
     res.send('CON Health Check OK');
 });
