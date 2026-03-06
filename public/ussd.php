@@ -36,6 +36,19 @@ while (count($levels) > 0 && end($levels) === '0') {
 $depth = count($levels);
 $response = '';
 
+// Load user language preferences
+$prefs_file = __DIR__ . '/ussd_prefs.json';
+$userLang = 'English';
+if (file_exists($prefs_file)) {
+    $prefs_data = json_decode(file_get_contents($prefs_file), true);
+    if (is_array($prefs_data) && isset($prefs_data[$phoneNumber])) {
+        $userLang = $prefs_data[$phoneNumber];
+    }
+} else {
+    $prefs_data = [];
+}
+
+
 // ========================================
 // LEVEL 0 - MAIN MENU
 // ========================================
@@ -435,8 +448,15 @@ elseif ($depth === 2) {
     elseif ($levels[0] === '7') {
         $langs = ['1' => 'English', '2' => 'Setswana', '3' => 'Bemba', '4' => 'Nyanja', '5' => 'French'];
         if (isset($langs[$levels[1]])) {
-            $response = "CON Language changed to {$langs[$levels[1]]}!\n\nYour menus will now display in {$langs[$levels[1]]}.\n\n0. Back to Main Menu";
-            sendSMS($phoneNumber, "mAgri: Your language has been updated to {$langs[$levels[1]]}.");
+            $newLang = $langs[$levels[1]];
+
+            // Save preference locally
+            global $prefs_data, $prefs_file, $phoneNumber;
+            $prefs_data[$phoneNumber] = $newLang;
+            file_put_contents($prefs_file, json_encode($prefs_data));
+
+            $response = "CON Language changed to $newLang!\n\nYour menus and AI Chat will now use $newLang.\n\n0. Back to Main Menu";
+            sendSMS($phoneNumber, "mAgri: Your language has been updated to $newLang.");
         } else {
             $response = "CON Invalid option.\n\n0. Back";
         }
@@ -577,10 +597,10 @@ elseif ($depth === 3) {
     // --- 4.5.X - Custom Question ---
     elseif ($levels[0] === '4' && $levels[1] === '5') {
         $question = $levels[2];
-        $response = "END Thank you for your question!\n\n";
-        $response .= "\"$question\"\n\n";
-        $response .= "An agronomist will reply via SMS within 2 hours.";
-        sendSMS($phoneNumber, "mAgri: Your question has been received and routed to an expert agronomist. Expect a reply via SMS shortly.");
+        global $userLang;
+        $aiAnswer = callOpenAI("User asked: " . $question, $userLang);
+        $response = "CON AI Agronomist:\n\n$aiAnswer\n\n0. Back to Main Menu";
+        sendSMS($phoneNumber, "mAgri AI Response: $aiAnswer");
     }
 
     // --- 5.2.X - Finance > Micro-Credit > Select Amount ---
@@ -674,11 +694,11 @@ elseif ($depth === 4) {
     // --- 1.3.5.X - Crop Scan > Other > Type description ---
     if ($levels[0] === '1' && $levels[1] === '3' && $levels[2] === '5') {
         $description = $levels[3];
-        $response = "END Crop issue reported!\n\n";
-        $response .= "\"$description\"\n\n";
-        $response .= "AI analysis in progress.\n";
-        $response .= "Results sent via SMS.";
-        sendSMS($phoneNumber, "mAgri: Your crop issue report has been received. Our AI is analyzing: '$description'. Results coming via SMS.");
+        global $userLang;
+        $aiAnswer = callOpenAI("User described crop problem: '$description'. Provide short diagnosis.", $userLang);
+
+        $response = "CON Crop AI Diagnosis:\n\n$aiAnswer\n\n0. Back to Main Menu";
+        sendSMS($phoneNumber, "mAgri Crop AI: $aiAnswer");
     }
 
     // --- 2.1.X.1 - Market > Listing > Contact Seller ---
@@ -714,13 +734,13 @@ elseif ($depth === 4) {
         $symptoms = ['1' => 'Yellowing leaves', '2' => 'Brown/black spots', '3' => 'Wilting', '4' => 'Holes in leaves', '5' => 'White powder/mold'];
         $crop = isset($crops[$levels[2]]) ? $crops[$levels[2]] : $levels[2];
         $symptom = isset($symptoms[$levels[3]]) ? $symptoms[$levels[3]] : $levels[3];
-        $response = "END Diagnosis Submitted!\n\n";
-        $response .= "Crop: $crop\n";
-        $response .= "Symptom: $symptom\n\n";
-        $response .= "AI analysis in progress.\n";
-        $response .= "Results via SMS shortly.\n";
-        $response .= "Ref: DIAG-" . rand(10000, 99999);
-        sendSMS($phoneNumber, "mAgri Diagnosis: $crop with '$symptom' reported. AI analysis in progress. Results coming via SMS.");
+
+        global $userLang;
+        $aiPrompt = "User reported crop problem. Crop: $crop, Symptom: $symptom. Provide short diagnosis.";
+        $aiAnswer = callOpenAI($aiPrompt, $userLang);
+
+        $response = "CON Diagnosis Result:\n\nCrop: $crop\nAI: $aiAnswer\n\n0. Back to Main Menu";
+        sendSMS($phoneNumber, "mAgri Diagnosis ($crop): $aiAnswer");
     }
 
     // --- 3.3.X.1 - Disease > Get SMS Guide ---
@@ -828,5 +848,63 @@ function sendSMS($to, $message)
     ));
     curl_exec($ch);
     curl_close($ch);
+}
+
+// ========================================
+// OpenAI Helper Function
+// ========================================
+function callOpenAI($prompt, $language)
+{
+    $apiKey = "";
+    $env_path = __DIR__ . '/../.env';
+    if (file_exists($env_path)) {
+        $lines = file($env_path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+        foreach ($lines as $line) {
+            if (strpos($line, 'VITE_OPENAI_API_KEY=') === 0) {
+                $apiKey = trim(str_replace(['VITE_OPENAI_API_KEY=', '"', "'"], '', $line));
+                break;
+            }
+        }
+    }
+
+    if (!$apiKey)
+        return "AI is currently unavailable.";
+
+    $data = [
+        "model" => "gpt-4o-mini",
+        "messages" => [
+            [
+                "role" => "system",
+                "content" => "You are an expert agronomist for mAgri Platform. Keep your response very short, extremely concise (under 120 characters to fit in an SMS), and very helpful. IMPORTANT: Reply entirely in the language: $language."
+            ],
+            [
+                "role" => "user",
+                "content" => $prompt
+            ]
+        ],
+        "max_tokens" => 60,
+        "temperature" => 0.7
+    ];
+
+    $ch = curl_init('https://api.openai.com/v1/chat/completions');
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        'Content-Type: application/json',
+        'Authorization: Bearer ' . $apiKey
+    ]);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 6); // Set reasonable timeout
+
+    $response = curl_exec($ch);
+    curl_close($ch);
+
+    if ($response) {
+        $json = json_decode($response, true);
+        if (isset($json['choices'][0]['message']['content'])) {
+            return trim($json['choices'][0]['message']['content']);
+        }
+    }
+    return "Sorry, we could not get an AI analysis right now in $language.";
 }
 ?>
