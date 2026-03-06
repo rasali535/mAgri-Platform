@@ -430,6 +430,16 @@ elseif ($depth === 2) {
         } else {
             $response = "CON Invalid option.\n\n0. Back";
         }
+    }
+    // --- 7. CHANGE LANGUAGE ---
+    elseif ($levels[0] === '7') {
+        $langs = ['1' => 'English', '2' => 'Setswana', '3' => 'Bemba', '4' => 'Nyanja', '5' => 'French'];
+        if (isset($langs[$levels[1]])) {
+            $response = "CON Language changed to {$langs[$levels[1]]}!\n\nYour menus will now display in {$langs[$levels[1]]}.\n\n0. Back to Main Menu";
+            sendSMS($phoneNumber, "mAgri: Your language has been updated to {$langs[$levels[1]]}.");
+        } else {
+            $response = "CON Invalid option.\n\n0. Back";
+        }
     } else {
         $response = "CON Invalid option.\n\n0. Back to Main Menu";
     }
@@ -610,17 +620,6 @@ elseif ($depth === 3) {
         }
     }
 
-    // --- 7.X - Language Selection ---
-    elseif ($levels[0] === '7') {
-        $langs = ['1' => 'English', '2' => 'Setswana', '3' => 'Bemba', '4' => 'Nyanja', '5' => 'French'];
-        if (isset($langs[$levels[1]])) {
-            $response = "CON Language changed to {$langs[$levels[1]]}!\n\nYour menus will now display in {$langs[$levels[1]]}.\n\n0. Back to Main Menu";
-            sendSMS($phoneNumber, "mAgri: Your language has been updated to {$langs[$levels[1]]}.");
-        } else {
-            $response = "CON Invalid option.\n\n0. Back";
-        }
-    }
-
     // --- 6.2.X - View SMS Message Detail ---
     elseif ($levels[0] === '6' && $levels[1] === '2') {
         $msgs = [
@@ -687,10 +686,10 @@ elseif ($depth === 4) {
         $listings = ['1' => 'AgriCorp', '2' => 'Kouame', '3' => 'Export Co.', '4' => 'Grace'];
         $seller = isset($listings[$levels[2]]) ? $listings[$levels[2]] : 'Seller';
         if ($levels[3] === '1') {
-            $response = "END SMS sent to $seller!\n\nThey will contact you shortly.\nRef: MKT-" . rand(10000, 99999);
+            $response = "CON SMS sent to $seller!\n\nThey will contact you shortly.\nRef: MKT-" . rand(10000, 99999) . "\n\n0. Back to Main Menu";
             sendSMS($phoneNumber, "mAgri Market: Your interest has been sent to $seller. They will contact you shortly.");
         } else {
-            $response = "END Interest expressed to $seller!\n\nYou will receive their response via SMS.\nRef: MKT-" . rand(10000, 99999);
+            $response = "CON Interest expressed to $seller!\n\nYou will receive their response via SMS.\nRef: MKT-" . rand(10000, 99999) . "\n\n0. Back to Main Menu";
             sendSMS($phoneNumber, "mAgri Market: You expressed interest. $seller will be notified.");
         }
     }
@@ -700,11 +699,12 @@ elseif ($depth === 4) {
         $produces = ['1' => 'Maize', '2' => 'Cocoa', '3' => 'Cashew Nuts', '4' => 'Tomatoes', '5' => 'Rice'];
         $name = isset($produces[$levels[2]]) ? $produces[$levels[2]] : $levels[2];
         $qty = $levels[3];
-        $response = "END Listing Posted!\n\n";
+        $response = "CON Listing Posted!\n\n";
         $response .= "Produce: $name\n";
         $response .= "Quantity: $qty\n";
         $response .= "Status: Live on AgriMarket\n\n";
-        $response .= "Buyers will contact you via SMS.";
+        $response .= "Buyers will contact you via SMS.\n\n";
+        $response .= "0. Back to Main Menu";
         sendSMS($phoneNumber, "mAgri Market: Your listing for $name ($qty) is now live! Buyers will contact you via SMS.");
     }
 
@@ -782,7 +782,7 @@ elseif ($depth >= 5) {
     // --- 6.2.1.1.X - Buyer Reply Message ---
     if ($levels[0] === '6' && $levels[1] === '2' && $levels[2] === '1' && $levels[3] === '1') {
         $reply = $levels[4];
-        $response = "END Reply sent to buyer!\n\n\"$reply\"\n\nThey will receive your message via SMS.";
+        $response = "CON Reply sent to buyer!\n\n\"$reply\"\n\nThey will receive your message via SMS.\n\n0. Back to Main Menu";
         sendSMS($phoneNumber, "mAgri Market: Your reply has been sent to the buyer. They will respond via SMS.");
     }
 
