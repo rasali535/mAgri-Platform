@@ -42,19 +42,19 @@ export default function USSDSettings({ onBack }: { onBack: () => void }) {
       </div>
 
       <div className="space-y-4">
-        <h3 className="font-semibold text-stone-800 text-sm">USSD Shortcodes</h3>
-        <p className="text-xs text-stone-500">Dial these codes from your feature phone when you have no internet access (2G only).</p>
-        
+        <h3 className="font-semibold text-stone-800 text-sm">Main USSD Code: <span className="text-emerald-600 font-mono">*384*14032#</span></h3>
+        <p className="text-xs text-stone-500">Dial this code or the specific sub-codes from your feature phone to access mAgri services without internet (2G/3G).</p>
+
         <div className="bg-white border border-stone-200 rounded-2xl overflow-hidden shadow-sm">
-          <ShortcodeItem code="*123*1#" action="Check Credit Score" />
+          <ShortcodeItem code="*384*14032*1#" action="Check Credit Score" />
           <div className="h-px bg-stone-100 w-full"></div>
-          <ShortcodeItem code="*123*2#" action="Apply for Micro-Credit" />
+          <ShortcodeItem code="*384*14032*2#" action="Apply for Micro-Credit" />
           <div className="h-px bg-stone-100 w-full"></div>
-          <ShortcodeItem code="*123*3#" action="Check Weather Forecast" />
+          <ShortcodeItem code="*384*14032*3#" action="Check Weather Forecast" />
           <div className="h-px bg-stone-100 w-full"></div>
-          <ShortcodeItem code="*123*4#" action="SMS Agronomist" />
+          <ShortcodeItem code="*384*14032*4#" action="SMS Agronomist" />
           <div className="h-px bg-stone-100 w-full"></div>
-          <ShortcodeItem code="*123*5#" action="View/Respond to Buyer SMS" />
+          <ShortcodeItem code="*384*14032*5#" action="View/Respond to Buyer SMS" />
         </div>
       </div>
 
