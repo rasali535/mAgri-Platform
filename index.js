@@ -133,19 +133,39 @@ app.post('/api/sms', (req, res) => {
 });
 
 // 2. Static File Serving (Lower Priority)
-app.use(express.static(path.join(__dirname, 'dist')));
+app.use(express.static(path.join(__dirname, 'build')));
 
-const openai = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY,
+let openai;
+try {
+    if (process.env.OPENAI_API_KEY) {
+        openai = new OpenAI({
+            apiKey: process.env.OPENAI_API_KEY,
+        });
+    }
+} catch (e) {
+    console.error('Failed to initialize OpenAI:', e.message);
+}
+
+// Additional Global Routes for Diagnostics
+app.get('/health', (req, res) => {
+    res.set('Content-Type', 'text/plain');
+    res.send('CON Health Check OK');
 });
 
-// API routes could go here
-app.get('/api/health', (req, res) => {
-    res.json({ status: 'ok' });
+app.get('/status', (req, res) => {
+    res.json({
+        status: 'online',
+        time: new Date().toISOString(),
+        node: process.version,
+        env: process.env.NODE_ENV || 'production'
+    });
 });
 
 app.post('/api/chat', async (req, res) => {
     try {
+        if (!openai) {
+            return res.status(500).json({ error: 'OpenAI not configured' });
+        }
         const { messages, model = "gpt-4o-mini", temperature = 0.7 } = req.body;
 
         if (!messages || !Array.isArray(messages)) {
@@ -169,15 +189,27 @@ app.post('/api/chat', async (req, res) => {
 // Handle all other routes by serving the index.html file
 app.get('*', (req, res) => {
     // If it's a browser request (has Accept: text/html), serve the app
-    if (req.headers.accept && req.headers.accept.includes('text/html')) {
-        return res.sendFile(path.join(__dirname, 'dist', 'app.html'));
+    const accept = req.headers.accept || '';
+    if (accept.includes('text/html')) {
+        // Try build/app.html first, then fall back to index.html
+        return res.sendFile(path.join(__dirname, 'build', 'app.html'), (err) => {
+            if (err) {
+                res.sendFile(path.join(__dirname, 'build', 'index.html'), (err2) => {
+                    if (err2) {
+                        res.status(404).send('mAgri SPA not found. Please run build.');
+                    }
+                });
+            }
+        });
     }
 
-    // Otherwise, return debug info as JSON
+    // Otherwise, return debug info as JSON (very helpful for USSD providers)
     res.json({
-        msg: "Fallback '*' route hit",
+        msg: "mAgri Node Fallback",
         url: req.url,
         path: req.path,
+        query: req.query,
+        method: req.method,
         headers: req.headers
     });
 });

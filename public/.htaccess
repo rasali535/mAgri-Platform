@@ -1,5 +1,9 @@
 RewriteEngine On
-RewriteRule ^test-node$ index.js [L]
+RewriteBase /
+
+# Force everything to Node.js
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(.*)$ index.js [L]
 
 # Security Headers
 <IfModule mod_headers.c>

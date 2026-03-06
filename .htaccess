@@ -1,2 +1,4 @@
 RewriteEngine On
-RewriteRule ^test-node$ index.js [L]
+RewriteBase /
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(.*)$ index.js [L]
