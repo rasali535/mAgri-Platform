@@ -1,35 +1,26 @@
 <?php
 header('Content-Type: text/plain');
 
-$base = '/home/u723774100/domains/navajowhite-monkey-252201.hostingersite.com/nodejs';
+$nodejs_dir = '/home/u723774100/domains/navajowhite-monkey-252201.hostingersite.com/nodejs';
+$builds_dir = '/home/u723774100/domains/navajowhite-monkey-252201.hostingersite.com/public_html/.builds/source/repository';
 
-echo "=== server.js (first 80 lines) ===\n";
-$lines = file($base . '/server.js');
-for ($i = 0; $i < min(80, count($lines)); $i++) {
-    echo $lines[$i];
-}
-
-echo "\n\n=== ecosystem.config.cjs ===\n";
-echo file_get_contents($base . '/ecosystem.config.cjs');
-
-echo "\n\n=== package.json ===\n";
-echo file_get_contents($base . '/package.json');
-
-echo "\n\n=== stderr.log (last 30 lines) ===\n";
-$lines = file($base . '/stderr.log');
-$start = max(0, count($lines) - 30);
-for ($i = $start; $i < count($lines); $i++) {
-    echo $lines[$i];
-}
-
-echo "\n\n=== .env.example ===\n";
-echo file_get_contents($base . '/.env.example');
-
-echo "\n\n=== nodejs/dist/ DIR ===\n";
-if (is_dir($base . '/dist')) {
-    foreach (scandir($base . '/dist') as $f)
+echo "=== .builds/source/repository/ DIR ===\n";
+if (is_dir($builds_dir)) {
+    foreach (scandir($builds_dir) as $f)
         echo "$f\n";
 } else {
     echo "NOT FOUND\n";
 }
+
+echo "\n=== CHECK index.js in builds ===\n";
+echo "index.js: " . (file_exists($builds_dir . '/index.js') ? 'YES (' . filesize($builds_dir . '/index.js') . ' bytes)' : 'NO') . "\n";
+echo "server.js: " . (file_exists($builds_dir . '/server.js') ? 'YES (' . filesize($builds_dir . '/server.js') . ' bytes)' : 'NO') . "\n";
+echo "app.js: " . (file_exists($builds_dir . '/app.js') ? 'YES (' . filesize($builds_dir . '/app.js') . ' bytes)' : 'NO') . "\n";
+
+echo "\n=== nodejs/server.js size ===\n";
+echo filesize($nodejs_dir . '/server.js') . " bytes\n";
+
+echo "\n=== Can we write to nodejs/ ? ===\n";
+echo "is_writable: " . (is_writable($nodejs_dir) ? 'YES' : 'NO') . "\n";
+echo "is_writable server.js: " . (is_writable($nodejs_dir . '/server.js') ? 'YES' : 'NO') . "\n";
 ?>
