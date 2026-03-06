@@ -2,21 +2,23 @@
   RewriteEngine On
   RewriteBase /
   
-  # 1. Direct API requests to the Node.js entry point
-  RewriteRule ^api/.*$ index.js [L]
+  # 1. API & USSD (Send to Node)
+  RewriteCond %{REQUEST_URI} ^/api/
+  RewriteRule ^(.*)$ index.js [L]
   
-  # 2. Standard SPA Rewriting
+  # 2. SPA Frontend fallback
   RewriteRule ^index\.html$ - [L]
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
   RewriteRule . /index.html [L]
 </IfModule>
 
-# Handle Node.js via Passenger (if supported)
+# Phusion Passenger Setup
 <IfModule mod_passenger.c>
+  PassengerEnabled on
   PassengerAppRoot /
-  PassengerAppType node
   PassengerStartupFile index.js
+  PassengerAppType node
 </IfModule>
 
 # Security Headers
