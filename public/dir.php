@@ -1,40 +1,35 @@
 <?php
 header('Content-Type: text/plain');
 
-echo "=== DOCUMENT ROOT ===\n";
-echo $_SERVER['DOCUMENT_ROOT'] . "\n\n";
+$base = '/home/u723774100/domains/navajowhite-monkey-252201.hostingersite.com/nodejs';
 
-echo "=== CURRENT DIR (.) ===\n";
-foreach (scandir('.') as $f)
-    echo "$f\n";
+echo "=== server.js (first 80 lines) ===\n";
+$lines = file($base . '/server.js');
+for ($i = 0; $i < min(80, count($lines)); $i++) {
+    echo $lines[$i];
+}
 
-echo "\n=== PARENT DIR (..) ===\n";
-foreach (scandir('..') as $f)
-    echo "$f\n";
+echo "\n\n=== ecosystem.config.cjs ===\n";
+echo file_get_contents($base . '/ecosystem.config.cjs');
 
-echo "\n=== nodejs/ DIR ===\n";
-if (is_dir('../nodejs')) {
-    foreach (scandir('../nodejs') as $f)
+echo "\n\n=== package.json ===\n";
+echo file_get_contents($base . '/package.json');
+
+echo "\n\n=== stderr.log (last 30 lines) ===\n";
+$lines = file($base . '/stderr.log');
+$start = max(0, count($lines) - 30);
+for ($i = $start; $i < count($lines); $i++) {
+    echo $lines[$i];
+}
+
+echo "\n\n=== .env.example ===\n";
+echo file_get_contents($base . '/.env.example');
+
+echo "\n\n=== nodejs/dist/ DIR ===\n";
+if (is_dir($base . '/dist')) {
+    foreach (scandir($base . '/dist') as $f)
         echo "$f\n";
 } else {
     echo "NOT FOUND\n";
 }
-
-echo "\n=== .builds/ DIR ===\n";
-if (is_dir('.builds')) {
-    foreach (scandir('.builds') as $f)
-        echo "$f\n";
-} else {
-    echo "NOT FOUND\n";
-}
-
-echo "\n=== CHECK index.js ===\n";
-echo "In public_html: " . (file_exists('index.js') ? 'YES' : 'NO') . "\n";
-echo "In parent: " . (file_exists('../index.js') ? 'YES' : 'NO') . "\n";
-echo "In nodejs/: " . (file_exists('../nodejs/index.js') ? 'YES' : 'NO') . "\n";
-echo "In .builds/: " . (file_exists('.builds/index.js') ? 'YES' : 'NO') . "\n";
-
-echo "\n=== SERVER VARS ===\n";
-echo "SERVER_SOFTWARE: " . ($_SERVER['SERVER_SOFTWARE'] ?? 'N/A') . "\n";
-echo "SCRIPT_FILENAME: " . ($_SERVER['SCRIPT_FILENAME'] ?? 'N/A') . "\n";
 ?>
