@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { Home, Camera, MessageSquare, Wallet, FileText, Settings, UserCircle, Store, Briefcase } from 'lucide-react';
+import { Home, Camera, MessageSquare, Wallet, Settings, UserCircle, Store, Briefcase } from 'lucide-react';
 import HomeTab from './components/HomeTab';
 import DiagnoseTab from './components/DiagnoseTab';
 import ChatTab from './components/ChatTab';
 import FinanceTab from './components/FinanceTab';
-import ArchitectureTab from './components/ArchitectureTab';
 import AgronomistDashboard from './components/AgronomistDashboard';
 import BuyerDashboard from './components/BuyerDashboard';
 import CreditApplication from './components/CreditApplication';
@@ -31,7 +30,7 @@ export default function App() {
           <p className="text-emerald-100 text-xs">Brastorne Digital Inclusion</p>
         </div>
         <div className="flex space-x-3 items-center">
-          <select 
+          <select
             value={country.code}
             onChange={(e) => setCountry(COUNTRIES.find(c => c.code === e.target.value) || COUNTRIES[0])}
             className="bg-emerald-800 text-white text-xs font-medium rounded-lg px-2 py-1.5 outline-none border border-emerald-700 cursor-pointer appearance-none"
@@ -41,9 +40,9 @@ export default function App() {
               <option key={c.code} value={c.code}>{c.flag} {c.currency}</option>
             ))}
           </select>
-          <button 
-            onClick={cycleRole} 
-            className="p-2 bg-emerald-800 rounded-full hover:bg-emerald-600 transition-colors flex items-center space-x-1" 
+          <button
+            onClick={cycleRole}
+            className="p-2 bg-emerald-800 rounded-full hover:bg-emerald-600 transition-colors flex items-center space-x-1"
             title="Switch Role"
           >
             {userRole === 'farmer' && <UserCircle size={20} className="text-white" />}
@@ -70,7 +69,7 @@ export default function App() {
             {activeTab === 'diagnose' && <DiagnoseTab />}
             {activeTab === 'chat' && <ChatTab />}
             {activeTab === 'finance' && <FinanceTab onNavigate={setActiveTab} />}
-            {activeTab === 'architecture' && <ArchitectureTab />}
+
             {activeTab === 'credit_apply' && <CreditApplication onBack={() => setActiveTab('finance')} />}
             {activeTab === 'insurance_apply' && <InsuranceApplication onBack={() => setActiveTab('finance')} />}
             {activeTab === 'ussd' && <USSDSettings onBack={() => setActiveTab('home')} />}
@@ -86,7 +85,7 @@ export default function App() {
           <NavItem icon={<Camera size={20} />} label="Diagnose" isActive={activeTab === 'diagnose'} onClick={() => setActiveTab('diagnose')} />
           <NavItem icon={<MessageSquare size={20} />} label="Ask AI" isActive={activeTab === 'chat'} onClick={() => setActiveTab('chat')} />
           <NavItem icon={<Wallet size={20} />} label="Finance" isActive={activeTab === 'finance' || activeTab === 'credit_apply' || activeTab === 'insurance_apply'} onClick={() => setActiveTab('finance')} />
-          <NavItem icon={<FileText size={20} />} label="Arch" isActive={activeTab === 'architecture'} onClick={() => setActiveTab('architecture')} />
+
         </nav>
       )}
     </div>
@@ -95,7 +94,7 @@ export default function App() {
 
 function NavItem({ icon, label, isActive, onClick }: { icon: React.ReactNode, label: string, isActive: boolean, onClick: () => void }) {
   return (
-    <button 
+    <button
       onClick={onClick}
       className={`flex flex-col items-center justify-center w-full h-full space-y-1 ${isActive ? 'text-emerald-700' : 'text-stone-500 hover:text-stone-700'}`}
     >
