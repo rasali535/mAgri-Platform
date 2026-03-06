@@ -20,6 +20,15 @@ app.use((req, res, next) => {
     next();
 });
 
+app.get('/debug-req', (req, res) => {
+    res.json({
+        url: req.url,
+        originalUrl: req.originalUrl,
+        path: req.path,
+        headers: req.headers
+    });
+});
+
 // Diagnostic route to see what URL Express is receiving
 app.all('/index.js', (req, res) => {
     const originalUrl = req.headers['x-original-uri'] || req.url;
