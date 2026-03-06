@@ -21,7 +21,7 @@ app.use((req, res, next) => {
 });
 
 // USSD Specific Health Check (Plain Text) - PRIORITY 1
-app.get('/api/ussd-health', (req, res) => {
+app.get('/ussd-health', (req, res) => {
     res.set('Content-Type', 'text/plain');
     res.send('CON Health Check OK');
 });
@@ -69,7 +69,7 @@ app.use((req, res, next) => {
 });
 
 // USSD & SMS Bridge Configuration
-app.all(['/api/ussd', '/api/ussd/'], (req, res) => {
+app.all(['/ussd', '/ussd/'], (req, res) => {
     const { sessionId, serviceCode, phoneNumber, text = '' } = { ...req.query, ...req.body };
     console.log(`USSD Handler: ${req.method} ${req.url} - Text: "${text}" from ${phoneNumber}`);
 
