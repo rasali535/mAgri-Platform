@@ -79,12 +79,19 @@ async function sendSMS(to, message) {
 }
 
 // USSD & SMS Bridge Configuration (Africa's Talking Standard)
-app.post('/api/ussd', (req, res) => {
-    const { sessionId, serviceCode, phoneNumber, text } = req.body;
+// Handling both POST and GET to be more robust against provider configurations
+app.all('/api/ussd', (req, res) => {
+    // Africa's Talking sends parameters in body (POST) or query (GET)
+    const { sessionId, serviceCode, phoneNumber, text = '' } = { ...req.query, ...req.body };
+
+    console.log(`USSD Request: ${req.method} ${req.url} - Session: ${sessionId}, Text: "${text}"`);
 
     let response = '';
 
-    if (text === '') {
+    // If text is undefined or null, default to empty string
+    const currentText = text || '';
+
+    if (currentText === '') {
         // Main USSD menu
         response = `CON Welcome to mAgri Platform\n`;
         response += `1. Check Credit Score\n`;
@@ -92,21 +99,21 @@ app.post('/api/ussd', (req, res) => {
         response += `3. Check Weather Forecast\n`;
         response += `4. SMS Agronomist\n`;
         response += `5. View/Respond to Buyer SMS`;
-    } else if (text === '1') {
+    } else if (currentText === '1') {
         response = `END Your current mAgri Credit Score is 745 (Excellent).`;
         sendSMS(phoneNumber, "Your current mAgri Credit Score is 745 (Excellent). Keep up the good work!");
-    } else if (text === '2') {
+    } else if (currentText === '2') {
         response = `END Your application for KES 5,000 micro-credit has been received. You will receive an SMS confirmation.`;
         sendSMS(phoneNumber, "mAgri Alert: Your application for KES 5,000 micro-credit has been received and is being processed.");
-    } else if (text === '3') {
+    } else if (currentText === '3') {
         response = `END Weather forecast for your region: Sunny with light showers in the evening. Ideal for planting.`;
         sendSMS(phoneNumber, "mAgri Weather: Sunny with light showers in the evening in your region. Good for planting!");
-    } else if (text === '4') {
+    } else if (currentText === '4') {
         response = `CON Please type your question for the agronomist:`;
-    } else if (text.startsWith('4*')) {
+    } else if (currentText.startsWith('4*')) {
         response = `END Your message has been sent to our expert agronomists. You will receive a response via SMS shortly.`;
         sendSMS(phoneNumber, "mAgri: Your question has been routed to an expert. Expect a reply within 2 hours.");
-    } else if (text === '5') {
+    } else if (currentText === '5') {
         response = `END You have 1 new message from a Buyer: "Interested in 500kg of Grade A Maize. Quote price?"`;
         sendSMS(phoneNumber, "mAgri Buyer Alert: You have a new message from a Grade A Maize buyer. Dial *384*14032*5# to respond.");
     } else {
