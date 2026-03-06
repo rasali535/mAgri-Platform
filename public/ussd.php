@@ -11,6 +11,16 @@
 
 header('Content-Type: text/plain');
 
+// Debug endpoints to skip Cloudflare captcha / Hostinger WAF on static files
+if (isset($_GET['dump_log'])) {
+    echo file_get_contents(__DIR__ . '/ussd_log.txt');
+    exit;
+}
+if (isset($_GET['dump_json'])) {
+    echo file_get_contents(__DIR__ . '/ussd_prefs.json');
+    exit;
+}
+
 // Get USSD parameters
 $sessionId = isset($_POST['sessionId']) ? $_POST['sessionId'] : (isset($_GET['sessionId']) ? $_GET['sessionId'] : '');
 $serviceCode = isset($_POST['serviceCode']) ? $_POST['serviceCode'] : (isset($_GET['serviceCode']) ? $_GET['serviceCode'] : '');
