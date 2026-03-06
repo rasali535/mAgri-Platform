@@ -17,6 +17,9 @@ $serviceCode = isset($_POST['serviceCode']) ? $_POST['serviceCode'] : (isset($_G
 $phoneNumber = isset($_POST['phoneNumber']) ? $_POST['phoneNumber'] : (isset($_GET['phoneNumber']) ? $_GET['phoneNumber'] : '');
 $text = isset($_POST['text']) ? $_POST['text'] : (isset($_GET['text']) ? $_GET['text'] : '');
 
+// Fix missing '+' due to URL decoding replacing it with a space
+$phoneNumber = str_replace(' ', '+', $phoneNumber);
+
 // Log
 $logEntry = date('Y-m-d H:i:s') . " | Session: $sessionId | Phone: $phoneNumber | Input: '$text'\n";
 file_put_contents(__DIR__ . '/ussd_log.txt', $logEntry, FILE_APPEND);
