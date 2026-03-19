@@ -363,7 +363,7 @@ elseif ($depth === 2) {
             $response .= "An SMS link has been sent to your phone.\n\n";
             $response .= "Click the link to upload a photo of your crop for instant AI diagnosis.\n\n";
             $response .= "0. Back";
-            sendSMS($phoneNumber, "mAgri Camera Tool: Click here to upload a photo for instant AI diagnosis: https://navajowhite-monkey-252201.hostingersite.com");
+            sendSMS($phoneNumber, "mAgri Camera Tool: Click here to upload a photo for instant AI diagnosis: https://navajowhite-monkey-252201.hostingersite.com/?tab=diagnose");
         } else {
             $response = "CON Invalid option.\n\n0. Back";
         }
@@ -934,7 +934,9 @@ function getGeminiKey()
             }
         }
     }
-    return "";
+    
+    // Hardcoded fallback for reliability on Hostinger
+    return "AIzaSyCMIybxAdo-o0cQOC0AgvzLN7Ja4ofBNN4";
 }
 
 // ========================================

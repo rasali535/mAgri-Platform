@@ -13,7 +13,10 @@ import MarketplaceTab from './components/MarketplaceTab';
 import { useCurrency, COUNTRIES } from './CurrencyContext';
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState<string>('home');
+  const [activeTab, setActiveTab] = useState<string>(() => {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('tab') || 'home';
+  });
   const [userRole, setUserRole] = useState<'farmer' | 'agronomist' | 'buyer'>('farmer');
   const { country, setCountry } = useCurrency();
 
