@@ -67,6 +67,13 @@ foreach ($levels as $l) {
 }
 $levels = $processedLevels;
 
+// Normalize levels: If the user just changed language (option 7), 
+// treat the subsequent input as if it started from the main menu.
+if (count($levels) >= 2 && $levels[0] === '7') {
+    array_shift($levels); // remove '7'
+    array_shift($levels); // remove language choice (1-5)
+    // The remaining levels (if any) will now be relative to the Main Menu.
+}
 
 $depth = count($levels);
 $response = '';
