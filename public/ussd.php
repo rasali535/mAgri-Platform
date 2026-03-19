@@ -508,16 +508,28 @@ elseif ($depth === 2) {
             $newLang = $langs[$levels[1]];
 
             // Save preference locally
-            global $prefs_data, $prefs_file, $phoneNumber;
+            global $prefs_data, $prefs_file, $phoneNumber, $userLang;
             $prefs_data[$phoneNumber] = $newLang;
             file_put_contents($prefs_file, json_encode($prefs_data));
+            $userLang = $newLang; // Update global $userLang for immediate translation
 
-            $response = "CON Language changed to $newLang!\n\nYour menus and AI Chat will now use $newLang.\n\n0. Back";
+            // Redirect to Main Menu
+            $response = "CON Welcome to mAgri Platform\n";
+            $response .= "Brastorne Digital Inclusion\n\n";
+            $response .= "1. Home Dashboard\n";
+            $response .= "2. AgriMarket\n";
+            $response .= "3. Crop Diagnose\n";
+            $response .= "4. Ask Agronomist\n";
+            $response .= "5. Finance\n";
+            $response .= "6. My Account\n";
+            $response .= "7. Change Language";
+
             sendSMS($phoneNumber, "mAgri: Your language has been updated to $newLang.");
         } else {
             $response = "CON Invalid option.\n\n0. Back";
         }
-    } else {
+    }
+ else {
         $response = "CON Invalid option.\n\n0. Back";
     }
 }
