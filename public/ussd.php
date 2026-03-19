@@ -517,8 +517,15 @@ elseif ($depth === 2) {
             // Save preference locally
             global $prefs_data, $prefs_file, $phoneNumber, $userLang;
             $prefs_data[$phoneNumber] = $newLang;
-            file_put_contents($prefs_file, json_encode($prefs_data));
-            $userLang = $newLang; // Update global $userLang for immediate translation
+            $saveResult = file_put_contents($prefs_file, json_encode($prefs_data));
+            if ($saveResult === false) {
+                error_log("Failing to write USSD prefs to $prefs_file");
+                file_put_contents(__DIR__ . '/ussd_log.txt', date('Y-m-d H:i:s') . " | SAVE ERROR: Failed to write $newLang for $phoneNumber\n", FILE_APPEND);
+            } else {
+                chmod($prefs_file, 0666); // Ensure it stays writable
+            }
+            
+            $userLang = $newLang; // Update global $userLang for immediate translation in this request
 
             // Redirect to Main Menu
             $response = "CON Welcome to mAgri Platform\n";
