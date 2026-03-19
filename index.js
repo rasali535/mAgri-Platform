@@ -163,27 +163,45 @@ app.get('/status', (req, res) => {
 
 app.post('/api/chat', async (req, res) => {
     try {
-        if (!openai) {
-            return res.status(500).json({ error: 'OpenAI not configured' });
+        const apiKey = process.env.VITE_GEMINI_API_KEY || process.env.GEMINI_API_KEY;
+        if (!apiKey) {
+            return res.status(500).json({ error: 'Gemini API not configured' });
         }
-        const { messages, model = "gpt-4o-mini", temperature = 0.7 } = req.body;
+        const { messages } = req.body;
 
         if (!messages || !Array.isArray(messages)) {
             return res.status(400).json({ error: 'Messages array is required' });
         }
 
-        const completion = await openai.chat.completions.create({
-            model,
-            messages,
-            temperature,
+        const contents = messages.map(m => ({
+          role: m.role === 'assistant' ? 'model' : 'user',
+          parts: [{ text: m.content }]
+        }));
+
+        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                contents
+            })
         });
 
-        res.json(completion.choices[0].message);
+        if (!response.ok) {
+            throw new Error(`Gemini API error: ${response.status}`);
+        }
+
+        const data = await response.json();
+        const text = data.candidates?.[0]?.content?.parts?.[0]?.text || 'No response from AI.';
+
+        res.json({ role: 'assistant', content: text });
     } catch (error) {
-        console.error('Error calling OpenAI REST API:', error);
+        console.error('Error calling Gemini REST API:', error);
         res.status(500).json({ error: 'Failed to process chat request' });
     }
 });
+
 
 
 // Handle all other routes by serving the index.html file

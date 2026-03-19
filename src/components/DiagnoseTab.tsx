@@ -25,44 +25,44 @@ export default function DiagnoseTab() {
     if (!image) return;
     setLoading(true);
     try {
-      const response = await fetch('https://api.openai.com/v1/chat/completions', {
+      const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
+      
+      // Remove data:image/*;base64, prefix for the API call
+      const base64Data = image.split(',')[1];
+      const mimeType = image.split(',')[0].split(':')[1].split(';')[0];
+
+      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${import.meta.env.VITE_OPENAI_API_KEY}`
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          model: 'gpt-4o', // Must use a model that supports vision
-          messages: [
-            {
-              role: 'system',
-              content: 'You are an expert agronomist AI analyzing crop imagery. You must respond with valid JSON only. Your JSON must precisely match this format {"disease": "Disease Name", "confidence": 95, "recommendation": "Detailed recommendation."}'
-            },
-            {
-              role: 'user',
-              content: [
-                { type: 'text', text: 'Analyze this crop image and provide a diagnosis.' },
-                { type: 'image_url', image_url: { url: image } }
-              ]
-            }
-          ]
+          contents: [{
+            parts: [
+              { text: 'You are an expert agronomist AI analyzing crop imagery. You must respond with valid JSON only. Your JSON must precisely match this format {"disease": "Disease Name", "confidence": 95, "recommendation": "Detailed recommendation."}' },
+              {
+                inline_data: {
+                  mime_type: mimeType,
+                  data: base64Data
+                }
+              }
+            ]
+          }]
         })
       });
 
       if (!response.ok) throw new Error(`API error: ${response.status}`);
 
-      const payload = await response.json();
+      const data = await response.json();
+      let textContent = data.candidates?.[0]?.content?.parts?.[0]?.text?.trim() || '';
 
       try {
         // Strip markdown blocks if the AI returned them alongside JSON
-        let textContent = payload.choices[0].message.content.trim();
-        if (textContent.startsWith('```json')) {
-          textContent = textContent.replace(/^```json\n?/, '').replace(/\n?```$/, '');
-        } else if (textContent.startsWith('```')) {
-          textContent = textContent.replace(/^```\n?/, '').replace(/\n?```$/, '');
-        }
+        textContent = textContent.replace(/^```json\n?/, '').replace(/\n?```$/, '');
+        textContent = textContent.replace(/^```\n?/, '').replace(/\n?```$/, '');
 
         const dataData = JSON.parse(textContent);
+
 
         const resultData = {
           disease: dataData.disease || 'Unknown Diagnosis',
@@ -76,7 +76,7 @@ export default function DiagnoseTab() {
           setEscalated(true);
         }
       } catch (parseError) {
-        console.error('Failed to parse JSON response:', payload.content);
+        console.error('Failed to parse JSON response:', textContent);
         alert('Failed to interpret model analysis. Please try again.');
       }
     } catch (error) {

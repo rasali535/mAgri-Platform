@@ -28,23 +28,22 @@ export default function ChatTab() {
     setLoading(true);
 
     try {
-      const apiMessages = [
+      const contents = [
         ...messages.map(m => ({
-          role: m.role === 'model' ? 'assistant' : 'user',
-          content: m.text
+          role: m.role,
+          parts: [{ text: m.text }]
         })),
-        { role: 'user', content: userMsg }
+        { role: 'user', parts: [{ text: userMsg }] }
       ];
 
-      const response = await fetch('https://api.openai.com/v1/chat/completions', {
+      const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
+      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${import.meta.env.VITE_OPENAI_API_KEY}`
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          model: 'gpt-4o-mini',
-          messages: apiMessages
+          contents
         })
       });
 
@@ -53,8 +52,10 @@ export default function ChatTab() {
       }
 
       const data = await response.json();
-      setMessages(prev => [...prev, { role: 'model', text: data.choices[0].message.content }]);
+      const text = data.candidates?.[0]?.content?.parts?.[0]?.text || 'No response from AI.';
+      setMessages(prev => [...prev, { role: 'model', text }]);
     } catch (error) {
+
       console.error('Chat error:', error);
       setMessages(prev => [...prev, { role: 'model', text: 'Network error. Please try again later.' }]);
     } finally {
