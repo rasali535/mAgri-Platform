@@ -881,9 +881,12 @@ echo $response;
 // ========================================
 // OpenAI Key Helper
 // ========================================
-function getOpenAIKey()
+// ========================================
+// Gemini Key Helper
+// ========================================
+function getGeminiKey()
 {
-    $apiKey = getenv('VITE_OPENAI_API_KEY') ?: getenv('OPENAI_API_KEY');
+    $apiKey = getenv('VITE_GEMINI_API_KEY') ?: getenv('GEMINI_API_KEY');
     if ($apiKey)
         return $apiKey;
 
@@ -896,7 +899,7 @@ function getOpenAIKey()
     if (file_exists($env_path)) {
         $lines = file($env_path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
         foreach ($lines as $line) {
-            if (strpos($line, 'VITE_OPENAI_API_KEY=') === 0 || strpos($line, 'OPENAI_API_KEY=') === 0) {
+            if (strpos($line, 'VITE_GEMINI_API_KEY=') === 0 || strpos($line, 'GEMINI_API_KEY=') === 0) {
                 $val = explode('=', $line, 2)[1];
                 return trim(str_replace(['"', "'"], '', $val));
             }
@@ -906,45 +909,45 @@ function getOpenAIKey()
 }
 
 // ========================================
-// Menu Translation Function
+// Menu Translation Function (via Gemini)
 // ========================================
 function translateMenu($text, $language)
 {
-    $apiKey = getOpenAIKey();
+    $apiKey = getGeminiKey();
 
     if (!$apiKey) {
-        // Log that translation was skipped due to missing API key
-        $logMsg = date('Y-m-d H:i:s') . " | TRANSLATE WARNING: No API Key found, skipping translation to $language\n";
+        $logMsg = date('Y-m-d H:i:s') . " | TRANSLATE WARNING: No Gemini API Key found, skipping translation to $language\n";
         file_put_contents(__DIR__ . '/ussd_log.txt', $logMsg, FILE_APPEND);
         return $text;
     }
 
-    $messages = [
-        [
-            "role" => "system",
-            "content" => "You are a strict translator for a USSD menu. Translate the target string exactly into $language. Keep all structural formats, line breaks, 'CON' or 'END' prefixes, and option numbers completely intact. Do not add any conversational filler."
-        ],
-        [
-            "role" => "user",
-            "content" => $text
+    $prompt = "You are a strict translator for a USSD menu. Translate the following USSD menu text exactly into $language. 
+    IMPORTANT RULES:
+    1. Keep all structural formats and line breaks exactly as they are.
+    2. Keep 'CON ' or 'END ' prefixes and all option numbers (e.g., 1., 2.) completely intact.
+    3. Do not add any conversational filler or notes.
+    4. Only output the translated menu text.
+
+    Text to translate:
+    $text";
+
+    $data = [
+        "contents" => [
+            [
+                "parts" => [
+                    ["text" => $prompt]
+                ]
+            ]
         ]
     ];
 
-    $data = [
-        "model" => "gpt-4o-mini",
-        "messages" => $messages,
-        "max_tokens" => 250,
-        "temperature" => 0.2
-    ];
+    $url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=$apiKey";
 
-    $ch = curl_init('https://api.openai.com/v1/chat/completions');
+    $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
-    curl_setopt($ch, CURLOPT_HTTPHEADER, [
-        'Content-Type: application/json',
-        'Authorization: Bearer ' . $apiKey
-    ]);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
     curl_setopt($ch, CURLOPT_TIMEOUT, 10);
 
     $apiResponse = curl_exec($ch);
@@ -957,8 +960,8 @@ function translateMenu($text, $language)
 
     if ($apiResponse) {
         $json = json_decode($apiResponse, true);
-        if (isset($json['choices'][0]['message']['content'])) {
-            return trim($json['choices'][0]['message']['content']);
+        if (isset($json['candidates'][0]['content']['parts'][0]['text'])) {
+            return trim($json['candidates'][0]['content']['parts'][0]['text']);
         }
     }
     return $text;
@@ -970,7 +973,7 @@ function translateMenu($text, $language)
 function sendSMS($to, $message)
 {
     $username = getenv('AT_USERNAME') ?: 'sandbox';
-    $apiKey = getenv('AT_API_KEY');
+    $apiKey = getenv('AT_API_KEY') ?: "atsk_787c3b2bde1025e974a82e38a0ed1c8229cb8fc87c411111faaea304c0cc697cc87f4cba";
 
     if (!$apiKey) {
         $logEntry = date('Y-m-d H:i:s') . " | [SMS to $to]: $message\n";
@@ -995,50 +998,52 @@ function sendSMS($to, $message)
 }
 
 // ========================================
-// OpenAI Helper Function
+// Gemini AI Agronomist Helper
 // ========================================
-function callOpenAI($prompt, $language)
+function callOpenAI($prompt, $language) // Keeping name for compatibility in the rest of the file
 {
-    $apiKey = getOpenAIKey();
+    $apiKey = getGeminiKey();
 
     if (!$apiKey)
         return "AI is currently unavailable.";
 
+    $fullPrompt = "You are an expert agronomist for mAgri Platform. 
+    Question: $prompt
+    
+    IMPORTANT: 
+    1. Keep your response very short, extremely concise (under 120 characters to fit in an SMS).
+    2. Be very helpful to the farmer.
+    3. Reply ENTIRELY in the language: $language.";
+
     $data = [
-        "model" => "gpt-4o-mini",
-        "messages" => [
+        "contents" => [
             [
-                "role" => "system",
-                "content" => "You are an expert agronomist for mAgri Platform. Keep your response very short, extremely concise (under 120 characters to fit in an SMS), and very helpful. IMPORTANT: Reply entirely in the language: $language."
-            ],
-            [
-                "role" => "user",
-                "content" => $prompt
+                "parts" => [
+                    ["text" => $fullPrompt]
+                ]
             ]
-        ],
-        "max_tokens" => 60,
-        "temperature" => 0.7
+        ]
     ];
 
-    $ch = curl_init('https://api.openai.com/v1/chat/completions');
+    $url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=$apiKey";
+
+    $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
-    curl_setopt($ch, CURLOPT_HTTPHEADER, [
-        'Content-Type: application/json',
-        'Authorization: Bearer ' . $apiKey
-    ]);
-    curl_setopt($ch, CURLOPT_TIMEOUT, 6); // Set reasonable timeout
+    curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 6);
 
-    $response = curl_exec($ch);
+    $apiResponse = curl_exec($ch);
     curl_close($ch);
 
-    if ($response) {
-        $json = json_decode($response, true);
-        if (isset($json['choices'][0]['message']['content'])) {
-            return trim($json['choices'][0]['message']['content']);
+    if ($apiResponse) {
+        $json = json_decode($apiResponse, true);
+        if (isset($json['candidates'][0]['content']['parts'][0]['text'])) {
+            return trim($json['candidates'][0]['content']['parts'][0]['text']);
         }
     }
     return "Sorry, we could not get an AI analysis right now in $language.";
 }
+
 ?>
