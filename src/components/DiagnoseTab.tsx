@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { Camera, AlertTriangle, CheckCircle, User, Loader2 } from 'lucide-react';
+import { supabase } from '../supabaseClient';
 
 export default function DiagnoseTab() {
   const [image, setImage] = useState<string | null>(null);
@@ -71,6 +72,22 @@ export default function DiagnoseTab() {
         };
 
         setResult(resultData);
+
+        // PERSIST TO SUPABASE
+        try {
+          await supabase.from('resources').insert([
+            {
+              title: resultData.disease,
+              type: 'Diagnosis',
+              description: resultData.recommendation,
+              image: image // Store base64 (not recommended for large images, but for now it's okay)
+            }
+          ]);
+          console.log('Diagnosis saved to Supabase');
+        } catch (dbError) {
+          console.error('Failed to save to Supabase:', dbError);
+        }
+
         // Human-AI Escalation Logic
         if (resultData.confidence < 90) {
           setEscalated(true);
