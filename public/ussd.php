@@ -78,6 +78,25 @@ if (count($levels) >= 2 && $levels[0] === '7') {
 $depth = count($levels);
 $response = '';
 
+// Special Case: AI Conversation Continuation (Greedy Path)
+// If the user path starts with 4*5 (Ask Agronomist > Type Question) and has at least 3 levels,
+// treat the last input as a question and stay in the AI flow.
+if ($depth >= 3 && $levels[0] === '4' && $levels[1] === '5') {
+    $question = end($levels);
+    $aiAnswer = callOpenAI("User follow-up: " . $question, $userLang);
+    $response = "CON AI Agronomist:\n\n$aiAnswer\n\n0. Back";
+    
+    // Log this greedy response
+    file_put_contents(__DIR__ . '/ussd_log.txt', date('Y-m-d H:i:s') . " | GREEDY AI RESPONSE for $userLang\n", FILE_APPEND);
+    
+    // Translate if needed
+    if ($userLang !== 'English') {
+        $response = translateMenu($response, $userLang);
+    }
+    echo $response;
+    exit;
+}
+
 // Load user language preferences
 $prefs_file = __DIR__ . '/ussd_prefs.json';
 $userLang = 'English';
