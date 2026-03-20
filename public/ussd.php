@@ -972,7 +972,7 @@ function translateMenu($text, $language)
         ]
     ];
 
-    $url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=$apiKey";
+    $url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=$apiKey";
 
     $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -1056,7 +1056,7 @@ function callOpenAI($prompt, $language) // Keeping name for compatibility in the
         ]
     ];
 
-    $url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=$apiKey";
+    $url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=$apiKey";
 
     $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -1066,7 +1066,12 @@ function callOpenAI($prompt, $language) // Keeping name for compatibility in the
     curl_setopt($ch, CURLOPT_TIMEOUT, 6);
 
     $apiResponse = curl_exec($ch);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    $curlError = curl_error($ch);
     curl_close($ch);
+
+    $logMsg = date('Y-m-d H:i:s') . " | AI CALL for $language | HTTP $httpCode | Err: $curlError | Resp: $apiResponse\n";
+    file_put_contents(__DIR__ . '/ussd_log.txt', $logMsg, FILE_APPEND);
 
     if ($apiResponse) {
         $json = json_decode($apiResponse, true);
