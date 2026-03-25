@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { Home, Camera, MessageSquare, Wallet, Settings, UserCircle, Store, Briefcase } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Home, Camera, MessageSquare, Wallet, Settings, UserCircle, Store, Briefcase, Menu, X, Bell, Search } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
 import HomeTab from './components/HomeTab';
 import DiagnoseTab from './components/DiagnoseTab';
 import ChatTab from './components/ChatTab';
@@ -18,91 +19,204 @@ export default function App() {
     return params.get('tab') || 'home';
   });
   const [userRole, setUserRole] = useState<'farmer' | 'agronomist' | 'buyer'>('farmer');
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const { country, setCountry } = useCurrency();
+
+  // Sync tab with URL
+  useEffect(() => {
+    const url = new URL(window.location.href);
+    url.searchParams.set('tab', activeTab);
+    window.history.replaceState({}, '', url);
+  }, [activeTab]);
 
   const cycleRole = () => {
     setUserRole(r => r === 'farmer' ? 'agronomist' : r === 'agronomist' ? 'buyer' : 'farmer');
   };
 
+  const navItems = [
+    { id: 'home', icon: <Home size={20} />, label: 'Dashboard' },
+    { id: 'market', icon: <Store size={20} />, label: 'Marketplace' },
+    { id: 'diagnose', icon: <Camera size={20} />, label: 'Crop Scan' },
+    { id: 'chat', icon: <MessageSquare size={20} />, label: 'AI Advisor' },
+    { id: 'finance', icon: <Wallet size={20} />, label: 'Finance' },
+  ];
+
   return (
-    <div className="flex flex-col h-screen bg-stone-50 text-stone-900 font-sans max-w-md mx-auto shadow-2xl relative overflow-hidden">
-      {/* Header */}
-      <header className="bg-emerald-700 text-white p-4 shadow-md z-10 flex justify-between items-center">
-        <div>
-          <h1 className="text-xl font-semibold tracking-tight">Brastorne mARI Platform</h1>
-          <p className="text-emerald-100 text-xs">Brastorne Digital Inclusion</p>
-        </div>
-        <div className="flex space-x-3 items-center">
-          <select
-            value={country.code}
-            onChange={(e) => setCountry(COUNTRIES.find(c => c.code === e.target.value) || COUNTRIES[0])}
-            className="bg-emerald-800 text-white text-xs font-medium rounded-lg px-2 py-1.5 outline-none border border-emerald-700 cursor-pointer appearance-none"
-            title="Select Country/Currency"
-          >
-            {COUNTRIES.map(c => (
-              <option key={c.code} value={c.code}>{c.flag} {c.currency}</option>
+    <div className="flex h-screen bg-neutral-50 text-neutral-900 font-sans overflow-hidden">
+      {/* Sidebar - Desktop */}
+      <aside className={`fixed inset-y-0 left-0 z-50 w-64 bg-emerald-900 text-white transform transition-transform duration-300 ease-in-out md:translate-x-0 md:static md:block ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+        <div className="flex flex-col h-full">
+          <div className="p-6 flex items-center space-x-3">
+            <div className="w-10 h-10 bg-emerald-500 rounded-xl flex items-center justify-center shadow-lg shadow-emerald-950/20">
+              <span className="font-bold text-xl">m</span>
+            </div>
+            <div>
+              <h1 className="font-bold text-lg leading-tight">mARI Portal</h1>
+              <p className="text-emerald-400 text-[10px] uppercase tracking-widest font-semibold">Brastorne Group</p>
+            </div>
+          </div>
+
+          <nav className="flex-1 px-4 space-y-1 mt-6">
+            {navItems.map((item) => (
+              <button
+                key={item.id}
+                onClick={() => {
+                  setActiveTab(item.id);
+                  setIsSidebarOpen(false);
+                }}
+                className={`flex items-center space-x-3 w-full px-4 py-3 rounded-xl transition-all duration-200 ${
+                  activeTab === item.id 
+                  ? 'bg-emerald-500 text-white shadow-md shadow-emerald-950/20' 
+                  : 'text-emerald-100 hover:bg-emerald-800 hover:text-white'
+                }`}
+              >
+                {item.icon}
+                <span className="font-medium">{item.label}</span>
+              </button>
             ))}
-          </select>
-          <button
-            onClick={cycleRole}
-            className="p-2 bg-emerald-800 rounded-full hover:bg-emerald-600 transition-colors flex items-center space-x-1"
-            title="Switch Role"
-          >
-            {userRole === 'farmer' && <UserCircle size={20} className="text-white" />}
-            {userRole === 'agronomist' && <UserCircle size={20} className="text-amber-300" />}
-            {userRole === 'buyer' && <Briefcase size={20} className="text-indigo-300" />}
-            <span className="text-[10px] font-medium text-white uppercase tracking-wider hidden sm:block">
-              {userRole}
-            </span>
-          </button>
-          <button onClick={() => setActiveTab('ussd')} className="p-2 bg-emerald-800 rounded-full hover:bg-emerald-600 transition-colors" title="USSD Settings">
-            <Settings size={20} />
-          </button>
+          </nav>
+
+          <div className="p-4 mt-auto">
+            <div className="bg-emerald-800/50 rounded-2xl p-4 border border-emerald-700/50">
+              <p className="text-xs text-emerald-300 font-medium mb-2 uppercase tracking-tighter">Current Role</p>
+              <div className="flex items-center justify-between">
+                <span className="font-semibold capitalize text-sm">{userRole}</span>
+                <button 
+                  onClick={cycleRole}
+                  className="p-1.5 bg-emerald-500 rounded-lg hover:bg-emerald-400 transition-colors"
+                  title="Switch Role"
+                >
+                  <Briefcase size={14} />
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
-      </header>
+      </aside>
 
       {/* Main Content Area */}
-      <main className="flex-1 overflow-y-auto pb-20">
-        {userRole === 'agronomist' && <AgronomistDashboard />}
-        {userRole === 'buyer' && <BuyerDashboard />}
+      <div className="flex-1 flex flex-col min-w-0 overflow-hidden relative">
+        {/* Top Header */}
+        <header className="h-20 bg-white border-b border-neutral-200 flex items-center justify-between px-4 md:px-8 z-30">
+          <div className="flex items-center md:hidden">
+            <button onClick={() => setIsSidebarOpen(true)} className="p-2 text-neutral-500 hover:bg-neutral-100 rounded-lg transition-colors">
+              <Menu size={24} />
+            </button>
+            <span className="ml-3 font-bold text-lg">mARI</span>
+          </div>
+
+          <div className="hidden md:flex flex-1 max-w-md relative group">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400 group-focus-within:text-emerald-600 transition-colors" size={18} />
+            <input 
+              type="text" 
+              placeholder="Search products, advice, diagnoses..." 
+              className="w-full bg-neutral-100 border-none rounded-2xl py-2.5 pl-10 pr-4 text-sm focus:ring-2 focus:ring-emerald-500/20 focus:bg-white transition-all outline-none"
+            />
+          </div>
+
+          <div className="flex items-center space-x-2 md:space-x-4">
+            <div className="relative">
+              <select
+                value={country.code}
+                onChange={(e) => setCountry(COUNTRIES.find(c => c.code === e.target.value) || COUNTRIES[0])}
+                className="bg-neutral-100 text-neutral-700 text-xs font-bold rounded-xl px-3 py-2 outline-none border border-transparent hover:border-neutral-300 cursor-pointer appearance-none pr-8 transition-all"
+                title="Select Country/Currency"
+              >
+                {COUNTRIES.map(c => (
+                  <option key={c.code} value={c.code}>{c.flag} {c.currency}</option>
+                ))}
+              </select>
+              <div className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-neutral-400">
+                <Settings size={12} />
+              </div>
+            </div>
+
+            <button className="p-2 text-neutral-500 hover:bg-neutral-100 rounded-xl transition-colors relative">
+              <Bell size={20} />
+              <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
+            </button>
+
+            <button 
+              onClick={() => setActiveTab('ussd')}
+              className={`p-2 rounded-xl transition-colors ${activeTab === 'ussd' ? 'bg-emerald-100 text-emerald-700' : 'text-neutral-500 hover:bg-neutral-100'}`}
+              title="Settings"
+            >
+              <Settings size={20} />
+            </button>
+
+            <div className="h-8 w-px bg-neutral-200 mx-1 hidden sm:block"></div>
+
+            <div className="flex items-center space-x-2 pl-2">
+              <div className="w-9 h-9 bg-neutral-200 rounded-full flex items-center justify-center overflow-hidden border-2 border-emerald-500/20">
+                <UserCircle size={32} className="text-neutral-400" />
+              </div>
+              <div className="hidden lg:block">
+                <p className="text-xs font-bold">John Doe</p>
+                <p className="text-[10px] text-neutral-500 leading-none">Standard Acc.</p>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        {/* Content Viewport */}
+        <main className="flex-1 overflow-y-auto bg-[#F8F9FA] relative pb-20 md:pb-8">
+          <div className="container mx-auto max-w-6xl p-4 md:p-8">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={`${activeTab}-${userRole}`}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.2 }}
+                className="min-h-full"
+              >
+                {userRole === 'agronomist' && <AgronomistDashboard />}
+                {userRole === 'buyer' && <BuyerDashboard />}
+                {userRole === 'farmer' && (
+                  <>
+                    {activeTab === 'home' && <HomeTab onNavigate={setActiveTab} />}
+                    {activeTab === 'market' && <MarketplaceTab />}
+                    {activeTab === 'diagnose' && <DiagnoseTab />}
+                    {activeTab === 'chat' && <ChatTab />}
+                    {activeTab === 'finance' && <FinanceTab onNavigate={setActiveTab} />}
+
+                    {activeTab === 'credit_apply' && <CreditApplication onBack={() => setActiveTab('finance')} />}
+                    {activeTab === 'insurance_apply' && <InsuranceApplication onBack={() => setActiveTab('finance')} />}
+                    {activeTab === 'ussd' && <USSDSettings onBack={() => setActiveTab('home')} />}
+                  </>
+                )}
+              </motion.div>
+            </AnimatePresence>
+          </div>
+        </main>
+
+        {/* Bottom Nav - Mobile Only */}
         {userRole === 'farmer' && (
-          <>
-            {activeTab === 'home' && <HomeTab onNavigate={setActiveTab} />}
-            {activeTab === 'market' && <MarketplaceTab />}
-            {activeTab === 'diagnose' && <DiagnoseTab />}
-            {activeTab === 'chat' && <ChatTab />}
-            {activeTab === 'finance' && <FinanceTab onNavigate={setActiveTab} />}
-
-            {activeTab === 'credit_apply' && <CreditApplication onBack={() => setActiveTab('finance')} />}
-            {activeTab === 'insurance_apply' && <InsuranceApplication onBack={() => setActiveTab('finance')} />}
-            {activeTab === 'ussd' && <USSDSettings onBack={() => setActiveTab('home')} />}
-          </>
+          <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-neutral-200 flex justify-around items-center h-16 pb-safe z-40">
+            {navItems.map((item) => (
+              <button
+                key={item.id}
+                onClick={() => setActiveTab(item.id)}
+                className={`flex flex-col items-center justify-center w-full h-full space-y-1 transition-colors ${
+                  activeTab === item.id ? 'text-emerald-600' : 'text-neutral-400'
+                }`}
+              >
+                {React.cloneElement(item.icon, { size: 18 })}
+                <span className="text-[10px] font-bold">{item.label}</span>
+              </button>
+            ))}
+          </nav>
         )}
-      </main>
+      </div>
 
-      {/* Bottom Navigation (Hidden in Agronomist/Buyer View) */}
-      {userRole === 'farmer' && (
-        <nav className="absolute bottom-0 w-full bg-white border-t border-stone-200 flex justify-around items-center h-16 pb-safe z-20 px-1">
-          <NavItem icon={<Home size={20} />} label="Home" isActive={activeTab === 'home'} onClick={() => setActiveTab('home')} />
-          <NavItem icon={<Store size={20} />} label="Market" isActive={activeTab === 'market'} onClick={() => setActiveTab('market')} />
-          <NavItem icon={<Camera size={20} />} label="Diagnose" isActive={activeTab === 'diagnose'} onClick={() => setActiveTab('diagnose')} />
-          <NavItem icon={<MessageSquare size={20} />} label="Ask AI" isActive={activeTab === 'chat'} onClick={() => setActiveTab('chat')} />
-          <NavItem icon={<Wallet size={20} />} label="Finance" isActive={activeTab === 'finance' || activeTab === 'credit_apply' || activeTab === 'insurance_apply'} onClick={() => setActiveTab('finance')} />
-
-        </nav>
+      {/* Sidebar Overlay - Mobile */}
+      {isSidebarOpen && (
+        <div 
+          className="fixed inset-0 bg-neutral-900/50 z-40 md:hidden backdrop-blur-sm"
+          onClick={() => setIsSidebarOpen(false)}
+        />
       )}
     </div>
   );
 }
 
-function NavItem({ icon, label, isActive, onClick }: { icon: React.ReactNode, label: string, isActive: boolean, onClick: () => void }) {
-  return (
-    <button
-      onClick={onClick}
-      className={`flex flex-col items-center justify-center w-full h-full space-y-1 ${isActive ? 'text-emerald-700' : 'text-stone-500 hover:text-stone-700'}`}
-    >
-      {icon}
-      <span className="text-[10px] font-medium">{label}</span>
-    </button>
-  );
-}

@@ -49,8 +49,6 @@ $text = isset($_POST['text']) ? $_POST['text'] : (isset($_GET['text']) ? $_GET['
 // Fix missing '+' due to URL decoding replacing it with a space
 $phoneNumber = str_replace(' ', '+', $phoneNumber);
 
-$phoneNumber = str_replace(' ', '+', $phoneNumber);
-
 // Parse the input levels
 $levels = $text === '' ? [] : explode('*', $text);
 
