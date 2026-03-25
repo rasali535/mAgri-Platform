@@ -15,7 +15,7 @@ type Listing = {
   image?: string;
 };
 
-export default function MarketplaceTab() {
+export default function MarketplaceTab({ userRole }: { userRole: 'seller' | 'buyer' | 'agronomist' }) {
   const [view, setView] = useState<'browse' | 'my_listings'>('browse');
   const [showAddModal, setShowAddModal] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');

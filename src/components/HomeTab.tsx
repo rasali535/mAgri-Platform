@@ -1,11 +1,11 @@
 import { CloudSun, TrendingUp, AlertCircle, ChevronRight, Store, ArrowUpRight, Zap, Target, MessageSquare } from 'lucide-react';
 import { motion } from 'motion/react';
 
-export default function HomeTab({ onNavigate }: { onNavigate: (tab: string) => void }) {
+export default function HomeTab({ onNavigate, userRole }: { onNavigate: (tab: string) => void, userRole: 'seller' | 'buyer' | 'agronomist' }) {
   const stats = [
-    { label: 'Farm Health', value: '94%', change: '+2%', icon: <Zap size={16} />, color: 'emerald' },
+    { label: userRole === 'buyer' ? 'Inventory' : 'Farm Health', value: userRole === 'buyer' ? '12 Tons' : '94%', change: '+2%', icon: <Zap size={16} />, color: 'emerald' },
     { label: 'Market Prices', value: 'Live', change: 'Trending', icon: <TrendingUp size={16} />, color: 'amber' },
-    { label: 'Cloud Status', value: 'Active', change: 'Ok', icon: <CloudSun size={16} />, color: 'blue' },
+    { label: 'Network', value: 'Active', change: 'Ok', icon: <CloudSun size={16} />, color: 'blue' },
   ];
 
   return (
@@ -14,7 +14,9 @@ export default function HomeTab({ onNavigate }: { onNavigate: (tab: string) => v
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
           <h2 className="text-3xl font-bold text-neutral-900 tracking-tight">Welcome back, John!</h2>
-          <p className="text-neutral-500 font-medium">Here's what's happening on your farm today.</p>
+          <p className="text-neutral-500 font-medium">
+            {userRole === 'buyer' ? "Here's what's happening in the market today." : "Here's what's happening on your farm today."}
+          </p>
         </div>
         <div className="flex gap-2">
           {stats.map((stat) => ( stat.label !== 'Farm Health' &&

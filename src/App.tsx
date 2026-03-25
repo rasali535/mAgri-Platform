@@ -18,7 +18,7 @@ export default function App() {
     const params = new URLSearchParams(window.location.search);
     return params.get('tab') || 'home';
   });
-  const [userRole, setUserRole] = useState<'farmer' | 'agronomist' | 'buyer'>('farmer');
+  const [userRole, setUserRole] = useState<'seller' | 'buyer' | 'agronomist'>('seller');
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const { country, setCountry } = useCurrency();
 
@@ -30,7 +30,7 @@ export default function App() {
   }, [activeTab]);
 
   const cycleRole = () => {
-    setUserRole(r => r === 'farmer' ? 'agronomist' : r === 'agronomist' ? 'buyer' : 'farmer');
+    setUserRole(r => r === 'seller' ? 'buyer' : r === 'buyer' ? 'agronomist' : 'seller');
   };
 
   const navItems = [
@@ -170,12 +170,12 @@ export default function App() {
                 transition={{ duration: 0.2 }}
                 className="min-h-full"
               >
-                {userRole === 'agronomist' && <AgronomistDashboard />}
-                {userRole === 'buyer' && <BuyerDashboard />}
-                {userRole === 'farmer' && (
+                {userRole === 'agronomist' ? (
+                  <AgronomistDashboard />
+                ) : (
                   <>
-                    {activeTab === 'home' && <HomeTab onNavigate={setActiveTab} />}
-                    {activeTab === 'market' && <MarketplaceTab />}
+                    {activeTab === 'home' && <HomeTab userRole={userRole} onNavigate={setActiveTab} />}
+                    {activeTab === 'market' && <MarketplaceTab userRole={userRole} />}
                     {activeTab === 'diagnose' && <DiagnoseTab />}
                     {activeTab === 'chat' && <ChatTab />}
                     {activeTab === 'finance' && <FinanceTab onNavigate={setActiveTab} />}
@@ -191,7 +191,7 @@ export default function App() {
         </main>
 
         {/* Bottom Nav - Mobile Only */}
-        {userRole === 'farmer' && (
+        {userRole !== 'agronomist' && (
           <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-neutral-200 flex justify-around items-center h-16 pb-safe z-40">
             {navItems.map((item) => (
               <button

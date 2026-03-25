@@ -98,12 +98,19 @@ if ($depth >= 3 && $levels[0] === '4' && $levels[1] === '5') {
 // Load user language preferences
 $prefs_file = __DIR__ . '/ussd_prefs.json';
 $userLang = 'English';
+$userRole = 'Seller';
 $rawPrefs = '';
 if (file_exists($prefs_file)) {
     $rawPrefs = file_get_contents($prefs_file);
     $prefs_data = json_decode($rawPrefs, true);
     if (is_array($prefs_data) && isset($prefs_data[$phoneNumber])) {
-        $userLang = $prefs_data[$phoneNumber];
+        $pref = $prefs_data[$phoneNumber];
+        if (is_array($pref)) {
+            $userLang = $pref['lang'] ?? 'English';
+            $userRole = $pref['role'] ?? 'Seller';
+        } else {
+            $userLang = (string)$pref;
+        }
     }
 } else {
     $prefs_data = [];
@@ -166,11 +173,12 @@ elseif ($depth === 1) {
     // --- 2. AGRIMARKET ---
     elseif ($levels[0] === '2') {
         $response = "CON AgriMarket\n";
-        $response .= "Connect with buyers & sell produce\n\n";
-        $response .= "1. Browse Market Listings\n";
-        $response .= "2. My Produce Listings\n";
-        $response .= "3. Post New Listing\n";
-        $response .= "4. Search Produce\n\n";
+        $isBuyer = ($userRole === 'Buyer');
+        $response .= "Mode: " . ($isBuyer ? "Buyer" : "Seller") . "\n\n";
+        $response .= "1. " . ($isBuyer ? "Browse Produce for Sale" : "Browse Buyer Requests") . "\n";
+        $response .= "2. " . ($isBuyer ? "My Purchases/Requests" : "My Products for Sale") . "\n";
+        $response .= "3. " . ($isBuyer ? "Post Buying Request" : "Post New Produce") . "\n";
+        $response .= "4. Search " . ($isBuyer ? "Produce" : "Buyers") . "\n\n";
         $response .= "0. Back";
     }
 
@@ -215,10 +223,11 @@ elseif ($depth === 1) {
     elseif ($levels[0] === '6') {
         $response = "CON My Account\n\n";
         $response .= "Phone: $phoneNumber\n";
-        $response .= "Role: Farmer\n\n";
+        $response .= "Role: $userRole\n\n";
         $response .= "1. Update Profile\n";
         $response .= "2. View SMS Messages\n";
-        $response .= "3. Help & Support\n\n";
+        $response .= "3. Help & Support\n";
+        $response .= "4. Switch Role (" . ($userRole === 'Seller' ? 'Buyer' : 'Seller') . ")\n\n";
         $response .= "0. Back";
     }
 
@@ -521,6 +530,22 @@ elseif ($depth === 2) {
             $response .= "3. Report a Problem\n";
             $response .= "4. About mAgri Platform\n\n";
             $response .= "0. Back";
+        } elseif ($levels[1] === '4') {
+            // Switch Role
+            global $prefs_data, $prefs_file, $phoneNumber, $userLang, $userRole;
+            $newRole = ($userRole === 'Seller' ? 'Buyer' : 'Seller');
+            
+            $prefs_data[$phoneNumber] = [
+                'lang' => $userLang,
+                'role' => $newRole
+            ];
+            file_put_contents($prefs_file, json_encode($prefs_data));
+            chmod($prefs_file, 0666);
+
+            $response = "END Role Switched!\n\n";
+            $response .= "You are now logged in as a: $newRole\n\n";
+            $response .= "Your AgriMarket menus will now be tailored for $newRole actions.";
+            sendSMS($phoneNumber, "mAgri Portal: Your role has been updated to $newRole. Your marketplace experience is now optimized for " . ($newRole === 'Buyer' ? 'purchasing' : 'selling') . ".");
         } else {
             $response = "CON Invalid option.\n\n0. Back";
         }
@@ -614,8 +639,9 @@ elseif ($depth === 3) {
     elseif ($levels[0] === '2' && $levels[1] === '3') {
         $produces = ['1' => 'Maize', '2' => 'Cocoa', '3' => 'Cashew Nuts', '4' => 'Tomatoes', '5' => 'Rice'];
         $name = isset($produces[$levels[2]]) ? $produces[$levels[2]] : $levels[2];
-        $response = "CON Selling: $name\n\n";
-        $response .= "Enter quantity (e.g. 50kg):\n\n";
+        $isBuyer = ($userRole === 'Buyer');
+        $response = "CON " . ($isBuyer ? "Requesting: " : "Selling: ") . "$name\n\n";
+        $response .= "Enter quantity needed (e.g. 50kg):\n\n";
         $response .= "0. Back";
     }
 
@@ -814,18 +840,14 @@ elseif ($depth === 4) {
         }
     }
 
-    // --- 2.3.X.qty - Market > Post Listing > Quantity ---
+    // --- 2.3.X.qty - Market > Post Listing > Price ---
     elseif ($levels[0] === '2' && $levels[1] === '3') {
         $produces = ['1' => 'Maize', '2' => 'Cocoa', '3' => 'Cashew Nuts', '4' => 'Tomatoes', '5' => 'Rice'];
         $name = isset($produces[$levels[2]]) ? $produces[$levels[2]] : $levels[2];
         $qty = $levels[3];
-        $response = "CON Listing Posted!\n\n";
-        $response .= "Produce: $name\n";
-        $response .= "Quantity: $qty\n";
-        $response .= "Status: Live on AgriMarket\n\n";
-        $response .= "Buyers will contact you via SMS.\n\n";
+        $response = "CON Post Listing: $name ($qty)\n\n";
+        $response .= "Enter " . ($userRole === 'Buyer' ? "offered" : "asking") . " price (or 'Negotiable'):\n\n";
         $response .= "0. Back";
-        sendSMS($phoneNumber, "mAgri Market: Your listing for $name ($qty) is now live! Buyers will contact you via SMS.");
     }
 
     // --- 3.1.X.Y - Diagnose > Crop > Symptom ---
@@ -889,6 +911,31 @@ elseif ($depth === 4) {
     elseif ($levels[0] === '6' && $levels[1] === '2' && $levels[2] === '1' && $levels[3] === '1') {
         $response = "CON Reply to Buyer\n\n";
         $response .= "Type your reply message:\n\n0. Back";
+    } else {
+        $response = "END Thank you for using mAgri Platform!\n\nDial *384*14032# again anytime.";
+    }
+}
+
+// ========================================
+// LEVEL 5 - FINAL SCREENS
+// ========================================
+elseif ($depth === 5) {
+
+    // --- 2.3.X.X.price - Market > Post Listing > Final ---
+    if ($levels[0] === '2' && $levels[1] === '3') {
+        $produces = ['1' => 'Maize', '2' => 'Cocoa', '3' => 'Cashew Nuts', '4' => 'Tomatoes', '5' => 'Rice'];
+        $name = isset($produces[$levels[2]]) ? $produces[$levels[2]] : $levels[2];
+        $qty = $levels[3];
+        $price = $levels[4];
+        $isBuyer = ($userRole === 'Buyer');
+
+        $response = "END " . ($isBuyer ? "Request" : "Listing") . " Published!\n\n";
+        $response .= "Produce: $name\n";
+        $response .= "Quantity: $qty\n";
+        $response .= "Price: $price\n\n";
+        $response .= ($isBuyer ? "Sellers" : "Buyers") . " in your area have been notified.";
+        
+        sendSMS($phoneNumber, "mAgri Market: Your " . ($isBuyer ? "buying request" : "sale listing") . " for $name ($qty) at $price is now LIVE. Ref: PUB-" . rand(1000,9999));
     } else {
         $response = "END Thank you for using mAgri Platform!\n\nDial *384*14032# again anytime.";
     }
