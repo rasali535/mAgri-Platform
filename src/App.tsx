@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Home, Camera, MessageSquare, Wallet, Settings, UserCircle, Store, Briefcase, Menu, X, Bell, Search } from 'lucide-react';
+import { Home, Camera, MessageSquare, Wallet, Settings, UserCircle, Store, Briefcase, Menu, X, Bell, Search, LogOut } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import HomeTab from './components/HomeTab';
 import DiagnoseTab from './components/DiagnoseTab';
@@ -11,9 +11,14 @@ import CreditApplication from './components/CreditApplication';
 import InsuranceApplication from './components/InsuranceApplication';
 import USSDSettings from './components/USSDSettings';
 import MarketplaceTab from './components/MarketplaceTab';
+import LoginScreen from './components/LoginScreen';
 import { useCurrency, COUNTRIES } from './CurrencyContext';
 
 export default function App() {
+  const [isAuth, setIsAuth] = useState(false);
+  const [userPhone, setUserPhone] = useState('');
+  const [userLocation, setUserLocation] = useState<{lat: number, lng: number} | null>(null);
+
   const [activeTab, setActiveTab] = useState<string>(() => {
     const params = new URLSearchParams(window.location.search);
     return params.get('tab') || 'home';
@@ -24,13 +29,27 @@ export default function App() {
 
   // Sync tab with URL
   useEffect(() => {
-    const url = new URL(window.location.href);
-    url.searchParams.set('tab', activeTab);
-    window.history.replaceState({}, '', url);
-  }, [activeTab]);
+    if (isAuth) {
+      const url = new URL(window.location.href);
+      url.searchParams.set('tab', activeTab);
+      window.history.replaceState({}, '', url);
+    }
+  }, [activeTab, isAuth]);
+
+  const handleLogin = (phone: string, role: typeof userRole, location: {lat: number, lng: number} | null) => {
+    setUserPhone(phone);
+    setUserRole(role);
+    setUserLocation(location);
+    setIsAuth(true);
+  };
 
   const cycleRole = () => {
     setUserRole(r => r === 'seller' ? 'buyer' : r === 'buyer' ? 'agronomist' : 'seller');
+  };
+
+  const handleLogout = () => {
+    setIsAuth(false);
+    setUserPhone('');
   };
 
   const navItems = [
@@ -40,6 +59,10 @@ export default function App() {
     { id: 'chat', icon: <MessageSquare size={20} />, label: 'AI Advisor' },
     { id: 'finance', icon: <Wallet size={20} />, label: 'Finance' },
   ];
+
+  if (!isAuth) {
+    return <LoginScreen onLogin={handleLogin} />;
+  }
 
   return (
     <div className="flex h-screen bg-neutral-50 text-neutral-900 font-sans overflow-hidden">
@@ -150,10 +173,17 @@ export default function App() {
               <div className="w-9 h-9 bg-neutral-200 rounded-full flex items-center justify-center overflow-hidden border-2 border-emerald-500/20">
                 <UserCircle size={32} className="text-neutral-400" />
               </div>
-              <div className="hidden lg:block">
-                <p className="text-xs font-bold">John Doe</p>
-                <p className="text-[10px] text-neutral-500 leading-none">Standard Acc.</p>
+              <div className="hidden lg:block mr-2">
+                <p className="text-xs font-bold">{userPhone}</p>
+                <p className="text-[10px] text-neutral-500 leading-none capitalize">{userRole} Acc.</p>
               </div>
+              <button 
+                onClick={handleLogout}
+                className="p-2 ml-2 text-red-500 hover:bg-neutral-100 rounded-xl transition-colors"
+                title="Logout"
+              >
+                <LogOut size={20} />
+              </button>
             </div>
           </div>
         </header>
