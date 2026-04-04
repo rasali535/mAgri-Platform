@@ -3,6 +3,15 @@ import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import OpenAI from 'openai';
+import { sendSMS as atSendSMS, sendWhatsApp } from './whatsapp/africa.js';
+import { processMessage as processWhatsApp } from './whatsapp/bot.js';
+import {
+    notifyOrderConfirmation,
+    notifyCreditApplication,
+    notifyCreditApproved,
+    notifyWhatsApp,
+} from './whatsapp/notify.js';
+
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -42,95 +51,269 @@ app.all(['/ussd-health', '/ussd-health/'], (req, res) => {
 });
 
 // 1. API & USSD Routes (High Priority)
-// Helper function to send SMS via Africa's Talking
+// Helper function to send SMS via Africa's Talking (delegates to whatsapp/africa.js)
 async function sendSMS(to, message) {
-    const username = process.env.AT_USERNAME || 'sandbox';
-    const apiKey = process.env.AT_API_KEY;
-
-    if (!apiKey) {
-        console.log(`[SIMULATED SMS to ${to}]: ${message}`);
-        return;
-    }
-
     try {
-        const response = await fetch('https://api.africastalking.com/version1/messaging', {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/x-www-form-urlencoded',
-                'apiKey': apiKey
-            },
-            body: new URLSearchParams({
-                'username': username,
-                'to': to,
-                'message': message
-            })
-        });
-        const data = await response.json();
-        console.log('SMS sent successfully:', data);
+        await atSendSMS(to, message);
     } catch (error) {
         console.error('Error sending SMS:', error);
     }
 }
 
-// Global USSD Detector - Redirects USSD requests that accidentally hit the root
-app.use((req, res, next) => {
-    const isUSSD = req.body.sessionId || req.query.sessionId || req.body.phoneNumber || req.query.phoneNumber;
-    if (isUSSD && !req.path.startsWith('/api/')) {
-        console.log(`USSD Detection: Routing ${req.method} ${req.path} to /api/ussd`);
-        req.url = '/api/ussd';
+// ── WhatsApp Inbound Webhook ─────────────────────────────────────────────────
+// Africa's Talking will POST here when a WhatsApp message is received.
+// Set this URL in your AT dashboard under Messaging → Channels → WhatsApp → Callback URL.
+app.post(['/api/whatsapp/webhook', '/api/whatsapp/webhook/'], async (req, res) => {
+    try {
+        // AT sends fields via URL-encoded body
+        const from = req.body.from || req.body.From || '';
+        const text = req.body.text || req.body.Text || req.body.message || req.body.Message || '';
+
+        console.log(`[WhatsApp Inbound] from=${from} text=${text}`);
+
+        if (!from) {
+            return res.status(400).send('Missing from field');
+        }
+
+        // Strip the "whatsapp:" prefix if present → clean E.164 number
+        const phone = from.replace(/^whatsapp:/i, '');
+
+        // Process through the FSM bot
+        const reply = await processWhatsApp(phone, text);
+
+        // Send the reply back via WhatsApp
+        await sendWhatsApp(phone, reply);
+
+        res.status(200).send('OK');
+    } catch (err) {
+        console.error('[WhatsApp Webhook Error]', err);
+        res.status(500).send('Internal server error');
     }
-    next();
 });
 
-// USSD & SMS Bridge Configuration
-app.all(['/ussd', '/ussd/'], (req, res) => {
-    const { sessionId, serviceCode, phoneNumber, text = '' } = { ...req.query, ...req.body };
-    console.log(`USSD Handler: ${req.method} ${req.url} - Text: "${text}" from ${phoneNumber}`);
+// ── Manual WhatsApp send / typed notifications ────────────────────────────────
+// Supports both a raw `message` body and structured `type` actions.
+// Body shapes:
+//   { to, message, channel? }                          → raw text
+//   { to, type: "order",          payload: {...} }     → order confirmation
+//   { to, type: "credit-apply",   payload: {...} }     → credit application received
+//   { to, type: "credit-approved",payload: {...} }     → credit approved
+app.post(['/api/whatsapp/send', '/api/whatsapp/send/'], async (req, res) => {
+    try {
+        const { to, message, channel, type, payload } = req.body;
+
+        if (!to) {
+            return res.status(400).json({ error: '"to" is required' });
+        }
+
+        let result;
+
+        if (type === 'order') {
+            result = await notifyOrderConfirmation(to, payload || {});
+        } else if (type === 'credit-apply') {
+            result = await notifyCreditApplication(to, payload || {});
+        } else if (type === 'credit-approved') {
+            result = await notifyCreditApproved(to, payload || {});
+        } else if (message) {
+            if (channel === 'sms') {
+                result = await atSendSMS(to, message);
+            } else {
+                result = await notifyWhatsApp(to, message);
+            }
+        } else {
+            return res.status(400).json({ error: 'Provide either "message" or a valid "type"' });
+        }
+
+        res.json({ success: true, result });
+    } catch (err) {
+        console.error('[WhatsApp Send Error]', err);
+        res.status(500).json({ error: 'Failed to send message' });
+    }
+});
+
+
+// ── USSD & SMS Bridge ─────────────────────────────────────────────────────────
+// Internal helper: AI agronomist answer via Gemini (used in USSD option 4)
+async function askGeminiUSSD(question) {
+    try {
+        const apiKey = process.env.VITE_GEMINI_API_KEY || process.env.GEMINI_API_KEY;
+        if (!apiKey) return 'AI service unavailable. Our team will reply shortly.';
+
+        const resp = await fetch(
+            `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
+            {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    contents: [{
+                        parts: [{
+                            text: `You are mARI, an expert agronomist AI for African smallholder farmers. Answer in 2-3 short SMS-friendly sentences (max 160 chars). Farmer's question: ${question}`
+                        }]
+                    }]
+                })
+            }
+        );
+        if (!resp.ok) return 'AI service busy. Our team will reply via SMS soon.';
+        const data = await resp.json();
+        return (data.candidates?.[0]?.content?.parts?.[0]?.text || 'No answer received.').slice(0, 320);
+    } catch (e) {
+        console.error('[USSD AI Error]', e.message);
+        return 'AI service error. A human agronomist will respond via SMS.';
+    }
+}
+
+// Marketplace listings (shared with WhatsApp bot)
+const LISTINGS = [
+    { type: 'buy',  produce: 'Maize',      qty: '5 Tons',   price: 'Negotiable', location: 'Lusaka, ZM',   user: 'AgriCorp' },
+    { type: 'sell', produce: 'Cocoa Beans', qty: '200 kg',   price: '60 ZMW/kg',  location: 'Abidjan, CI',  user: 'Kouame' },
+    { type: 'buy',  produce: 'Cashew Nuts', qty: '1 Ton',    price: 'Negotiable', location: 'Bouaké, CI',   user: 'Export Co.' },
+    { type: 'sell', produce: 'Tomatoes',    qty: '50 kg',    price: '300 ZMW',    location: 'Ndola, ZM',    user: 'Grace' },
+    { type: 'sell', produce: 'Onions',      qty: '500 kg',   price: '120 ZMW',    location: 'Livingstone',  user: 'Banda' },
+    { type: 'buy',  produce: 'Soybeans',    qty: '10 Tons',  price: 'Negotiable', location: 'Kitwe, ZM',    user: 'Global Feed' },
+];
+
+// USSD handler (supports both /ussd and /api/ussd)
+async function handleUSSD(req, res) {
+    const { phoneNumber, text = '' } = { ...req.query, ...req.body };
+    const parts = (text || '').toString().trim().split('*');
+    const depth = parts.length;
+    const L1 = parts[0]; // Level 1 choice
+    const L2 = parts[1]; // Level 2 choice
+    const L3 = parts.slice(2).join('*'); // Remainder (for free text like agronomist question)
+
+    console.log(`[USSD] ${phoneNumber} text="${text}" depth=${depth}`);
 
     let response = '';
-    const currentText = (text || '').toString();
 
-    if (currentText === '') {
-        response = `CON Welcome to mAgri Platform\n`;
-        response += `1. Check Credit Score\n`;
-        response += `2. Apply for Micro-Credit\n`;
-        response += `3. Check Weather Forecast\n`;
-        response += `4. SMS Agronomist\n`;
-        response += `5. View/Respond to Buyer SMS`;
-    } else if (currentText === '1') {
-        response = `END Your current mAgri Credit Score is 745 (Excellent).`;
-        sendSMS(phoneNumber, "Your current mAgri Credit Score is 745 (Excellent). Keep up the good work!");
-    } else if (currentText === '2') {
-        response = `END Your application for KES 5,000 micro-credit has been received. You will receive an SMS confirmation.`;
-        sendSMS(phoneNumber, "mAgri Alert: Your application for KES 5,000 micro-credit has been received.");
-    } else if (currentText === '3') {
-        response = `END Weather forecast for your region: Sunny with light showers.`;
-        sendSMS(phoneNumber, "mAgri Weather: Sunny with light showers in the evening.");
-    } else if (currentText === '4') {
-        response = `CON Please type your question for the agronomist:`;
-    } else if (currentText.startsWith('4*')) {
-        response = `END Your message has been sent to our expert agronomists.`;
-        sendSMS(phoneNumber, "mAgri: Your question has been routed. Expect a reply shortly.");
-    } else if (currentText === '5') {
-        response = `END You have 1 new message from a Buyer: "Interested in 500kg Maize."`;
-        sendSMS(phoneNumber, "mAgri Buyer Alert: New message received. Dial *384*14032*5# to respond.");
+    // ── Main Menu ─────────────────────────────────────────────────────────────
+    if (L1 === '') {
+        response =
+            `CON Welcome to mAgri Platform\n` +
+            `1. Check Credit Score\n` +
+            `2. Apply for Micro-Credit\n` +
+            `3. Weather Forecast\n` +
+            `4. Ask AI Agronomist\n` +
+            `5. View Marketplace\n` +
+            `6. Buyer Messages`;
+
+    // ── Option 1: Credit Score ────────────────────────────────────────────────
+    } else if (L1 === '1') {
+        response = `END Your mAgri Credit Score is 745/850 (Excellent).\nKeep up responsible trading!`;
+        atSendSMS(phoneNumber, 'mAgri: Your Credit Score is 745/850 (Excellent). Keep trading!');
+
+    // ── Option 2: Apply for Micro-Credit ─────────────────────────────────────
+    } else if (L1 === '2' && depth === 1) {
+        response =
+            `CON Micro-Credit Application\n` +
+            `Enter amount (e.g. 5000):`;
+
+    } else if (L1 === '2' && depth === 2) {
+        const amount = L2 || '0';
+        const num = parseFloat(amount);
+        if (isNaN(num) || num <= 0) {
+            response = `END Invalid amount. Please try again. Dial *384*14032*2#`;
+        } else {
+            response = `CON Apply for ${amount} micro-credit?\n1. Confirm\n2. Cancel`;
+        }
+
+    } else if (L1 === '2' && depth === 3 && L2 && L3 === '1') {
+        const amount = L2;
+        response = `END Application for ${amount} received!\nYou'll get SMS confirmation shortly.`;
+        atSendSMS(phoneNumber, `mAgri: Your micro-credit application for ${amount} has been received. We'll review and confirm within 24hrs.`);
+
+    } else if (L1 === '2' && depth === 3 && L3 === '2') {
+        response = `END Application cancelled. Dial *384*14032# to return.`;
+
+    // ── Option 3: Weather Forecast ────────────────────────────────────────────
+    } else if (L1 === '3') {
+        response =
+            `END Weather Forecast (Your Region):\n` +
+            `Today: Sunny, 28C\n` +
+            `Tomorrow: Light showers, 24C\n` +
+            `Day 3: Partly cloudy, 26C`;
+        atSendSMS(phoneNumber, 'mAgri Weather: Today Sunny 28C | Tomorrow Light showers 24C | Day 3 Cloudy 26C. Powered by Open-Meteo.');
+
+    // ── Option 4: Ask AI Agronomist ───────────────────────────────────────────
+    } else if (L1 === '4' && depth === 1) {
+        response = `CON Ask our AI Agronomist:\nType your farming question:`;
+
+    } else if (L1 === '4' && depth >= 2) {
+        const question = parts.slice(1).join(' ');
+        response = `END Asking AI Agronomist...\nYou will receive the answer via SMS shortly.`;
+        // Fire-and-forget: call Gemini and send SMS reply
+        askGeminiUSSD(question).then(answer => {
+            atSendSMS(phoneNumber, `mAgri AI Agronomist:\n${answer}`);
+        });
+
+    // ── Option 5: Marketplace ─────────────────────────────────────────────────
+    } else if (L1 === '5' && depth === 1) {
+        response =
+            `CON AgriMarket - Latest Listings:\n` +
+            `1. Sellers (available produce)\n` +
+            `2. Buyers (wanted produce)\n` +
+            `3. All listings (SMS)`;
+
+    } else if (L1 === '5' && L2 === '1') {
+        const sellers = LISTINGS.filter(l => l.type === 'sell').slice(0, 3);
+        const lines = sellers.map((l, i) => `${i + 1}. ${l.produce} ${l.qty} @ ${l.price} - ${l.location}`);
+        response = `END Sellers:\n${lines.join('\n')}`;
+        atSendSMS(phoneNumber, `mAgri Sellers:\n${lines.join('\n')}\nContact: ${process.env.WEBAPP_URL}`);
+
+    } else if (L1 === '5' && L2 === '2') {
+        const buyers = LISTINGS.filter(l => l.type === 'buy').slice(0, 3);
+        const lines = buyers.map((l, i) => `${i + 1}. ${l.produce} ${l.qty} ${l.price} - ${l.location}`);
+        response = `END Buyers Wanted:\n${lines.join('\n')}`;
+        atSendSMS(phoneNumber, `mAgri Buyers:\n${lines.join('\n')}\nContact: ${process.env.WEBAPP_URL}`);
+
+    } else if (L1 === '5' && L2 === '3') {
+        const all = LISTINGS.slice(0, 4).map(l => `${l.type.toUpperCase()} ${l.produce} ${l.qty} ${l.location}`);
+        response = `END Full list sent via SMS!`;
+        atSendSMS(phoneNumber, `mAgri All Listings:\n${all.join('\n')}\nMore: ${process.env.WEBAPP_URL}`);
+
+    // ── Option 6: Buyer Messages ──────────────────────────────────────────────
+    } else if (L1 === '6') {
+        response = `END You have 1 new message:\n"Interested in 500kg Maize."\nDial *384*14032*6# to reply.`;
+        atSendSMS(phoneNumber, 'mAgri Buyer Alert: New message received. Visit ' + (process.env.WEBAPP_URL || '') + ' to respond.');
+
+    // ── Fallback ──────────────────────────────────────────────────────────────
     } else {
-        response = `END Invalid option. Please try again.`;
+        response = `END Invalid option. Dial *384*14032# to start again.`;
     }
 
     res.set('Content-Type', 'text/plain');
     res.send(response);
+}
+
+// Register USSD on both paths (AT sends to /ussd, middleware may redirect to /api/ussd)
+app.all(['/ussd', '/ussd/'], handleUSSD);
+app.all(['/api/ussd', '/api/ussd/'], handleUSSD);
+
+// Inbound SMS handler
+app.post(['/api/sms', '/api/sms/'], async (req, res) => {
+    const { from, text } = { ...req.query, ...req.body };
+    const msg = (text || '').trim().toUpperCase();
+    console.log(`[SMS] from=${from} text="${text}"`);
+
+    if (msg === 'HELP' || msg === 'HI' || msg === 'HELLO') {
+        atSendSMS(from, "Welcome to mAgri! Reply: CREDIT, WEATHER, MARKET or dial *384*14032# for the full menu.");
+    } else if (msg === 'CREDIT') {
+        atSendSMS(from, "mAgri Credit Score: 745/850 (Excellent). Dial *384*14032*2# to apply for micro-credit.");
+    } else if (msg === 'WEATHER') {
+        atSendSMS(from, "mAgri Weather: Today Sunny 28C | Tomorrow Light showers 24C | Day 3 Cloudy 26C.");
+    } else if (msg === 'MARKET') {
+        const lines = LISTINGS.slice(0, 3).map(l => `${l.type.toUpperCase()} ${l.produce} - ${l.location}`);
+        atSendSMS(from, `mAgri Market:\n${lines.join('\n')}\nMore: ${process.env.WEBAPP_URL}`);
+    } else if (msg.startsWith('ASK ')) {
+        const question = text.slice(4).trim();
+        askGeminiUSSD(question).then(answer => {
+            atSendSMS(from, `mAgri AI:\n${answer}`);
+        });
+        atSendSMS(from, 'mAgri AI: Processing your question... reply in a moment!');
+    }
+
+    res.status(200).send('OK');
 });
 
-app.post('/api/sms', (req, res) => {
-    const { from, text } = { ...req.query, ...req.body };
-    console.log(`SMS Received: from ${from}: ${text}`);
-    if (text && text.toLowerCase().includes('help')) {
-        sendSMS(from, "Welcome to mAgri Help. Reply with 'CREDIT', 'WEATHER', or 'MARKET'.");
-    }
-    res.status(200).send('SMS Received');
-});
 
 // 2. Static File Serving (Lower Priority)
 app.use(express.static(path.join(__dirname, 'build')));

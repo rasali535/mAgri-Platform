@@ -97,11 +97,12 @@ export default function USSDSettings({ onBack }: { onBack: () => void }) {
               </h3>
               <div className="space-y-4">
                  {[
-                   { code: "*384*14032*1#", action: "Financial Portfolio", color: "bg-indigo-50 text-indigo-700 border-indigo-100" },
-                   { code: "*384*14032*2#", action: "Micro-Credit Flow", color: "bg-emerald-50 text-emerald-700 border-emerald-100" },
-                   { code: "*384*14032*3#", action: "Weather Intelligence", color: "bg-amber-50 text-amber-700 border-amber-100" },
-                   { code: "*384*14032*4#", action: "AI Agronomist Gateway", color: "bg-neutral-900 text-white border-neutral-800" },
-                   { code: "*384*14032*5#", action: "Marketplace Hub", color: "bg-rose-50 text-rose-700 border-rose-100" },
+                   { code: "*384*14032*1#", action: "Check Credit Score",     color: "bg-indigo-50 text-indigo-700 border-indigo-100" },
+                   { code: "*384*14032*2#", action: "Apply Micro-Credit",     color: "bg-emerald-50 text-emerald-700 border-emerald-100" },
+                   { code: "*384*14032*3#", action: "Weather Forecast",       color: "bg-amber-50 text-amber-700 border-amber-100" },
+                   { code: "*384*14032*4#", action: "AI Agronomist (Gemini)", color: "bg-neutral-900 text-white border-neutral-800" },
+                   { code: "*384*14032*5#", action: "Marketplace Hub",        color: "bg-rose-50 text-rose-700 border-rose-100" },
+                   { code: "*384*14032*6#", action: "Buyer Messages",         color: "bg-violet-50 text-violet-700 border-violet-100" },
                  ].map((link, idx) => (
                     <motion.div 
                        key={idx}
@@ -141,7 +142,7 @@ export default function USSDSettings({ onBack }: { onBack: () => void }) {
                        <span className="text-xs font-black uppercase tracking-widest">Gateway Health</span>
                     </div>
                     <p className="text-xs text-emerald-800 font-medium leading-relaxed">
-                       Africa's Talking callback active at <strong>/ussd.php</strong>. All webhook verification checks passing.
+                       Africa's Talking callback active at <strong>/ussd</strong> and <strong>/api/ussd</strong>. AI Agronomist powered by Gemini.
                     </p>
                  </div>
               </div>
