@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Home, Camera, MessageSquare, Wallet, Settings, UserCircle, Store, Briefcase, Menu, X, Bell, Search, LogOut } from 'lucide-react';
+import { 
+  Home, Camera, MessageSquare, Wallet, Settings, UserCircle, Store, 
+  Briefcase, Menu, X, Bell, Search, LogOut, ChevronLeft, ChevronRight 
+} from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import HomeTab from './components/HomeTab';
 import DiagnoseTab from './components/DiagnoseTab';
@@ -25,6 +28,7 @@ export default function App() {
   });
   const [userRole, setUserRole] = useState<'seller' | 'buyer' | 'agronomist'>('seller');
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const { country, setCountry } = useCurrency();
 
   // Sync tab with URL
@@ -67,19 +71,29 @@ export default function App() {
   return (
     <div className="flex h-screen bg-neutral-50 text-neutral-900 font-sans overflow-hidden">
       {/* Sidebar - Desktop */}
-      <aside className={`fixed inset-y-0 left-0 z-50 w-64 bg-emerald-900 text-white transform transition-transform duration-300 ease-in-out md:translate-x-0 md:static md:block ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
-        <div className="flex flex-col h-full">
-          <div className="p-6 flex items-center space-x-3">
-            <div className="w-10 h-10 bg-emerald-500 rounded-xl flex items-center justify-center shadow-lg shadow-emerald-950/20">
+      <aside className={`fixed inset-y-0 left-0 z-50 ${isSidebarCollapsed ? 'w-20' : 'w-64'} bg-emerald-900 text-white transform transition-all duration-300 ease-in-out md:translate-x-0 md:static md:block ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+        <div className="flex flex-col h-full relative">
+          {/* Collapse Toggle Button - Desktop Only */}
+          <button 
+            onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
+            className="hidden md:flex absolute -right-3 top-24 bg-emerald-500 text-white p-1 rounded-full border-2 border-emerald-900 z-50 hover:bg-emerald-400 transition-colors"
+          >
+            {isSidebarCollapsed ? <ChevronRight size={14} /> : <ChevronLeft size={14} />}
+          </button>
+
+          <div className={`p-6 flex items-center ${isSidebarCollapsed ? 'justify-center px-0' : 'space-x-3'}`}>
+            <div className={`flex-shrink-0 w-10 h-10 bg-emerald-500 rounded-xl flex items-center justify-center shadow-lg shadow-emerald-950/20`}>
               <span className="font-bold text-xl">m</span>
             </div>
-            <div>
-              <h1 className="font-bold text-lg leading-tight">mARI Portal</h1>
-              <p className="text-emerald-400 text-[10px] uppercase tracking-widest font-semibold tracking-tighter">mARI Digital Ecosystem</p>
-            </div>
+            {!isSidebarCollapsed && (
+              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="overflow-hidden">
+                <h1 className="font-bold text-lg leading-tight whitespace-nowrap">mARI Portal</h1>
+                <p className="text-emerald-400 text-[10px] uppercase tracking-widest font-semibold tracking-tighter">mARI Digital Ecosystem</p>
+              </motion.div>
+            )}
           </div>
 
-          <nav className="flex-1 px-4 space-y-1 mt-6">
+          <nav className={`flex-1 px-4 space-y-1 mt-6 ${isSidebarCollapsed ? 'px-2' : ''}`}>
             {navItems.map((item) => (
               <button
                 key={item.id}
@@ -87,26 +101,27 @@ export default function App() {
                   setActiveTab(item.id);
                   setIsSidebarOpen(false);
                 }}
-                className={`flex items-center space-x-3 w-full px-4 py-3 rounded-xl transition-all duration-200 ${
+                title={isSidebarCollapsed ? item.label : ''}
+                className={`flex items-center ${isSidebarCollapsed ? 'justify-center' : 'space-x-3'} w-full px-4 py-3 rounded-xl transition-all duration-200 ${
                   activeTab === item.id 
                   ? 'bg-emerald-500 text-white shadow-md shadow-emerald-950/20' 
                   : 'text-emerald-100 hover:bg-emerald-800 hover:text-white'
                 }`}
               >
-                {item.icon}
-                <span className="font-medium">{item.label}</span>
+                <div className="flex-shrink-0">{item.icon}</div>
+                {!isSidebarCollapsed && <span className="font-medium whitespace-nowrap">{item.label}</span>}
               </button>
             ))}
           </nav>
 
           <div className="p-4 mt-auto">
-            <div className="bg-emerald-800/50 rounded-2xl p-4 border border-emerald-700/50">
-              <p className="text-xs text-emerald-300 font-medium mb-2 uppercase tracking-tighter">Current Role</p>
-              <div className="flex items-center justify-between">
-                <span className="font-semibold capitalize text-sm">{userRole}</span>
+            <div className={`bg-emerald-800/50 rounded-2xl border border-emerald-700/50 transition-all ${isSidebarCollapsed ? 'p-2' : 'p-4'}`}>
+              {!isSidebarCollapsed && <p className="text-xs text-emerald-300 font-medium mb-2 uppercase tracking-tighter">Current Role</p>}
+              <div className={`flex items-center ${isSidebarCollapsed ? 'justify-center' : 'justify-between'}`}>
+                {!isSidebarCollapsed && <span className="font-semibold capitalize text-sm">{userRole}</span>}
                 <button 
                   onClick={cycleRole}
-                  className="p-1.5 bg-emerald-500 rounded-lg hover:bg-emerald-400 transition-colors"
+                  className={`p-1.5 bg-emerald-500 rounded-lg hover:bg-emerald-400 transition-colors`}
                   title="Switch Role"
                 >
                   <Briefcase size={14} />

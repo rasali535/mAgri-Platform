@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { 
   Plus, MapPin, ShoppingBag, X, 
   TrendingUp, ArrowRight, Info, User, 
-  Clock, Package, Tag, ChevronRight, CheckCircle2
+  Clock, Package, Tag, ChevronRight, CheckCircle2,
+  Sprout, Calendar, List, Store
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useCurrency } from '../CurrencyContext';
@@ -22,6 +23,10 @@ type Listing = {
   image?: string;
   description?: string;
   timestamp?: string;
+  harvestType?: 'immediate' | 'pre_harvest';
+  growingPeriod?: string;
+  startDate?: string;
+  expectedHarvest?: string;
 };
 
 const CATEGORIES = ['All', 'Grains', 'Vegetables', 'Fruits', 'Livestock', 'Tubers', 'Spices'];
@@ -90,6 +95,16 @@ export default function MarketplaceTab({ userRole }: { userRole: 'seller' | 'buy
       description: 'Non-GMO soybeans for poultry feed production. Regular monthly contract available.',
       timestamp: '3 hours ago'
     },
+    { 
+      id: '7', type: 'sell', produce: 'Sugar Snaps', quantity: '200 kg', basePrice: 450, 
+      location: 'Choma, ZM', country: 'ZM', region: 'Southern', district: 'Choma', user: 'Green Valley', isMine: false,
+      harvestType: 'pre_harvest',
+      growingPeriod: '65 Days',
+      startDate: 'Oct 15, 2026',
+      expectedHarvest: 'Dec 20, 2026',
+      description: 'Pre-order now for the December harvest. High export quality.',
+      timestamp: 'Just now'
+    },
   ]);
 
   const [newListing, setNewListing] = useState({ produce: '', quantity: '', price: '', location: '' });
@@ -139,8 +154,15 @@ export default function MarketplaceTab({ userRole }: { userRole: 'seller' | 'buy
       <AnimatePresence mode="wait">
         {view === 'demands' ? (
           <DemandTrendsView 
-            key="demands" 
             onBack={() => setView('browse')} 
+            formatCurrency={formatCurrency}
+          />
+        ) : view === 'all_supplies' || view === 'all_demands' ? (
+          <AllListingsTable 
+            type={view === 'all_supplies' ? 'sell' : 'buy'}
+            listings={filteredListings}
+            onBack={() => setView('browse')}
+            onView={(l) => setSelectedListing(l)}
             formatCurrency={formatCurrency}
           />
         ) : (
@@ -294,17 +316,20 @@ export default function MarketplaceTab({ userRole }: { userRole: 'seller' | 'buy
                       <div className="w-1.5 h-8 bg-amber-500 rounded-full"></div>
                       <h3 className="text-2xl font-black text-neutral-900">Hot Demands</h3>
                     </div>
-                    <button className="text-amber-600 text-sm font-bold flex items-center gap-1 hover:underline">
+                    <button 
+                      onClick={() => setView('all_demands')}
+                      className="text-amber-600 text-sm font-bold flex items-center gap-1 hover:underline"
+                    >
                       View all <ChevronRight size={16} />
                     </button>
                   </div>
                   <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                     {hotDemands.map(listing => (
                       <ListingCard 
-                        key={listing.id} 
                         listing={listing} 
                         formatCurrency={formatCurrency} 
                         onView={() => setSelectedListing(listing)}
+                        key={listing.id} 
                       />
                     ))}
                   </div>
@@ -318,17 +343,20 @@ export default function MarketplaceTab({ userRole }: { userRole: 'seller' | 'buy
                       <div className="w-1.5 h-8 bg-emerald-500 rounded-full"></div>
                       <h3 className="text-2xl font-black text-neutral-900">Recent Supplies</h3>
                     </div>
-                    <button className="text-emerald-600 text-sm font-bold flex items-center gap-1 hover:underline">
+                    <button 
+                      onClick={() => setView('all_supplies')}
+                      className="text-emerald-600 text-sm font-bold flex items-center gap-1 hover:underline"
+                    >
                       View all <ChevronRight size={16} />
                     </button>
                   </div>
                   <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                     {recentSupplies.map(listing => (
                       <ListingCard 
-                        key={listing.id} 
                         listing={listing} 
                         formatCurrency={formatCurrency} 
                         onView={() => setSelectedListing(listing)}
+                        key={listing.id} 
                       />
                     ))}
                   </div>
@@ -379,22 +407,64 @@ export default function MarketplaceTab({ userRole }: { userRole: 'seller' | 'buy
                 <div className="px-10 pb-10 space-y-8 overflow-y-auto">
                   <div className="space-y-4">
                     <h3 className="text-4xl font-black text-neutral-900 leading-tight">{selectedListing.produce}</h3>
-                    <div className="flex flex-wrap gap-4">
-                      <div className="bg-neutral-50 px-4 py-2 rounded-2xl flex items-center gap-2">
-                        <Tag size={16} className="text-emerald-600" />
-                        <span className="text-sm font-bold text-neutral-700">
-                          {selectedListing.basePrice ? formatCurrency(selectedListing.basePrice) : 'Negotiable'}
-                        </span>
-                      </div>
-                      <div className="bg-neutral-50 px-4 py-2 rounded-2xl flex items-center gap-2">
-                        <Package size={16} className="text-indigo-600" />
-                        <span className="text-sm font-bold text-neutral-700">{selectedListing.quantity}</span>
-                      </div>
-                      <div className="bg-neutral-50 px-4 py-2 rounded-2xl flex items-center gap-2">
-                        <MapPin size={16} className="text-rose-600" />
-                        <span className="text-sm font-bold text-neutral-700">{selectedListing.location}</span>
-                      </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                       <div className="flex flex-col gap-1 px-4 py-3 bg-neutral-50 rounded-2xl">
+                          <span className="text-[10px] font-black text-neutral-400 uppercase tracking-widest">Type</span>
+                          <span className="text-sm font-bold text-neutral-700 flex items-center gap-2">
+                             {selectedListing.type === 'buy' ? <Tag size={14} className="text-amber-600" /> : <Store size={14} className="text-emerald-600" />}
+                             {selectedListing.harvestType === 'pre_harvest' ? 'Future Harvest' : selectedListing.type === 'buy' ? 'Wanted' : 'Available'}
+                          </span>
+                       </div>
+                       <div className="flex flex-col gap-1 px-4 py-3 bg-neutral-50 rounded-2xl">
+                          <span className="text-[10px] font-black text-neutral-400 uppercase tracking-widest">Qty Required</span>
+                          <span className="text-sm font-bold text-neutral-700 flex items-center gap-2">
+                             <Package size={14} className="text-indigo-600" />
+                             {selectedListing.quantity}
+                          </span>
+                       </div>
+                       <div className="flex flex-col gap-1 px-4 py-3 bg-neutral-50 rounded-2xl">
+                          <span className="text-[10px] font-black text-neutral-400 uppercase tracking-widest">1st Asking Price</span>
+                          <span className="text-sm font-bold text-neutral-700 flex items-center gap-2">
+                             <Tag size={14} className="text-emerald-600" />
+                             {selectedListing.basePrice ? formatCurrency(selectedListing.basePrice) : 'Negotiable'}
+                          </span>
+                       </div>
+                       <div className="flex flex-col gap-1 px-4 py-3 bg-neutral-50 rounded-2xl">
+                          <span className="text-[10px] font-black text-neutral-400 uppercase tracking-widest">Delivery Location</span>
+                          <span className="text-sm font-bold text-neutral-700 flex items-center gap-2">
+                             <MapPin size={14} className="text-rose-600" />
+                             {selectedListing.location}
+                          </span>
+                       </div>
                     </div>
+
+                    {selectedListing.harvestType === 'pre_harvest' && (
+                      <div className="p-1 bg-gradient-to-r from-emerald-500/20 to-indigo-500/20 rounded-[2.2rem]">
+                        <div className="bg-white rounded-[2rem] p-6 grid grid-cols-1 md:grid-cols-3 gap-4 border border-emerald-100">
+                          <div className="flex flex-col gap-1">
+                            <span className="text-[9px] font-black text-neutral-400 uppercase tracking-widest">Growing Period</span>
+                            <span className="text-xs font-bold text-neutral-700 flex items-center gap-2">
+                              <Sprout size={14} className="text-emerald-600" />
+                              {selectedListing.growingPeriod}
+                            </span>
+                          </div>
+                          <div className="flex flex-col gap-1">
+                            <span className="text-[9px] font-black text-neutral-400 uppercase tracking-widest">Start Date</span>
+                            <span className="text-xs font-bold text-neutral-700 flex items-center gap-2">
+                              <Calendar size={14} className="text-indigo-600" />
+                              {selectedListing.startDate}
+                            </span>
+                          </div>
+                          <div className="flex flex-col gap-1">
+                            <span className="text-[9px] font-black text-neutral-400 uppercase tracking-widest">Expected Harvest</span>
+                            <span className="text-xs font-bold text-neutral-700 flex items-center gap-2">
+                              <CheckCircle2 size={14} className="text-emerald-600" />
+                              {selectedListing.expectedHarvest}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    )}
                   </div>
 
                   <div className="bg-neutral-50 p-6 rounded-[2rem] space-y-3">
@@ -509,7 +579,12 @@ export default function MarketplaceTab({ userRole }: { userRole: 'seller' | 'buy
   );
 }
 
-function ListingCard({ listing, formatCurrency, onView }: { listing: Listing, formatCurrency: (p: number) => string, onView: () => void }) {
+function ListingCard({ listing, formatCurrency, onView }: { 
+  listing: Listing, 
+  formatCurrency: (p: number) => string, 
+  onView: () => void,
+  key?: React.Key
+}) {
   const isDemand = listing.type === 'buy';
   
   return (
@@ -576,7 +651,99 @@ function FilterButton({ active, onClick, children }: { active: boolean, onClick:
   );
 }
 
-function DemandTrendsView({ onBack, formatCurrency }: { onBack: () => void, formatCurrency: (v: number) => string }) {
+function AllListingsTable({ type, listings, onBack, onView, formatCurrency }: { 
+  type: 'sell' | 'buy', 
+  listings: Listing[], 
+  onBack: () => void, 
+  onView: (l: Listing) => void,
+  formatCurrency: (v: number) => string,
+  key?: React.Key
+}) {
+  const filtered = listings.filter(l => l.type === type);
+
+  return (
+    <motion.div 
+      initial={{ opacity: 0, scale: 0.98 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.98 }}
+      className="space-y-8"
+    >
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-4">
+          <button 
+            onClick={onBack}
+            className="p-3 bg-white border border-neutral-100 rounded-2xl hover:bg-neutral-50 transition-all shadow-sm group"
+          >
+            <ChevronRight size={24} className="rotate-180 group-hover:-translate-x-1 transition-transform" />
+          </button>
+          <div>
+            <h2 className="text-3xl font-black text-neutral-900 tracking-tight">
+              {type === 'sell' ? 'All Supplies' : 'All Demands'}
+            </h2>
+            <p className="text-neutral-500 font-medium italic">Viewing {filtered.length} active listings</p>
+          </div>
+        </div>
+      </div>
+
+      <div className="bg-white rounded-[2.5rem] border border-neutral-100 shadow-xl shadow-neutral-200/40 overflow-hidden">
+        <div className="overflow-x-auto">
+          <table className="w-full text-left">
+            <thead>
+              <tr className="border-b border-neutral-50 bg-neutral-50/50">
+                <th className="px-8 py-6 text-[10px] font-black text-neutral-400 uppercase tracking-[0.2em]">Produce</th>
+                <th className="px-8 py-6 text-[10px] font-black text-neutral-400 uppercase tracking-[0.2em]">Quantity</th>
+                <th className="px-8 py-6 text-[10px] font-black text-neutral-400 uppercase tracking-[0.2em]">Price</th>
+                <th className="px-8 py-6 text-[10px] font-black text-neutral-400 uppercase tracking-[0.2em]">Location</th>
+                <th className="px-8 py-6 text-[10px] font-black text-neutral-400 uppercase tracking-[0.2em]">Posted</th>
+                <th className="px-8 py-6 text-[10px] font-black text-neutral-400 uppercase tracking-[0.2em]">Action</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-neutral-50">
+              {filtered.map((item) => (
+                <tr key={item.id} className="hover:bg-neutral-50/50 transition-colors group">
+                  <td className="px-8 py-6">
+                    <div className="flex items-center gap-3">
+                      <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${type === 'sell' ? 'bg-emerald-50 text-emerald-600' : 'bg-amber-50 text-amber-600'}`}>
+                        <ShoppingBag size={16} />
+                      </div>
+                      <span className="text-base font-black text-neutral-800">{item.produce}</span>
+                      {item.harvestType === 'pre_harvest' && <Sprout size={14} className="text-emerald-500" title="Future Harvest" />}
+                    </div>
+                  </td>
+                  <td className="px-8 py-6 font-bold text-neutral-600">{item.quantity}</td>
+                  <td className="px-8 py-6 font-bold text-neutral-900">
+                    {item.basePrice ? formatCurrency(item.basePrice) : 'Negotiable'}
+                  </td>
+                  <td className="px-8 py-6">
+                    <div className="flex items-center gap-1.5 text-neutral-500 font-medium">
+                      <MapPin size={12} className="text-rose-500" />
+                      <span className="text-xs">{item.district}</span>
+                    </div>
+                  </td>
+                  <td className="px-8 py-6 text-xs text-neutral-400 font-medium">{item.timestamp}</td>
+                  <td className="px-8 py-6">
+                    <button 
+                      onClick={() => onView(item)}
+                      className="p-2 bg-neutral-900 text-white rounded-lg hover:bg-neutral-800 transition-all active:scale-90"
+                    >
+                      <ArrowRight size={14} />
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+function DemandTrendsView({ onBack, formatCurrency }: { 
+  onBack: () => void, 
+  formatCurrency: (v: number) => string,
+  key?: React.Key
+}) {
   const trends = [
     { id: 1, product: 'White Maize', price: 280, avg7d: 245, status: 'low', trend: [240, 242, 250, 245, 260, 275, 280] },
     { id: 2, product: 'Cocoa Beans', price: 6200, avg7d: 6450, status: 'flooded', trend: [6600, 6550, 6500, 6400, 6300, 6250, 6200] },
