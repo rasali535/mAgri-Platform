@@ -14,6 +14,9 @@ type Listing = {
   quantity: string;
   basePrice: number | null;
   location: string;
+  country: string;
+  region: string;
+  district: string;
   user: string;
   isMine: boolean;
   image?: string;
@@ -23,11 +26,29 @@ type Listing = {
 
 const CATEGORIES = ['All', 'Grains', 'Vegetables', 'Fruits', 'Livestock', 'Tubers', 'Spices'];
 
+const LOCATION_DATA: Record<string, Record<string, string[]>> = {
+  'ZM': {
+    'Southern': ['Choma', 'Livingstone', 'Monze', 'Mazabuka'],
+    'Lusaka': ['Lusaka District', 'Chongwe', 'Kafue'],
+    'Copperbelt': ['Kitwe', 'Ndola', 'Chingola'],
+  },
+  'CI': {
+     'Lagunes': ['Abidjan', 'Dabou', 'Grand-Lahou'],
+     'Vallée du Bandama': ['Bouaké', 'Katiola'],
+  },
+  'BW': {
+     'South-East': ['Gaborone', 'Ramotswa'],
+     'North-West': ['Maun', 'Kasane'],
+  }
+};
+
 export default function MarketplaceTab({ userRole }: { userRole: 'seller' | 'buyer' | 'agronomist' }) {
   const [view, setView] = useState<'browse' | 'my_listings'>('browse');
   const [showAddModal, setShowAddModal] = useState(false);
   const [selectedListing, setSelectedListing] = useState<Listing | null>(null);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedCountryCode, setSelectedCountryCode] = useState('All');
+  const [selectedRegion, setSelectedRegion] = useState('All');
+  const [selectedDistrict, setSelectedDistrict] = useState('All');
   const [activeCategory, setActiveCategory] = useState('All');
   const [activeFilter, setActiveFilter] = useState<'all' | 'sell' | 'buy'>('all');
   const { formatCurrency, country } = useCurrency();
@@ -35,37 +56,37 @@ export default function MarketplaceTab({ userRole }: { userRole: 'seller' | 'buy
   const [listings, setListings] = useState<Listing[]>([
     { 
       id: '1', type: 'buy', produce: 'Maize', quantity: '5 Tons', basePrice: null, 
-      location: 'Lusaka, Zambia', user: 'AgriCorp Buyers', isMine: false,
+      location: 'Lusaka, Zambia', country: 'ZM', region: 'Lusaka', district: 'Lusaka District', user: 'AgriCorp Buyers', isMine: false,
       description: 'Looking for high-quality white maize. Moisture content should be below 13.5%. Preference for bulk suppliers.',
       timestamp: '2 hours ago'
     },
     { 
       id: '2', type: 'sell', produce: 'Cocoa Beans', quantity: '200 kg', basePrice: 60, 
-      location: 'Abidjan, CI', user: 'Kouame', isMine: false,
+      location: 'Abidjan, CI', country: 'CI', region: 'Lagunes', district: 'Abidjan', user: 'Kouame', isMine: false,
       description: 'Grade A cocoa beans, sun-dried and fermented. Ready for immediate export or local processing.',
       timestamp: '5 hours ago'
     },
     { 
       id: '3', type: 'buy', produce: 'Cashew Nuts', quantity: '1 Ton', basePrice: null, 
-      location: 'Bouaké, CI', user: 'Export Co.', isMine: false,
+      location: 'Bouaké, CI', country: 'CI', region: 'Vallée du Bandama', district: 'Bouaké', user: 'Export Co.', isMine: false,
       description: 'Raw cashew nuts (RCN) wanted. Minimum KOR 48.',
       timestamp: '1 day ago'
     },
     { 
       id: '4', type: 'sell', produce: 'Tomatoes', quantity: '50 kg', basePrice: 300, 
-      location: 'Ndola, Zambia', user: 'Grace', isMine: false,
+      location: 'Ndola, Zambia', country: 'ZM', region: 'Copperbelt', district: 'Ndola', user: 'Grace', isMine: false,
       description: 'Fresh Roma tomatoes, harvested this morning. Multiple crates available.',
       timestamp: '30 mins ago'
     },
     { 
       id: '5', type: 'sell', produce: 'Onions', quantity: '500 kg', basePrice: 120, 
-      location: 'Livingstone, ZM', user: 'Banda', isMine: false,
+      location: 'Livingstone, ZM', country: 'ZM', region: 'Southern', district: 'Livingstone', user: 'Banda', isMine: false,
       description: 'Red onions available in 10kg bags. Excellent shelf life.',
       timestamp: '6 hours ago'
     },
     { 
       id: '6', type: 'buy', produce: 'Soybeans', quantity: '10 Tons', basePrice: null, 
-      location: 'Kitwe, ZM', user: 'Global Feed Co', isMine: false,
+      location: 'Kitwe, ZM', country: 'ZM', region: 'Copperbelt', district: 'Kitwe', user: 'Global Feed Co', isMine: false,
       description: 'Non-GMO soybeans for poultry feed production. Regular monthly contract available.',
       timestamp: '3 hours ago'
     },
@@ -84,7 +105,10 @@ export default function MarketplaceTab({ userRole }: { userRole: 'seller' | 'buy
       produce: newListing.produce,
       quantity: newListing.quantity,
       basePrice: basePrice,
-      location: newListing.location || 'My Farm',
+      location: `${newListing.location || 'Local District'}, ${country.name}`,
+      country: country.code,
+      region: 'My Region',
+      district: newListing.location || 'Local District',
       user: 'Me',
       isMine: true,
       timestamp: 'Just now'
@@ -98,9 +122,14 @@ export default function MarketplaceTab({ userRole }: { userRole: 'seller' | 'buy
 
   const filteredListings = listings.filter(l => 
     (view === 'my_listings' ? l.isMine : !l.isMine) &&
-    l.produce.toLowerCase().includes(searchQuery.toLowerCase()) &&
+    (selectedCountryCode === 'All' || l.country === selectedCountryCode) &&
+    (selectedRegion === 'All' || l.region === selectedRegion) &&
+    (selectedDistrict === 'All' || l.district === selectedDistrict) &&
     (activeFilter === 'all' || l.type === activeFilter)
   );
+
+  const availableRegions = selectedCountryCode !== 'All' ? Object.keys(LOCATION_DATA[selectedCountryCode] || {}) : [];
+  const availableDistricts = (selectedCountryCode !== 'All' && selectedRegion !== 'All') ? (LOCATION_DATA[selectedCountryCode][selectedRegion] || []) : [];
 
   const hotDemands = filteredListings.filter(l => l.type === 'buy');
   const recentSupplies = filteredListings.filter(l => l.type === 'sell');
@@ -128,11 +157,22 @@ export default function MarketplaceTab({ userRole }: { userRole: 'seller' | 'buy
             <div className="relative z-10">
               <div className="flex items-center gap-2 mb-4 bg-white/20 w-fit px-4 py-1.5 rounded-full backdrop-blur-md">
                 <TrendingUp size={16} />
-                <span className="text-xs font-bold uppercase tracking-wider">Demand Insights</span>
+                <span className="text-xs font-bold uppercase tracking-wider">AI Demand Insights</span>
               </div>
-              <h3 className="text-3xl font-black mb-2">Maize is in High Demand</h3>
-              <p className="text-indigo-100 mb-6 max-w-md font-medium">Demand for White Maize is up <span className="font-black text-white">12%</span> this week in your region. Local buyers are seeking immediate supply.</p>
-              <button className="bg-white text-indigo-700 px-6 py-3 rounded-xl text-sm font-bold flex items-center gap-2 hover:bg-indigo-50 transition-colors">
+              <h3 className="text-3xl font-black mb-2">
+                {selectedDistrict !== 'All' ? `${selectedDistrict} Demand is Up` : 
+                 selectedRegion !== 'All' ? `${selectedRegion} Market Trends` : 
+                 'Maize is in High Demand'}
+              </h3>
+              <p className="text-indigo-100 mb-6 max-w-md font-medium">
+                {selectedDistrict !== 'All' 
+                  ? `In ${selectedDistrict}, demand for White Maize has peaked by 12% this week. Local buyers are ready.` 
+                  : `Trade signals show rising demand in your region. Consider listing your harvest to reach active buyers.`}
+              </p>
+              <button 
+                onClick={() => setActiveFilter('buy')}
+                className="bg-white text-indigo-700 px-6 py-3 rounded-xl text-sm font-bold flex items-center gap-2 hover:bg-indigo-50 transition-colors active:scale-95"
+              >
                 View Demands <ArrowRight size={18} />
               </button>
             </div>
@@ -151,20 +191,66 @@ export default function MarketplaceTab({ userRole }: { userRole: 'seller' | 'buy
         </div>
       </div>
 
-      {/* Control Bar & Categories */}
+      {/* Control Bar & Hierarchical Locations */}
       <div className="space-y-4">
-        <div className="bg-white p-3 rounded-[2rem] shadow-sm border border-neutral-100 flex flex-col lg:flex-row gap-3">
-          <div className="relative flex-1 group">
-            <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-neutral-400 group-focus-within:text-emerald-600 transition-colors" size={20} />
-            <input 
-              type="text" 
-              placeholder="Search produce..." 
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-neutral-50 border-none rounded-[1.25rem] py-4 pl-14 pr-4 text-sm focus:ring-4 focus:ring-emerald-500/10 focus:bg-white transition-all outline-none font-semibold text-neutral-800"
-            />
+        <div className="bg-white p-3 rounded-[2rem] shadow-sm border border-neutral-100 flex flex-col lg:flex-row items-center gap-3">
+          <div className="flex-1 w-full grid grid-cols-1 md:grid-cols-3 gap-3">
+            {/* Country Selector */}
+            <div className="relative">
+              <select 
+                value={selectedCountryCode}
+                onChange={(e) => {
+                  setSelectedCountryCode(e.target.value);
+                  setSelectedRegion('All');
+                  setSelectedDistrict('All');
+                }}
+                className="w-full bg-neutral-50 border-none rounded-2xl py-3.5 pl-4 pr-10 text-xs font-black uppercase tracking-widest outline-none focus:ring-4 focus:ring-emerald-500/10 transition-all appearance-none text-neutral-600"
+              >
+                <option value="All">All Countries</option>
+                <option value="ZM">🇿🇲 Zambia</option>
+                <option value="CI">🇨🇮 Côte d'Ivoire</option>
+                <option value="BW">🇧🇼 Botswana</option>
+              </select>
+              <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-neutral-400">
+                <ChevronRight size={14} className="rotate-90" />
+              </div>
+            </div>
+
+            {/* Region Selector */}
+            <div className={`relative transition-opacity ${selectedCountryCode === 'All' ? 'opacity-30 pointer-events-none' : 'opacity-100'}`}>
+              <select 
+                value={selectedRegion}
+                onChange={(e) => {
+                  setSelectedRegion(e.target.value);
+                  setSelectedDistrict('All');
+                }}
+                className="w-full bg-neutral-50 border-none rounded-2xl py-3.5 pl-4 pr-10 text-xs font-black uppercase tracking-widest outline-none focus:ring-4 focus:ring-emerald-500/10 transition-all appearance-none text-neutral-600"
+              >
+                <option value="All">All Regions</option>
+                {availableRegions.map(reg => <option key={reg} value={reg}>{reg}</option>)}
+              </select>
+              <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-neutral-400">
+                <ChevronRight size={14} className="rotate-90" />
+              </div>
+            </div>
+
+            {/* District Selector */}
+            <div className={`relative transition-opacity ${selectedRegion === 'All' ? 'opacity-30 pointer-events-none' : 'opacity-100'}`}>
+              <select 
+                value={selectedDistrict}
+                onChange={(e) => setSelectedDistrict(e.target.value)}
+                className="w-full bg-neutral-50 border-none rounded-2xl py-3.5 pl-4 pr-10 text-xs font-black uppercase tracking-widest outline-none focus:ring-4 focus:ring-emerald-500/10 transition-all appearance-none text-neutral-600"
+              >
+                <option value="All">All Districts</option>
+                {availableDistricts.map(dist => <option key={dist} value={dist}>{dist}</option>)}
+              </select>
+              <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-neutral-400">
+                <ChevronRight size={14} className="rotate-90" />
+              </div>
+            </div>
           </div>
-          <div className="flex gap-2">
+
+          <div className="flex gap-2 w-full lg:w-auto overflow-x-auto pb-1 lg:pb-0">
              <FilterButton active={activeFilter === 'all'} onClick={() => setActiveFilter('all')}>All</FilterButton>
              <FilterButton active={activeFilter === 'sell'} onClick={() => setActiveFilter('sell')}>Supplies</FilterButton>
              <FilterButton active={activeFilter === 'buy'} onClick={() => setActiveFilter('buy')}>Demands</FilterButton>
@@ -202,7 +288,7 @@ export default function MarketplaceTab({ userRole }: { userRole: 'seller' | 'buy
                 View all <ChevronRight size={16} />
               </button>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
               {hotDemands.map(listing => (
                 <ListingCard 
                   key={listing.id} 
@@ -227,7 +313,7 @@ export default function MarketplaceTab({ userRole }: { userRole: 'seller' | 'buy
                 View all <ChevronRight size={16} />
               </button>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
               {recentSupplies.map(listing => (
                 <ListingCard 
                   key={listing.id} 
@@ -427,45 +513,45 @@ function ListingCard({ listing, formatCurrency, onView }: ListingCardProps) {
       layout
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-white rounded-[2.5rem] p-3 shadow-sm border border-neutral-100 hover:shadow-2xl hover:shadow-neutral-200/50 hover:-translate-y-2 transition-all group flex flex-col overflow-hidden h-full"
+      className="bg-white rounded-[2rem] p-2.5 shadow-sm border border-neutral-100 hover:shadow-2xl hover:shadow-neutral-200/50 hover:-translate-y-2 transition-all group flex flex-col overflow-hidden h-full"
     >
       {/* Visual Header / Icon Area */}
-      <div className={`rounded-[2rem] p-8 flex items-center justify-center mb-5 transition-transform group-hover:scale-105 duration-500 relative ${
+      <div className={`rounded-[1.5rem] p-4 flex items-center justify-center mb-4 transition-transform group-hover:scale-105 duration-500 relative ${
         isDemand ? 'bg-amber-50' : 'bg-emerald-50'
       }`}>
         <div className={`p-4 rounded-3xl ${isDemand ? 'bg-amber-400 text-white shadow-xl shadow-amber-200' : 'bg-emerald-500 text-white shadow-xl shadow-emerald-200'}`}>
-          <ShoppingBag size={40} />
+          <ShoppingBag size={24} />
         </div>
-        <div className="absolute top-4 right-4 bg-white/80 backdrop-blur-md px-3 py-1 rounded-full flex items-center gap-1">
-          <Clock size={10} className="text-neutral-400" />
-          <span className="text-[10px] font-black text-neutral-500 uppercase">{listing.timestamp}</span>
+        <div className="absolute top-3 right-3 bg-white/80 backdrop-blur-md px-2 py-0.5 rounded-full flex items-center gap-1">
+          <Clock size={8} className="text-neutral-400" />
+          <span className="text-[8px] font-black text-neutral-500 uppercase">{listing.timestamp}</span>
         </div>
       </div>
 
-      <div className="px-5 pb-6 flex flex-col flex-1">
+      <div className="px-3 pb-4 flex flex-col flex-1">
         <div className="flex justify-between items-start mb-2">
-          <h3 className="text-2xl font-black text-neutral-800 tracking-tight group-hover:text-emerald-700 transition-colors uppercase">{listing.produce}</h3>
+          <h3 className="text-lg font-black text-neutral-800 tracking-tight group-hover:text-emerald-700 transition-colors uppercase leading-tight line-clamp-1">{listing.produce}</h3>
         </div>
         
-        <div className="flex flex-wrap gap-2 mb-6">
-           <div className="bg-neutral-50 px-3 py-1.5 rounded-xl flex items-center gap-1.5">
-             <Tag size={12} className="text-neutral-400" />
-             <span className="text-[11px] font-black text-neutral-600">
+        <div className="flex flex-wrap gap-1.5 mb-4">
+           <div className="bg-neutral-50 px-2 py-1 rounded-lg flex items-center gap-1">
+             <Tag size={10} className="text-neutral-400" />
+             <span className="text-[9px] font-black text-neutral-600">
                {listing.basePrice ? formatCurrency(listing.basePrice) : 'Negotiable'}
              </span>
            </div>
-           <div className="bg-neutral-50 px-3 py-1.5 rounded-xl flex items-center gap-1.5">
-             <MapPin size={12} className="text-neutral-400" />
-             <span className="text-[11px] font-black text-neutral-600">{listing.location.split(',')[0]}</span>
+           <div className="bg-neutral-50 px-2 py-1 rounded-lg flex items-center gap-1">
+             <MapPin size={10} className="text-neutral-400" />
+             <span className="text-[9px] font-black text-neutral-600">{listing.district}</span>
            </div>
         </div>
 
         <button 
           onClick={onView}
-          className="mt-auto w-full group/btn relative overflow-hidden bg-neutral-900 text-white px-6 py-4 rounded-2xl text-xs font-black uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-neutral-800 transition-all active:scale-95"
+          className="mt-auto w-full group/btn relative overflow-hidden bg-neutral-900 text-white px-4 py-3 rounded-xl text-[9px] font-black uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-neutral-800 transition-all active:scale-95"
         >
           <span className="relative z-10">{isDemand ? 'Supply Market' : 'Purchase Info'}</span>
-          <ArrowRight size={16} className="relative z-10 group-hover/btn:translate-x-1 transition-transform" />
+          <ArrowRight size={12} className="relative z-10 group-hover/btn:translate-x-1 transition-transform" />
         </button>
       </div>
     </motion.div>

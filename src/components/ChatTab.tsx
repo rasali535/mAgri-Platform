@@ -187,7 +187,7 @@ export default function ChatTab() {
           </button>
         </div>
         <p className="text-[10px] text-center text-neutral-400 font-bold mt-4 uppercase tracking-[0.2em] opacity-40">
-          Powered by Brastorne Intelligence • Private & Secure
+          Powered by Advanced AI Advisor • Private & Secure
         </p>
       </div>
     </div>

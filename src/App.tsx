@@ -52,7 +52,7 @@ export default function App() {
             </div>
             <div>
               <h1 className="font-bold text-lg leading-tight">mARI Portal</h1>
-              <p className="text-emerald-400 text-[10px] uppercase tracking-widest font-semibold">Brastorne Group</p>
+              <p className="text-emerald-400 text-[10px] uppercase tracking-widest font-semibold tracking-tighter">mARI Digital Ecosystem</p>
             </div>
           </div>
 
