@@ -1,6 +1,6 @@
 
 
-# mAgri Platform
+# mARI Platform
 
 The mARI Platform connects smallholder farmers to markets, finance, weather, and expert agronomists — accessible on the **web** and through **WhatsApp**.
 
