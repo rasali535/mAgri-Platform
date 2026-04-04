@@ -44,41 +44,19 @@ export async function sendSMS(to, message) {
   return data;
 }
 
+import { sendMetaMessage } from '../whatsappMeta.js';
+
 /**
- * Send a WhatsApp message via Africa's Talking.
- * Requires your AT account to have the WhatsApp channel enabled.
+ * Send a WhatsApp message via Meta Business API.
+ * The signature remains the same so existing callers are not impacted.
  *
  * @param {string} to      Recipient phone number in E.164 format (without "whatsapp:")
  * @param {string} message Text body
  */
 export async function sendWhatsApp(to, message) {
-  const { username, apiKey } = getCredentials();
-
-  if (!apiKey) {
-    console.log(`[SIMULATED WhatsApp → ${to}]: ${message}`);
-    return { simulated: true };
-  }
-
   // Ensure number has no prefix
   const cleanTo = to.replace(/^whatsapp:\+?/, '').replace(/^\+/, '');
   const toE164 = `+${cleanTo}`;
 
-  const res = await fetch(`${AT_BASE}/messaging`, {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/x-www-form-urlencoded',
-      apiKey,
-    },
-    body: new URLSearchParams({
-      username,
-      to: toE164,
-      message,
-      channel: 'whatsapp',
-    }),
-  });
-
-  const data = await res.json();
-  console.log('[AT WhatsApp]', JSON.stringify(data));
-  return data;
+  return await sendMetaMessage(toE164, message);
 }
