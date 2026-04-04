@@ -60,7 +60,53 @@ async function sendSMS(to, message) {
     }
 }
 
-// ── WhatsApp Inbound Webhook ─────────────────────────────────────────────────
+// ── Meta WhatsApp Webhook Verification ──
+app.get('/api/whatsapp/meta', (req, res) => {
+  const mode = req.query['hub.mode'];
+  const token = req.query['hub.verify_token'];
+  const challenge = req.query['hub.challenge'];
+  if (mode === 'subscribe' && token === process.env.META_WEBHOOK_VERIFY_TOKEN) {
+    console.log('✅ Meta webhook verified');
+    res.status(200).send(challenge);
+  } else {
+    res.sendStatus(403);
+  }
+});
+
+// ── Meta WhatsApp Inbound Webhook ──
+app.post('/api/whatsapp/meta', async (req, res) => {
+  const body = req.body;
+  if (body.object) {
+    for (const entry of body.entry) {
+      if (!entry.changes) continue;
+      for (const change of entry.changes) {
+        const value = change.value;
+        if (value.messages) {
+          for (const msg of value.messages) {
+            const from = msg.from;
+            const text = msg.text?.body || '';
+            console.log(`[Meta WhatsApp Inbound] from=${from} text="${text}"`);
+            
+            try {
+              // Same logic as before: process through bot engine
+              const phone = from.replace(/^whatsapp:/i, '').replace(/^\+/, '');
+              const reply = await processWhatsApp(phone, text);
+              // Send back using our wrapped Meta function
+              await sendWhatsApp(phone, reply);
+            } catch (err) {
+              console.error('[Meta Webhook Processing Error]', err);
+            }
+          }
+        }
+      }
+    }
+    res.sendStatus(200);
+  } else {
+    res.sendStatus(404);
+  }
+});
+
+// ── WhatsApp Inbound Webhook (Legacy Africa's Talking) ───────────────────────
 // Africa's Talking will POST here when a WhatsApp message is received.
 // Set this URL in your AT dashboard under Messaging → Channels → WhatsApp → Callback URL.
 app.post(['/api/whatsapp/webhook', '/api/whatsapp/webhook/'], async (req, res) => {
