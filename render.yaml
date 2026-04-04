@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: magri-backend
+    env: node
+    plan: free
+    buildCommand: npm install && npm run build
+    startCommand: node index.js
+    envVars:
+      - key: NODE_VERSION
+        value: "18.18.0"
+      - key: PORT
+        value: "10000"
