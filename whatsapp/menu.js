@@ -1,6 +1,6 @@
 /**
  * whatsapp/menu.js
- * Menu state machine for the mAgri WhatsApp conversational bot.
+ * Menu state machine for the mARI WhatsApp conversational bot.
  *
  * STATES:
  *   WELCOME         → User just started or returned to main menu
@@ -19,7 +19,7 @@
 
 export const MENU = {
   WELCOME: (linked) =>
-    `🌱 *Welcome to mAgri Platform!*\n` +
+    `🌱 *Welcome to mARI Platform!*\n` +
     (linked ? `` : `\n⚠️ Your WhatsApp number is not linked yet. Send *LINK* to connect your account, or continue as a guest.\n`) +
     `\nPlease choose an option:\n` +
     `1️⃣  Marketplace\n` +
@@ -32,7 +32,7 @@ export const MENU = {
     `\nReply with a number (1–7) or type *MENU* anytime to return.`,
 
   AWAIT_LINK:
-    `📧 Please send your mAgri account *email address* to link your WhatsApp number.\n` +
+    `📧 Please send your mARI account *email address* to link your WhatsApp number.\n` +
     `Example: _you@example.com_\n\nType *CANCEL* to go back.`,
 
   LINKED_OK: (email) =>
@@ -48,7 +48,7 @@ export const MENU = {
     `0️⃣  Back to main menu`,
 
   CREDIT_SCORE: (score) =>
-    `📊 Your current mAgri Credit Score is *${score}* (Excellent).\n\nKeep up responsible trading to maintain a high score!\n\nReply *0* to go back.`,
+    `📊 Your current mARI Credit Score is *${score}* (Excellent).\n\nKeep up responsible trading to maintain a high score!\n\nReply *0* to go back.`,
 
   CREDIT_APPLY_PROMPT:
     `💰 How much credit are you applying for?\n` +
@@ -67,7 +67,7 @@ export const MENU = {
     `✅ Your question has been sent to our expert agronomists.\nExpect a reply within 24 hours.\n\nReply *MENU* to return.`,
 
   WEBAPP_LINK: (url) =>
-    `🌐 *Open mAgri Platform*\n\nAccess the full web app here:\n${url}\n\nAll features are available on the website including listings, finance, weather, and more.\n\nReply *MENU* to return.`,
+    `🌐 *Open mARI Platform*\n\nAccess the full web app here:\n${url}\n\nAll features are available on the website including listings, finance, weather, and more.\n\nReply *MENU* to return.`,
 
   ORDERS_PLACEHOLDER:
     `📦 *My Orders*\n\nYou have *no active orders* at the moment.\nVisit the web app to place or manage orders.\n\nReply *MENU* to return.`,
