@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { 
-  Store, Plus, MapPin, Search, ShoppingBag, X, 
+  Plus, MapPin, ShoppingBag, X, 
   TrendingUp, ArrowRight, Info, User, 
-  Clock, Package, Tag, Filter, CheckCircle2, ChevronRight
+  Clock, Package, Tag, ChevronRight, CheckCircle2
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useCurrency } from '../CurrencyContext';
@@ -43,7 +43,7 @@ const LOCATION_DATA: Record<string, Record<string, string[]>> = {
 };
 
 export default function MarketplaceTab({ userRole }: { userRole: 'seller' | 'buyer' | 'agronomist' }) {
-  const [view, setView] = useState<'browse' | 'my_listings'>('browse');
+  const [view, setView] = useState<'browse' | 'my_listings' | 'demands'>('browse');
   const [showAddModal, setShowAddModal] = useState(false);
   const [selectedListing, setSelectedListing] = useState<Listing | null>(null);
   const [selectedCountryCode, setSelectedCountryCode] = useState('All');
@@ -136,204 +136,216 @@ export default function MarketplaceTab({ userRole }: { userRole: 'seller' | 'buy
 
   return (
     <div className="space-y-8 pb-20">
-      {/* Header & Insights */}
-      <div className="space-y-6">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div>
-            <h2 className="text-4xl font-black text-neutral-900 tracking-tight">AgriMarket</h2>
-            <p className="text-neutral-500 font-medium">Real-time trade & product insights.</p>
-          </div>
-          <button 
-            onClick={() => setShowAddModal(true)}
-            className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3.5 px-8 rounded-2xl shadow-xl shadow-emerald-600/20 flex items-center justify-center transition-all active:scale-95 whitespace-nowrap"
+      <AnimatePresence mode="wait">
+        {view === 'demands' ? (
+          <DemandTrendsView 
+            key="demands" 
+            onBack={() => setView('browse')} 
+            formatCurrency={formatCurrency}
+          />
+        ) : (
+          <motion.div 
+            key="market"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 20 }}
+            className="space-y-8"
           >
-            <Plus size={20} className="mr-2" /> List Produce
-          </button>
-        </div>
-
-        {/* Insights Hero */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div className="lg:col-span-2 bg-gradient-to-br from-indigo-600 to-violet-700 rounded-[2.5rem] p-8 text-white relative overflow-hidden shadow-2xl shadow-indigo-200">
-            <div className="relative z-10">
-              <div className="flex items-center gap-2 mb-4 bg-white/20 w-fit px-4 py-1.5 rounded-full backdrop-blur-md">
-                <TrendingUp size={16} />
-                <span className="text-xs font-bold uppercase tracking-wider">AI Demand Insights</span>
+            {/* Header & Insights */}
+            <div className="space-y-6">
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                  <h2 className="text-4xl font-black text-neutral-900 tracking-tight">AgriMarket</h2>
+                  <p className="text-neutral-500 font-medium">Real-time trade & product insights.</p>
+                </div>
+                <button 
+                  onClick={() => setShowAddModal(true)}
+                  className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3.5 px-8 rounded-2xl shadow-xl shadow-emerald-600/20 flex items-center justify-center transition-all active:scale-95 whitespace-nowrap"
+                >
+                  <Plus size={20} className="mr-2" /> List Produce
+                </button>
               </div>
-              <h3 className="text-3xl font-black mb-2">
-                {selectedDistrict !== 'All' ? `${selectedDistrict} Demand is Up` : 
-                 selectedRegion !== 'All' ? `${selectedRegion} Market Trends` : 
-                 'Maize is in High Demand'}
-              </h3>
-              <p className="text-indigo-100 mb-6 max-w-md font-medium">
-                {selectedDistrict !== 'All' 
-                  ? `In ${selectedDistrict}, demand for White Maize has peaked by 12% this week. Local buyers are ready.` 
-                  : `Trade signals show rising demand in your region. Consider listing your harvest to reach active buyers.`}
-              </p>
-              <button 
-                onClick={() => setActiveFilter('buy')}
-                className="bg-white text-indigo-700 px-6 py-3 rounded-xl text-sm font-bold flex items-center gap-2 hover:bg-indigo-50 transition-colors active:scale-95"
-              >
-                View Demands <ArrowRight size={18} />
-              </button>
-            </div>
-            {/* Abstract Background Design */}
-            <div className="absolute top-[-20%] right-[-10%] w-64 h-64 bg-white/10 rounded-full blur-3xl"></div>
-            <div className="absolute bottom-[-10%] left-[-5%] w-48 h-48 bg-indigo-400/20 rounded-full blur-2xl"></div>
-          </div>
-          
-          <div className="bg-amber-50 border border-amber-100 rounded-[2.5rem] p-8 flex flex-col justify-center">
-            <div className="p-3 bg-amber-400 w-fit rounded-2xl text-white mb-4 shadow-lg shadow-amber-200">
-              <Info size={24} />
-            </div>
-            <h4 className="text-xl font-bold text-amber-900 mb-2">Pricing Alert</h4>
-            <p className="text-sm text-amber-700 font-medium italic">"Current market trends suggest Cocoa prices may peak by Friday. Consider listing late-harvest stock now."</p>
-          </div>
-        </div>
-      </div>
 
-      {/* Control Bar & Hierarchical Locations */}
-      <div className="space-y-4">
-        <div className="bg-white p-3 rounded-[2rem] shadow-sm border border-neutral-100 flex flex-col lg:flex-row items-center gap-3">
-          <div className="flex-1 w-full grid grid-cols-1 md:grid-cols-3 gap-3">
-            {/* Country Selector */}
-            <div className="relative">
-              <select 
-                value={selectedCountryCode}
-                onChange={(e) => {
-                  setSelectedCountryCode(e.target.value);
-                  setSelectedRegion('All');
-                  setSelectedDistrict('All');
-                }}
-                className="w-full bg-neutral-50 border-none rounded-2xl py-3.5 pl-4 pr-10 text-xs font-black uppercase tracking-widest outline-none focus:ring-4 focus:ring-emerald-500/10 transition-all appearance-none text-neutral-600"
-              >
-                <option value="All">All Countries</option>
-                <option value="ZM">🇿🇲 Zambia</option>
-                <option value="CI">🇨🇮 Côte d'Ivoire</option>
-                <option value="BW">🇧🇼 Botswana</option>
-              </select>
-              <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-neutral-400">
-                <ChevronRight size={14} className="rotate-90" />
+              {/* Insights Hero */}
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div className="lg:col-span-2 bg-gradient-to-br from-indigo-600 to-violet-700 rounded-[2.5rem] p-8 text-white relative overflow-hidden shadow-2xl shadow-indigo-200">
+                  <div className="relative z-10">
+                    <div className="flex items-center gap-2 mb-4 bg-white/20 w-fit px-4 py-1.5 rounded-full backdrop-blur-md">
+                      <TrendingUp size={16} />
+                      <span className="text-xs font-bold uppercase tracking-wider">AI Demand Insights</span>
+                    </div>
+                    <h3 className="text-3xl font-black mb-2">
+                      {selectedDistrict !== 'All' ? `${selectedDistrict} Demand is Up` : 
+                       selectedRegion !== 'All' ? `${selectedRegion} Market Trends` : 
+                       'Maize is in High Demand'}
+                    </h3>
+                    <p className="text-indigo-100 mb-6 max-w-md font-medium">
+                      {selectedDistrict !== 'All' 
+                        ? `In ${selectedDistrict}, demand for White Maize has peaked by 12% this week. Local buyers are ready.` 
+                        : `Trade signals show rising demand in your region. Consider listing your harvest to reach active buyers.`}
+                    </p>
+                    <button 
+                      onClick={() => setView('demands')}
+                      className="bg-white text-indigo-700 px-6 py-3 rounded-xl text-sm font-bold flex items-center gap-2 hover:bg-indigo-50 transition-colors active:scale-95 shadow-lg shadow-indigo-900/20"
+                    >
+                      View Demands <ArrowRight size={18} />
+                    </button>
+                  </div>
+                  <div className="absolute top-[-20%] right-[-10%] w-64 h-64 bg-white/10 rounded-full blur-3xl"></div>
+                  <div className="absolute bottom-[-10%] left-[-5%] w-48 h-48 bg-indigo-400/20 rounded-full blur-2xl"></div>
+                </div>
+                
+                <div className="bg-amber-50 border border-amber-100 rounded-[2.5rem] p-8 flex flex-col justify-center">
+                  <div className="p-3 bg-amber-400 w-fit rounded-2xl text-white mb-4 shadow-lg shadow-amber-200">
+                    <Info size={24} />
+                  </div>
+                  <h4 className="text-xl font-bold text-amber-900 mb-2">Pricing Alert</h4>
+                  <p className="text-sm text-amber-700 font-medium italic">"Current market trends suggest Cocoa prices may peak by Friday. Consider listing late-harvest stock now."</p>
+                </div>
               </div>
             </div>
 
-            {/* Region Selector */}
-            <div className={`relative transition-opacity ${selectedCountryCode === 'All' ? 'opacity-30 pointer-events-none' : 'opacity-100'}`}>
-              <select 
-                value={selectedRegion}
-                onChange={(e) => {
-                  setSelectedRegion(e.target.value);
-                  setSelectedDistrict('All');
-                }}
-                className="w-full bg-neutral-50 border-none rounded-2xl py-3.5 pl-4 pr-10 text-xs font-black uppercase tracking-widest outline-none focus:ring-4 focus:ring-emerald-500/10 transition-all appearance-none text-neutral-600"
-              >
-                <option value="All">All Regions</option>
-                {availableRegions.map(reg => <option key={reg} value={reg}>{reg}</option>)}
-              </select>
-              <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-neutral-400">
-                <ChevronRight size={14} className="rotate-90" />
+            {/* Control Bar & Hierarchical Locations */}
+            <div className="space-y-4">
+              <div className="bg-white p-3 rounded-[2rem] shadow-sm border border-neutral-100 flex flex-col lg:flex-row items-center gap-3">
+                <div className="flex-1 w-full grid grid-cols-1 md:grid-cols-3 gap-3">
+                  <div className="relative">
+                    <select 
+                      value={selectedCountryCode}
+                      onChange={(e) => {
+                        setSelectedCountryCode(e.target.value);
+                        setSelectedRegion('All');
+                        setSelectedDistrict('All');
+                      }}
+                      className="w-full bg-neutral-50 border-none rounded-2xl py-3.5 pl-4 pr-10 text-xs font-black uppercase tracking-widest outline-none focus:ring-4 focus:ring-emerald-500/10 transition-all appearance-none text-neutral-600"
+                    >
+                      <option value="All">All Countries</option>
+                      <option value="ZM">🇿🇲 Zambia</option>
+                      <option value="CI">🇨🇮 Côte d'Ivoire</option>
+                      <option value="BW">🇧🇼 Botswana</option>
+                    </select>
+                    <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-neutral-400">
+                      <ChevronRight size={14} className="rotate-90" />
+                    </div>
+                  </div>
+
+                  <div className={`relative transition-opacity ${selectedCountryCode === 'All' ? 'opacity-30 pointer-events-none' : 'opacity-100'}`}>
+                    <select 
+                      value={selectedRegion}
+                      onChange={(e) => {
+                        setSelectedRegion(e.target.value);
+                        setSelectedDistrict('All');
+                      }}
+                      className="w-full bg-neutral-50 border-none rounded-2xl py-3.5 pl-4 pr-10 text-xs font-black uppercase tracking-widest outline-none focus:ring-4 focus:ring-emerald-500/10 transition-all appearance-none text-neutral-600"
+                    >
+                      <option value="All">All Regions</option>
+                      {availableRegions.map(reg => <option key={reg} value={reg}>{reg}</option>)}
+                    </select>
+                    <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-neutral-400">
+                      <ChevronRight size={14} className="rotate-90" />
+                    </div>
+                  </div>
+
+                  <div className={`relative transition-opacity ${selectedRegion === 'All' ? 'opacity-30 pointer-events-none' : 'opacity-100'}`}>
+                    <select 
+                      value={selectedDistrict}
+                      onChange={(e) => setSelectedDistrict(e.target.value)}
+                      className="w-full bg-neutral-50 border-none rounded-2xl py-3.5 pl-4 pr-10 text-xs font-black uppercase tracking-widest outline-none focus:ring-4 focus:ring-emerald-500/10 transition-all appearance-none text-neutral-600"
+                    >
+                      <option value="All">All Districts</option>
+                      {availableDistricts.map(dist => <option key={dist} value={dist}>{dist}</option>)}
+                    </select>
+                    <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-neutral-400">
+                      <ChevronRight size={14} className="rotate-90" />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex gap-2 w-full lg:w-auto overflow-x-auto pb-1 lg:pb-0">
+                   <FilterButton active={activeFilter === 'all'} onClick={() => setActiveFilter('all')}>All</FilterButton>
+                   <FilterButton active={activeFilter === 'sell'} onClick={() => setActiveFilter('sell')}>Supplies</FilterButton>
+                   <FilterButton active={activeFilter === 'buy'} onClick={() => setActiveFilter('buy')}>Demands</FilterButton>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-3 overflow-x-auto pb-4 scrollbar-hide">
+                {CATEGORIES.map(cat => (
+                  <button
+                    key={cat}
+                    onClick={() => setActiveCategory(cat)}
+                    className={`px-6 py-2 rounded-full text-sm font-bold whitespace-nowrap transition-all ${
+                      activeCategory === cat 
+                      ? 'bg-neutral-900 text-white shadow-lg shadow-neutral-200' 
+                      : 'bg-white border border-neutral-100 text-neutral-500 hover:border-neutral-300'
+                    }`}
+                  >
+                    {cat}
+                  </button>
+                ))}
               </div>
             </div>
 
-            {/* District Selector */}
-            <div className={`relative transition-opacity ${selectedRegion === 'All' ? 'opacity-30 pointer-events-none' : 'opacity-100'}`}>
-              <select 
-                value={selectedDistrict}
-                onChange={(e) => setSelectedDistrict(e.target.value)}
-                className="w-full bg-neutral-50 border-none rounded-2xl py-3.5 pl-4 pr-10 text-xs font-black uppercase tracking-widest outline-none focus:ring-4 focus:ring-emerald-500/10 transition-all appearance-none text-neutral-600"
-              >
-                <option value="All">All Districts</option>
-                {availableDistricts.map(dist => <option key={dist} value={dist}>{dist}</option>)}
-              </select>
-              <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-neutral-400">
-                <ChevronRight size={14} className="rotate-90" />
-              </div>
-            </div>
-          </div>
+            {/* Themed Sections */}
+            <div className="space-y-12">
+              {hotDemands.length > 0 && (
+                <section className="space-y-6">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="w-1.5 h-8 bg-amber-500 rounded-full"></div>
+                      <h3 className="text-2xl font-black text-neutral-900">Hot Demands</h3>
+                    </div>
+                    <button className="text-amber-600 text-sm font-bold flex items-center gap-1 hover:underline">
+                      View all <ChevronRight size={16} />
+                    </button>
+                  </div>
+                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    {hotDemands.map(listing => (
+                      <ListingCard 
+                        key={listing.id} 
+                        listing={listing} 
+                        formatCurrency={formatCurrency} 
+                        onView={() => setSelectedListing(listing)}
+                      />
+                    ))}
+                  </div>
+                </section>
+              )}
 
-          <div className="flex gap-2 w-full lg:w-auto overflow-x-auto pb-1 lg:pb-0">
-             <FilterButton active={activeFilter === 'all'} onClick={() => setActiveFilter('all')}>All</FilterButton>
-             <FilterButton active={activeFilter === 'sell'} onClick={() => setActiveFilter('sell')}>Supplies</FilterButton>
-             <FilterButton active={activeFilter === 'buy'} onClick={() => setActiveFilter('buy')}>Demands</FilterButton>
-          </div>
-        </div>
-
-        <div className="flex items-center gap-3 overflow-x-auto pb-4 scrollbar-hide">
-          {CATEGORIES.map(cat => (
-            <button
-              key={cat}
-              onClick={() => setActiveCategory(cat)}
-              className={`px-6 py-2 rounded-full text-sm font-bold whitespace-nowrap transition-all ${
-                activeCategory === cat 
-                ? 'bg-neutral-900 text-white shadow-lg shadow-neutral-200' 
-                : 'bg-white border border-neutral-100 text-neutral-500 hover:border-neutral-300'
-              }`}
-            >
-              {cat}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* Themed Sections */}
-      <div className="space-y-12">
-        {/* Hot Demands */}
-        {hotDemands.length > 0 && (
-          <section className="space-y-6">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="w-1.5 h-8 bg-amber-500 rounded-full"></div>
-                <h3 className="text-2xl font-black text-neutral-900">Hot Demands</h3>
-              </div>
-              <button className="text-amber-600 text-sm font-bold flex items-center gap-1 hover:underline">
-                View all <ChevronRight size={16} />
-              </button>
+              {recentSupplies.length > 0 && (
+                <section className="space-y-6">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="w-1.5 h-8 bg-emerald-500 rounded-full"></div>
+                      <h3 className="text-2xl font-black text-neutral-900">Recent Supplies</h3>
+                    </div>
+                    <button className="text-emerald-600 text-sm font-bold flex items-center gap-1 hover:underline">
+                      View all <ChevronRight size={16} />
+                    </button>
+                  </div>
+                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    {recentSupplies.map(listing => (
+                      <ListingCard 
+                        key={listing.id} 
+                        listing={listing} 
+                        formatCurrency={formatCurrency} 
+                        onView={() => setSelectedListing(listing)}
+                      />
+                    ))}
+                  </div>
+                </section>
+              )}
+              
+              {filteredListings.length === 0 && (
+                 <div className="py-20 flex flex-col items-center justify-center text-neutral-400 bg-white rounded-[3rem] border-2 border-dashed border-neutral-100">
+                   <ShoppingBag size={64} strokeWidth={1} className="mb-4 opacity-20" />
+                   <p className="text-lg font-bold">No markets found</p>
+                   <p className="text-sm">Try adjusting your search or filters.</p>
+                 </div>
+              )}
             </div>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-              {hotDemands.map(listing => (
-                <ListingCard 
-                  key={listing.id} 
-                  listing={listing} 
-                  formatCurrency={formatCurrency} 
-                  onView={() => setSelectedListing(listing)}
-                />
-              ))}
-            </div>
-          </section>
+          </motion.div>
         )}
-
-        {/* New Supplies */}
-        {recentSupplies.length > 0 && (
-          <section className="space-y-6">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="w-1.5 h-8 bg-emerald-500 rounded-full"></div>
-                <h3 className="text-2xl font-black text-neutral-900">Recent Supplies</h3>
-              </div>
-              <button className="text-emerald-600 text-sm font-bold flex items-center gap-1 hover:underline">
-                View all <ChevronRight size={16} />
-              </button>
-            </div>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-              {recentSupplies.map(listing => (
-                <ListingCard 
-                  key={listing.id} 
-                  listing={listing} 
-                  formatCurrency={formatCurrency} 
-                  onView={() => setSelectedListing(listing)}
-                />
-              ))}
-            </div>
-          </section>
-        )}
-        
-        {filteredListings.length === 0 && (
-           <div className="py-20 flex flex-col items-center justify-center text-neutral-400 bg-white rounded-[3rem] border-2 border-dashed border-neutral-100">
-             <ShoppingBag size={64} strokeWidth={1} className="mb-4 opacity-20" />
-             <p className="text-lg font-bold">No markets found</p>
-             <p className="text-sm">Try adjusting your search or filters.</p>
-           </div>
-        )}
-      </div>
+      </AnimatePresence>
 
       {/* Quick View Modal */}
       <AnimatePresence>
@@ -409,8 +421,7 @@ export default function MarketplaceTab({ userRole }: { userRole: 'seller' | 'buy
                       </button>
                     )}
                   </div>
-
-                  <p className="text-center text-xs text-neutral-400 font-medium">Your contact details are hidden from public view until you choose to reveal them.</p>
+                  <p className="text-center text-xs text-neutral-400 font-medium pb-4">Your contact details are hidden from public view until you choose to reveal them.</p>
                 </div>
               </motion.div>
             </div>
@@ -418,7 +429,7 @@ export default function MarketplaceTab({ userRole }: { userRole: 'seller' | 'buy
         )}
       </AnimatePresence>
 
-      {/* Add Listing Modal (Keeping simplified but updated styling) */}
+      {/* Add Listing Modal */}
       <AnimatePresence>
         {showAddModal && (
           <>
@@ -498,14 +509,7 @@ export default function MarketplaceTab({ userRole }: { userRole: 'seller' | 'buy
   );
 }
 
-interface ListingCardProps {
-  key?: React.Key;
-  listing: Listing;
-  formatCurrency: (p: number) => string;
-  onView: () => void;
-}
-
-function ListingCard({ listing, formatCurrency, onView }: ListingCardProps) {
+function ListingCard({ listing, formatCurrency, onView }: { listing: Listing, formatCurrency: (p: number) => string, onView: () => void }) {
   const isDemand = listing.type === 'buy';
   
   return (
@@ -515,7 +519,6 @@ function ListingCard({ listing, formatCurrency, onView }: ListingCardProps) {
       animate={{ opacity: 1, y: 0 }}
       className="bg-white rounded-[2rem] p-2.5 shadow-sm border border-neutral-100 hover:shadow-2xl hover:shadow-neutral-200/50 hover:-translate-y-2 transition-all group flex flex-col overflow-hidden h-full"
     >
-      {/* Visual Header / Icon Area */}
       <div className={`rounded-[1.5rem] p-4 flex items-center justify-center mb-4 transition-transform group-hover:scale-105 duration-500 relative ${
         isDemand ? 'bg-amber-50' : 'bg-emerald-50'
       }`}>
@@ -573,3 +576,136 @@ function FilterButton({ active, onClick, children }: { active: boolean, onClick:
   );
 }
 
+function DemandTrendsView({ onBack, formatCurrency }: { onBack: () => void, formatCurrency: (v: number) => string }) {
+  const trends = [
+    { id: 1, product: 'White Maize', price: 280, avg7d: 245, status: 'low', trend: [240, 242, 250, 245, 260, 275, 280] },
+    { id: 2, product: 'Cocoa Beans', price: 6200, avg7d: 6450, status: 'flooded', trend: [6600, 6550, 6500, 6400, 6300, 6250, 6200] },
+    { id: 3, product: 'Cashew Nuts', price: 1250, avg7d: 1240, status: 'available', trend: [1230, 1235, 1245, 1240, 1242, 1255, 1250] },
+    { id: 4, product: 'Soybeans', price: 410, avg7d: 380, status: 'low', trend: [370, 375, 385, 380, 395, 405, 410] },
+    { id: 5, product: 'Roma Tomatoes', price: 45, avg7d: 85, status: 'flooded', trend: [95, 90, 80, 70, 60, 50, 45] },
+  ];
+
+  return (
+    <motion.div 
+      initial={{ opacity: 0, x: 20 }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: -20 }}
+      className="space-y-8"
+    >
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-4">
+          <button 
+            onClick={onBack}
+            className="p-3 bg-white border border-neutral-100 rounded-2xl hover:bg-neutral-50 transition-all shadow-sm group"
+          >
+            <ChevronRight size={24} className="rotate-180 group-hover:-translate-x-1 transition-transform" />
+          </button>
+          <div>
+            <h2 className="text-3xl font-black text-neutral-900 tracking-tight">Market Demand Analysis</h2>
+            <p className="text-neutral-500 font-medium italic">7-Day strategic trade insights</p>
+          </div>
+        </div>
+        <div className="bg-indigo-50 border border-indigo-100 px-6 py-3 rounded-2xl hidden md:flex items-center gap-2">
+          <div className="w-2 h-2 bg-indigo-500 rounded-full animate-pulse"></div>
+          <span className="text-xs font-black text-indigo-700 uppercase tracking-widest">Live AI Monitoring</span>
+        </div>
+      </div>
+
+      <div className="bg-white rounded-[2.5rem] border border-neutral-100 shadow-xl shadow-neutral-200/40 overflow-hidden">
+        <div className="overflow-x-auto">
+          <table className="w-full text-left">
+            <thead>
+              <tr className="border-b border-neutral-50 bg-neutral-50/50">
+                <th className="px-8 py-6 text-[10px] font-black text-neutral-400 uppercase tracking-[0.2em]">Product</th>
+                <th className="px-8 py-6 text-[10px] font-black text-neutral-400 uppercase tracking-[0.2em]">Current Price</th>
+                <th className="px-8 py-6 text-[10px] font-black text-neutral-400 uppercase tracking-[0.2em]">7-Day Avg</th>
+                <th className="px-8 py-6 text-[10px] font-black text-neutral-400 uppercase tracking-[0.2em]">Trends</th>
+                <th className="px-8 py-6 text-[10px] font-black text-neutral-400 uppercase tracking-[0.2em]">Sentiment</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-neutral-50">
+              {trends.map((item) => (
+                <tr key={item.id} className="hover:bg-neutral-50/50 transition-colors group">
+                  <td className="px-8 py-6">
+                    <div className="flex items-center gap-4">
+                      <div className="w-10 h-10 bg-indigo-50 rounded-xl flex items-center justify-center text-indigo-600 group-hover:scale-110 transition-transform">
+                        <Package size={20} />
+                      </div>
+                      <span className="text-base font-black text-neutral-800">{item.product}</span>
+                    </div>
+                  </td>
+                  <td className="px-8 py-6 font-bold text-neutral-900">{formatCurrency(item.price)}</td>
+                  <td className="px-8 py-6 font-bold text-neutral-500">{formatCurrency(item.avg7d)}</td>
+                  <td className="px-8 py-6">
+                    <Sparkline data={item.trend} color={item.status === 'flooded' ? '#fb7185' : '#10b981'} />
+                  </td>
+                  <td className="px-8 py-6">
+                    <StatusBadge status={item.status as any} />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="bg-emerald-50 rounded-3xl p-6 border border-emerald-100">
+           <p className="text-[10px] font-black text-emerald-600 uppercase tracking-widest mb-2">Traders Recommendation</p>
+           <p className="text-sm font-bold text-emerald-900 leading-relaxed">Consider selling Maize and Soybeans today. Prices are 10%+ above 7-day averages.</p>
+        </div>
+        <div className="bg-indigo-50 rounded-3xl p-6 border border-indigo-100">
+           <p className="text-[10px] font-black text-indigo-600 uppercase tracking-widest mb-2">AI Forecasting</p>
+           <p className="text-sm font-bold text-indigo-900 leading-relaxed">Tomatoes are experiencing a local flood. Hold supply if possible; demand expected to rebound in 3 days.</p>
+        </div>
+        <button 
+          onClick={onBack}
+          className="bg-neutral-900 text-white rounded-3xl p-6 font-black uppercase tracking-widest text-xs flex items-center justify-center gap-3 hover:bg-neutral-800 transition-all group"
+        >
+          Return to Marketplace <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+        </button>
+      </div>
+    </motion.div>
+  );
+}
+
+function Sparkline({ data, color }: { data: number[], color: string }) {
+  const min = Math.min(...data);
+  const max = Math.max(...data);
+  const range = max - min || 1;
+  const width = 100;
+  const height = 30;
+  
+  const points = data.map((val, i) => {
+    const x = (i / (data.length - 1)) * width;
+    const y = height - ((val - min) / range) * height;
+    return `${x},${y}`;
+  }).join(' ');
+
+  return (
+    <svg width={width} height={height} className="overflow-visible">
+      <polyline
+        fill="none"
+        stroke={color}
+        strokeWidth="2.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        points={points}
+      />
+    </svg>
+  );
+}
+
+function StatusBadge({ status }: { status: 'flooded' | 'low' | 'available' }) {
+  const configs = {
+    flooded: { color: 'bg-rose-50 text-rose-600 border-rose-100', label: 'Flooded' },
+    low: { color: 'bg-amber-50 text-amber-600 border-amber-100', label: 'High Demand' },
+    available: { color: 'bg-emerald-50 text-emerald-600 border-emerald-100', label: 'Stable' }
+  };
+  const config = configs[status];
+  return (
+    <span className={`px-3 py-1 rounded-lg text-[9px] font-black uppercase tracking-widest border ${config.color}`}>
+      {config.label}
+    </span>
+  );
+}
