@@ -12,6 +12,7 @@
  *   WEATHER         → Weather forecast
  *   AGRONOMIST      → Asking agronomist a question
  *   AGRONOMIST_Q    → Waiting for the user's question
+ *   UPLOAD_PENDING  → Waiting for the farmer to send a crop image for a listing
  */
 
 // ─── Static text blocks ────────────────────────────────────────────────────────
@@ -27,7 +28,8 @@ export const MENU = {
     `4️⃣  Weather Forecast\n` +
     `5️⃣  Ask an Agronomist\n` +
     `6️⃣  Open Web App 🔗\n` +
-    `\nReply with a number (1–6) or type *MENU* anytime to return.`,
+    `7️⃣  Add a Crop Listing 📸\n` +
+    `\nReply with a number (1–7) or type *MENU* anytime to return.`,
 
   AWAIT_LINK:
     `📧 Please send your mAgri account *email address* to link your WhatsApp number.\n` +
