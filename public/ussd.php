@@ -1,6 +1,6 @@
 <?php
 /**
- * mAgri Platform - Complete USSD Gateway Handler
+ * mARI Platform - Complete USSD Gateway Handler
  * 
  * Mirrors the full website functionality via USSD.
  * Africa's Talking callback URL: https://navajowhite-monkey-252201.hostingersite.com/ussd.php
@@ -83,10 +83,10 @@ if ($depth >= 3 && $levels[0] === '4' && $levels[1] === '5') {
     $question = end($levels);
     $aiAnswer = callOpenAI("User follow-up: " . $question, $userLang);
     $response = "CON AI Agronomist:\n\n$aiAnswer\n\n0. Back";
-    
+
     // Log this greedy response
     file_put_contents(__DIR__ . '/ussd_log.txt', date('Y-m-d H:i:s') . " | GREEDY AI RESPONSE for $userLang\n", FILE_APPEND);
-    
+
     // Translate if needed
     if ($userLang !== 'English') {
         $response = translateMenu($response, $userLang);
@@ -109,7 +109,7 @@ if (file_exists($prefs_file)) {
             $userLang = $pref['lang'] ?? 'English';
             $userRole = $pref['role'] ?? 'Seller';
         } else {
-            $userLang = (string)$pref;
+            $userLang = (string) $pref;
         }
     }
 } else {
@@ -534,7 +534,7 @@ elseif ($depth === 2) {
             // Switch Role
             global $prefs_data, $prefs_file, $phoneNumber, $userLang, $userRole;
             $newRole = ($userRole === 'Seller' ? 'Buyer' : 'Seller');
-            
+
             $prefs_data[$phoneNumber] = [
                 'lang' => $userLang,
                 'role' => $newRole
@@ -566,7 +566,7 @@ elseif ($depth === 2) {
             } else {
                 chmod($prefs_file, 0666); // Ensure it stays writable
             }
-            
+
             $userLang = $newLang; // Update global $userLang for immediate translation in this request
 
             // Redirect to Main Menu
@@ -584,8 +584,7 @@ elseif ($depth === 2) {
         } else {
             $response = "CON Invalid option.\n\n0. Back";
         }
-    }
- else {
+    } else {
         $response = "CON Invalid option.\n\n0. Back";
     }
 }
@@ -934,8 +933,8 @@ elseif ($depth === 5) {
         $response .= "Quantity: $qty\n";
         $response .= "Price: $price\n\n";
         $response .= ($isBuyer ? "Sellers" : "Buyers") . " in your area have been notified.";
-        
-        sendSMS($phoneNumber, "mAgri Market: Your " . ($isBuyer ? "buying request" : "sale listing") . " for $name ($qty) at $price is now LIVE. Ref: PUB-" . rand(1000,9999));
+
+        sendSMS($phoneNumber, "mAgri Market: Your " . ($isBuyer ? "buying request" : "sale listing") . " for $name ($qty) at $price is now LIVE. Ref: PUB-" . rand(1000, 9999));
     } else {
         $response = "END Thank you for using mAgri Platform!\n\nDial *384*14032# again anytime.";
     }
@@ -998,7 +997,7 @@ function getGeminiKey()
             }
         }
     }
-    
+
     // Hardcoded fallback for reliability on Hostinger
     return "AIzaSyCMIybxAdo-o0cQOC0AgvzLN7Ja4ofBNN4";
 }

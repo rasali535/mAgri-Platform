@@ -4,7 +4,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import OpenAI from 'openai';
 import { sendSMS as atSendSMS, sendWhatsApp } from './whatsapp/africa.js';
-import { processMessage as processWhatsApp } from './whatsapp/bot.js';
+import { processMessage as processWhatsApp, processImage } from './whatsapp/bot.js';
 import {
     notifyOrderConfirmation,
     notifyCreditApplication,
@@ -84,15 +84,28 @@ app.post('/api/whatsapp/meta', async (req, res) => {
         if (value.messages) {
           for (const msg of value.messages) {
             const from = msg.from;
-            const text = msg.text?.body || '';
-            console.log(`[Meta WhatsApp Inbound] from=${from} text="${text}"`);
-            
+            const phone = from.replace(/^whatsapp:/i, '').replace(/^\+/, '');
+            console.log(`[Meta WhatsApp Inbound] from=${from} type=${msg.type}`);
+
             try {
-              // Same logic as before: process through bot engine
-              const phone = from.replace(/^whatsapp:/i, '').replace(/^\+/, '');
-              const reply = await processWhatsApp(phone, text);
-              // Send back using our wrapped Meta function
+              let reply;
+
+              if (msg.type === 'image' && msg.image?.id) {
+                // ─ Farmer sent an image ─ process via UPLOAD_PENDING state machine
+                const mediaId = msg.image.id;
+                console.log(`[Meta Webhook] Image mediaId=${mediaId} from=${phone}`);
+                reply = await processImage(phone, mediaId);
+
+              } else {
+                // ─ Text message ─ process through FSM
+                const text = msg.text?.body || '';
+                console.log(`[Meta WhatsApp Inbound] text="${text}"`);
+                reply = await processWhatsApp(phone, text);
+              }
+
+              // Send the reply back via Meta Graph API
               await sendWhatsApp(phone, reply);
+
             } catch (err) {
               console.error('[Meta Webhook Processing Error]', err);
             }
