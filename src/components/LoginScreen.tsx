@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { MapPin, Phone, User, Briefcase, Store } from 'lucide-react';
 import { motion } from 'motion/react';
+import { supabase } from '../supabaseClient';
 
 type Role = 'seller' | 'buyer' | 'agronomist';
 
@@ -14,7 +15,7 @@ export default function LoginScreen({ onLogin }: LoginScreenProps) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!phone || phone.length < 8) {
       setError('Please enter a valid phone number');
@@ -24,25 +25,31 @@ export default function LoginScreen({ onLogin }: LoginScreenProps) {
     setLoading(true);
     setError('');
 
+    const proceedLogin = async (lat: number | null, lng: number | null) => {
+      try {
+        await supabase.from('webapp_logins').insert([
+          { phone, role, lat, lng }
+        ]);
+      } catch (err) {
+        console.error('Failed to save login to Supabase', err);
+      }
+      onLogin(phone, role, lat && lng ? { lat, lng } : null);
+    };
+
     // Request location
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          onLogin(phone, role, {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
-          });
+          proceedLogin(position.coords.latitude, position.coords.longitude);
         },
         (err) => {
           console.warn('Geolocation error:', err);
-          // Proceed without location if they deny it
-          onLogin(phone, role, null);
+          proceedLogin(null, null);
         },
         { timeout: 10000 }
       );
     } else {
-      // Geolocation not supported
-      onLogin(phone, role, null);
+      proceedLogin(null, null);
     }
   };
 
