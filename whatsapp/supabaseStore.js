@@ -1,0 +1,104 @@
+/**
+ * whatsapp/supabaseStore.js
+ *
+ * Drop-in replacement for the in-memory sessions.js, backed by Supabase.
+ * Tables required (run migrations/001_whatsapp.sql first):
+ *   - whatsapp_sessions  (phone, state, linked, email, last_updated)
+ *   - whatsapp_links     (phone, user_email, linked_at)
+ *
+ * Usage: swap the import in bot.js from './sessions.js' → './supabaseStore.js'
+ */
+
+import { createClient } from '@supabase/supabase-js';
+
+const supabase = createClient(
+  process.env.VITE_SUPABASE_URL,
+  process.env.VITE_SUPABASE_ANON_KEY
+);
+
+// ─── Session helpers ──────────────────────────────────────────────────────────
+
+/**
+ * Get session for a phone number. Creates a fresh row if none exists.
+ */
+export async function getSession(phone) {
+  const { data, error } = await supabase
+    .from('whatsapp_sessions')
+    .select('*')
+    .eq('phone', phone)
+    .single();
+
+  if (error || !data) {
+    // Create new session
+    const fresh = {
+      phone,
+      state: 'WELCOME',
+      linked: false,
+      email: null,
+      last_updated: new Date().toISOString(),
+    };
+    await supabase.from('whatsapp_sessions').upsert(fresh, { onConflict: 'phone' });
+    return { ...fresh, history: [] };
+  }
+
+  return { ...data, history: [] };
+}
+
+/**
+ * Update fields of an existing session.
+ */
+export async function updateSession(phone, patch) {
+  const update = { ...patch, last_updated: new Date().toISOString() };
+  const { error } = await supabase
+    .from('whatsapp_sessions')
+    .update(update)
+    .eq('phone', phone);
+
+  if (error) console.error('[Supabase] updateSession error:', error.message);
+}
+
+/**
+ * Reset a session back to WELCOME state.
+ */
+export async function resetSession(phone) {
+  await supabase
+    .from('whatsapp_sessions')
+    .update({
+      state: 'WELCOME',
+      linked: false,
+      email: null,
+      last_updated: new Date().toISOString(),
+    })
+    .eq('phone', phone);
+}
+
+// ─── WhatsApp link helpers ────────────────────────────────────────────────────
+
+/**
+ * Record that a WhatsApp number has been linked to an mAgri email.
+ */
+export async function linkAccount(phone, email) {
+  const { error } = await supabase.from('whatsapp_links').upsert(
+    { phone, user_email: email, linked_at: new Date().toISOString() },
+    { onConflict: 'phone' }
+  );
+  if (error) console.error('[Supabase] linkAccount error:', error.message);
+}
+
+// ─── Message log helpers ──────────────────────────────────────────────────────
+
+/**
+ * Log an inbound or outbound WhatsApp message.
+ * direction: 'inbound' | 'outbound'
+ */
+export async function logMessage({ phone, direction, body, channel = 'whatsapp', status = 'sent' }) {
+  const { error } = await supabase.from('whatsapp_messages').insert({
+    phone,
+    direction,
+    body,
+    channel,
+    status,
+    created_at: new Date().toISOString(),
+  });
+  if (error) console.error('[Supabase] logMessage error:', error.message);
+}
