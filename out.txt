@@ -1,0 +1,58 @@
+﻿node : file:///C:/Users/user/
+OneDrive/Desktop/magri/mAgri-
+Platform/whatsapp/bot.js:185
+At line:1 char:1
++ node 
+scripts/whatsappBotTest.js 
+2>&1 | Out-File -Encoding 
+utf8 out.tx ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~
+    + CategoryInfo           
+   : NotSpecified: (file://  
+  /C:/User...sapp/bot.js:1   
+ 85:String) [], RemoteExc    
+eption
+    + FullyQualifiedErrorId  
+   : NativeCommandError
+ 
+function 
+formatListings(listings) {
+^
+
+SyntaxError: Identifier 
+'formatListings' has already 
+been declared
+    at 
+compileSourceTextModule (node
+:internal/modules/esm/utils:3
+18:16)
+    at 
+ModuleLoader.moduleStrategy (
+node:internal/modules/esm/tra
+nslators:111:18)
+    at #translate (node:inter
+nal/modules/esm/loader:473:20
+)
+    at afterLoad (node:intern
+al/modules/esm/loader:529:29)
+    at ModuleLoader.loadAndTr
+anslate (node:internal/module
+s/esm/loader:534:12)
+    at #getOrCreateModuleJobA
+fterResolve (node:internal/mo
+dules/esm/loader:571:36)
+    at afterResolve (node:int
+ernal/modules/esm/loader:624:
+52)
+    at ModuleLoader.getOrCrea
+teModuleJob (node:internal/mo
+dules/esm/loader:630:12)
+    at ModuleJob.syncLink (no
+de:internal/modules/esm/modul
+e_job:143:33)
+    at ModuleJob.link (node:i
+nternal/modules/esm/module_jo
+b:228:17)
+
+Node.js v24.12.0

@@ -71,11 +71,11 @@ export default function App() {
         <div className="flex flex-col h-full">
           <div className="p-6 flex items-center space-x-3">
             <div className="w-10 h-10 bg-emerald-500 rounded-xl flex items-center justify-center shadow-lg shadow-emerald-950/20">
-              <span className="font-bold text-xl">m</span>
+              <span className="font-bold text-xl text-white">P</span>
             </div>
             <div>
-              <h1 className="font-bold text-lg leading-tight">mARI Portal</h1>
-              <p className="text-emerald-400 text-[10px] uppercase tracking-widest font-semibold">Brastorne Group</p>
+              <h1 className="font-bold text-lg leading-tight text-white font-outfit uppercase tracking-tighter">Pameltex Tech</h1>
+              <p className="text-emerald-400 text-[10px] uppercase tracking-widest font-bold">Farmer Marketplace</p>
             </div>
           </div>
 
@@ -125,7 +125,7 @@ export default function App() {
             <button onClick={() => setIsSidebarOpen(true)} className="p-2 text-neutral-500 hover:bg-neutral-100 rounded-lg transition-colors">
               <Menu size={24} />
             </button>
-            <span className="ml-3 font-bold text-lg">mARI</span>
+            <span className="ml-3 font-bold text-lg">Pameltex</span>
           </div>
 
           <div className="hidden md:flex flex-1 max-w-md relative group">

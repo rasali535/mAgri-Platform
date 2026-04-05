@@ -21,7 +21,7 @@ export async function initBaileys() {
         auth: state,
         logger: pino({ level: 'silent' }),
         printQRInTerminal: false,
-        browser: ['mAgri', 'Chrome', '1.0.0'],
+        browser: ['Pameltex Tech', 'Chrome', '1.0.0'],
     });
 
     // 3. Handle Connection Updates

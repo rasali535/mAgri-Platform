@@ -154,7 +154,32 @@ export async function processImage(phone, messageContent) {
 }
 
   // Old code block completely replaced above; leaving clean empty block
-// ─── Main FSM ────────────────────────────────────────────────────────────────
+async function askGemini(question) {
+  const apiKey = process.env.VITE_GEMINI_API_KEY || process.env.GEMINI_API_KEY;
+  if (!apiKey) return '❌ AI service unavailable. Our team will reply shortly.';
+
+  try {
+    const resp = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{
+            parts: [{ text: `You are an expert agronomist AI for smallholder farmers. Answer very briefly in 1-3 sentences. Question: ${question}` }]
+          }]
+        })
+      }
+    );
+    if (!resp.ok) throw new Error('AI Fetch Error');
+    const data = await resp.json();
+    return (data.candidates?.[0]?.content?.parts?.[0]?.text || 'No answer received.').trim();
+  } catch (e) {
+    console.error('[Gemini AI Error]', e);
+    return '❌ AI service error. A human agronomist will respond via SMS later.';
+  }
+}
+
 
 /**
  * Process an incoming WhatsApp TEXT message and return the bot reply.
@@ -254,10 +279,18 @@ export async function processMessage(phone, rawText) {
       return MENU.WELCOME(session.linked);
     }
     const query = upper === 'ALL' ? '' : text.toLowerCase();
+    
+
     const results = MOCK_LISTINGS.filter(
       (l) => !query || l.produce.toLowerCase().includes(query)
     );
     return formatListings(results);
+  }
+
+  // ── State: ORDERS ──────────────────────────────────────────────────────────
+  if (session.state === 'ORDERS') {
+    await updateSession(phone, { state: 'WELCOME' });
+    return `📦 *My Orders*\n\nYou currently have *0* active orders.\n\nType *MENU* to return.`;
   }
 
   // ── State: CREDIT ──────────────────────────────────────────────────────────
@@ -296,14 +329,14 @@ export async function processMessage(phone, rawText) {
       return `❌ Your question is too short. Please elaborate a little more.`;
     }
     console.log(`[AGRONOMIST QUESTION from ${phone}]: ${text}`);
-    await updateSession(phone, { state: 'WELCOME' });
-    return MENU.AGRONOMIST_OK;
-  }
+    
+    // Immediately tell them we are thinking via side-channel if possible
+    sendWhatsApp(phone, '⏳ Generating expert response, please hold...').catch(()=>{});
 
-  // ── State: ORDERS ──────────────────────────────────────────────────────────
-  if (session.state === 'ORDERS') {
+    const answer = await askGemini(text);
     await updateSession(phone, { state: 'WELCOME' });
-    return MENU.WELCOME(session.linked);
+    
+    return `🧑‍🌾 *Agronomist Reply:*\n\n${answer}\n\nType *MENU* to return.`;
   }
 
   // ── Fallback ───────────────────────────────────────────────────────────────

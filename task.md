@@ -1,4 +1,4 @@
-# mAgri Platform — Task List
+# Pameltex Tech Platform — Task List
 
 ## ✅ Completed (Previous Sprint)
 - [x] Abort Supabase Edge Functions migration.

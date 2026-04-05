@@ -78,7 +78,7 @@ export default function DiagnoseTab() {
         <div>
           <h2 className="text-3xl font-bold text-neutral-900 tracking-tight">AI Crop Diagnostic</h2>
           <p className="text-neutral-500 font-medium flex items-center">
-            <ShieldCheck size={16} className="mr-1.5 text-emerald-600" /> Powered by Pameltex Tech Vision Architecture
+            <ShieldCheck size={16} className="mr-1.5 text-emerald-600" /> Powered by mARI Vision Architecture (Pameltex Tech)
           </p>
         </div>
         {(image || result) && (

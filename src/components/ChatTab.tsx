@@ -8,7 +8,7 @@ export default function ChatTab() {
   const [messages, setMessages] = useState<Message[]>([
     { 
       role: 'model', 
-      text: 'Dumela! I am your mARI AI Agronomist. I can assist you in English, Setswana, Bemba, and Nyanja. How is your farm doing today?',
+      text: 'Dumela! I am mARI, your AI Agronomist by Pameltex Tech. I can assist you in English, Setswana, Bemba, and Nyanja. How is your farm doing today?',
       timestamp: new Date()
     }
   ]);
@@ -79,7 +79,7 @@ export default function ChatTab() {
             <Bot size={24} className="text-white" />
           </div>
           <div>
-            <h2 className="font-bold text-neutral-900 leading-none mb-1">mARI AI Specialist</h2>
+            <h2 className="font-bold text-neutral-900 leading-none mb-1">mARI — AI Specialist</h2>
             <div className="flex items-center text-[10px] font-bold text-emerald-600 uppercase tracking-tighter">
               <Globe size={10} className="mr-1" /> Multi-lingual Support Active
             </div>
@@ -186,7 +186,7 @@ export default function ChatTab() {
           </button>
         </div>
         <p className="text-[10px] text-center text-neutral-400 font-bold mt-4 uppercase tracking-[0.2em] opacity-40">
-          Powered by Pameltex Tech Intelligence • Private & Secure
+          Powered by mARI Intelligence (Pameltex Tech) • Private & Secure
         </p>
       </div>
     </div>

@@ -19,13 +19,13 @@
 
 export const MENU = {
   WELCOME: (linked) =>
-    `🌱 *Welcome to mARI Platform!*\n` +
+    `🌱 *Welcome to Pameltex Tech Platform!*\n` +
     (linked ? `` : `\n⚠️ Your WhatsApp number is not linked yet. Send *LINK* to connect your account, or continue as a guest.\n`) +
     `\nPlease choose an option:\n` +
     `1️⃣  Dashboard & Orders\n` +
     `2️⃣  Marketplace\n` +
-    `3️⃣  Crop Scan (AI Diagnosis) 🔍\n` +
-    `4️⃣  Ask an Agronomist\n` +
+    `3️⃣  Crop Scan (mARI AI Diagnosis) 🔍\n` +
+    `4️⃣  Ask mARI (AI Advisor)\n` +
     `5️⃣  Finance & Credit\n` +
     `6️⃣  Add a Crop Listing 📸\n` +
     `7️⃣  Open Web App 🔗\n` +
@@ -33,14 +33,14 @@ export const MENU = {
     `\nReply with a number (1–8) or type *MENU* anytime to return.`,
 
   AWAIT_LINK:
-    `📧 Please send your mARI account *email address* to link your WhatsApp number.\n` +
+    `📧 Please send your Pameltex Tech account *email address* to link your WhatsApp number.\n` +
     `Example: _you@example.com_\n\nType *CANCEL* to go back.`,
 
   LINKED_OK: (email) =>
     `✅ Your WhatsApp is now linked to *${email}*.\n\nType *MENU* to return to the main menu.`,
 
   MARKETPLACE_LOADING:
-    `🛒 *AgriMarket*\nFetching live listings...\n\nReply with:\n• A *crop name* to search (e.g. _Maize_, _Cocoa_)\n• *ALL* to see all listings\n• *0* to go back`,
+    `🛒 *Pameltex Tech Market*\nFetching live listings...\n\nReply with:\n• A *crop name* to search (e.g. _Maize_, _Cocoa_)\n• *ALL* to see all listings\n• *0* to go back`,
 
   CREDIT_MENU:
     `💳 *Credit & Finance*\n\n` +
@@ -49,7 +49,7 @@ export const MENU = {
     `0️⃣  Back to main menu`,
 
   CREDIT_SCORE: (score) =>
-    `📊 Your current mARI Credit Score is *${score}* (Excellent).\n\nKeep up responsible trading to maintain a high score!\n\nReply *0* to go back.`,
+    `📊 Your current Pameltex Tech Credit Score is *${score}* (Excellent).\n\nKeep up responsible trading to maintain a high score!\n\nReply *0* to go back.`,
 
   CREDIT_APPLY_PROMPT:
     `💰 How much credit are you applying for?\n` +
@@ -62,19 +62,19 @@ export const MENU = {
     `🌦 *Weather Forecast*\n\n${forecast}\n\nReply *MENU* to return.`,
 
   DIAGNOSE_PROMPT: 
-    `🔍 *Crop Scan (AI Diagnosis)*\n\n` +
+    `🔍 *Crop Scan (mARI AI Diagnosis)*\n\n` +
     `Please take a clear, close-up photo of your diseased plant or crop and send it here.\n` +
-    `Our AI Agronomist will instantly analyze it for diseases and provide recommendations.\n\n` +
+    `mARI will instantly analyze it for diseases and provide recommendations.\n\n` +
     `Type *CANCEL* to go back.`,
 
   AGRONOMIST_PROMPT:
-    `🧑‍🌾 *Ask an Agronomist*\n\nType your farming question below and our experts will reply shortly.\n\nExample: _"What is the best fertilizer for tomatoes in sandy soil?"_\n\nType *CANCEL* to go back.`,
+    `🧑‍🌾 *Ask mARI (AI Advisor)*\n\nType your farming question below and mARI will provide expert agronomy advice instantly.\n\nExample: _"What is the best fertilizer for tomatoes in sandy soil?"_\n\nType *CANCEL* to go back.`,
 
   AGRONOMIST_OK:
     `✅ Your question has been sent to our expert agronomists.\nExpect a reply within 24 hours.\n\nReply *MENU* to return.`,
 
   WEBAPP_LINK: (url) =>
-    `🌐 *Open mARI Platform*\n\nAccess the full web app here:\n${url}\n\nAll features are available on the website including listings, finance, weather, and more.\n\nReply *MENU* to return.`,
+    `🌐 *Open Pameltex Tech Platform*\n\nAccess the full web app here:\n${url}\n\nAll features are available on the website including listings, finance, weather, and more.\n\nReply *MENU* to return.`,
 
   ORDERS_PLACEHOLDER:
     `📦 *My Orders*\n\nYou have *no active orders* at the moment.\nVisit the web app to place or manage orders.\n\nReply *MENU* to return.`,

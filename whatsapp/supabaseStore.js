@@ -75,7 +75,7 @@ export async function resetSession(phone) {
 // ─── WhatsApp link helpers ────────────────────────────────────────────────────
 
 /**
- * Record that a WhatsApp number has been linked to an mAgri email.
+ * Record that a WhatsApp number has been linked to an Pameltex Tech email.
  */
 export async function linkAccount(phone, email) {
   const { error } = await supabase.from('whatsapp_links').upsert(
