@@ -41,24 +41,23 @@ export default function ChatTab() {
     setLoading(true);
 
     try {
-      const contents = [
+      const newMessages = [
         ...messages.map(m => ({
-          role: m.role,
-          parts: [{ text: m.text }]
+          role: m.role === 'model' ? 'assistant' : 'user',
+          content: m.text
         })),
-        { role: 'user', parts: [{ text: userMsg }] }
+        { role: 'user', content: userMsg }
       ];
 
-      const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
-      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${apiKey}`, {
+      const response = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ contents })
+        body: JSON.stringify({ messages: newMessages })
       });
 
       if (!response.ok) throw new Error(`API error: ${response.status}`);
       const data = await response.json();
-      const text = data.candidates?.[0]?.content?.parts?.[0]?.text || 'I apologize, I could not process that request.';
+      const text = data.content || 'I apologize, I could not process that request.';
       setMessages(prev => [...prev, { role: 'model', text, timestamp: new Date() }]);
     } catch (error) {
       console.error('Chat error:', error);
@@ -187,7 +186,7 @@ export default function ChatTab() {
           </button>
         </div>
         <p className="text-[10px] text-center text-neutral-400 font-bold mt-4 uppercase tracking-[0.2em] opacity-40">
-          Powered by Brastorne Intelligence • Private & Secure
+          Powered by Pameltex Tech Intelligence • Private & Secure
         </p>
       </div>
     </div>

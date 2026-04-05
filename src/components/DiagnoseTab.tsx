@@ -27,20 +27,15 @@ export default function DiagnoseTab() {
     if (!image) return;
     setLoading(true);
     try {
-      const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
       const base64Data = image.split(',')[1];
       const mimeType = image.split(',')[0].split(':')[1].split(';')[0];
 
-      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${apiKey}`, {
+      const response = await fetch('/api/diagnose', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          contents: [{
-            parts: [
-              { text: 'You are an expert agronomist AI. Analyze the crop image for diseases. Respond in valid JSON exactly: {"disease": "...", "confidence": 0-100, "recommendation": "..."}' },
-              { inline_data: { mime_type: mimeType, data: base64Data } }
-            ]
-          }]
+          imageBase64: base64Data,
+          mimeType: mimeType
         })
       });
 
@@ -83,7 +78,7 @@ export default function DiagnoseTab() {
         <div>
           <h2 className="text-3xl font-bold text-neutral-900 tracking-tight">AI Crop Diagnostic</h2>
           <p className="text-neutral-500 font-medium flex items-center">
-            <ShieldCheck size={16} className="mr-1.5 text-emerald-600" /> Powered by Brastorne Vision Architecture
+            <ShieldCheck size={16} className="mr-1.5 text-emerald-600" /> Powered by Pameltex Tech Vision Architecture
           </p>
         </div>
         {(image || result) && (

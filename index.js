@@ -396,6 +396,41 @@ app.post('/api/chat', async (req, res) => {
     }
 });
 
+app.post('/api/diagnose', async (req, res) => {
+    try {
+        const apiKey = process.env.VITE_GEMINI_API_KEY || process.env.GEMINI_API_KEY;
+        if (!apiKey) {
+            return res.status(500).json({ error: 'Gemini API not configured' });
+        }
+        const { imageBase64, mimeType } = req.body;
+
+        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                contents: [{
+                    parts: [
+                        { text: 'You are an expert agronomist AI. Analyze the crop image for diseases. Respond in valid JSON exactly: {"disease": "...", "confidence": 0-100, "recommendation": "..."}' },
+                        { inline_data: { mime_type: mimeType, data: imageBase64 } }
+                    ]
+                }]
+            })
+        });
+
+        if (!response.ok) {
+            throw new Error(`Gemini API error: ${response.status}`);
+        }
+
+        const data = await response.json();
+        res.json(data);
+    } catch (error) {
+        console.error('Error calling Gemini REST API for diagnosis:', error);
+        res.status(500).json({ error: 'Failed to process diagnosis' });
+    }
+});
+
 
 
 // Handle all other routes by serving the index.html file
