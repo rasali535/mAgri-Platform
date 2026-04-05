@@ -200,49 +200,47 @@ async function handleUSSD(req, res) {
     if (L1 === '') {
         response =
             `CON Welcome to mAgri Platform\n` +
-            `1. Check Credit Score\n` +
-            `2. Apply for Micro-Credit\n` +
-            `3. Weather Forecast\n` +
+            `1. Dashboard & Orders\n` +
+            `2. Marketplace\n` +
+            `3. Crop Scan (AI Diagnosis)\n` +
             `4. Ask AI Agronomist\n` +
-            `5. View Marketplace\n` +
-            `6. Buyer Messages`;
+            `5. Finance & Credit\n` +
+            `6. Add Crop Listing\n` +
+            `7. Open Web App\n` +
+            `8. Weather Forecast`;
 
-    // ── Option 1: Credit Score ────────────────────────────────────────────────
+    // ── Option 1: Dashboard & Orders ──────────────────────────────────────────
     } else if (L1 === '1') {
-        response = `END Your mAgri Credit Score is 745/850 (Excellent).\nKeep up responsible trading!`;
-        atSendSMS(phoneNumber, 'mAgri: Your Credit Score is 745/850 (Excellent). Keep trading!');
+        response = `END You have no active orders. Visit the web app for full details.`;
 
-    // ── Option 2: Apply for Micro-Credit ─────────────────────────────────────
+    // ── Option 2: Marketplace ─────────────────────────────────────────────────
     } else if (L1 === '2' && depth === 1) {
         response =
-            `CON Micro-Credit Application\n` +
-            `Enter amount (e.g. 5000):`;
+            `CON AgriMarket - Latest Listings:\n` +
+            `1. Sellers (available produce)\n` +
+            `2. Buyers (wanted produce)\n` +
+            `3. All listings (SMS)`;
 
-    } else if (L1 === '2' && depth === 2) {
-        const amount = L2 || '0';
-        const num = parseFloat(amount);
-        if (isNaN(num) || num <= 0) {
-            response = `END Invalid amount. Please try again. Dial *384*14032*2#`;
-        } else {
-            response = `CON Apply for ${amount} micro-credit?\n1. Confirm\n2. Cancel`;
-        }
+    } else if (L1 === '2' && L2 === '1') {
+        const sellers = LISTINGS.filter(l => l.type === 'sell').slice(0, 3);
+        const lines = sellers.map((l, i) => `${i + 1}. ${l.produce} ${l.qty} @ ${l.price} - ${l.location}`);
+        response = `END Sellers:\n${lines.join('\n')}`;
+        atSendSMS(phoneNumber, `mAgri Sellers:\n${lines.join('\n')}\nContact: ${process.env.WEBAPP_URL}`);
 
-    } else if (L1 === '2' && depth === 3 && L2 && L3 === '1') {
-        const amount = L2;
-        response = `END Application for ${amount} received!\nYou'll get SMS confirmation shortly.`;
-        atSendSMS(phoneNumber, `mAgri: Your micro-credit application for ${amount} has been received. We'll review and confirm within 24hrs.`);
+    } else if (L1 === '2' && L2 === '2') {
+        const buyers = LISTINGS.filter(l => l.type === 'buy').slice(0, 3);
+        const lines = buyers.map((l, i) => `${i + 1}. ${l.produce} ${l.qty} ${l.price} - ${l.location}`);
+        response = `END Buyers Wanted:\n${lines.join('\n')}`;
+        atSendSMS(phoneNumber, `mAgri Buyers:\n${lines.join('\n')}\nContact: ${process.env.WEBAPP_URL}`);
 
-    } else if (L1 === '2' && depth === 3 && L3 === '2') {
-        response = `END Application cancelled. Dial *384*14032# to return.`;
+    } else if (L1 === '2' && L2 === '3') {
+        const all = LISTINGS.slice(0, 4).map(l => `${l.type.toUpperCase()} ${l.produce} ${l.qty} ${l.location}`);
+        response = `END Full list sent via SMS!`;
+        atSendSMS(phoneNumber, `mAgri All Listings:\n${all.join('\n')}\nMore: ${process.env.WEBAPP_URL}`);
 
-    // ── Option 3: Weather Forecast ────────────────────────────────────────────
+    // ── Option 3: Crop Scan ───────────────────────────────────────────────────
     } else if (L1 === '3') {
-        response =
-            `END Weather Forecast (Your Region):\n` +
-            `Today: Sunny, 28C\n` +
-            `Tomorrow: Light showers, 24C\n` +
-            `Day 3: Partly cloudy, 26C`;
-        atSendSMS(phoneNumber, 'mAgri Weather: Today Sunny 28C | Tomorrow Light showers 24C | Day 3 Cloudy 26C. Powered by Open-Meteo.');
+        response = `END Crop scanning requires photo upload. Please use our WhatsApp bot or Web App to scan your crops.`;
 
     // ── Option 4: Ask AI Agronomist ───────────────────────────────────────────
     } else if (L1 === '4' && depth === 1) {
@@ -251,40 +249,55 @@ async function handleUSSD(req, res) {
     } else if (L1 === '4' && depth >= 2) {
         const question = parts.slice(1).join(' ');
         response = `END Asking AI Agronomist...\nYou will receive the answer via SMS shortly.`;
-        // Fire-and-forget: call Gemini and send SMS reply
         askGeminiUSSD(question).then(answer => {
             atSendSMS(phoneNumber, `mAgri AI Agronomist:\n${answer}`);
         });
 
-    // ── Option 5: Marketplace ─────────────────────────────────────────────────
+    // ── Option 5: Finance & Credit ────────────────────────────────────────────
     } else if (L1 === '5' && depth === 1) {
-        response =
-            `CON AgriMarket - Latest Listings:\n` +
-            `1. Sellers (available produce)\n` +
-            `2. Buyers (wanted produce)\n` +
-            `3. All listings (SMS)`;
+        response = `CON Finance & Credit\n1. Check Credit Score\n2. Apply for Micro-Credit`;
 
-    } else if (L1 === '5' && L2 === '1') {
-        const sellers = LISTINGS.filter(l => l.type === 'sell').slice(0, 3);
-        const lines = sellers.map((l, i) => `${i + 1}. ${l.produce} ${l.qty} @ ${l.price} - ${l.location}`);
-        response = `END Sellers:\n${lines.join('\n')}`;
-        atSendSMS(phoneNumber, `mAgri Sellers:\n${lines.join('\n')}\nContact: ${process.env.WEBAPP_URL}`);
+    } else if (L1 === '5' && depth === 2 && L2 === '1') {
+        response = `END Your mAgri Credit Score is 745/850 (Excellent).\nKeep up responsible trading!`;
+        atSendSMS(phoneNumber, 'mAgri: Your Credit Score is 745/850 (Excellent). Keep trading!');
 
-    } else if (L1 === '5' && L2 === '2') {
-        const buyers = LISTINGS.filter(l => l.type === 'buy').slice(0, 3);
-        const lines = buyers.map((l, i) => `${i + 1}. ${l.produce} ${l.qty} ${l.price} - ${l.location}`);
-        response = `END Buyers Wanted:\n${lines.join('\n')}`;
-        atSendSMS(phoneNumber, `mAgri Buyers:\n${lines.join('\n')}\nContact: ${process.env.WEBAPP_URL}`);
+    } else if (L1 === '5' && depth === 2 && L2 === '2') {
+        response = `CON Micro-Credit Application\nEnter amount (e.g. 5000):`;
 
-    } else if (L1 === '5' && L2 === '3') {
-        const all = LISTINGS.slice(0, 4).map(l => `${l.type.toUpperCase()} ${l.produce} ${l.qty} ${l.location}`);
-        response = `END Full list sent via SMS!`;
-        atSendSMS(phoneNumber, `mAgri All Listings:\n${all.join('\n')}\nMore: ${process.env.WEBAPP_URL}`);
+    } else if (L1 === '5' && depth === 3 && L2 === '2') {
+        const amount = L3 || '0';
+        const num = parseFloat(amount);
+        if (isNaN(num) || num <= 0) {
+            response = `END Invalid amount. Please try again. Dial *384*14032*5*2#`;
+        } else {
+            response = `CON Apply for ${amount} micro-credit?\n1. Confirm\n2. Cancel`;
+        }
 
-    // ── Option 6: Buyer Messages ──────────────────────────────────────────────
+    } else if (L1 === '5' && depth === 4 && L2 === '2' && parts[3] === '1') {
+        const amount = L3;
+        response = `END Application for ${amount} received!\nYou'll get SMS confirmation shortly.`;
+        atSendSMS(phoneNumber, `mAgri: Your micro-credit application for ${amount} has been received. We'll review and confirm within 24hrs.`);
+
+    } else if (L1 === '5' && depth === 4 && L2 === '2' && parts[3] === '2') {
+        response = `END Application cancelled.`;
+
+    // ── Option 6: Add Crop Listing ────────────────────────────────────────────
     } else if (L1 === '6') {
-        response = `END You have 1 new message:\n"Interested in 500kg Maize."\nDial *384*14032*6# to reply.`;
-        atSendSMS(phoneNumber, 'mAgri Buyer Alert: New message received. Visit ' + (process.env.WEBAPP_URL || '') + ' to respond.');
+        response = `END Adding listings requires uploading a photo. Please use our WhatsApp bot or Web App.`;
+
+    // ── Option 7: Open Web App ────────────────────────────────────────────────
+    } else if (L1 === '7') {
+        response = `END Visit our full platform here:\n${process.env.WEBAPP_URL || 'https://magri-platform.onrender.com'}`;
+        atSendSMS(phoneNumber, `mAgri App: ${process.env.WEBAPP_URL || 'https://magri-platform.onrender.com'}`);
+
+    // ── Option 8: Weather Forecast ────────────────────────────────────────────
+    } else if (L1 === '8') {
+        response =
+            `END Weather Forecast (Your Region):\n` +
+            `Today: Sunny, 28C\n` +
+            `Tomorrow: Light showers, 24C\n` +
+            `Day 3: Partly cloudy, 26C`;
+        atSendSMS(phoneNumber, 'mAgri Weather: Today Sunny 28C | Tomorrow Light showers 24C | Day 3 Cloudy 26C. Powered by Open-Meteo.');
 
     // ── Fallback ──────────────────────────────────────────────────────────────
     } else {
