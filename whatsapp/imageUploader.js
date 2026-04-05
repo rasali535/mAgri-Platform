@@ -12,20 +12,14 @@
  */
 
 import { createClient } from '@supabase/supabase-js';
+import { downloadContentFromMessage } from '@whiskeysockets/baileys';
 
-const BUCKET = 'crop-images';
-const META_API_VER = 'v18.0';
+const BUCKET = 'farmer-uploads';
 
 const supabase = createClient(
   process.env.VITE_SUPABASE_URL,
   process.env.SUPABASE_SERVICE_KEY || process.env.VITE_SUPABASE_ANON_KEY
 );
-
-/**
- * Resolve a Meta media_id to its temporary download URL.
- * @param {string} mediaId
- * @returns {Promise<{url: string, mimeType: string}>}
- */
 async function resolveMetaMediaUrl(mediaId) {
   const token = process.env.META_WHATSAPP_TOKEN;
   const resp = await fetch(
@@ -56,25 +50,27 @@ async function downloadMetaMedia(url) {
 }
 
 /**
- * Main export: given a Meta media_id, upload to Supabase and return public URL.
- * @param {string} mediaId  – from Meta webhook message.image.id
+ * Upload an image from Baileys to Supabase and return public URL.
+ * @param {object} messageContent  – The actual message.imageMessage object
  * @param {string} phone    – farmer's phone (used to organise storage path)
  * @returns {Promise<string>} public URL of the uploaded image
  */
-export async function uploadMediaToSupabase(mediaId, phone) {
-  // 1. Resolve temporary URL
-  const { url, mimeType } = await resolveMetaMediaUrl(mediaId);
+export async function uploadMediaToSupabase(messageContent, phone) {
+  // 1. Download the image using Baileys
+  const stream = await downloadContentFromMessage(messageContent, 'image');
+  let buffer = Buffer.from([]);
+  for await (const chunk of stream) {
+    buffer = Buffer.concat([buffer, chunk]);
+  }
 
-  // 2. Download the image
-  const buffer = await downloadMetaMedia(url);
-
-  // 3. Build a unique storage path
+  // 2. Build a unique storage path
+  const mimeType = messageContent.mimetype || 'image/jpeg';
   const ext = mimeType.split('/')[1] || 'jpg';
   const timestamp = Date.now();
   const safeName = phone.replace(/[^0-9]/g, '');
   const storagePath = `listings/${safeName}/${timestamp}.${ext}`;
 
-  // 4. Upload to Supabase Storage
+  // 3. Upload to Supabase Storage
   const { error: uploadError } = await supabase.storage
     .from(BUCKET)
     .upload(storagePath, buffer, {
@@ -86,7 +82,7 @@ export async function uploadMediaToSupabase(mediaId, phone) {
     throw new Error(`Supabase upload failed: ${uploadError.message}`);
   }
 
-  // 5. Retrieve public URL
+  // 4. Retrieve public URL
   const { data } = supabase.storage.from(BUCKET).getPublicUrl(storagePath);
   if (!data?.publicUrl) throw new Error('Could not retrieve public URL from Supabase');
 

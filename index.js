@@ -11,6 +11,7 @@ import {
     notifyCreditApproved,
     notifyWhatsApp,
 } from './whatsapp/notify.js';
+import { initBaileys, getQRAsHTML } from './whatsapp/baileys.js';
 
 
 const __filename = fileURLToPath(import.meta.url);
@@ -60,63 +61,14 @@ async function sendSMS(to, message) {
     }
 }
 
-// ── Meta WhatsApp Webhook Verification ──
-app.get('/api/whatsapp/meta', (req, res) => {
-  const mode = req.query['hub.mode'];
-  const token = req.query['hub.verify_token'];
-  const challenge = req.query['hub.challenge'];
-  if (mode === 'subscribe' && token === process.env.META_WEBHOOK_VERIFY_TOKEN) {
-    console.log('✅ Meta webhook verified');
-    res.status(200).send(challenge);
-  } else {
-    res.sendStatus(403);
-  }
-});
-
-// ── Meta WhatsApp Inbound Webhook ──
-app.post('/api/whatsapp/meta', async (req, res) => {
-  const body = req.body;
-  if (body.object) {
-    for (const entry of body.entry) {
-      if (!entry.changes) continue;
-      for (const change of entry.changes) {
-        const value = change.value;
-        if (value.messages) {
-          for (const msg of value.messages) {
-            const from = msg.from;
-            const phone = from.replace(/^whatsapp:/i, '').replace(/^\+/, '');
-            console.log(`[Meta WhatsApp Inbound] from=${from} type=${msg.type}`);
-
-            try {
-              let reply;
-
-              if (msg.type === 'image' && msg.image?.id) {
-                // ─ Farmer sent an image ─ process via UPLOAD_PENDING state machine
-                const mediaId = msg.image.id;
-                console.log(`[Meta Webhook] Image mediaId=${mediaId} from=${phone}`);
-                reply = await processImage(phone, mediaId);
-
-              } else {
-                // ─ Text message ─ process through FSM
-                const text = msg.text?.body || '';
-                console.log(`[Meta WhatsApp Inbound] text="${text}"`);
-                reply = await processWhatsApp(phone, text);
-              }
-
-              // Send the reply back via Meta Graph API
-              await sendWhatsApp(phone, reply);
-
-            } catch (err) {
-              console.error('[Meta Webhook Processing Error]', err);
-            }
-          }
-        }
-      }
+// ── Baileys Admin QR Route ──
+app.get('/admin/qr', async (req, res) => {
+    try {
+        const html = await getQRAsHTML();
+        res.status(200).send(html);
+    } catch (e) {
+        res.status(500).send('Error generating QR');
     }
-    res.sendStatus(200);
-  } else {
-    res.sendStatus(404);
-  }
 });
 
 // ── WhatsApp Inbound Webhook (Legacy Africa's Talking) ───────────────────────
@@ -471,6 +423,8 @@ app.get('*', (req, res) => {
 
 app.listen(PORT, '0.0.0.0', () => {
     console.log(`Server is running on port ${PORT}`);
+    // Start Baileys only after the express server has successfully bound
+    initBaileys().catch(e => console.error('Failed to init Baileys:', e));
 });
 
 export default app;

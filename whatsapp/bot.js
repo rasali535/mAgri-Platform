@@ -54,10 +54,10 @@ function isValidEmail(str) {
  * If the session is UPLOAD_PENDING, upload to Supabase and create a listing.
  *
  * @param {string} phone   – E.164 phone number
- * @param {string} mediaId – Meta image media_id
+ * @param {object} messageContent – Baileys imageMessage object
  * @returns {Promise<string>} reply text
  */
-export async function processImage(phone, mediaId) {
+export async function processImage(phone, messageContent) {
   const session = await getSession(phone);
 
   if (session.state !== 'UPLOAD_PENDING') {
@@ -69,8 +69,8 @@ export async function processImage(phone, mediaId) {
   }
 
   try {
-    // 1. Upload image from Meta → Supabase Storage
-    const publicUrl = await uploadMediaToSupabase(mediaId, phone);
+    // 1. Upload image from Baileys → Supabase Storage
+    const publicUrl = await uploadMediaToSupabase(messageContent, phone);
 
     // 2. Save listing row to Supabase DB
     const listing = await createListing(phone, publicUrl);

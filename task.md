@@ -9,6 +9,7 @@
 - [x] Update Africa's Talking USSD and WhatsApp callbacks to Render URL.
 
 ## ✅ Completed (Farmer Marketplace Sprint)
+
 - [x] Add required environment variables to `.env` (`SUPABASE_SERVICE_KEY`, `SUPABASE_KEY`).
 - [x] Remove `VITE_OPENAI_API_KEY` from `.env`.
 - [x] `@supabase/supabase-js` already installed — no action needed.
@@ -23,16 +24,20 @@
 - [x] Add Storage RLS policies (public read, service role write).
 
 ## ⏳ Remaining
+
+
 - [ ] Add all env vars to **Render Dashboard** → service → Environment Variables:
   - `SUPABASE_SERVICE_KEY`
   - `SUPABASE_KEY`
   - `VITE_SUPABASE_URL`
   - `META_WHATSAPP_TOKEN`
+  - `META_APP_ID`
   - `META_WHATSAPP_PHONE_ID`
   - `META_WEBHOOK_VERIFY_TOKEN`
   - `AT_API_KEY`, `AT_USERNAME`
   - `WEBAPP_URL`
-- [ ] Push latest code to GitHub to trigger Render redeploy.
+
+- [x] Push latest code to GitHub to trigger Render redeploy.
 - [ ] Verify Meta Webhook URL is set to `https://<render-url>/api/whatsapp/meta`.
 - [ ] Send a test WhatsApp message with an image and confirm listing appears in Supabase `listings` table.
 - [ ] Confirm confirmation message with listing URL is sent back to farmer.
