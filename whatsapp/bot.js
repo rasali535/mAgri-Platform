@@ -74,7 +74,7 @@ async function generateCropDiagnosis(messageContent) {
       body: JSON.stringify({
         contents: [{
           parts: [
-            { text: 'You are an expert agronomist AI. Analyze the crop image for diseases. Respond in valid JSON exactly: {"disease": "...", "confidence": 0-100, "recommendation": "..."}' },
+            { text: 'You are mARI, an expert agronomist AI. Analyze the crop image for diseases. Respond in valid JSON exactly: {"disease": "...", "confidence": 0-100, "recommendation": "..."}' },
             { inline_data: { mime_type: mimeType, data: base64Data } }
           ]
         }]
@@ -166,7 +166,7 @@ async function askGemini(question) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           contents: [{
-            parts: [{ text: `You are an expert agronomist AI for smallholder farmers. Answer very briefly in 1-3 sentences. Question: ${question}` }]
+            parts: [{ text: `You are mARI, an expert agronomist AI for smallholder farmers. Answer very briefly in 1-3 sentences. Question: ${question}` }]
           }]
         })
       }

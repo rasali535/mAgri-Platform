@@ -120,36 +120,74 @@ app.post('/api/sms', (req, res) => {
 // 2. Static File Serving (Lower Priority)
 app.use(express.static(path.join(__dirname, 'dist')));
 
-const openai = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY,
-});
+// AI Services Bridge - Gemini 2.5 Flash
+async function askGemini(contents) {
+    const apiKey = process.env.VITE_GEMINI_API_KEY || process.env.GEMINI_API_KEY;
+    if (!apiKey) return { error: 'Gemini API not configured' };
 
-// API routes could go here
-app.get('/api/health', (req, res) => {
-    res.json({ status: 'ok' });
-});
+    try {
+        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ contents })
+        });
+        if (!response.ok) throw new Error(`Gemini API error: ${response.status}`);
+        return await response.json();
+    } catch (error) {
+        console.error('Gemini Error:', error);
+        throw error;
+    }
+}
 
 app.post('/api/chat', async (req, res) => {
     try {
-        const { messages, model = "gpt-4o-mini", temperature = 0.7 } = req.body;
-
+        const { messages } = req.body;
         if (!messages || !Array.isArray(messages)) {
             return res.status(400).json({ error: 'Messages array is required' });
         }
 
-        const completion = await openai.chat.completions.create({
-            model,
-            messages,
-            temperature,
-        });
+        const contents = messages.map(m => ({
+            role: m.role === 'assistant' ? 'model' : 'user',
+            parts: [{ text: m.content }]
+        }));
 
-        res.json(completion.choices[0].message);
+        const data = await askGemini(contents);
+        const text = data.candidates?.[0]?.content?.parts?.[0]?.text || 'No response from AI.';
+        res.json({ role: 'assistant', content: text });
     } catch (error) {
-        console.error('Error calling OpenAI REST API:', error);
         res.status(500).json({ error: 'Failed to process chat request' });
     }
 });
 
+app.post('/api/diagnose', async (req, res) => {
+    try {
+        const { imageBase64, mimeType } = req.body;
+        if (!imageBase64 || !mimeType) {
+            return res.status(400).json({ error: 'Image and mimeType are required' });
+        }
+
+        const data = await askGemini([{
+            parts: [
+                { text: 'You are mARI, an expert agronomist AI. Analyze the crop image for diseases. Respond in valid JSON exactly: {"disease": "...", "confidence": 0-100, "recommendation": "..."}' },
+                { inline_data: { mime_type: mimeType, data: imageBase64 } }
+            ]
+        }]);
+
+        let text = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+        // Strip markdown backticks if AI included them
+        text = text.replace(/^```json\n?/, '').replace(/\n?```$/, '').replace(/^```\n?/, '').trim();
+        
+        try {
+            const parsed = JSON.parse(text);
+            res.json(parsed);
+        } catch (e) {
+            console.error('Invalid AI JSON:', text);
+            res.status(500).json({ error: 'AI returned invalid JSON format' });
+        }
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to process diagnosis' });
+    }
+});
 
 // Handle all other routes by serving the index.html file
 app.get('*', (req, res) => {
@@ -157,7 +195,7 @@ app.get('*', (req, res) => {
 });
 
 app.listen(PORT, '0.0.0.0', () => {
-    console.log(`Server is running on port ${PORT}`);
+    console.log(`Server (mARI Platform) is running on port ${PORT}`);
 });
 
 export default app;

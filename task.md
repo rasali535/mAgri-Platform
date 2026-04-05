@@ -1,4 +1,4 @@
-# Pameltex Tech Platform — Task List
+# mARI by Pameltex Tech — Task List
 
 ## ✅ Completed (Previous Sprint)
 - [x] Abort Supabase Edge Functions migration.
@@ -22,6 +22,9 @@
 - [x] Apply `listings` table migration to Supabase (with RLS policy).
 - [x] Create `crop-images` Supabase Storage bucket (public).
 - [x] Add Storage RLS policies (public read, service role write).
+- [x] Fixed 405 Method Not Allowed error on `/api/diagnose`.
+- [x] Synchronized mARI rebranding across USSD, WhatsApp, and WebApp.
+- [x] Fixed WhatsApp bot image diagnosis by correcting the Gemini model name (to `gemini-1.5-flash`).
 
 ## ⏳ Remaining
 

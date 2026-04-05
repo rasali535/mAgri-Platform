@@ -20,7 +20,7 @@ async function chat(text) {
 
 async function run() {
   console.log('═'.repeat(60));
-  console.log('  mAgri WhatsApp Bot – Conversation Simulation');
+  console.log('  mARI WhatsApp Bot – Conversation Simulation');
   console.log('═'.repeat(60));
 
   // Start fresh
