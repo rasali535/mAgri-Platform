@@ -22,14 +22,15 @@ export const MENU = {
     `🌱 *Welcome to mARI Platform!*\n` +
     (linked ? `` : `\n⚠️ Your WhatsApp number is not linked yet. Send *LINK* to connect your account, or continue as a guest.\n`) +
     `\nPlease choose an option:\n` +
-    `1️⃣  Marketplace\n` +
-    `2️⃣  My Orders\n` +
-    `3️⃣  Credit Score & Finance\n` +
-    `4️⃣  Weather Forecast\n` +
-    `5️⃣  Ask an Agronomist\n` +
-    `6️⃣  Open Web App 🔗\n` +
-    `7️⃣  Add a Crop Listing 📸\n` +
-    `\nReply with a number (1–7) or type *MENU* anytime to return.`,
+    `1️⃣  Dashboard & Orders\n` +
+    `2️⃣  Marketplace\n` +
+    `3️⃣  Crop Scan (AI Diagnosis) 🔍\n` +
+    `4️⃣  Ask an Agronomist\n` +
+    `5️⃣  Finance & Credit\n` +
+    `6️⃣  Add a Crop Listing 📸\n` +
+    `7️⃣  Open Web App 🔗\n` +
+    `8️⃣  Weather Forecast\n` +
+    `\nReply with a number (1–8) or type *MENU* anytime to return.`,
 
   AWAIT_LINK:
     `📧 Please send your mARI account *email address* to link your WhatsApp number.\n` +
@@ -59,6 +60,12 @@ export const MENU = {
 
   WEATHER: (forecast) =>
     `🌦 *Weather Forecast*\n\n${forecast}\n\nReply *MENU* to return.`,
+
+  DIAGNOSE_PROMPT: 
+    `🔍 *Crop Scan (AI Diagnosis)*\n\n` +
+    `Please take a clear, close-up photo of your diseased plant or crop and send it here.\n` +
+    `Our AI Agronomist will instantly analyze it for diseases and provide recommendations.\n\n` +
+    `Type *CANCEL* to go back.`,
 
   AGRONOMIST_PROMPT:
     `🧑‍🌾 *Ask an Agronomist*\n\nType your farming question below and our experts will reply shortly.\n\nExample: _"What is the best fertilizer for tomatoes in sandy soil?"_\n\nType *CANCEL* to go back.`,

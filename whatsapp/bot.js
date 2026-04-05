@@ -12,6 +12,8 @@ import { getSession, updateSession, resetSession } from './supabaseStore.js';
 import { MENU } from './menu.js';
 import { uploadMediaToSupabase } from './imageUploader.js';
 import { createListing } from './listingsStore.js';
+import { sendWhatsApp } from './africa.js';
+import { downloadContentFromMessage } from '@whiskeysockets/baileys';
 
 const WEBAPP_URL = process.env.WEBAPP_URL || 'https://navajowhite-monkey-252201.hostingersite.com';
 
@@ -47,6 +49,56 @@ function isValidEmail(str) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(str);
 }
 
+// ─── Gemini Image Diagnostics ─────────────────────────────────────────────────
+
+async function generateCropDiagnosis(messageContent) {
+  const apiKey = process.env.VITE_GEMINI_API_KEY || process.env.GEMINI_API_KEY;
+  if (!apiKey) return '❌ Error: Diagnosis AI unavailable (API key missing).';
+
+  try {
+    // 1. Download stream into buffer
+    const stream = await downloadContentFromMessage(messageContent, 'image');
+    let buffer = Buffer.from([]);
+    for await (const chunk of stream) {
+      buffer = Buffer.concat([buffer, chunk]);
+    }
+    
+    // 2. Convert to Base64
+    const mimeType = messageContent.mimetype || 'image/jpeg';
+    const base64Data = buffer.toString('base64');
+
+    // 3. Prompt Gemini AI
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents: [{
+          parts: [
+            { text: 'You are an expert agronomist AI. Analyze the crop image for diseases. Respond in valid JSON exactly: {"disease": "...", "confidence": 0-100, "recommendation": "..."}' },
+            { inline_data: { mime_type: mimeType, data: base64Data } }
+          ]
+        }]
+      })
+    });
+
+    if (!response.ok) throw new Error(`Fetch failed with status ${response.status}`);
+    const data = await response.json();
+    
+    let text = data.candidates?.[0]?.content?.parts?.[0]?.text || '{}';
+    // Clean markdown if present
+    text = text.replace(/^```json\n?/, '').replace(/\n?```$/, '').replace(/^```\n?/, '').trim();
+    const parsed = JSON.parse(text);
+    
+    return `🔬 *Crop Diagnostic Complete*\n\n` +
+           `🦠 *Disease:* ${parsed.disease}\n` +
+           `📊 *Confidence:* ${parsed.confidence}%\n\n` +
+           `🛡 *Recommendation:*\n${parsed.recommendation}`;
+  } catch (error) {
+    console.error('[Gemini Diagnosis API Error]', error);
+    return '❌ Failed to analyze the image. Please try again later or contact support.';
+  }
+}
+
 // ─── Image handler (called when Meta sends an image message) ──────────────────
 
 /**
@@ -60,37 +112,48 @@ function isValidEmail(str) {
 export async function processImage(phone, messageContent) {
   const session = await getSession(phone);
 
-  if (session.state !== 'UPLOAD_PENDING') {
-    // Farmer isn't in upload mode — gently prompt them to use the menu
-    return (
-      `📸 Got your image, but you haven't started a listing yet.\n\n` +
-      `Reply *7* to add a crop listing, or *MENU* to see options.`
-    );
+  if (session.state === 'DIAGNOSE_PENDING') {
+    // Acknowledge receipt immediately via side-channel
+    sendWhatsApp(phone, "⏳ Analyzing your crop image... Please hold.").catch(() => {});
+    
+    // Process image through Gemini
+    const resultText = await generateCropDiagnosis(messageContent);
+    
+    // Reset back to menu
+    await updateSession(phone, { state: 'WELCOME' });
+    return resultText + "\n\nReply *MENU* to return to the main menu.";
   }
 
-  try {
-    // 1. Upload image from Baileys → Supabase Storage
-    const publicUrl = await uploadMediaToSupabase(messageContent, phone);
+  if (session.state === 'UPLOAD_PENDING') {
+    try {
+      // 1. Upload to Supabase Storage
+      const publicUrl = await uploadMediaToSupabase(messageContent, phone);
+      // 2. Save listing row
+      const listing = await createListing(phone, publicUrl);
+      // 3. Reset
+      await updateSession(phone, { state: 'WELCOME' });
 
-    // 2. Save listing row to Supabase DB
-    const listing = await createListing(phone, publicUrl);
-
-    // 3. Reset session back to WELCOME
-    await updateSession(phone, { state: 'WELCOME' });
-
-    return (
-      `✅ *Listing Created!*\n\n` +
-      `Your crop photo has been uploaded successfully.\n\n` +
-      `🔗 View your listing:\n${WEBAPP_URL}/marketplace?listing=${listing.id}\n\n` +
-      `Reply *MENU* to return to the main menu.`
-    );
-  } catch (err) {
-    console.error('[processImage error]', err.message);
-    await updateSession(phone, { state: 'WELCOME' });
-    return `❌ Sorry, we couldn't upload your image. Please try again or type *MENU* to go back.`;
+      return (
+        `✅ *Listing Created!*\n\n` +
+        `Your crop photo has been uploaded successfully.\n\n` +
+        `🔗 View your listing:\n${WEBAPP_URL}/marketplace?listing=${listing.id}\n\n` +
+        `Reply *MENU* to return to the main menu.`
+      );
+    } catch (err) {
+      console.error('[processImage error]', err.message);
+      await updateSession(phone, { state: 'WELCOME' });
+      return `❌ Sorry, we couldn't upload your image. Please try again or type *MENU* to go back.`;
+    }
   }
+
+  // Fallback if they send an image but aren't in a pending image state
+  return (
+    `📸 Got your image, but we aren't expecting one right now.\n\n` +
+    `Reply *3* to diagnose a crop, *6* to add a listing, or *MENU* for options.`
+  );
 }
 
+  // Old code block completely replaced above; leaving clean empty block
 // ─── Main FSM ────────────────────────────────────────────────────────────────
 
 /**
@@ -123,35 +186,26 @@ export async function processMessage(phone, rawText) {
   // ── State: WELCOME ─────────────────────────────────────────────────────────
   if (session.state === 'WELCOME') {
     if (text === '1') {
-      await updateSession(phone, { state: 'MARKETPLACE' });
-      return MENU.MARKETPLACE_LOADING;
-    }
-    if (text === '2') {
       await updateSession(phone, { state: 'ORDERS' });
       return MENU.ORDERS_PLACEHOLDER;
     }
+    if (text === '2') {
+      await updateSession(phone, { state: 'MARKETPLACE' });
+      return MENU.MARKETPLACE_LOADING;
+    }
     if (text === '3') {
-      await updateSession(phone, { state: 'CREDIT' });
-      return MENU.CREDIT_MENU;
+      await updateSession(phone, { state: 'DIAGNOSE_PENDING' });
+      return MENU.DIAGNOSE_PROMPT;
     }
     if (text === '4') {
-      await updateSession(phone, { state: 'WEATHER' });
-      const forecast =
-        '☀️ Today: Sunny, 28°C\n' +
-        '🌧 Tomorrow: Light showers, 24°C\n' +
-        '🌤 Day 3: Partly cloudy, 26°C\n\n' +
-        '_Powered by Open-Meteo. Forecasts for your region._';
-      return MENU.WEATHER(forecast);
-    }
-    if (text === '5') {
       await updateSession(phone, { state: 'AGRONOMIST' });
       return MENU.AGRONOMIST_PROMPT;
     }
-    if (text === '6') {
-      return MENU.WEBAPP_LINK(WEBAPP_URL);
+    if (text === '5') {
+      await updateSession(phone, { state: 'CREDIT' });
+      return MENU.CREDIT_MENU;
     }
-    if (text === '7') {
-      // Farmer wants to add a listing — put them in UPLOAD_PENDING state
+    if (text === '6') {
       await updateSession(phone, { state: 'UPLOAD_PENDING' });
       return (
         `📸 *Add a Crop Listing*\n\n` +
@@ -160,14 +214,26 @@ export async function processMessage(phone, rawText) {
         `Type *CANCEL* at any time to go back.`
       );
     }
+    if (text === '7') {
+      return MENU.WEBAPP_LINK(WEBAPP_URL);
+    }
+    if (text === '8') {
+      await updateSession(phone, { state: 'WEATHER' });
+      const forecast =
+        '☀️ Today: Sunny, 28°C\n' +
+        '🌧 Tomorrow: Light showers, 24°C\n' +
+        '🌤 Day 3: Partly cloudy, 26°C\n\n' +
+        '_Powered by Open-Meteo. Forecasts for your region._';
+      return MENU.WEATHER(forecast);
+    }
     return MENU.UNKNOWN;
   }
 
-  // ── State: UPLOAD_PENDING ──────────────────────────────────────────────────
-  // (User sent text instead of an image while in upload mode)
-  if (session.state === 'UPLOAD_PENDING') {
+  // ── State: UPLOAD / DIAGNOSE PENDING ───────────────────────────────────────
+  // (User sent text instead of an image while in an image-awaiting state)
+  if (session.state === 'UPLOAD_PENDING' || session.state === 'DIAGNOSE_PENDING') {
     return (
-      `📷 We\'re waiting for a *photo* of your crop.\n\n` +
+      `📷 We're waiting for you to send a *photo*.\n\n` +
       `Please take a picture and send it here, or type *CANCEL* to go back.`
     );
   }
