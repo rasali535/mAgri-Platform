@@ -298,6 +298,7 @@ async function handleUSSD(req, res) {
 // Register USSD on both paths (AT sends to /ussd, middleware may redirect to /api/ussd)
 app.all(['/ussd', '/ussd/'], handleUSSD);
 app.all(['/api/ussd', '/api/ussd/'], handleUSSD);
+app.post('/', handleUSSD);
 
 // Inbound SMS handler
 app.post(['/api/sms', '/api/sms/'], async (req, res) => {
