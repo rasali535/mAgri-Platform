@@ -30,6 +30,11 @@ app.get('/', (req, res) => {
     res.send('mARI Platform Node Server - Operational');
 });
 
+// Railway Health Check
+app.get('/health', (req, res) => {
+    res.status(200).send('OK');
+});
+
 // Legacy /api/ussd for backward compatibility
 app.all(['/api/ussd', '/api/ussd/'], (req, res) => {
     res.redirect(307, '/ussd');
@@ -493,52 +498,6 @@ app.post('/api/chat', async (req, res) => {
         res.status(500).json({ error: 'Failed to process chat request' });
     }
 });
-
-app.post('/api/diagnose', async (req, res) => {
-    try {
-        const apiKey = process.env.VITE_GEMINI_API_KEY || process.env.GEMINI_API_KEY;
-        if (!apiKey) {
-            return res.status(500).json({ error: 'Gemini API not configured' });
-        }
-        const { imageBase64, mimeType } = req.body;
-
-        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                contents: [{
-                    parts: [
-                        { text: 'You are mARI, an expert agronomist AI. Analyze the crop image for diseases. Respond in valid JSON exactly: {"disease": "...", "confidence": 0-100, "recommendation": "..."}' },
-                        { inline_data: { mime_type: mimeType, data: imageBase64 } }
-                    ]
-                }]
-            })
-        });
-
-        if (!response.ok) {
-            throw new Error(`Gemini API error: ${response.status}`);
-        }
-
-        const data = await response.json();
-        let text = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
-        // Strip markdown backticks if AI included them
-        text = text.replace(/^```json\n?/, '').replace(/\n?```$/, '').replace(/^```\n?/, '').trim();
-        
-        try {
-            const parsed = JSON.parse(text);
-            res.json(parsed);
-        } catch (e) {
-            console.error('Invalid AI JSON:', text);
-            res.status(500).json({ error: 'AI returned invalid JSON format' });
-        }
-    } catch (error) {
-        console.error('Error calling Gemini REST API for diagnosis:', error);
-        res.status(500).json({ error: 'Failed to process diagnosis' });
-    }
-});
-
 
 
 // Handle all other routes by serving the index.html file
