@@ -2,7 +2,7 @@ import { makeWASocket, DisconnectReason, fetchLatestBaileysVersion } from '@whis
 import pino from 'pino';
 import { useSupabaseAuthState } from './supabaseAuthState.js';
 import { processMessage, processImage } from './bot.js';
-import { supabase } from '../src/lib/supabaseClient.js';
+import { getSupabaseClient } from '../src/lib/supabaseClient.js';
 import qrcode from 'qrcode';
 
 // Keep the socket around so we can broadcast locally or export it
@@ -89,6 +89,7 @@ export async function initBaileys() {
 }
 
 function setupRealtimeSubscription(sockInstance) {
+    const supabase = getSupabaseClient();
     supabase.channel('custom-update-channel')
       .on(
         'postgres_changes',
