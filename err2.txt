@@ -1,12 +1,12 @@
 
 Server is running on port 3000
 connection closed due to  Error: Connection Failure
-    at WebSocketClient.<anonymous> (file:///C:/Users/user/OneDrive/Desktop/magri/mAgri-Platform/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:785:13)
+    at WebSocketClient.<anonymous> (file:///C:/Users/user/OneDrive/Desktop/mARI Platform/mARI Platform-Platform/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:785:13)
     at WebSocketClient.emit (node:events:508:28)
-    at file:///C:/Users/user/OneDrive/Desktop/magri/mAgri-Platform/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:464:35
-    at Object.decodeFrame (file:///C:/Users/user/OneDrive/Desktop/magri/mAgri-Platform/node_modules/@whiskeysockets/baileys/lib/Utils/noise-handler.js:141:17)
+    at file:///C:/Users/user/OneDrive/Desktop/mARI Platform/mARI Platform-Platform/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:464:35
+    at Object.decodeFrame (file:///C:/Users/user/OneDrive/Desktop/mARI Platform/mARI Platform-Platform/node_modules/@whiskeysockets/baileys/lib/Utils/noise-handler.js:141:17)
     at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
-    at async WebSocketClient.onMessageReceived (file:///C:/Users/user/OneDrive/Desktop/magri/mAgri-Platform/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:441:9) {
+    at async WebSocketClient.onMessageReceived (file:///C:/Users/user/OneDrive/Desktop/mARI Platform/mARI Platform-Platform/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:441:9) {
   data: { reason: '405', location: 'vll' },
   isBoom: true,
   isServer: false,
@@ -24,12 +24,12 @@ connection closed due to  Error: Connection Failure
 
 Server is running on port 3000
 connection closed due to  Error: Connection Failure
-    at WebSocketClient.<anonymous> (file:///C:/Users/user/OneDrive/Desktop/magri/mAgri-Platform/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:785:13)
+    at WebSocketClient.<anonymous> (file:///C:/Users/user/OneDrive/Desktop/mARI Platform/mARI Platform-Platform/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:785:13)
     at WebSocketClient.emit (node:events:508:28)
-    at file:///C:/Users/user/OneDrive/Desktop/magri/mAgri-Platform/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:464:35
-    at Object.decodeFrame (file:///C:/Users/user/OneDrive/Desktop/magri/mAgri-Platform/node_modules/@whiskeysockets/baileys/lib/Utils/noise-handler.js:141:17)
+    at file:///C:/Users/user/OneDrive/Desktop/mARI Platform/mARI Platform-Platform/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:464:35
+    at Object.decodeFrame (file:///C:/Users/user/OneDrive/Desktop/mARI Platform/mARI Platform-Platform/node_modules/@whiskeysockets/baileys/lib/Utils/noise-handler.js:141:17)
     at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
-    at async WebSocketClient.onMessageReceived (file:///C:/Users/user/OneDrive/Desktop/magri/mAgri-Platform/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:441:9) {
+    at async WebSocketClient.onMessageReceived (file:///C:/Users/user/OneDrive/Desktop/mARI Platform/mARI Platform-Platform/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:441:9) {
   data: { reason: '405', location: 'vll' },
   isBoom: true,
   isServer: false,

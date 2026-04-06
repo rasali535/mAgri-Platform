@@ -1,5 +1,5 @@
-﻿node : file:///C:/Users/user/
-OneDrive/Desktop/magri/mAgri-
+node : file:///C:/Users/user/
+OneDrive/Desktop/mARI Platform/mARI Platform-
 Platform/whatsapp/bot.js:185
 At line:1 char:1
 + node 

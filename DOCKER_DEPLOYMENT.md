@@ -1,10 +1,10 @@
-# mAgri Platform - Docker Deployment Summary
+# mARI Platform Platform - Docker Deployment Summary
 
 ## Deployment Status
 ✓ **ACTIVE** - Container running on port 3000
 
 ## Container Details
-- **Image**: magri-app:latest
+- **Image**: mARI Platform-app:latest
 - **Port**: 3000 (mapped to host:3000)
 - **Container ID**: 6d1740522203
 - **Status**: Running
@@ -12,7 +12,7 @@
 ## Generated Files
 
 ### 1. Dockerfile (Multi-Stage)
-**Location**: mAgri-Platform/Dockerfile
+**Location**: mARI Platform-Platform/Dockerfile
 
 **Stages**:
 - **Builder Stage**: 
@@ -29,7 +29,7 @@
   - Optimized for security and size
 
 ### 2. docker-compose.yml
-**Location**: mAgri-Platform/docker-compose.yml
+**Location**: mARI Platform-Platform/docker-compose.yml
 
 **Services**:
 - **app** (Production):
@@ -51,7 +51,7 @@
   - Volume for persistence
 
 ### 3. .dockerignore
-**Location**: mAgri-Platform/.dockerignore
+**Location**: mARI Platform-Platform/.dockerignore
 
 Excludes: node_modules, build artifacts, logs, tests, git, lock files
 
@@ -85,7 +85,7 @@ docker compose up app-dev
 
 ### Manual Container Run
 ```bash
-docker run -p 3000:3000 --env-file .env magri-app:latest
+docker run -p 3000:3000 --env-file .env mARI Platform-app:latest
 ```
 
 ## Health Check

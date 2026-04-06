@@ -141,8 +141,8 @@ if (strpos($phoneNumber, '+254') === 0) {
 // LEVEL 0 - MAIN MENU
 // ========================================
 if ($depth === 0) {
-    $response = "CON Welcome to mAgri Platform\n";
-    $response .= "Brastorne Digital Inclusion\n\n";
+    $response = "CON Welcome to mARI Platform\n";
+    $response .= "Pameltex Tech\n\n";
     $response .= "1. Home Dashboard\n";
     $response .= "2. AgriMarket\n";
     $response .= "3. Crop Diagnose\n";
@@ -570,8 +570,8 @@ elseif ($depth === 2) {
             $userLang = $newLang; // Update global $userLang for immediate translation in this request
 
             // Redirect to Main Menu
-            $response = "CON Welcome to mAgri Platform\n";
-            $response .= "Brastorne Digital Inclusion\n\n";
+            $response = "CON Welcome to mARI Platform\n";
+            $response .= "Pameltex Tech\n\n";
             $response .= "1. Home Dashboard\n";
             $response .= "2. AgriMarket\n";
             $response .= "3. Crop Diagnose\n";
@@ -580,7 +580,7 @@ elseif ($depth === 2) {
             $response .= "6. My Account\n";
             $response .= "7. Change Language";
 
-            sendSMS($phoneNumber, "mAgri: Your language has been updated to $newLang.");
+            sendSMS($phoneNumber, "mARI: Your language has been updated to $newLang.");
         } else {
             $response = "CON Invalid option.\n\n0. Back";
         }
@@ -796,9 +796,9 @@ elseif ($depth === 3) {
             $response .= "Type your issue below:\n\n";
             $response .= "0. Back";
         } elseif ($levels[2] === '4') {
-            $response = "CON About mAgri Platform\n\n";
-            $response .= "Brastorne Digital Inclusion\n";
-            $response .= "mAgri v1.0\n\n";
+            $response = "CON About mARI Platform\n\n";
+            $response .= "Pameltex Tech\n";
+            $response .= "mARI v1.0\n\n";
             $response .= "AI-powered agriculture\n";
             $response .= "platform for African farmers.\n";
             $response .= "Web + USSD + SMS integrated.\n\n";
@@ -823,7 +823,7 @@ elseif ($depth === 4) {
         $aiAnswer = callOpenAI("User described crop problem: '$description'. Provide short diagnosis.", $userLang);
 
         $response = "CON Crop AI Diagnosis:\n\n$aiAnswer\n\n0. Back";
-        sendSMS($phoneNumber, "mAgri Crop AI: $aiAnswer");
+        sendSMS($phoneNumber, "mARI Crop AI: $aiAnswer");
     }
 
     // --- 2.1.X.1 - Market > Listing > Contact Seller ---
@@ -861,7 +861,7 @@ elseif ($depth === 4) {
         $aiAnswer = callOpenAI($aiPrompt, $userLang);
 
         $response = "CON Diagnosis Result:\n\nCrop: $crop\nAI: $aiAnswer\n\n0. Back";
-        sendSMS($phoneNumber, "mAgri Diagnosis ($crop): $aiAnswer");
+        sendSMS($phoneNumber, "mARI Diagnosis ($crop): $aiAnswer");
     }
 
     // --- 3.3.X.1 - Disease > Get SMS Guide ---
@@ -869,7 +869,7 @@ elseif ($depth === 4) {
         $diseases = ['1' => 'Fall Armyworm', '2' => 'Black Pod Disease', '3' => 'Cassava Mosaic', '4' => 'Late Blight', '5' => 'Rice Blast'];
         $name = isset($diseases[$levels[2]]) ? $diseases[$levels[2]] : 'Disease';
         $response = "END Full guide for $name sent to your phone via SMS!";
-        sendSMS($phoneNumber, "mAgri Disease Guide: $name - Full treatment guide. Use recommended pesticides. Monitor regularly. Visit web app for photos and detailed steps.");
+        sendSMS($phoneNumber, "mARI Disease Guide: $name - Full treatment guide. Use recommended pesticides. Monitor regularly. Visit web app for photos and detailed steps.");
     }
 
     // --- 5.2.X.1 - Finance > Credit > Confirm ---
@@ -883,7 +883,7 @@ elseif ($depth === 4) {
             $response .= "your Mobile Money wallet.\n\n";
             $response .= "Transaction: $txnId\n";
             $response .= "Repay in 3 months.";
-            sendSMS($phoneNumber, "mAgri Finance: KES " . number_format($amt) . " has been disbursed to your wallet. TXN: $txnId. Repay within 3 months.");
+            sendSMS($phoneNumber, "mARI Finance: KES " . number_format($amt) . " has been disbursed to your wallet. TXN: $txnId. Repay within 3 months.");
         } else {
             $response = "END Application cancelled.\n\nNo changes made to your account.";
         }
@@ -900,7 +900,7 @@ elseif ($depth === 4) {
             $response .= "now protected for the season.\n\n";
             $response .= "Policy: $policyId\n";
             $response .= "Premium: KES " . number_format($o[1]);
-            sendSMS($phoneNumber, "mAgri Insurance: Your {$o[0]} acre(s) are now insured! Policy: $policyId. Premium: KES " . number_format($o[1]) . " deducted.");
+            sendSMS($phoneNumber, "mARI Insurance: Your {$o[0]} acre(s) are now insured! Policy: $policyId. Premium: KES " . number_format($o[1]) . " deducted.");
         } else {
             $response = "END Insurance application cancelled.\n\nNo payment was made.";
         }
@@ -911,7 +911,7 @@ elseif ($depth === 4) {
         $response = "CON Reply to Buyer\n\n";
         $response .= "Type your reply message:\n\n0. Back";
     } else {
-        $response = "END Thank you for using mAgri Platform!\n\nDial *384*14032# again anytime.";
+        $response = "END Thank you for using mARI Platform!\n\nDial *384*14032# again anytime.";
     }
 }
 
@@ -934,9 +934,9 @@ elseif ($depth === 5) {
         $response .= "Price: $price\n\n";
         $response .= ($isBuyer ? "Sellers" : "Buyers") . " in your area have been notified.";
 
-        sendSMS($phoneNumber, "mAgri Market: Your " . ($isBuyer ? "buying request" : "sale listing") . " for $name ($qty) at $price is now LIVE. Ref: PUB-" . rand(1000, 9999));
+        sendSMS($phoneNumber, "mARI Market: Your " . ($isBuyer ? "buying request" : "sale listing") . " for $name ($qty) at $price is now LIVE. Ref: PUB-" . rand(1000, 9999));
     } else {
-        $response = "END Thank you for using mAgri Platform!\n\nDial *384*14032# again anytime.";
+        $response = "END Thank you for using mARI Platform!\n\nDial *384*14032# again anytime.";
     }
 }
 
@@ -949,19 +949,19 @@ elseif ($depth >= 5) {
     if ($levels[0] === '6' && $levels[1] === '2' && $levels[2] === '1' && $levels[3] === '1') {
         $reply = $levels[4];
         $response = "CON Reply sent to buyer!\n\n\"$reply\"\n\nThey will receive your message via SMS.\n\n0. Back";
-        sendSMS($phoneNumber, "mAgri Market: Your reply has been sent to the buyer. They will respond via SMS.");
+        sendSMS($phoneNumber, "mARI Market: Your reply has been sent to the buyer. They will respond via SMS.");
     }
 
     // --- 6.3.3.X - Report Problem Text ---
     elseif ($levels[0] === '6' && $levels[1] === '3' && $levels[2] === '3') {
         $issue = $levels[3];
         $response = "END Problem reported!\n\n\"$issue\"\n\nOur support team will contact you within 24 hours.\nRef: SUP-" . rand(10000, 99999);
-        sendSMS($phoneNumber, "mAgri Support: Your issue has been reported. Our team will contact you within 24 hours.");
+        sendSMS($phoneNumber, "mARI Support: Your issue has been reported. Our team will contact you within 24 hours.");
     } else {
-        $response = "END Thank you for using mAgri Platform!\n\nDial *384*14032# again anytime.";
+        $response = "END Thank you for using mARI Platform!\n\nDial *384*14032# again anytime.";
     }
 } else {
-    $response = "END Thank you for using mAgri Platform!\n\nDial *384*14032# again anytime.";
+    $response = "END Thank you for using mARI Platform!\n\nDial *384*14032# again anytime.";
 }
 
 if ($userLang !== 'English') {

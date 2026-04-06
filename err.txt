@@ -1,4 +1,4 @@
-file:///C:/Users/user/OneDrive/Desktop/magri/mAgri-Platform/whatsapp/supabaseAuthState.js:2
+file:///C:/Users/user/OneDrive/Desktop/mARI Platform/mARI Platform-Platform/whatsapp/supabaseAuthState.js:2
 import { supabaseService } from '../src/lib/supabaseClient.js';
          ^^^^^^^^^^^^^^^
 SyntaxError: The requested module '../src/lib/supabaseClient.js' does not provide an export named 'supabaseService'
