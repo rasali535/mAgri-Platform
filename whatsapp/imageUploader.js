@@ -11,15 +11,10 @@
  *   4. Return the public URL
  */
 
-import { createClient } from '@supabase/supabase-js';
 import { downloadContentFromMessage } from '@whiskeysockets/baileys';
+import { getSupabaseClient } from '../src/lib/supabaseClient.js';
 
 const BUCKET = 'farmer-uploads';
-
-const supabase = createClient(
-  process.env.VITE_SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_KEY || process.env.VITE_SUPABASE_ANON_KEY
-);
 async function resolveMetaMediaUrl(mediaId) {
   const token = process.env.META_WHATSAPP_TOKEN;
   const resp = await fetch(
@@ -56,6 +51,7 @@ async function downloadMetaMedia(url) {
  * @returns {Promise<string>} public URL of the uploaded image
  */
 export async function uploadMediaToSupabase(messageContent, phone) {
+  const supabase = getSupabaseClient();
   // 1. Download the image using Baileys
   const stream = await downloadContentFromMessage(messageContent, 'image');
   let buffer = Buffer.from([]);
