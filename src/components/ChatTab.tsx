@@ -8,7 +8,7 @@ export default function ChatTab() {
   const [messages, setMessages] = useState<Message[]>([
     { 
       role: 'model', 
-      text: 'Dumela! I am your mARI AI Agronomist. I can assist you in English, Setswana, Bemba, and Nyanja. How is your farm doing today?',
+      text: 'Dumela! I am mARI, your AI Agronomist by Pameltex Tech. I can assist you in English, Setswana, Bemba, and Nyanja. How is your farm doing today?',
       timestamp: new Date()
     }
   ]);
@@ -41,24 +41,24 @@ export default function ChatTab() {
     setLoading(true);
 
     try {
-      const contents = [
+      const newMessages = [
         ...messages.map(m => ({
-          role: m.role,
-          parts: [{ text: m.text }]
+          role: m.role === 'model' ? 'assistant' : 'user',
+          content: m.text
         })),
-        { role: 'user', parts: [{ text: userMsg }] }
+        { role: 'user', content: userMsg }
       ];
 
       const apiKey = import.meta.env.VITE_GEMINI_API_KEY || process.env.GEMINI_API_KEY;
       const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${apiKey}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ contents })
+        body: JSON.stringify({ messages: newMessages })
       });
 
       if (!response.ok) throw new Error(`API error: ${response.status}`);
       const data = await response.json();
-      const text = data.candidates?.[0]?.content?.parts?.[0]?.text || 'I apologize, I could not process that request.';
+      const text = data.content || 'I apologize, I could not process that request.';
       setMessages(prev => [...prev, { role: 'model', text, timestamp: new Date() }]);
     } catch (error) {
       console.error('Chat error:', error);
@@ -80,7 +80,7 @@ export default function ChatTab() {
             <Bot size={24} className="text-white" />
           </div>
           <div>
-            <h2 className="font-bold text-neutral-900 leading-none mb-1">mARI AI Specialist</h2>
+            <h2 className="font-bold text-neutral-900 leading-none mb-1">mARI — AI Specialist</h2>
             <div className="flex items-center text-[10px] font-bold text-emerald-600 uppercase tracking-tighter">
               <Globe size={10} className="mr-1" /> Multi-lingual Support Active
             </div>
@@ -187,7 +187,7 @@ export default function ChatTab() {
           </button>
         </div>
         <p className="text-[10px] text-center text-neutral-400 font-bold mt-4 uppercase tracking-[0.2em] opacity-40">
-          Powered by Advanced AI Advisor • Private & Secure
+          Powered by mARI Intelligence (Pameltex Tech) • Private & Secure
         </p>
       </div>
     </div>

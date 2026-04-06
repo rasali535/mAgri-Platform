@@ -1,5 +1,5 @@
 {
-  "name": "mAgri WebApp",
+  "name": "mARI WebApp",
   "description": "Lightweight agricultural platform for Next Billion Users with AI diagnostics and Fintech integration.",
   "requestFramePermissions": [
     "camera",

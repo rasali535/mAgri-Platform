@@ -67,11 +67,11 @@ export default function LoginScreen({ onLogin }: LoginScreenProps) {
         className="w-full max-w-md bg-white rounded-3xl overflow-hidden shadow-2xl"
       >
         <div className="bg-emerald-800 p-8 text-center text-white">
-          <div className="w-16 h-16 bg-white text-emerald-800 rounded-2xl flex items-center justify-center shadow-lg mx-auto mb-4 font-bold text-3xl">
-            m
+          <div className="w-16 h-16 bg-white text-emerald-800 rounded-2xl flex items-center justify-center shadow-lg mx-auto mb-4 font-bold text-3xl font-outfit uppercase tracking-tighter">
+            P
           </div>
-          <h1 className="text-2xl font-bold mb-1">mARI Platform</h1>
-          <p className="text-emerald-200 text-sm">Sign in to your account</p>
+          <h1 className="text-2xl font-bold mb-1 font-outfit uppercase tracking-tighter">Pameltex Tech</h1>
+          <p className="text-emerald-200 text-sm font-medium">Bespoke Farmer Marketplace</p>
         </div>
 
         <div className="p-8">

@@ -1,10 +1,8 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
 
-# mAgri Platform
 
-The mAgri Platform connects smallholder farmers to markets, finance, weather, and expert agronomists — accessible on the **web** and through **WhatsApp**.
+# mARI Platform
+
+The mARI Platform connects smallholder farmers to markets, finance, weather, and expert agronomists — accessible on the **web** and through **WhatsApp**.
 
 ---
 
@@ -51,7 +49,7 @@ The mAgri Platform connects smallholder farmers to markets, finance, weather, an
 
 ## WhatsApp Conversational Menu (via Africa's Talking)
 
-Users can interact with the full mAgri platform directly through WhatsApp.
+Users can interact with the full Pameltex Tech platform directly through WhatsApp.
 
 ### Features accessible via WhatsApp
 
@@ -66,7 +64,7 @@ Users can interact with the full mAgri platform directly through WhatsApp.
 
 Universal commands work from any state:
 - `MENU` / `HI` / `HELLO` — return to main menu
-- `LINK` — link your WhatsApp number to your mAgri account
+- `LINK` — link your WhatsApp number to your mARI account
 - `CANCEL` — go back
 
 ### Bot Architecture
@@ -108,7 +106,7 @@ Africa's Talking (WhatsApp)
 
 Run `migrations/001_whatsapp.sql` in the Supabase SQL editor to create:
 - `whatsapp_sessions` — conversation state per phone number
-- `whatsapp_links` — maps WhatsApp phone to mAgri account email
+- `whatsapp_links` — maps WhatsApp phone to Pameltex Tech account email
 - `whatsapp_messages` — full audit log of inbound/outbound messages
 
 Then swap the import in `whatsapp/bot.js`:
@@ -161,7 +159,7 @@ node scripts/whatsappBotTest.js
 ## Project Structure
 
 ```
-mAgri-Platform/
+Pameltex Tech-Platform/
 ├── index.js               # Express server (entry point)
 ├── src/                   # React + Vite frontend
 │   └── components/        # UI components (Marketplace, Finance, etc.)

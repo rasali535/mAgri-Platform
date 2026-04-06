@@ -44,19 +44,27 @@ export async function sendSMS(to, message) {
   return data;
 }
 
-import { sendMetaMessage } from '../whatsappMeta.js';
+import { sock } from './baileys.js';
 
 /**
- * Send a WhatsApp message via Meta Business API.
- * The signature remains the same so existing callers are not impacted.
+ * Send a WhatsApp message via Baileys.
  *
- * @param {string} to      Recipient phone number in E.164 format (without "whatsapp:")
+ * @param {string} to      Recipient phone number in E.164 format
  * @param {string} message Text body
  */
 export async function sendWhatsApp(to, message) {
-  // Ensure number has no prefix
+  if (!sock) {
+    console.error('Baileys socket is not initialized yet. Cannot send message to', to);
+    return;
+  }
+  
+  // Ensure we format the clean number to Baileys JID format
   const cleanTo = to.replace(/^whatsapp:\+?/, '').replace(/^\+/, '');
-  const toE164 = `+${cleanTo}`;
-
-  return await sendMetaMessage(toE164, message);
+  const jid = `${cleanTo}@s.whatsapp.net`;
+  
+  try {
+    await sock.sendMessage(jid, { text: message });
+  } catch (err) {
+    console.error('Error sending message via Baileys:', err);
+  }
 }

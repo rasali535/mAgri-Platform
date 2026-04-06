@@ -5,7 +5,7 @@ export default function ArchitectureTab() {
     <div className="p-4 space-y-6">
       <div className="space-y-2">
         <h2 className="text-xl font-bold text-stone-800">System Architecture</h2>
-        <p className="text-sm text-stone-500">mAgri WebApp Experience Design</p>
+        <p className="text-sm text-stone-500">Pameltex Tech WebApp Design</p>
       </div>
 
       <div className="space-y-4">

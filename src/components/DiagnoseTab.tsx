@@ -31,16 +31,12 @@ export default function DiagnoseTab() {
       const base64Data = image.split(',')[1];
       const mimeType = image.split(',')[0].split(':')[1].split(';')[0];
 
-      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${apiKey}`, {
+      const response = await fetch('/api/diagnose', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          contents: [{
-            parts: [
-              { text: 'You are an expert agronomist AI. Analyze the crop image for diseases. Respond in valid JSON exactly: {"disease": "...", "confidence": 0-100, "recommendation": "..."}' },
-              { inline_data: { mime_type: mimeType, data: base64Data } }
-            ]
-          }]
+          imageBase64: base64Data,
+          mimeType: mimeType
         })
       });
 

@@ -9,12 +9,7 @@
  * Usage: swap the import in bot.js from './sessions.js' → './supabaseStore.js'
  */
 
-import { createClient } from '@supabase/supabase-js';
-
-const supabase = createClient(
-  process.env.VITE_SUPABASE_URL,
-  process.env.VITE_SUPABASE_ANON_KEY
-);
+import { supabase } from '../src/lib/supabaseClient.js';
 
 // ─── Session helpers ──────────────────────────────────────────────────────────
 
@@ -35,13 +30,14 @@ export async function getSession(phone) {
       state: 'WELCOME',
       linked: false,
       email: null,
+      language: 'en',
       last_updated: new Date().toISOString(),
     };
     await supabase.from('whatsapp_sessions').upsert(fresh, { onConflict: 'phone' });
     return { ...fresh, history: [] };
   }
 
-  return { ...data, history: [] };
+  return { ...data, history: data.history || [], language: data.language || 'en' };
 }
 
 /**
@@ -75,7 +71,7 @@ export async function resetSession(phone) {
 // ─── WhatsApp link helpers ────────────────────────────────────────────────────
 
 /**
- * Record that a WhatsApp number has been linked to an mAgri email.
+ * Record that a WhatsApp number has been linked to an Pameltex Tech email.
  */
 export async function linkAccount(phone, email) {
   const { error } = await supabase.from('whatsapp_links').upsert(

@@ -19,11 +19,11 @@ const WEBAPP_URL = process.env.WEBAPP_URL || 'https://navajowhite-monkey-252201.
  */
 export async function notifyOrderConfirmation(phone, { id, produce, qty, seller }) {
   const msg =
-    `✅ *mAgri Order Confirmation*\n\n` +
+    `✅ *Pameltex Tech Order Confirmation*\n\n` +
     `Your enquiry for *${qty} of ${produce}* has been sent to *${seller || 'the seller'}*.\n\n` +
     `📋 Ref: ${id}\n` +
     `🌐 Track on web: ${WEBAPP_URL}\n\n` +
-    `Reply *MENU* to return to the mAgri bot.`;
+    `Reply *MENU* to return to the Pameltex Tech bot.`;
 
   return sendWhatsApp(phone, msg);
 }
@@ -33,7 +33,7 @@ export async function notifyOrderConfirmation(phone, { id, produce, qty, seller 
  */
 export async function notifyCreditApplication(phone, { amount, currency = '' }) {
   const msg =
-    `💳 *mAgri Credit Application*\n\n` +
+    `💳 *Pameltex Tech Credit Application*\n\n` +
     `Your application for *${currency}${amount}* micro-credit has been received.\n` +
     `Our team will review and respond within 24–48 hours.\n\n` +
     `🌐 Check status: ${WEBAPP_URL}\n\n` +
@@ -48,7 +48,7 @@ export async function notifyCreditApplication(phone, { amount, currency = '' }) 
 export async function notifyCreditApproved(phone, { amount, currency = '', rate }) {
   const msg =
     `🎉 *Credit Approved!*\n\n` +
-    `Your mAgri micro-credit of *${currency}${amount}* at *${rate}% p.a.* has been approved.\n\n` +
+    `Your Pameltex Tech micro-credit of *${currency}${amount}* at *${rate}% p.a.* has been approved.\n\n` +
     `Funds will be disbursed to your mobile wallet within 2 hours.\n` +
     `🌐 Details: ${WEBAPP_URL}\n\n` +
     `Reply *MENU* for the main menu.`;

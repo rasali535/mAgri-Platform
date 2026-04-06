@@ -71,26 +71,16 @@ export default function App() {
   return (
     <div className="flex h-screen bg-neutral-50 text-neutral-900 font-sans overflow-hidden">
       {/* Sidebar - Desktop */}
-      <aside className={`fixed inset-y-0 left-0 z-50 ${isSidebarCollapsed ? 'w-20' : 'w-64'} bg-emerald-900 text-white transform transition-all duration-300 ease-in-out md:translate-x-0 md:static md:block ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
-        <div className="flex flex-col h-full relative">
-          {/* Collapse Toggle Button - Desktop Only */}
-          <button 
-            onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
-            className="hidden md:flex absolute -right-3 top-24 bg-emerald-500 text-white p-1 rounded-full border-2 border-emerald-900 z-50 hover:bg-emerald-400 transition-colors"
-          >
-            {isSidebarCollapsed ? <ChevronRight size={14} /> : <ChevronLeft size={14} />}
-          </button>
-
-          <div className={`p-6 flex items-center ${isSidebarCollapsed ? 'justify-center px-0' : 'space-x-3'}`}>
-            <div className={`flex-shrink-0 w-10 h-10 bg-emerald-500 rounded-xl flex items-center justify-center shadow-lg shadow-emerald-950/20`}>
-              <span className="font-bold text-xl">m</span>
+      <aside className={`fixed inset-y-0 left-0 z-50 w-64 bg-emerald-900 text-white transform transition-transform duration-300 ease-in-out md:translate-x-0 md:static md:block ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+        <div className="flex flex-col h-full">
+          <div className="p-6 flex items-center space-x-3">
+            <div className="w-10 h-10 bg-emerald-500 rounded-xl flex items-center justify-center shadow-lg shadow-emerald-950/20">
+              <span className="font-bold text-xl text-white">P</span>
             </div>
-            {!isSidebarCollapsed && (
-              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="overflow-hidden">
-                <h1 className="font-bold text-lg leading-tight whitespace-nowrap">mARI Portal</h1>
-                <p className="text-emerald-400 text-[10px] uppercase tracking-widest font-semibold tracking-tighter">mARI Digital Ecosystem</p>
-              </motion.div>
-            )}
+            <div>
+              <h1 className="font-bold text-lg leading-tight text-white font-outfit uppercase tracking-tighter">Pameltex Tech</h1>
+              <p className="text-emerald-400 text-[10px] uppercase tracking-widest font-bold">Farmer Marketplace</p>
+            </div>
           </div>
 
           <nav className={`flex-1 px-4 space-y-1 mt-6 ${isSidebarCollapsed ? 'px-2' : ''}`}>
@@ -140,7 +130,7 @@ export default function App() {
             <button onClick={() => setIsSidebarOpen(true)} className="p-2 text-neutral-500 hover:bg-neutral-100 rounded-lg transition-colors">
               <Menu size={24} />
             </button>
-            <span className="ml-3 font-bold text-lg">mARI</span>
+            <span className="ml-3 font-bold text-lg">Pameltex</span>
           </div>
 
           <div className="hidden md:flex flex-1 max-w-md relative group">

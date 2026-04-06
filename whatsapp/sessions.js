@@ -16,8 +16,8 @@ export function getSession(phone) {
     sessions.set(phone, {
       phone,
       state: 'WELCOME',          // current menu state
-      linked: false,             // has the user linked their mAgri account?
-      email: null,               // linked mAgri email
+      linked: false,             // has the user linked their Pameltex Tech account?
+      email: null,               // linked Pameltex Tech email
       history: [],               // last few bot exchanges for context
       lastUpdated: Date.now(),
     });
