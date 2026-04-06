@@ -1,42 +1,76 @@
 import { initAuthCreds, BufferJSON, proto } from '@whiskeysockets/baileys';
 import { supabase } from '../src/lib/supabaseClient.js';
 
-export const useSupabaseAuthState = async (sessionName = 'default') => {
-    // Prefix keys to allow multiple sessions if needed
+/**
+ * Custom authentication state provider for Baileys that persists data in Supabase.
+ * This allows the bot to maintain session across restarts on ephemeral filesystems like Railway.
+ * 
+ * Target Table: wa_auth (or wa_sessions)
+ * Columns Required: id (text, primary key), data (jsonb)
+ */
+export const useSupabaseAuthState = async (sessionName = 'primary') => {
+    // Prefix keys to allow multiple sessions or instances to coexist in the same table
     const getKey = (id) => `${sessionName}:${id}`;
 
+    /**
+     * Reads a single record from Supabase and parses it using Baileys' BufferJSON.reviver
+     */
     const readData = async (id) => {
-        const key = getKey(id);
-        const { data, error } = await supabase
-            .from('wa_auth')
-            .select('data')
-            .eq('id', key)
-            .single();
+        try {
+            const key = getKey(id);
+            const { data, error } = await supabase
+                .from('wa_auth') // Replace with 'wa_sessions' if preferred
+                .select('data')
+                .eq('id', key)
+                .single();
 
-        if (error || !data) {
+            if (error || !data) {
+                return null;
+            }
+            // Baileys requires specific deserialization for Buffers/Protos
+            return JSON.parse(JSON.stringify(data.data), BufferJSON.reviver);
+        } catch (err) {
+            console.error(`[Auth] Error reading ${id}:`, err);
             return null;
         }
-        return JSON.parse(JSON.stringify(data.data), BufferJSON.reviver);
     };
 
+    /**
+     * Writes or Updates a record in Supabase using Baileys' BufferJSON.replacer
+     */
     const writeData = async (data, id) => {
-        const key = getKey(id);
-        const json = JSON.parse(JSON.stringify(data, BufferJSON.replacer));
-        await supabase
-            .from('wa_auth')
-            .upsert({ id: key, data: json });
+        try {
+            const key = getKey(id);
+            const json = JSON.parse(JSON.stringify(data, BufferJSON.replacer));
+            const { error } = await supabase
+                .from('wa_auth')
+                .upsert({ id: key, data: json });
+
+            if (error) throw error;
+        } catch (err) {
+            console.error(`[Auth] Error writing ${id}:`, err);
+        }
     };
 
+    /**
+     * Deletes a record from Supabase
+     */
     const removeData = async (id) => {
-        const key = getKey(id);
-        await supabase
-            .from('wa_auth')
-            .delete()
-            .eq('id', key);
+        try {
+            const key = getKey(id);
+            await supabase
+                .from('wa_auth')
+                .delete()
+                .eq('id', key);
+        } catch (err) {
+            console.error(`[Auth] Error removing ${id}:`, err);
+        }
     };
 
+    // Load credentials from database
     let creds = await readData('creds');
     if (!creds) {
+        console.log('[Auth] Initializing new credentials');
         creds = initAuthCreds();
         await writeData(creds, 'creds');
     }

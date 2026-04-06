@@ -29,7 +29,10 @@ export async function initBaileys() {
         const { connection, lastDisconnect, qr } = update;
 
         if (qr) {
-            console.log('New Baileys QR Code available at /admin/qr');
+            console.log('\n--- NEW BAILEYS QR CODE ---');
+            console.log('Scan the QR code below or visit /admin/qr to pair:');
+            console.log(qr); // Logging the raw QR string as a fallback
+            console.log('---------------------------\n');
             currentQR = qr;
         }
 

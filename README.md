@@ -1,8 +1,8 @@
 
 
-# Pameltex Tech Platform
+# mARI Platform
 
-The Pameltex Tech Platform connects smallholder farmers to markets, finance, weather, and expert agronomists — accessible on the **web** and through **WhatsApp**.
+The mARI Platform connects smallholder farmers to markets, finance, weather, and expert agronomists — accessible on the **web** and through **WhatsApp**.
 
 ---
 
@@ -64,7 +64,7 @@ Users can interact with the full Pameltex Tech platform directly through WhatsAp
 
 Universal commands work from any state:
 - `MENU` / `HI` / `HELLO` — return to main menu
-- `LINK` — link your WhatsApp number to your Pameltex Tech account
+- `LINK` — link your WhatsApp number to your mARI account
 - `CANCEL` — go back
 
 ### Bot Architecture
