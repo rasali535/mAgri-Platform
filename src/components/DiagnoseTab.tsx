@@ -27,7 +27,6 @@ export default function DiagnoseTab() {
     if (!image) return;
     setLoading(true);
     try {
-      const apiKey = import.meta.env.VITE_GEMINI_API_KEY || process.env.GEMINI_API_KEY;
       const base64Data = image.split(',')[1];
       const mimeType = image.split(',')[0].split(':')[1].split(';')[0];
 
@@ -42,14 +41,12 @@ export default function DiagnoseTab() {
 
       if (!response.ok) throw new Error(`API error: ${response.status}`);
       const data = await response.json();
-      let textContent = data.candidates?.[0]?.content?.parts?.[0]?.text?.trim() || '';
-      textContent = textContent.replace(/^```json\n?/, '').replace(/\n?```$/, '').replace(/^```\n?/, '');
-
-      const dataData = JSON.parse(textContent);
+      
+      // The backend now returns the parsed JSON directly
       const resultData = {
-        disease: dataData.disease || 'Unknown Diagnosis',
-        confidence: dataData.confidence || 0,
-        recommendation: dataData.recommendation || 'No recommendation available.'
+        disease: data.disease || 'Unknown Diagnosis',
+        confidence: data.confidence || 0,
+        recommendation: data.recommendation || 'No recommendation available.'
       };
 
       setResult(resultData);
@@ -248,8 +245,8 @@ function ActiveState({ image, loading, result, escalated, onAnalyze }: any) {
                       <User size={16} />
                    </div>
                    <div>
-                      <h5 className="font-bold text-amber-900 text-sm mb-0.5">Expert Review Requested</h5>
-                      <p className="text-xs text-amber-800 font-medium">Confidence is below 90%. An agronomist will review this and SMS you.</p>
+                       <h5 className="font-bold text-amber-900 text-sm mb-0.5">Expert Review Requested</h5>
+                       <p className="text-xs text-amber-800 font-medium">Confidence is below 90%. An agronomist will review this and SMS you.</p>
                    </div>
                 </div>
              )}

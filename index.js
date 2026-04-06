@@ -473,7 +473,7 @@ app.post('/api/diagnose', async (req, res) => {
             body: JSON.stringify({
                 contents: [{
                     parts: [
-                        { text: 'You are an expert agronomist AI. Analyze the crop image for diseases. Respond in valid JSON exactly: {"disease": "...", "confidence": 0-100, "recommendation": "..."}' },
+                        { text: 'You are mARI, an expert agronomist AI. Analyze the crop image for diseases. Respond in valid JSON exactly: {"disease": "...", "confidence": 0-100, "recommendation": "..."}' },
                         { inline_data: { mime_type: mimeType, data: imageBase64 } }
                     ]
                 }]
@@ -485,7 +485,17 @@ app.post('/api/diagnose', async (req, res) => {
         }
 
         const data = await response.json();
-        res.json(data);
+        let text = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+        // Strip markdown backticks if AI included them
+        text = text.replace(/^```json\n?/, '').replace(/\n?```$/, '').replace(/^```\n?/, '').trim();
+        
+        try {
+            const parsed = JSON.parse(text);
+            res.json(parsed);
+        } catch (e) {
+            console.error('Invalid AI JSON:', text);
+            res.status(500).json({ error: 'AI returned invalid JSON format' });
+        }
     } catch (error) {
         console.error('Error calling Gemini REST API for diagnosis:', error);
         res.status(500).json({ error: 'Failed to process diagnosis' });

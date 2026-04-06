@@ -126,7 +126,10 @@ export async function processImage(phone, messageContent) {
     // Transition to followup state and store diagnosis in history for context
     await updateSession(phone, { 
       state: 'DIAGNOSE_FOLLOWUP',
-      history: [{ role: 'model', parts: [{ text: resultText }] }]
+      history: [
+        { role: 'user', parts: [{ text: 'Please analyze this crop image.' }] },
+        { role: 'model', parts: [{ text: resultText }] }
+      ]
     });
     return finalReply;
   }

@@ -41,24 +41,26 @@ export default function ChatTab() {
     setLoading(true);
 
     try {
-      const newMessages = [
-        ...messages.map(m => ({
-          role: m.role === 'model' ? 'assistant' : 'user',
-          content: m.text
-        })),
-        { role: 'user', content: userMsg }
+      const contents = [
+        ...messages
+          .filter((m, idx) => idx > 0 || m.role === 'user') 
+          .map(m => ({
+            role: m.role === 'model' ? 'model' : 'user',
+            parts: [{ text: m.text }]
+          })),
+        { role: 'user', parts: [{ text: userMsg }] }
       ];
 
       const apiKey = import.meta.env.VITE_GEMINI_API_KEY || process.env.GEMINI_API_KEY;
-      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${apiKey}`, {
+      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: newMessages })
+        body: JSON.stringify({ contents })
       });
 
       if (!response.ok) throw new Error(`API error: ${response.status}`);
       const data = await response.json();
-      const text = data.content || 'I apologize, I could not process that request.';
+      const text = data.candidates?.[0]?.content?.parts?.[0]?.text || 'I apologize, I could not process that request.';
       setMessages(prev => [...prev, { role: 'model', text, timestamp: new Date() }]);
     } catch (error) {
       console.error('Chat error:', error);

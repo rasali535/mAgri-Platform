@@ -1035,7 +1035,7 @@ function translateMenu($text, $language)
         ]
     ];
 
-    $url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=$apiKey";
+    $url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=$apiKey";
 
     $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -1047,7 +1047,7 @@ function translateMenu($text, $language)
     $apiResponse = curl_exec($ch);
     $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     $curlError = curl_error($ch);
-    curl_close($ch);
+
 
     $logMsg = date('Y-m-d H:i:s') . " | TRANSLATE to $language | HTTP $httpCode | Err: $curlError | Resp: $apiResponse\n";
     file_put_contents(__DIR__ . '/ussd_log.txt', $logMsg, FILE_APPEND);
@@ -1088,7 +1088,7 @@ function sendSMS($to, $message)
         'apiKey: ' . $apiKey
     ));
     curl_exec($ch);
-    curl_close($ch);
+
 }
 
 // ========================================
@@ -1101,7 +1101,7 @@ function callOpenAI($prompt, $language) // Keeping name for compatibility in the
     if (!$apiKey)
         return "AI is currently unavailable.";
 
-    $fullPrompt = "You are an expert agronomist for mAgri Platform. 
+    $fullPrompt = "You are mARI, an expert AI agronomist for mAgri Platform. 
     Question: $prompt
     
     IMPORTANT: 
@@ -1119,7 +1119,7 @@ function callOpenAI($prompt, $language) // Keeping name for compatibility in the
         ]
     ];
 
-    $url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=$apiKey";
+    $url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=$apiKey";
 
     $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -1131,7 +1131,7 @@ function callOpenAI($prompt, $language) // Keeping name for compatibility in the
     $apiResponse = curl_exec($ch);
     $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     $curlError = curl_error($ch);
-    curl_close($ch);
+
 
     $logMsg = date('Y-m-d H:i:s') . " | AI CALL for $language | HTTP $httpCode | Err: $curlError | Resp: $apiResponse\n";
     file_put_contents(__DIR__ . '/ussd_log.txt', $logMsg, FILE_APPEND);

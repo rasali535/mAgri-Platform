@@ -120,16 +120,23 @@ app.post('/api/sms', (req, res) => {
 // 2. Static File Serving (Lower Priority)
 app.use(express.static(path.join(__dirname, 'dist')));
 
-// AI Services Bridge - Gemini 2.5 Flash
-async function askGemini(contents) {
+// AI Services Bridge - Gemini 1.5 Flash
+async function askGemini(contents, systemInstruction = "") {
     const apiKey = process.env.VITE_GEMINI_API_KEY || process.env.GEMINI_API_KEY;
     if (!apiKey) return { error: 'Gemini API not configured' };
 
     try {
-        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
+        const body = { contents };
+        if (systemInstruction) {
+            body.system_instruction = {
+                parts: [{ text: systemInstruction }]
+            };
+        }
+
+        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ contents })
+            body: JSON.stringify(body)
         });
         if (!response.ok) throw new Error(`Gemini API error: ${response.status}`);
         return await response.json();
@@ -151,7 +158,8 @@ app.post('/api/chat', async (req, res) => {
             parts: [{ text: m.content }]
         }));
 
-        const data = await askGemini(contents);
+        const systemInstruction = "You are mARI, a premium AI agronomist for the mAgri Platform, developed by Pameltex Tech. Provide helpful agricultural advice.";
+        const data = await askGemini(contents, systemInstruction);
         const text = data.candidates?.[0]?.content?.parts?.[0]?.text || 'No response from AI.';
         res.json({ role: 'assistant', content: text });
     } catch (error) {
