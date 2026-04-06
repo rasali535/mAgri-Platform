@@ -1,11 +1,9 @@
-version: '3.8'
-
 services:
   app:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: mARI Platform-app
+    container_name: magri-app
     ports:
       - "3000:3000"
     environment:
@@ -14,14 +12,18 @@ services:
       - VITE_SUPABASE_URL=${VITE_SUPABASE_URL}
       - VITE_SUPABASE_ANON_KEY=${VITE_SUPABASE_ANON_KEY}
       - DATABASE_URL=${DATABASE_URL}
-      - META_WHATSAPP_TOKEN=${META_WHATSAPP_TOKEN}
-      - META_WHATSAPP_PHONE_ID=${META_WHATSAPP_PHONE_ID}
-      - META_WEBHOOK_VERIFY_TOKEN=${META_WEBHOOK_VERIFY_TOKEN}
-      - WEBAPP_URL=${WEBAPP_URL}
-      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - META_WHATSAPP_TOKEN=${META_WHATSAPP_TOKEN:-}
+      - META_WHATSAPP_PHONE_ID=${META_WHATSAPP_PHONE_ID:-}
+      - META_WEBHOOK_VERIFY_TOKEN=${META_WEBHOOK_VERIFY_TOKEN:-}
+      - WEBAPP_URL=${WEBAPP_URL:-http://localhost:3000}
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
       - AT_API_KEY=${AT_API_KEY}
       - AT_USERNAME=${AT_USERNAME}
       - VITE_GEMINI_API_KEY=${VITE_GEMINI_API_KEY}
+      - VITE_GEMINI_PROJECT_ID=${VITE_GEMINI_PROJECT_ID}
+      - VITE_GEMINI_PROJECT_NUMBER=${VITE_GEMINI_PROJECT_NUMBER}
+      - SUPABASE_SERVICE_KEY=${SUPABASE_SERVICE_KEY}
+      - SUPABASE_KEY=${SUPABASE_KEY}
     env_file:
       - .env
     volumes:
@@ -40,7 +42,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: mARI Platform-app-dev
+    container_name: magri-app-dev
     ports:
       - "3001:3000"
     environment:
@@ -49,28 +51,18 @@ services:
     env_file:
       - .env
     volumes:
-      - ./src:/app/src
-      - ./public:/app/public
-      - ./package.json:/app/package.json
+      - ./:/app
     command: npm run dev
-    develop:
-      watch:
-        - path: ./src
-          action: sync
-        - path: ./public
-          action: sync
-        - path: ./package.json
-          action: rebuild
     restart: unless-stopped
 
-  # Optional: PostgreSQL database service
+  # Optional: PostgreSQL database service (uncomment to enable)
   # postgres:
   #   image: postgres:16-alpine
-  #   container_name: mARI Platform-postgres
+  #   container_name: magri-postgres
   #   environment:
   #     - POSTGRES_USER=postgres
   #     - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
-  #     - POSTGRES_DB=mARI Platform
+  #     - POSTGRES_DB=magri
   #   volumes:
   #     - postgres_data:/var/lib/postgresql/data
   #   ports:

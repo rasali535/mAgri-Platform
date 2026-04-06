@@ -1,3 +1,4 @@
+/**
  * whatsapp/bot.js
  * Core WhatsApp conversational FSM.
  *
@@ -159,7 +160,6 @@ export async function processImage(phone, messageContent) {
   );
 }
 
-  // Old code block completely replaced above; leaving clean empty block
 async function askGemini(question, history = [], lang = 'en') {
   const apiKey = process.env.VITE_GEMINI_API_KEY || process.env.GEMINI_API_KEY;
   if (!apiKey) return '❌ AI service unavailable.';
