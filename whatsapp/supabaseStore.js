@@ -9,7 +9,7 @@
  * Usage: swap the import in bot.js from './sessions.js' → './supabaseStore.js'
  */
 
-import { supabase } from '../src/lib/supabaseClient.js';
+import { getSupabaseClient } from '../src/lib/supabaseClient.js';
 
 // ─── Session helpers ──────────────────────────────────────────────────────────
 
@@ -17,6 +17,7 @@ import { supabase } from '../src/lib/supabaseClient.js';
  * Get session for a phone number. Creates a fresh row if none exists.
  */
 export async function getSession(phone) {
+  const supabase = getSupabaseClient();
   const { data, error } = await supabase
     .from('whatsapp_sessions')
     .select('*')
@@ -44,6 +45,7 @@ export async function getSession(phone) {
  * Update fields of an existing session.
  */
 export async function updateSession(phone, patch) {
+  const supabase = getSupabaseClient();
   const update = { ...patch, last_updated: new Date().toISOString() };
   const { error } = await supabase
     .from('whatsapp_sessions')
@@ -57,6 +59,7 @@ export async function updateSession(phone, patch) {
  * Reset a session back to WELCOME state.
  */
 export async function resetSession(phone) {
+  const supabase = getSupabaseClient();
   await supabase
     .from('whatsapp_sessions')
     .update({
@@ -74,6 +77,7 @@ export async function resetSession(phone) {
  * Record that a WhatsApp number has been linked to an Pameltex Tech email.
  */
 export async function linkAccount(phone, email) {
+  const supabase = getSupabaseClient();
   const { error } = await supabase.from('whatsapp_links').upsert(
     { phone, user_email: email, linked_at: new Date().toISOString() },
     { onConflict: 'phone' }
@@ -88,6 +92,7 @@ export async function linkAccount(phone, email) {
  * direction: 'inbound' | 'outbound'
  */
 export async function logMessage({ phone, direction, body, channel = 'whatsapp', status = 'sent' }) {
+  const supabase = getSupabaseClient();
   const { error } = await supabase.from('whatsapp_messages').insert({
     phone,
     direction,
