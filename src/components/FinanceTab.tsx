@@ -29,7 +29,7 @@ export default function FinanceTab({ onNavigate }: { onNavigate?: (tab: string) 
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
         {/* Credit Score & Balance */}
         <div className="lg:col-span-2 space-y-8">
            <div className="relative overflow-hidden bg-gradient-to-br from-indigo-700 via-indigo-600 to-violet-800 rounded-[2.5rem] p-10 text-white shadow-2xl">
@@ -96,7 +96,7 @@ export default function FinanceTab({ onNavigate }: { onNavigate?: (tab: string) 
         </div>
 
         {/* Sidebar / Extra Services */}
-        <div className="space-y-8">
+        <div className="space-y-6">
            <div className="bg-white rounded-[2.5rem] p-8 shadow-sm border border-neutral-100">
               <h3 className="text-lg font-bold text-neutral-800 mb-6 flex items-center">
                  <ShieldCheck size={20} className="mr-2 text-amber-500" /> Protection

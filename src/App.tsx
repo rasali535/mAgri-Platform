@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Home, Camera, MessageSquare, Wallet, Settings, UserCircle, Store, Briefcase, Menu, X, Bell, Search, LogOut } from 'lucide-react';
+import { 
+  Home, Camera, MessageSquare, Wallet, Settings, UserCircle, Store, 
+  Briefcase, Menu, X, Bell, Search, LogOut, ChevronLeft, ChevronRight 
+} from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import HomeTab from './components/HomeTab';
 import DiagnoseTab from './components/DiagnoseTab';
@@ -25,6 +28,7 @@ export default function App() {
   });
   const [userRole, setUserRole] = useState<'seller' | 'buyer' | 'agronomist'>('seller');
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const { country, setCountry } = useCurrency();
 
   // Sync tab with URL
@@ -79,7 +83,7 @@ export default function App() {
             </div>
           </div>
 
-          <nav className="flex-1 px-4 space-y-1 mt-6">
+          <nav className={`flex-1 px-4 space-y-1 mt-6 ${isSidebarCollapsed ? 'px-2' : ''}`}>
             {navItems.map((item) => (
               <button
                 key={item.id}
@@ -87,26 +91,27 @@ export default function App() {
                   setActiveTab(item.id);
                   setIsSidebarOpen(false);
                 }}
-                className={`flex items-center space-x-3 w-full px-4 py-3 rounded-xl transition-all duration-200 ${
+                title={isSidebarCollapsed ? item.label : ''}
+                className={`flex items-center ${isSidebarCollapsed ? 'justify-center' : 'space-x-3'} w-full px-4 py-3 rounded-xl transition-all duration-200 ${
                   activeTab === item.id 
                   ? 'bg-emerald-500 text-white shadow-md shadow-emerald-950/20' 
                   : 'text-emerald-100 hover:bg-emerald-800 hover:text-white'
                 }`}
               >
-                {item.icon}
-                <span className="font-medium">{item.label}</span>
+                <div className="flex-shrink-0">{item.icon}</div>
+                {!isSidebarCollapsed && <span className="font-medium whitespace-nowrap">{item.label}</span>}
               </button>
             ))}
           </nav>
 
           <div className="p-4 mt-auto">
-            <div className="bg-emerald-800/50 rounded-2xl p-4 border border-emerald-700/50">
-              <p className="text-xs text-emerald-300 font-medium mb-2 uppercase tracking-tighter">Current Role</p>
-              <div className="flex items-center justify-between">
-                <span className="font-semibold capitalize text-sm">{userRole}</span>
+            <div className={`bg-emerald-800/50 rounded-2xl border border-emerald-700/50 transition-all ${isSidebarCollapsed ? 'p-2' : 'p-4'}`}>
+              {!isSidebarCollapsed && <p className="text-xs text-emerald-300 font-medium mb-2 uppercase tracking-tighter">Current Role</p>}
+              <div className={`flex items-center ${isSidebarCollapsed ? 'justify-center' : 'justify-between'}`}>
+                {!isSidebarCollapsed && <span className="font-semibold capitalize text-sm">{userRole}</span>}
                 <button 
                   onClick={cycleRole}
-                  className="p-1.5 bg-emerald-500 rounded-lg hover:bg-emerald-400 transition-colors"
+                  className={`p-1.5 bg-emerald-500 rounded-lg hover:bg-emerald-400 transition-colors`}
                   title="Switch Role"
                 >
                   <Briefcase size={14} />
