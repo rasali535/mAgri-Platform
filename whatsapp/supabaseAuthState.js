@@ -1,5 +1,5 @@
 import { initAuthCreds, BufferJSON, proto } from '@whiskeysockets/baileys';
-import { supabase } from '../src/lib/supabaseClient.js';
+import { getSupabaseClient } from '../src/lib/supabaseClient.js';
 
 /**
  * Custom authentication state provider for Baileys that persists data in Supabase.
@@ -9,6 +9,7 @@ import { supabase } from '../src/lib/supabaseClient.js';
  * Columns Required: id (text, primary key), data (jsonb)
  */
 export const useSupabaseAuthState = async (sessionName = 'primary') => {
+    const supabase = getSupabaseClient();
     // Prefix keys to allow multiple sessions or instances to coexist in the same table
     const getKey = (id) => `${sessionName}:${id}`;
 
