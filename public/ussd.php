@@ -73,7 +73,29 @@ if (count($levels) >= 2 && $levels[0] === '7') {
     // The remaining levels (if any) will now be relative to the Main Menu.
 }
 
+// Load user language preferences
+$prefs_file = __DIR__ . '/ussd_prefs.json';
+$userLang = 'English';
+$userRole = 'Seller';
+$rawPrefs = '';
+if (file_exists($prefs_file)) {
+    $rawPrefs = file_get_contents($prefs_file);
+    $prefs_data = json_decode($rawPrefs, true);
+    if (is_array($prefs_data) && isset($prefs_data[$phoneNumber])) {
+        $pref = $prefs_data[$phoneNumber];
+        if (is_array($pref)) {
+            $userLang = $pref['lang'] ?? 'English';
+            $userRole = $pref['role'] ?? 'Seller';
+        } else {
+            $userLang = (string) $pref;
+        }
+    }
+} else {
+    $prefs_data = [];
+}
+
 $depth = count($levels);
+
 $response = '';
 
 // Special Case: AI Conversation Continuation (Greedy Path)
@@ -95,26 +117,6 @@ if ($depth >= 3 && $levels[0] === '4' && $levels[1] === '5') {
     exit;
 }
 
-// Load user language preferences
-$prefs_file = __DIR__ . '/ussd_prefs.json';
-$userLang = 'English';
-$userRole = 'Seller';
-$rawPrefs = '';
-if (file_exists($prefs_file)) {
-    $rawPrefs = file_get_contents($prefs_file);
-    $prefs_data = json_decode($rawPrefs, true);
-    if (is_array($prefs_data) && isset($prefs_data[$phoneNumber])) {
-        $pref = $prefs_data[$phoneNumber];
-        if (is_array($pref)) {
-            $userLang = $pref['lang'] ?? 'English';
-            $userRole = $pref['role'] ?? 'Seller';
-        } else {
-            $userLang = (string) $pref;
-        }
-    }
-} else {
-    $prefs_data = [];
-}
 
 // Log
 $logEntry = date('Y-m-d H:i:s') . " | Session: $sessionId | Phone: $phoneNumber | Lang: $userLang | Input: '$text' | RAW_JSON: $rawPrefs\n";
@@ -185,7 +187,7 @@ elseif ($depth === 1) {
     // --- 3. CROP DIAGNOSE ---
     elseif ($levels[0] === '3') {
         $response = "CON Crop Disease Diagnostic\n";
-        $response .= "Powered by Tiny-LiteNet AI\n\n";
+        $response .= "Powered by mARI Vision AI\n\n";
         $response .= "1. Report Crop Problem\n";
         $response .= "2. Check Diagnosis Status\n";
         $response .= "3. Common Diseases Guide\n";

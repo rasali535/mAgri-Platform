@@ -53,8 +53,6 @@ $text = isset($_POST['text']) ? $_POST['text'] : (isset($_GET['text']) ? $_GET['
 // Fix missing '+' due to URL decoding replacing it with a space
 $phoneNumber = str_replace(' ', '+', $phoneNumber);
 
-$phoneNumber = str_replace(' ', '+', $phoneNumber);
-
 // Parse the input levels
 $levels = $text === '' ? [] : explode('*', $text);
 
@@ -79,20 +77,6 @@ if (count($levels) >= 2 && $levels[0] === '7') {
     // The remaining levels (if any) will now be relative to the Main Menu.
 }
 
-$depth = count($levels);
-$response = '';
-
-// Special Case: AI Conversation Continuation (Greedy Path)
-if ($depth >= 3 && $levels[0] === '4' && $levels[1] === '5') {
-    $question = end($levels);
-    $aiAnswer = callOpenAI('User follow-up: ' . $question, \$userLang);
-    $response = \"CON AI Agronomist:\\n\\n\$aiAnswer\\n\\n0. Back\";
-    if (\$userLang !== 'English') {
-        \$response = translateMenu(\$response, \$userLang);
-    }
-    echo \$response;
-    exit;
-}
 
 // Load user language preferences
 $prefs_file = __DIR__ . '/ussd_prefs.json';
@@ -106,6 +90,20 @@ if (file_exists($prefs_file)) {
     }
 } else {
     $prefs_data = [];
+}
+$depth = count($levels);
+$response = '';
+
+// Special Case: AI Conversation Continuation (Greedy Path)
+if ($depth >= 3 && $levels[0] === '4' && $levels[1] === '5') {
+    $question = end($levels);
+    $aiAnswer = callOpenAI('User follow-up: ' . $question, $userLang);
+    $response = "CON AI Agronomist:\n\n$aiAnswer\n\n0. Back";
+    if ($userLang !== 'English') {
+        $response = translateMenu($response, $userLang);
+    }
+    echo $response;
+    exit;
 }
 
 // Log
@@ -133,8 +131,8 @@ if (strpos($phoneNumber, '+254') === 0) {
 // LEVEL 0 - MAIN MENU
 // ========================================
 if ($depth === 0) {
-    $response = "CON Welcome to mAgri Platform\n";
-    $response .= "Brastorne Digital Inclusion\n\n";
+    $response = "CON Welcome to mARI Platform\n";
+    $response .= "Pameltex Tech\n\n";
     $response .= "1. Home Dashboard\n";
     $response .= "2. AgriMarket\n";
     $response .= "3. Crop Diagnose\n";
@@ -176,7 +174,7 @@ elseif ($depth === 1) {
     // --- 3. CROP DIAGNOSE ---
     elseif ($levels[0] === '3') {
         $response = "CON Crop Disease Diagnostic\n";
-        $response .= "Powered by Tiny-LiteNet AI\n\n";
+        $response .= "Powered by mARI Vision AI\n\n";
         $response .= "1. Report Crop Problem\n";
         $response .= "2. Check Diagnosis Status\n";
         $response .= "3. Common Diseases Guide\n";
