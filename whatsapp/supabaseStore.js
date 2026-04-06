@@ -30,13 +30,14 @@ export async function getSession(phone) {
       state: 'WELCOME',
       linked: false,
       email: null,
+      language: 'en',
       last_updated: new Date().toISOString(),
     };
     await supabase.from('whatsapp_sessions').upsert(fresh, { onConflict: 'phone' });
     return { ...fresh, history: [] };
   }
 
-  return { ...data, history: [] };
+  return { ...data, history: data.history || [], language: data.language || 'en' };
 }
 
 /**

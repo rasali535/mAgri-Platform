@@ -12,6 +12,8 @@ import {
     notifyWhatsApp,
 } from './whatsapp/notify.js';
 import { initBaileys, getQRAsHTML } from './whatsapp/baileys.js';
+import { getSession, updateSession } from './whatsapp/supabaseStore.js';
+import { getLang } from './whatsapp/translations.js';
 
 
 const __filename = fileURLToPath(import.meta.url);
@@ -151,7 +153,7 @@ async function askGeminiUSSD(question) {
         if (!apiKey) return 'AI service unavailable. Our team will reply shortly.';
 
         const resp = await fetch(
-            `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
+            `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
             {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -186,28 +188,44 @@ const LISTINGS = [
 // USSD handler (supports both /ussd and /api/ussd)
 async function handleUSSD(req, res) {
     const { phoneNumber, text = '' } = { ...req.query, ...req.body };
+    const session = await getSession(phoneNumber);
     const parts = (text || '').toString().trim().split('*');
     const depth = parts.length;
-    const L1 = parts[0]; // Level 1 choice
-    const L2 = parts[1]; // Level 2 choice
-    const L3 = parts.slice(2).join('*'); // Remainder (for free text like agronomist question)
+    
+    // ── 0. Language Selection (for new users) ────────────────────────────────
+    if (text === '' && (!session.language || session.language === 'en' && !session.linked)) {
+        // We show the language menu if it's a first dial and they aren't linked/initialized
+        res.set('Content-Type', 'text/plain');
+        return res.send(getLang('en').ussd_lang);
+    }
 
-    console.log(`[USSD] ${phoneNumber} text="${text}" depth=${depth}`);
+    // Handle language selection input
+    if (depth === 1 && (parts[0] === '1' || parts[0] === '2' || parts[0] === '3' || parts[0] === '4' || parts[0] === '5') && session.state === 'WELCOME' && text.length === 1) {
+        let lang = 'en';
+        if (parts[0] === '1') lang = 'en';
+        else if (parts[0] === '2') lang = 'tn';
+        else if (parts[0] === '3') lang = 'fr';
+        else if (parts[0] === '4') lang = 'ny';
+        else if (parts[0] === '5') lang = 'be';
+        
+        await updateSession(phoneNumber, { language: lang });
+        const L = getLang(lang);
+        res.set('Content-Type', 'text/plain');
+        return res.send(L.ussd_menu);
+    }
+
+    const L = getLang(session.language);
+    const L1 = parts[0]; 
+    const L2 = parts[1];
+    const L3 = parts.slice(2).join('*');
+
+    console.log(`[USSD] ${phoneNumber} text="${text}" depth=${depth} lang=${session.language}`);
 
     let response = '';
 
     // ── Main Menu ─────────────────────────────────────────────────────────────
-    if (L1 === '') {
-        response =
-            `CON Welcome to Pameltex Tech Platform\n` +
-            `1. Dashboard & Orders\n` +
-            `2. Marketplace\n` +
-            `3. Crop Scan (mARI AI)\n` +
-            `4. Ask mARI (AI Advisor)\n` +
-            `5. Finance & Credit\n` +
-            `6. Add Crop Listing\n` +
-            `7. Open Web App\n` +
-            `8. Weather Forecast`;
+    if (text === '' || (depth === 1 && L1 === '0')) {
+        response = L.ussd_menu;
 
     // ── Option 1: Dashboard & Orders ──────────────────────────────────────────
     } else if (L1 === '1') {
@@ -239,19 +257,33 @@ async function handleUSSD(req, res) {
         atSendSMS(phoneNumber, `Pameltex Tech All Listings:\n${all.join('\n')}\nMore: ${process.env.WEBAPP_URL}`);
 
     // ── Option 3: Crop Scan ───────────────────────────────────────────────────
-    } else if (L1 === '3') {
-        response = `END Crop scanning requires photo upload. Please use our WhatsApp bot or Web App to scan your crops.`;
+    } else if (L1 === '3' && depth === 1) {
+        response = 
+            `CON Crop Scan (mARI AI)\n` +
+            `1. Get Scan Link (SMS)\n` +
+            `2. Continue on WhatsApp`;
+
+    } else if (L1 === '3' && depth === 2 && L2 === '1') {
+        response = `END A link to our crop scanner has been sent to you via SMS.`;
+        atSendSMS(phoneNumber, `mAgri Crop Scan: ${process.env.WEBAPP_URL}/diagnose`);
+
+    } else if (L1 === '3' && depth === 2 && L2 === '2') {
+        response = `END Please check your WhatsApp to complete the crop scan.`;
+        sendWhatsApp(phoneNumber, "📸 Ready to scan your crop? Please send me a photo of the affected area.");
 
     // ── Option 4: Ask AI Agronomist ───────────────────────────────────────────
     } else if (L1 === '4' && depth === 1) {
-        response = `CON Ask mARI (AI Advisor):\nType your farming question:`;
+        response = `CON ${L.agronomist_prompt}`;
 
     } else if (L1 === '4' && depth >= 2) {
-        const question = parts.slice(1).join(' ');
-        response = `END Asking mARI...\nYou will receive the answer via SMS shortly.`;
-        askGeminiUSSD(question).then(answer => {
-            atSendSMS(phoneNumber, `mARI by Pameltex Tech:\n${answer}`);
-        });
+        const lastPart = parts[depth-1];
+        if (lastPart === '0') {
+            response = L.ussd_menu;
+        } else {
+            // Take the last question
+            const answer = await askGeminiUSSD(lastPart);
+            response = `CON mARI: ${answer}\n\nAsk follow-up (or 0 to exit):`;
+        }
 
     // ── Option 5: Finance & Credit ────────────────────────────────────────────
     } else if (L1 === '5' && depth === 1) {
@@ -386,7 +418,7 @@ app.post('/api/chat', async (req, res) => {
           parts: [{ text: m.content }]
         }));
 
-        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
+        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -418,7 +450,7 @@ app.post('/api/diagnose', async (req, res) => {
         }
         const { imageBase64, mimeType } = req.body;
 
-        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
+        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

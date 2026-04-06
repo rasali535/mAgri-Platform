@@ -10,6 +10,7 @@
 
 import { getSession, updateSession, resetSession } from './supabaseStore.js';
 import { MENU } from './menu.js';
+import { getLang } from './translations.js';
 import { uploadMediaToSupabase } from './imageUploader.js';
 import { createListing } from './listingsStore.js';
 import { sendWhatsApp } from './africa.js';
@@ -68,7 +69,7 @@ async function generateCropDiagnosis(messageContent) {
     const base64Data = buffer.toString('base64');
 
     // 3. Prompt Gemini AI
-    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -119,9 +120,15 @@ export async function processImage(phone, messageContent) {
     // Process image through Gemini
     const resultText = await generateCropDiagnosis(messageContent);
     
-    // Reset back to menu
-    await updateSession(phone, { state: 'WELCOME' });
-    return resultText + "\n\nReply *MENU* to return to the main menu.";
+    // Final prompt
+    const finalReply = `${resultText}\n\n🕵️ *Have follow-up questions?*\nYou can ask me more about this diagnosis right here, or type *MENU* to exit.`;
+    
+    // Transition to followup state and store diagnosis in history for context
+    await updateSession(phone, { 
+      state: 'DIAGNOSE_FOLLOWUP',
+      history: [{ role: 'model', parts: [{ text: resultText }] }]
+    });
+    return finalReply;
   }
 
   if (session.state === 'UPLOAD_PENDING') {
@@ -154,20 +161,25 @@ export async function processImage(phone, messageContent) {
 }
 
   // Old code block completely replaced above; leaving clean empty block
-async function askGemini(question) {
+async function askGemini(question, history = [], lang = 'en') {
   const apiKey = process.env.VITE_GEMINI_API_KEY || process.env.GEMINI_API_KEY;
-  if (!apiKey) return '❌ AI service unavailable. Our team will reply shortly.';
+  if (!apiKey) return '❌ AI service unavailable.';
 
   try {
+    const context = history.slice(-10).map(h => ({ role: h.role, parts: h.parts }));
+    const languageNames = { en: 'English', tn: 'Tswana', fr: 'French', ny: 'Nyanja', be: 'Bemba' };
+    const targetLang = languageNames[lang] || 'English';
+
     const resp = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          contents: [{
-            parts: [{ text: `You are mARI, an expert agronomist AI for smallholder farmers. Answer very briefly in 1-3 sentences. Question: ${question}` }]
-          }]
+          contents: [
+            ...context,
+            { role: 'user', parts: [{ text: `System Instruction: Respond in ${targetLang}. Question: ${question}` }] }
+          ]
         })
       }
     );
@@ -191,21 +203,22 @@ export async function processMessage(phone, rawText) {
   const text = (rawText || '').trim();
   const upper = text.toUpperCase();
   const session = await getSession(phone);
+  const L = getLang(session.language);
 
   // ── Global commands (work from any state) ──────────────────────────────────
   if (upper === 'MENU' || upper === 'HI' || upper === 'HELLO' || upper === 'START') {
     await updateSession(phone, { state: 'WELCOME' });
-    return MENU.WELCOME(session.linked);
+    return L.welcome(session.linked);
   }
 
   if (upper === 'LINK') {
     await updateSession(phone, { state: 'AWAIT_LINK' });
-    return MENU.AWAIT_LINK;
+    return L.await_link;
   }
 
   if (upper === 'CANCEL') {
     await updateSession(phone, { state: 'WELCOME' });
-    return MENU.WELCOME(session.linked);
+    return L.welcome(session.linked);
   }
 
   // ── State: WELCOME ─────────────────────────────────────────────────────────
@@ -220,38 +233,17 @@ export async function processMessage(phone, rawText) {
     }
     if (text === '3') {
       await updateSession(phone, { state: 'DIAGNOSE_PENDING' });
-      return MENU.DIAGNOSE_PROMPT;
+      return L.diagnose_prompt;
     }
     if (text === '4') {
       await updateSession(phone, { state: 'AGRONOMIST' });
-      return MENU.AGRONOMIST_PROMPT;
+      return L.agronomist_prompt;
     }
-    if (text === '5') {
-      await updateSession(phone, { state: 'CREDIT' });
-      return MENU.CREDIT_MENU;
+    if (text === '9') {
+      await updateSession(phone, { state: 'SET_LANGUAGE' });
+      return L.change_lang;
     }
-    if (text === '6') {
-      await updateSession(phone, { state: 'UPLOAD_PENDING' });
-      return (
-        `📸 *Add a Crop Listing*\n\n` +
-        `Please send a photo of your crop.\n` +
-        `Once received, we will create your marketplace listing automatically.\n\n` +
-        `Type *CANCEL* at any time to go back.`
-      );
-    }
-    if (text === '7') {
-      return MENU.WEBAPP_LINK(WEBAPP_URL);
-    }
-    if (text === '8') {
-      await updateSession(phone, { state: 'WEATHER' });
-      const forecast =
-        '☀️ Today: Sunny, 28°C\n' +
-        '🌧 Tomorrow: Light showers, 24°C\n' +
-        '🌤 Day 3: Partly cloudy, 26°C\n\n' +
-        '_Powered by Open-Meteo. Forecasts for your region._';
-      return MENU.WEATHER(forecast);
-    }
-    return MENU.UNKNOWN;
+    return L.unknown;
   }
 
   // ── State: UPLOAD / DIAGNOSE PENDING ───────────────────────────────────────
@@ -325,20 +317,61 @@ export async function processMessage(phone, rawText) {
 
   // ── State: AGRONOMIST ──────────────────────────────────────────────────────
   if (session.state === 'AGRONOMIST') {
-    if (text.length < 5) {
-      return `❌ Your question is too short. Please elaborate a little more.`;
+    if (upper === '0' || upper === 'MENU') {
+      await updateSession(phone, { state: 'WELCOME', history: [] });
+      return L.welcome(session.linked);
     }
-    console.log(`[AGRONOMIST QUESTION from ${phone}]: ${text}`);
+    if (text.length < 3) return `❌ ${L.unknown}`;
     
-    // Immediately tell them we are thinking via side-channel if possible
-    sendWhatsApp(phone, '⏳ Generating expert response, please hold...').catch(()=>{});
+    sendWhatsApp(phone, L.thinking).catch(()=>{});
 
-    const answer = await askGemini(text);
-    await updateSession(phone, { state: 'WELCOME' });
+    const answer = await askGemini(text, session.history, session.language);
     
-    return `🧑‍🌾 *Agronomist Reply:*\n\n${answer}\n\nType *MENU* to return.`;
+    const newHistory = [
+      ...(session.history || []),
+      { role: 'user', parts: [{ text }] },
+      { role: 'model', parts: [{ text: answer }] }
+    ];
+    await updateSession(phone, { history: newHistory.slice(-10) });
+
+    return `🧑‍🌾 *mARI Agronomist:*\n\n${answer}\n\n${L.menu_back || 'Type MENU to exit.'}`;
+  }
+
+  // ── State: SET_LANGUAGE ──────────────────────────────────────────────────
+  if (session.state === 'SET_LANGUAGE') {
+    let newLang = 'en';
+    if (text === '1') newLang = 'en';
+    else if (text === '2') newLang = 'tn';
+    else if (text === '3') newLang = 'fr';
+    else if (text === '4') newLang = 'ny';
+    else if (text === '5') newLang = 'be';
+    else return L.change_lang;
+
+    await updateSession(phone, { state: 'WELCOME', language: newLang });
+    const NL = getLang(newLang);
+    return `✅ Language updated!\n\n` + NL.welcome(session.linked);
+  }
+
+  // ── State: DIAGNOSE_FOLLOWUP ───────────────────────────────────────────────
+  if (session.state === 'DIAGNOSE_FOLLOWUP') {
+    if (upper === '0' || upper === 'MENU') {
+      await updateSession(phone, { state: 'WELCOME', history: [] });
+      return L.welcome(session.linked);
+    }
+
+    sendWhatsApp(phone, L.thinking).catch(()=>{});
+    const answer = await askGemini(text, session.history, session.language);
+
+    const newHistory = [
+      ...(session.history || []),
+      { role: 'user', parts: [{ text }] },
+      { role: 'model', parts: [{ text: answer }] }
+    ];
+    await updateSession(phone, { history: newHistory.slice(-10) });
+
+    return `🔬 *Diagnostic Follow-up:*\n\n${answer}\n\n${L.menu_back || 'Type MENU to exit.'}`;
   }
 
   // ── Fallback ───────────────────────────────────────────────────────────────
-  return MENU.WELCOME(session.linked);
+  return L.welcome(session.linked);
 }
