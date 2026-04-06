@@ -51,10 +51,14 @@ function isValidEmail(str) {
 
 async function generateCropDiagnosis(messageContent) {
   const apiKey = process.env.VITE_GEMINI_API_KEY || process.env.GEMINI_API_KEY;
-  if (!apiKey) return '❌ Error: Diagnosis AI unavailable (API key missing).';
+  if (!apiKey) {
+    console.error('[Gemini Diagnosis] Missing API Key');
+    return '❌ Error: Diagnosis AI unavailable (API key missing).';
+  }
 
   try {
     // 1. Download stream into buffer
+    console.log('[Gemini Diagnosis] Downloading image...');
     const stream = await downloadContentFromMessage(messageContent, 'image');
     let buffer = Buffer.from([]);
     for await (const chunk of stream) {
@@ -64,6 +68,7 @@ async function generateCropDiagnosis(messageContent) {
     // 2. Convert to Base64
     const mimeType = messageContent.mimetype || 'image/jpeg';
     const base64Data = buffer.toString('base64');
+    console.log(`[Gemini Diagnosis] Image downloaded. Size: ${buffer.length} bytes. Mime: ${mimeType}`);
 
     // 3. Prompt Gemini AI
     const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
@@ -72,28 +77,36 @@ async function generateCropDiagnosis(messageContent) {
       body: JSON.stringify({
         contents: [{
           parts: [
-            { text: 'You are mARI, the expert AI Agronomist by mARI Platform, developed by Pameltex Tech. Analyze the crop image for diseases carefully. Respond in valid JSON exactly: {"disease": "...", "confidence": 0-100, "recommendation": "..."}' },
+            { text: 'Analyze this crop image for diseases. Respond in valid JSON exactly: {"disease": "...", "confidence": 0-100, "recommendation": "..."}' },
             { inline_data: { mime_type: mimeType, data: base64Data } }
           ]
         }]
       })
     });
 
-    if (!response.ok) throw new Error(`Fetch failed with status ${response.status}`);
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      console.error('[Gemini Diagnosis] API Error:', response.status, errorData);
+      throw new Error(`API error ${response.status}: ${JSON.stringify(errorData)}`);
+    }
+
     const data = await response.json();
-    
     let text = data.candidates?.[0]?.content?.parts?.[0]?.text || '{}';
-    // Clean markdown if present
-    text = text.replace(/^```json\n?/, '').replace(/\n?```$/, '').replace(/^```\n?/, '').trim();
-    const parsed = JSON.parse(text);
+    console.log('[Gemini Diagnosis] Raw Response:', text);
+
+    // More robust cleaning for JSON extraction
+    const jsonMatch = text.match(/\{[\s\S]*\}/);
+    if (!jsonMatch) throw new Error('No JSON found in response');
+    
+    const parsed = JSON.parse(jsonMatch[0]);
     
     return `🔬 *Crop Diagnostic Complete*\n\n` +
-           `🦠 *Disease:* ${parsed.disease}\n` +
-           `📊 *Confidence:* ${parsed.confidence}%\n\n` +
-           `🛡 *Recommendation:*\n${parsed.recommendation}`;
+           `🦠 *Disease:* ${parsed.disease || 'Unknown'}\n` +
+           `📊 *Confidence:* ${parsed.confidence || '??'}%\n\n` +
+           `🛡 *Recommendation:*\n${parsed.recommendation || 'No recommendation available.'}`;
   } catch (error) {
-    console.error('[Gemini Diagnosis API Error]', error);
-    return '❌ Failed to analyze the image. Please try again later or contact support.';
+    console.error('[Gemini Diagnosis API Error]', error.message);
+    return '❌ Analysis failed. Ensure the image is clear and try again.';
   }
 }
 
