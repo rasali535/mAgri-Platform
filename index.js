@@ -150,7 +150,11 @@ app.post(['/api/whatsapp/send', '/api/whatsapp/send/'], async (req, res) => {
 });
 
 // ── Web Application Diagnosis API ───────────────────────────────────────────
-app.post(['/api/diagnose', '/api/diagnose/'], async (req, res) => {
+app.all(['/api/diagnose', '/api/diagnose/'], async (req, res) => {
+    if (req.method === 'GET') {
+        return res.json({ status: 'Diagnosis endpoint active', use: 'POST imageBase64 and mimeType' });
+    }
+    
     try {
         const { imageBase64, mimeType } = req.body;
         if (!imageBase64) return res.status(400).json({ error: 'Image data missing' });
