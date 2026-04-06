@@ -144,6 +144,40 @@ app.post(['/api/whatsapp/send', '/api/whatsapp/send/'], async (req, res) => {
     }
 });
 
+// ── Web Application Diagnosis API ───────────────────────────────────────────
+app.post(['/api/diagnose', '/api/diagnose/'], async (req, res) => {
+    try {
+        const { imageBase64, mimeType } = req.body;
+        if (!imageBase64) return res.status(400).json({ error: 'Image data missing' });
+
+        const apiKey = process.env.VITE_GEMINI_API_KEY || process.env.GEMINI_API_KEY;
+        if (!apiKey) return res.status(500).json({ error: 'Diagnosis service unconfigured' });
+
+        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                contents: [{
+                    parts: [
+                        { text: 'Analyze this crop image for diseases. Respond in valid JSON only: {"disease": "...", "confidence": 0-100, "recommendation": "..."}' },
+                        { inline_data: { mime_type: mimeType || 'image/jpeg', data: imageBase64 } }
+                    ]
+                }]
+            })
+        });
+
+        if (!response.ok) throw new Error(`AI error: ${response.status}`);
+        const data = await response.json();
+        
+        let text = data.candidates?.[0]?.content?.parts?.[0]?.text || '{}';
+        text = text.replace(/```json|```/g, '').trim();
+        res.json(JSON.parse(text));
+    } catch (err) {
+        console.error('[Diagnose API Error]', err.message);
+        res.status(500).json({ error: 'Analysis failed' });
+    }
+});
+
 
 // ── USSD & SMS Bridge ─────────────────────────────────────────────────────────
 // Internal helper: AI agronomist answer via Gemini (used in USSD option 4)
