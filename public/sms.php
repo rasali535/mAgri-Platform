@@ -24,7 +24,7 @@ if (stripos($text, 'help') !== false) {
         $data = array(
             'username' => $username,
             'to' => $from,
-            'message' => "Welcome to mAgri Help. Reply with 'CREDIT', 'WEATHER', or 'MARKET'."
+            'message' => "Welcome to mARI Platform Help. Reply with 'CREDIT', 'WEATHER', or 'MARKET'."
         );
 
         $ch = curl_init($url);

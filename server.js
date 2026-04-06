@@ -77,7 +77,7 @@ app.all(['/api/ussd', '/api/ussd/'], (req, res) => {
     const currentText = (text || '').toString();
 
     if (currentText === '') {
-        response = `CON Welcome to Pameltex Tech Platform\n`;
+        response = `CON Welcome to mARI Platform\n`;
         response += `1. Check mARI Credit Score\n`;
         response += `2. Apply for Micro-Credit\n`;
         response += `3. Check Weather Forecast\n`;
@@ -88,10 +88,10 @@ app.all(['/api/ussd', '/api/ussd/'], (req, res) => {
         sendSMS(phoneNumber, "Your current mARI Credit Score is 745 (Excellent). Keep up the good work!");
     } else if (currentText === '2') {
         response = `END Your application for micro-credit has been received. You will receive an SMS confirmation.`;
-        sendSMS(phoneNumber, "Pameltex Tech: Your application for KES 5,000 micro-credit has been received.");
+        sendSMS(phoneNumber, "mARI Platform: Your application for KES 5,000 micro-credit has been received.");
     } else if (currentText === '3') {
         response = `END Weather forecast for your region: Sunny with light showers.`;
-        sendSMS(phoneNumber, "Pameltex Tech Weather: Sunny with light showers in the evening.");
+        sendSMS(phoneNumber, "mARI Platform Weather: Sunny with light showers in the evening.");
     } else if (currentText === '4') {
         response = `CON Ask mARI (AI Advisor):\nType your farming question:`;
     } else if (currentText.startsWith('4*')) {
@@ -99,7 +99,7 @@ app.all(['/api/ussd', '/api/ussd/'], (req, res) => {
         sendSMS(phoneNumber, "mARI: Your question has been routed. Expect a reply shortly.");
     } else if (currentText === '5') {
         response = `END You have 1 new message from a Buyer: "Interested in 500kg Maize."`;
-        sendSMS(phoneNumber, "Pameltex Tech: New buyer message received. Dial *384*14032*5# to respond.");
+        sendSMS(phoneNumber, "mARI Platform: New buyer message received. Dial *384*14032*5# to respond.");
     } else {
         response = `END Invalid option. Please try again.`;
     }
@@ -112,7 +112,7 @@ app.post('/api/sms', (req, res) => {
     const { from, text } = { ...req.query, ...req.body };
     console.log(`SMS Received: from ${from}: ${text}`);
     if (text && text.toLowerCase().includes('help')) {
-        sendSMS(from, "Welcome to Pameltex Tech Help. Reply with 'CREDIT', 'WEATHER', or 'MARKET'.");
+        sendSMS(from, "Welcome to mARI Platform Help. Reply with 'CREDIT', 'WEATHER', or 'MARKET'.");
     }
     res.status(200).send('SMS Received');
 });

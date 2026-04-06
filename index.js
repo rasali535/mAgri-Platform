@@ -27,7 +27,7 @@ app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true }));
 
 app.get('/', (req, res) => {
-    res.send('Pameltex Tech Platform Node Server - Operational');
+    res.send('mARI Platform Node Server - Operational');
 });
 
 // Legacy /api/ussd for backward compatibility
@@ -160,7 +160,7 @@ async function askGeminiUSSD(question) {
                 body: JSON.stringify({
                     contents: [{
                         parts: [{
-                            text: `You are mARI, the expert AI Agronomist by Pameltex Tech, for African smallholder farmers. Answer in 2-3 short SMS-friendly sentences (max 160 chars). Farmer's question: ${question}`
+                            text: `You are mARI, the expert AI Agronomist by mARI Platform, developed by Pameltex Tech, for African smallholder farmers. Answer in 2-3 short SMS-friendly sentences (max 160 chars). Farmer's question: ${question}`
                         }]
                     }]
                 })
@@ -228,122 +228,125 @@ async function handleUSSD(req, res) {
 
             // ── Option 1: Dashboard & Orders ──────────────────────────────────────────
         } else if (L1 === '1') {
-            response = `END You have no active orders. Visit the Pameltex Tech platform for full details.`;
-
-            // ── Option 2: Marketplace ─────────────────────────────────────────────────
-        } else if (L1 === '2' && depth === 1) {
-            response =
-                `CON Pameltex Tech Market - Latest Listings:\n` +
-                `1. Sellers (available produce)\n` +
-                `2. Buyers (wanted produce)\n` +
-                `3. All listings (SMS)`;
-
-        } else if (L1 === '2' && L2 === '1') {
-            const sellers = LISTINGS.filter(l => l.type === 'sell').slice(0, 3);
-            const lines = sellers.map((l, i) => `${i + 1}. ${l.produce} ${l.qty} @ ${l.price} - ${l.location}`);
-            response = `END Sellers:\n${lines.join('\n')}`;
-            atSendSMS(phoneNumber, `Pameltex Tech Sellers:\n${lines.join('\n')}\nContact: ${process.env.WEBAPP_URL}`);
-
-        } else if (L1 === '2' && L2 === '2') {
-            const buyers = LISTINGS.filter(l => l.type === 'buy').slice(0, 3);
-            const lines = buyers.map((l, i) => `${i + 1}. ${l.produce} ${l.qty} ${l.price} - ${l.location}`);
-            response = `END Buyers Wanted:\n${lines.join('\n')}`;
-            atSendSMS(phoneNumber, `Pameltex Tech Buyers:\n${lines.join('\n')}\nContact: ${process.env.WEBAPP_URL}`);
-
-        } else if (L1 === '2' && L2 === '3') {
-            const all = LISTINGS.slice(0, 4).map(l => `${l.type.toUpperCase()} ${l.produce} ${l.qty} ${l.location}`);
-            response = `END Full list sent via SMS!`;
-            atSendSMS(phoneNumber, `Pameltex Tech All Listings:\n${all.join('\n')}\nMore: ${process.env.WEBAPP_URL}`);
-
-            // ── Option 3: Crop Scan ───────────────────────────────────────────────────
-        } else if (L1 === '3' && depth === 1) {
-            response =
-                `CON Crop Scan (mARI AI)\n` +
-                `1. Get Scan Link (SMS)\n` +
-                `2. Continue on WhatsApp`;
-
-        } else if (L1 === '3' && depth === 2 && L2 === '1') {
-            response = `END A link to our crop scanner has been sent to you via SMS.`;
-            atSendSMS(phoneNumber, `mARI Crop Scan: ${process.env.WEBAPP_URL}/diagnose`);
-
-        } else if (L1 === '3' && depth === 2 && L2 === '2') {
-            response = `END Please check your WhatsApp to complete the crop scan.`;
-            sendWhatsApp(phoneNumber, "📸 Ready to scan your crop? Please send me a photo of the affected area.");
-
-            // ── Option 4: Ask AI Agronomist ───────────────────────────────────────────
-        } else if (L1 === '4' && depth === 1) {
-            response = `CON ${L.agronomist_prompt}`;
-
-        } else if (L1 === '4' && depth >= 2) {
-            const lastPart = parts[depth - 1];
-            if (lastPart === '0' || lastPart.toUpperCase() === 'MENU') {
-                response = L.ussd_menu;
-            } else {
-                const answer = await askGeminiUSSD(lastPart);
-                response = `CON mARI: ${answer}\n\nAsk follow-up (or 0 to exit):`;
+            if (depth === 1) {
+                response = `CON Home Dashboard\n\n` +
+                           `Local Weather: 28C Sunny\n` +
+                           `Location: Gaborone, BW\n\n` +
+                           `1. Check Weather Forecast\n` +
+                           `2. Recent Activity\n` +
+                           `3. Quick Crop Scan\n` +
+                           `0. Back`;
+            } else if (L2 === '1') {
+                response = `END Weather Forecast:\nToday: Sunny 28C\nTomorrow: Showers 24C\nDay 3: Cloudy 26C`;
+                atSendSMS(phoneNumber, "mARI Weather: Today Sunny 28C | Tomorrow Showers 24C | Day 3 Cloudy 26C.");
+            } else if (L2 === '2') {
+                response = `END Recent Activity:\n- Crop Scan: Maize (Healthy)\n- Market: Browsed Rice prices\n- Credit: App Approved`;
+            } else if (L2 === '3') {
+                response = `END Please check your WhatsApp to complete the quick crop scan.`;
+                sendWhatsApp(phoneNumber, "📸 Ready to scan your crop? Please send me a photo of the affected area.");
             }
 
-            // ── Option 5: Finance & Credit ────────────────────────────────────────────
-        } else if (L1 === '5' && depth === 1) {
-            response = `CON Finance & Credit\n1. Check Credit Score\n2. Apply for Micro-Credit`;
-
-        } else if (L1 === '5' && depth === 2 && L2 === '1') {
-            response = `END Your Pameltex Tech Credit Score is 745/850 (Excellent).\nKeep up responsible trading!`;
-            atSendSMS(phoneNumber, 'Pameltex Tech: Your Credit Score is 745/850 (Excellent). Keep trading!');
-
-        } else if (L1 === '5' && depth === 2 && L2 === '2') {
-            response = `CON Micro-Credit Application\nEnter amount (e.g. 5000):`;
-
-        } else if (L1 === '5' && depth === 3 && L2 === '2') {
-            const amount = L3 || '0';
-            const num = parseFloat(amount);
-            if (isNaN(num) || num <= 0) {
-                response = `END Invalid amount. Please try again. Dial *384*14032*5*2#`;
-            } else {
-                response = `CON Apply for ${amount} micro-credit?\n1. Confirm\n2. Cancel`;
+        } else if (L1 === '2') {
+            if (depth === 1) {
+                response =
+                    `CON AgriMarket - Latest Listings:\n` +
+                    `1. Sellers (available produce)\n` +
+                    `2. Buyers (wanted produce)\n` +
+                    `3. All listings (SMS)`;
+            } else if (L2 === '1') {
+                const sellers = LISTINGS.filter(l => l.type === 'sell').slice(0, 3);
+                const lines = sellers.map((l, i) => `${i + 1}. ${l.produce} ${l.qty} @ ${l.price} - ${l.location}`);
+                response = `END Sellers:\n${lines.join('\n')}`;
+                atSendSMS(phoneNumber, `mARI Market Sellers:\n${lines.join('\n')}\nContact: ${process.env.WEBAPP_URL}`);
+            } else if (L2 === '2') {
+                const buyers = LISTINGS.filter(l => l.type === 'buy').slice(0, 3);
+                const lines = buyers.map((l, i) => `${i + 1}. ${l.produce} ${l.qty} ${l.price} - ${l.location}`);
+                response = `END Buyers Wanted:\n${lines.join('\n')}`;
+                atSendSMS(phoneNumber, `mARI Market Buyers:\n${lines.join('\n')}\nContact: ${process.env.WEBAPP_URL}`);
+            } else if (L2 === '3') {
+                const all = LISTINGS.slice(0, 4).map(l => `${l.type.toUpperCase()} ${l.produce} ${l.qty} ${l.location}`);
+                response = `END Full list sent via SMS!`;
+                atSendSMS(phoneNumber, `mARI Market All Listings:\n${all.join('\n')}\nMore: ${process.env.WEBAPP_URL}`);
             }
 
-        } else if (L1 === '5' && depth === 4 && L2 === '2' && parts[3] === '1') {
-            const amount = L3;
-            response = `END Application for ${amount} received!\nYou'll get SMS confirmation shortly.`;
-            atSendSMS(phoneNumber, `Pameltex Tech: Your micro-credit application for ${amount} has been received. We'll review and confirm within 24hrs.`);
+        } else if (L1 === '3') {
+            if (depth === 1) {
+                response =
+                    `CON Crop Scan (mARI AI)\n` +
+                    `1. Get Scan Link (SMS)\n` +
+                    `2. Continue on WhatsApp`;
+            } else if (L2 === '1') {
+                response = `END A link to our crop scanner has been sent to you via SMS.`;
+                atSendSMS(phoneNumber, `mARI Crop Scan: ${process.env.WEBAPP_URL}/diagnose`);
+            } else if (L2 === '2') {
+                response = `END Please check your WhatsApp to complete the crop scan.`;
+                sendWhatsApp(phoneNumber, "📸 Ready to scan your crop? Please send me a photo of the affected area.");
+            }
 
-        } else if (L1 === '5' && depth === 4 && L2 === '2' && parts[3] === '2') {
-            response = `END Application cancelled.`;
+        } else if (L1 === '4') {
+            if (depth === 1) {
+                response = `CON ${L.agronomist_prompt}`;
+            } else if (depth >= 2) {
+                const lastPart = parts[depth - 1];
+                if (lastPart === '0' || lastPart.toUpperCase() === 'MENU') {
+                    response = L.ussd_menu;
+                } else {
+                    const answer = await askGeminiUSSD(lastPart);
+                    response = `CON mARI: ${answer}\n\nAsk follow-up (or 0 to exit):`;
+                }
+            }
 
-            // ── Option 6: Add Crop Listing ────────────────────────────────────────────
+        } else if (L1 === '5') {
+            if (depth === 1) {
+                response = `CON Finance & Credit\n1. Check Credit Score\n2. Apply for Micro-Credit`;
+            } else if (L2 === '1') {
+                response = `END Your mARI Platform Credit Score is 745/850 (Excellent).\nKeep up responsible trading!`;
+                atSendSMS(phoneNumber, 'mARI Platform: Your Credit Score is 745/850 (Excellent). Keep trading!');
+            } else if (L2 === '2') {
+                if (depth === 2) {
+                    response = `CON Micro-Credit Application\nEnter amount (e.g. 5000):`;
+                } else if (depth === 3) {
+                    const amount = L3 || '0';
+                    const num = parseFloat(amount);
+                    if (isNaN(num) || num <= 0) {
+                        response = `END Invalid amount. Please try again. Dial *384*14032*5*2#`;
+                    } else {
+                        response = `CON Apply for ${amount} micro-credit?\n1. Confirm\n2. Cancel`;
+                    }
+                } else if (depth === 4) {
+                    if (parts[3] === '1') {
+                        const amount = L3;
+                        response = `END Application for ${amount} received!\nYou'll get SMS confirmation shortly.`;
+                        atSendSMS(phoneNumber, `mARI Platform: Your micro-credit application for ${amount} has been received. We'll review and confirm within 24hrs.`);
+                    } else {
+                        response = `END Application cancelled.`;
+                    }
+                }
+            }
+
         } else if (L1 === '6') {
-            response = `END Adding listings requires uploading a photo. Please use our WhatsApp bot or Web App.`;
+            if (depth === 1) {
+                response = `CON My Account\n1. Profile Details\n2. Shared Wallet\n3. Notification Settings\n0. Back`;
+            } else if (L2 === '1') {
+                response = `END Profile Details:\nName: Farmer\nPhone: ${phoneNumber}\nRole: Seller\nLocation: Gaborone`;
+            } else {
+                response = `END This feature is under maintenance. Please use the mARI App.`;
+            }
 
-            // ── Option 7: Open Web App ────────────────────────────────────────────────
         } else if (L1 === '7') {
-            response = `END Visit our full platform here:\n${process.env.WEBAPP_URL || 'https://pameltex-tech.hostingersite.com'}`;
-            atSendSMS(phoneNumber, `Pameltex Tech App: ${process.env.WEBAPP_URL}`);
+            if (depth === 1) {
+                response = L.ussd_lang;
+            } else if (depth === 2) {
+                let nLang = 'en';
+                if (L2 === '1') nLang = 'en';
+                else if (L2 === '2') nLang = 'tn';
+                else if (L2 === '3') nLang = 'fr';
+                else if (L2 === '4') nLang = 'ny';
+                else if (L2 === '5') nLang = 'be';
+                await updateSession(phoneNumber, { language: nLang });
+                response = getLang(nLang).ussd_menu;
+            }
 
-            // ── Option 8: Weather Forecast ────────────────────────────────────────────
-        } else if (L1 === '8') {
-            response =
-                `END Weather Forecast (Your Region):\n` +
-                `Today: Sunny, 28C\n` +
-                `Tomorrow: Light showers, 24C\n` +
-                `Day 3: Partly cloudy, 26C`;
-            atSendSMS(phoneNumber, 'Pameltex Tech Weather: Today Sunny 28C | Tomorrow Light showers 24C | Day 3 Cloudy 26C.');
-
-            // ── Option 9: Change Language ─────────────────────────────────────────────
-        } else if (L1 === '9' && depth === 1) {
-            response = L.ussd_lang;
-
-        } else if (L1 === '9' && depth === 2) {
-            let nLang = 'en';
-            if (L2 === '1') nLang = 'en';
-            else if (L2 === '2') nLang = 'tn';
-            else if (L2 === '3') nLang = 'fr';
-            else if (L2 === '4') nLang = 'ny';
-            else if (L2 === '5') nLang = 'be';
-            await updateSession(phoneNumber, { language: nLang });
-            response = getLang(nLang).ussd_menu;
-
-            // ── Fallback ──────────────────────────────────────────────────────────────
         } else {
             response = `END Invalid option. Dial *384*14032# to start again.`;
         }
@@ -518,7 +521,7 @@ app.get('*', (req, res) => {
 
     // Otherwise, return debug info as JSON (very helpful for USSD providers)
     res.json({
-        msg: "Pameltex Tech Node Fallback",
+        msg: "mARI Platform Node Fallback",
         url: req.url,
         path: req.path,
         query: req.query,

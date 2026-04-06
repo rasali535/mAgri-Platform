@@ -1,11 +1,7 @@
-/**
  * whatsapp/bot.js
  * Core WhatsApp conversational FSM.
  *
- * processMessage(phone, incomingText) → string (reply to send back)
- * processImage(phone, mediaId)        → string (reply after image upload)
- *
- * Sessions are now backed by Supabase (supabaseStore.js).
+ * persona: mARI, the expert AI Agronomist by mARI Platform, developed by Pameltex Tech.
  */
 
 import { getSession, updateSession, resetSession } from './supabaseStore.js';
@@ -75,7 +71,7 @@ async function generateCropDiagnosis(messageContent) {
       body: JSON.stringify({
         contents: [{
           parts: [
-            { text: 'You are mARI, an expert agronomist AI. Analyze the crop image for diseases. Respond in valid JSON exactly: {"disease": "...", "confidence": 0-100, "recommendation": "..."}' },
+            { text: 'You are mARI, the expert AI Agronomist by mARI Platform, developed by Pameltex Tech. Analyze the crop image for diseases carefully. Respond in valid JSON exactly: {"disease": "...", "confidence": 0-100, "recommendation": "..."}' },
             { inline_data: { mime_type: mimeType, data: base64Data } }
           ]
         }]
