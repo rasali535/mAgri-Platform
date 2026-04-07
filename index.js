@@ -69,33 +69,39 @@ app.all(['/', '/api/ussd', '/api/ussd/', '/ussd', '/ussd/'], async (req, res, ne
     let response = '';
 
     if (text === '' || L1 === '0' || L1 === 'MENU') {
-        response = `CON Welcome to mARI Platform\n`;
-        response += `1. Check mARI Credit Score\n`;
-        response += `2. Apply for Micro-Credit\n`;
-        response += `3. Check Weather Forecast\n`;
-        response += `4. Ask mARI AI\n`;
-        response += `5. View/Respond to Buyer SMS`;
+        response = `CON 🌱 *Pameltex Tech Platform*\n`;
+        response += `1. Dashboard\n`;
+        response += `2. Marketplace\n`;
+        response += `3. Crop Scan (Info)\n`;
+        response += `4. Ask mARI (AI Advisor)\n`;
+        response += `5. Finance & Credit\n`;
+        response += `6. Weather Forecast\n`;
+        response += `7. Farmer Community\n`;
+        response += `9. Set Language`;
     } else if (L1 === '1') {
-        response = `END Your current mARI Credit Score is 745 (Excellent).`;
-        sendSMS(phoneNumber, "Your current mARI Credit Score is 745 (Excellent). Keep up the good work!");
+        response = `END *Dashboard*\nYou have 0 active orders and 0 listings. Use the web app for full details.`;
     } else if (L1 === '2') {
-        response = `END Your application for micro-credit has been received. You will receive an SMS confirmation.`;
-        sendSMS(phoneNumber, "mARI Platform: Your application for KES 5,000 micro-credit has been received.");
+        response = `END *Pameltex Tech Marketplace*\nBrowse local grain prices or post your crop for sale in the community forum.`;
     } else if (L1 === '3') {
-        response = `END Weather forecast for your region: Sunny with light showers.`;
-        sendSMS(phoneNumber, "mARI Platform Weather: Sunny with light showers in the evening.");
+        response = `END *Crop Scan (mARI AI)*\nTo diagnose a crop disease, please upload a photo using our WhatsApp bot or the Web App.`;
     } else if (L1 === '4') {
         if (depth === 1) {
-            response = `CON Ask mARI (AI Advisor):\nType your farming question:`;
+            response = `CON *Ask mARI (AI Advisor)*\nType your farming question (Expert advice instantly):`;
         } else {
-            response = `END Your message has been sent to our expert AI advisors.`;
-            sendSMS(phoneNumber, "mARI: Your question has been routed to our AI. Expect a reply shortly.");
+            response = `END mARI AI Advice: Your message has been sent to our expert advisors. Expect a reply shortly via SMS.`;
+            sendSMS(phoneNumber, "mARI Advice: Your question has been routed to our AI. Expect a reply shortly.");
         }
     } else if (L1 === '5') {
-        response = `END You have 1 new message from a Buyer: "Interested in 500kg Maize."`;
-        sendSMS(phoneNumber, "mARI Platform: New buyer message received. Dial *384*14032*5# to respond.");
+        response = `CON *Finance & Credit*\n1. Check Score\n2. Apply for Loan`;
+    } else if (L1 === '6') {
+        response = `END *Weather Forecast*\nSunny with light showers expected in the evening. Keep your seeds dry!`;
+        sendSMS(phoneNumber, "mARI Weather: Region forecast is Sunny with light showers in the evening.");
+    } else if (L1 === '7') {
+        response = `END *Farmer Community*\nJoin the Pameltex Tech community to discuss crop prices and tips. High activity in Lusaka/Kitwe.`;
+    } else if (L1 === '9') {
+        response = `CON *Set Language*\n1. English\n2. Setswana\n3. French`;
     } else {
-        response = `END Invalid option. Please try again.`;
+        response = `END Invalid option. Type MENU to restart.`;
     }
 
     res.set('Content-Type', 'text/plain');

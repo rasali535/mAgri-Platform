@@ -251,6 +251,17 @@ export async function processMessage(phone, rawText) {
       await updateSession(phone, { state: 'AGRONOMIST' });
       return L.agronomist_prompt;
     }
+    if (text === '5') {
+      await updateSession(phone, { state: 'CREDIT' });
+      return MENU.CREDIT_MENU;
+    }
+    if (text === '6') {
+      await updateSession(phone, { state: 'WEATHER' });
+      return MENU.WEATHER('Sunny with light showers in the evening.');
+    }
+    if (text === '7') {
+      return `💬 *Farmer Community*\nJoin our active community of 5,000+ farmers in your region. Exchange tips and market prices!\n\nAccess here: ${WEBAPP_URL}/community\n\nReply *MENU* to return.`;
+    }
     if (text === '9') {
       await updateSession(phone, { state: 'SET_LANGUAGE' });
       return L.change_lang;

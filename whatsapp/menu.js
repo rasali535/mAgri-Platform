@@ -24,13 +24,12 @@ export const MENU = {
     `\nPlease choose an option:\n` +
     `1️⃣  Dashboard & Orders\n` +
     `2️⃣  Marketplace\n` +
-    `3️⃣  Crop Scan (mARI AI Diagnosis) 🔍\n` +
+    `3️⃣  Crop Scan (mARI AI) 🔍\n` +
     `4️⃣  Ask mARI (AI Advisor)\n` +
     `5️⃣  Finance & Credit\n` +
-    `6️⃣  Add a Crop Listing 📸\n` +
-    `7️⃣  Open Web App 🔗\n` +
-    `8️⃣  Weather Forecast\n` +
-    `\nReply with a number (1–8) or type *MENU* anytime to return.`,
+    `6️⃣  Weather Forecast\n` +
+    `7️⃣  Farmer Community\n` +
+    `\nReply with a number (1–7) or type *MENU* anytime to return.`,
 
   AWAIT_LINK:
     `📧 Please send your Pameltex Tech account *email address* to link your WhatsApp number.\n` +
