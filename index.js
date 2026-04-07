@@ -4,7 +4,8 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import OpenAI from 'openai';
 import { initBaileys, getQRAsHTML } from './whatsapp/baileys.js';
-import { sendSMS as atSendSMS } from './whatsapp/africa.js';
+import { sendSMS } from './whatsapp/africa.js';
+import { getSession, updateSession } from './whatsapp/supabaseStore.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -86,11 +87,28 @@ app.all(['/', '/api/ussd', '/api/ussd/', '/ussd', '/ussd/'], async (req, res, ne
         response = `END *Crop Scan (mARI AI)*\nTo diagnose a crop disease, please upload a photo using our WhatsApp bot or the Web App.`;
     } else if (L1 === '4') {
         if (depth === 1) {
-            response = `CON *Ask mARI (AI Advisor)*\nType your farming question (Expert advice instantly):`;
+            response = `CON *mARI AI Advisor*\n(History from Web/WA synced)\nType your farming question:`;
         } else {
-            response = `END mARI AI Advice: Your message has been sent to our expert advisors. Expect a reply shortly via SMS.`;
-            sendSMS(phoneNumber, "mARI Advice: Your question has been routed to our AI. Expect a reply shortly.");
+            const question = parts.slice(1).join(' ');
+            const session = await getSession(phoneNumber);
+            
+            // Show "Thinking" status - actually we process it now
+            console.log(`[USSD AI] Question from ${phoneNumber}: ${question}`);
+            const answer = await askGemini(question, session.history, session.language || 'en');
+            
+            // Sync to universal history
+            const newHistory = [...(session.history || []), { role: 'user', parts: [{ text: question }] }, { role: 'model', parts: [{ text: answer }] }];
+            await updateSession(phoneNumber, { history: newHistory.slice(-10) });
+
+            // Send full answer via SMS
+            sendSMS(phoneNumber, `mARI Advisory:\n${answer}`);
+
+            // Keep USSD session alive for follow-up
+            const snippet = answer.substring(0, 60) + '...';
+            response = `CON *mARI:* ${snippet}\n(Full answer sent via SMS)\n1. Ask Follow-up\n0. Menu`;
         }
+    } else if (L1 === '4*1') {
+         response = `CON *Ask Follow-up:*\nType your next question:`;
     } else if (L1 === '5') {
         response = `CON *Finance & Credit*\n1. Check Score\n2. Apply for Loan`;
     } else if (L1 === '6') {
