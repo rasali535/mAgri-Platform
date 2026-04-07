@@ -86,14 +86,20 @@ app.all(['/', '/api/ussd', '/api/ussd/', '/ussd', '/ussd/'], async (req, res, ne
     } else if (L1 === '3') {
         response = `END *Crop Scan (mARI AI)*\nTo diagnose a crop disease, please upload a photo using our WhatsApp bot or the Web App.`;
     } else if (L1 === '4') {
-        if (depth === 1) {
-            response = `CON *mARI AI Advisor*\n(History from Web/WA synced)\nType your farming question:`;
+        const lastPart = parts[depth-1];
+        
+        if (depth === 1 || lastPart === '1') {
+            // User just arrived or just asked for a follow-up
+            response = `CON *mARI AI Advisor*\n(Synced with WhatsApp)\nType your farming question:`;
+        } else if (lastPart === '0') {
+            // User wants to go back
+            return res.send(`CON Welcome to Pameltex Tech\n1. Dashboard\n2. Marketplace\n3. Crop Scan\n4. Ask mARI\n5. Finance\n6. Weather\n0. Exit`);
         } else {
-            const question = parts.slice(1).join(' ');
+            // User has provided a question (the last part)
+            const question = lastPart;
             const session = await getSession(phoneNumber);
             
-            // Show "Thinking" status - actually we process it now
-            console.log(`[USSD AI] Question from ${phoneNumber}: ${question}`);
+            console.log(`[USSD AI Loop] Q: ${question} from ${phoneNumber}`);
             const answer = await askGemini(question, session.history, session.language || 'en');
             
             // Sync to universal history
@@ -103,12 +109,10 @@ app.all(['/', '/api/ussd', '/api/ussd/', '/ussd', '/ussd/'], async (req, res, ne
             // Send full answer via SMS
             sendSMS(phoneNumber, `mARI Advisory:\n${answer}`);
 
-            // Keep USSD session alive for follow-up
-            const snippet = answer.substring(0, 60) + '...';
-            response = `CON *mARI:* ${snippet}\n(Full answer sent via SMS)\n1. Ask Follow-up\n0. Menu`;
+            // Keep USSD session alive for INFITE follow-ups
+            const snippet = answer.substring(0, 80) + '...';
+            response = `CON *mARI:* ${snippet}\n1. Ask Follow-up\n0. Menu`;
         }
-    } else if (L1 === '4*1') {
-         response = `CON *Ask Follow-up:*\nType your next question:`;
     } else if (L1 === '5') {
         response = `CON *Finance & Credit*\n1. Check Score\n2. Apply for Loan`;
     } else if (L1 === '6') {
