@@ -50,7 +50,7 @@ async function generateCropDiagnosis(phone, messageContent) {
       Context: User in ${country}, Time: ${dateStr}. 
       Respond in JSON: {"disease": "...", "confidence": 0-100, "recommendation": "..."}`;
 
-    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -125,7 +125,7 @@ async function askGemini(phone, question, history = [], lang = 'en') {
       Context: Date ${dateStr}, User Country: ${country}. 
       Give localized advice for ${country} farmers. Reply in ${lang}.`;
 
-    const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
+    const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

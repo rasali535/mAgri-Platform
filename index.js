@@ -79,7 +79,7 @@ app.all(['/', '/api/ussd', '/api/ussd/', '/ussd', '/ussd/'], async (req, res, ne
     let response = '';
 
     if (text === '' || L1 === '0' || L1 === 'MENU') {
-        response = `CON 🌱 *mARI Tech Platform*\n`;
+        response = `CON 🌱 *Pameltex Tech Platform*\n`;
         response += `1. Dashboard\n`;
         response += `2. Marketplace\n`;
         response += `3. Crop Scan (Info)\n`;
@@ -189,7 +189,7 @@ async function askGemini(contents, systemInstruction = "") {
         if (systemInstruction) {
             body.system_instruction = { parts: [{ text: systemInstruction }] };
         }
-        const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
+        const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(body)
