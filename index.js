@@ -36,13 +36,16 @@ app.use((req, res, next) => {
     next();
 });
 
+// 1. Mandatory Healthcheck for Railway/Production
+app.get(['/health', '/api/health', '/healthcheck'], (req, res) => {
+    res.status(200).json({ status: 'ok', service: 'mARI-Platform', time: new Date().toISOString() });
+});
+
 // USSD Specific Health Check (Plain Text)
 app.all(['/api/ussd-health', '/ussd-health', '/ussd-health/'], (req, res) => {
     res.set('Content-Type', 'text/plain');
     res.send('CON Health Check OK');
 });
-
-// 1. API & USSD Routes
 async function sendSMS(to, message) {
     try {
         await atSendSMS(to, message);
@@ -157,16 +160,6 @@ app.get('/api/info', (req, res) => {
         cwd: process.cwd(),
         dir: __dirname,
         time: new Date().toISOString(),
-        baileys: baileysStarted ? 'online' : 'offline'
-    });
-});
-
-// Health Check Route (Must be before general routes)
-app.get(['/health', '/api/health'], (req, res) => {
-    res.json({
-        status: 'ok',
-        service: 'mARI Platform',
-        node: process.version,
         baileys: baileysStarted ? 'online' : 'offline'
     });
 });
