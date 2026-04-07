@@ -7,6 +7,13 @@ import OpenAI from 'openai';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// WhatsApp & Baileys Integrations
+import { initBaileys, getQRAsHTML } from './whatsapp/baileys.js';
+import { sendSMS as atSendSMS } from './whatsapp/africa.js';
+
+// Initialize Baileys once (but it will be called in app.listen)
+let baileysStarted = false;
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -241,13 +248,44 @@ app.all(['/api/diagnose', '/api/diagnose/'], async (req, res) => {
     }
 });
 
+// -- Admin QR Route --
+app.get('/admin/qr', async (req, res) => {
+    try {
+        const html = await getQRAsHTML();
+        res.status(200).send(html);
+    } catch (e) {
+        res.status(500).send('Error generating QR');
+    }
+});
+
+app.get('/api/info', (req, res) => {
+    res.json({
+        platform: 'mARI Platform',
+        version: '2.5.1',
+        node: process.version,
+        env: process.env.NODE_ENV,
+        cwd: process.cwd(),
+        dir: __dirname,
+        time: new Date().toISOString()
+    });
+});
+
 // Handle all other routes by serving the index.html file
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+    const indexPath = path.join(__dirname, 'dist', 'index.html');
+    const altPath = path.join(__dirname, 'index.html');
+    if (path.extname(req.path)) return res.status(404).send('Not Found');
+    res.sendFile(indexPath, (err) => {
+        if (err) res.sendFile(altPath);
+    });
 });
 
 app.listen(PORT, '0.0.0.0', () => {
     console.log(`Server (mARI Platform) is running on port ${PORT}`);
+    if (!baileysStarted) {
+        baileysStarted = true;
+        initBaileys().catch(e => console.error('[MASTER] Baileys init failed:', e));
+    }
 });
 
 export default app;

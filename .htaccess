@@ -1,15 +1,37 @@
+# mARI Platform - Hostinger Deployment Configuration
+# Place this file in your domain's public_html folder.
+
 RewriteEngine On
 RewriteBase /
 
-# Phusion Passenger Setup
+# 1. Let Apache serve static files (images, css, js) from the dist folder directly
+RewriteCond %{DOCUMENT_ROOT}/dist/%{REQUEST_URI} -f
+RewriteRule ^(.*)$ /dist/$1 [L]
+
+# 2. Redirect all other requests to Phusion Passenger (Node.js)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.js [L]
+
+# 3. Phusion Passenger Node.js Configuration
 <IfModule mod_passenger.c>
   PassengerEnabled on
-  PassengerAppRoot /home/u723774100/domains/navajowhite-monkey-252201.hostingersite.com/nodejs
-  PassengerStartupFile server.js
+  # Adjust the path below to point to the folder containing your index.js and node_modules.
+  # If you uploaded everything to public_html, use the public_html path.
+  PassengerAppRoot /home/u723774100/domains/navajowhite-monkey-252201.hostingersite.com/public_html
+  PassengerStartupFile index.js
   PassengerAppType node
 </IfModule>
 
-# Standard Node.js rewrite rule
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)$ server.js [L]
+# Security Headers
+<IfModule mod_headers.c>
+  Header set X-Content-Type-Options "nosniff"
+  Header set X-XSS-Protection "1; mode=block"
+  Header set X-Frame-Options "SAMEORIGIN"
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# GZIP Compression
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/json
+</IfModule>

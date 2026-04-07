@@ -60,7 +60,8 @@ export async function initBaileys() {
         for (const msg of m.messages) {
             if (!msg.message || msg.key.fromMe) continue; // ignore outgoing
             const jid = msg.key.remoteJid;
-            const phone = jid.split('@')[0]; // simple E.164-ish strip
+            let phone = jid.split('@')[0]; 
+            if (!phone.startsWith('+')) phone = '+' + phone;
             
             // Check if it's an image
             const imageMessage = msg.message?.imageMessage;
