@@ -51,9 +51,6 @@ COPY --from=builder /app/package-lock.json ./
 
 # Set environment
 ENV NODE_ENV=production
-ENV PORT=3000
-
-EXPOSE 3000
 
 # Run application
 CMD ["node", "index.js"]

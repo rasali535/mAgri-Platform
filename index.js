@@ -255,7 +255,7 @@ app.get('*', (req, res) => {
 });
 
 app.listen(PORT, '0.0.0.0', () => {
-    console.log(`[mARI] Master Server running on port ${PORT}`);
+    console.log(`[mARI]🚀 Master Server Live | Port: ${PORT} | Env: ${process.env.NODE_ENV}`);
     if (!baileysStarted) {
         baileysStarted = true;
         initBaileys().catch(e => console.error('[mARI] WhatsApp failed:', e));
