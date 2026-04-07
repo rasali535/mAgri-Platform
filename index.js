@@ -96,39 +96,29 @@ app.all(['/', '/api/ussd', '/api/ussd/', '/ussd', '/ussd/'], async (req, res, ne
     } else if (L1 === '3') {
         response = `END *Crop Scan (mARI AI)*\nTo diagnose a crop disease, please upload a photo using our WhatsApp bot or the Web App.`;
     } else if (L1 === '4') {
-        const lastPart = parts[depth - 1];
-
-        if (depth === 1 || lastPart === '1') {
-            response = `CON *mARI AI Advisor*\n(Synced with WhatsApp)\nType your farming question:`;
-        } else if (lastPart === '0') {
-            return res.send(`CON Welcome to Pameltex Tech\n1. Dashboard\n2. Marketplace\n3. Crop Scan\n4. Ask mARI\n5. Finance\n6. Weather\n0. Exit`);
-        } else {
-            const question = lastPart;
-            const session = await getSession(phoneNumber);
-
-            // Detect location and time context
-            const country = getCountryFromPhone(phoneNumber);
-            const context = `Current Date: ${new Date().toLocaleDateString()}. Location: ${country}.`;
-            const systemPrompt = `You are mARI, an AI agronomist for Pameltex Tech. Use this context: ${context}. Keep your advice localized to ${country}.`;
-
-            console.log(`[USSD AI] Q: ${question} | Country: ${country}`);
-
-            // Call AI with history and system context
-            const contents = [
-                ...(session.history || []),
-                { role: 'user', parts: [{ text: question }] }
-            ];
-            const data = await askGemini(contents, systemPrompt);
-            const answer = data.candidates?.[0]?.content?.parts?.[0]?.text || 'No response.';
-
-            // Sync to universal history
-            const newHistory = [...(session.history || []), { role: 'user', parts: [{ text: question }] }, { role: 'model', parts: [{ text: answer }] }];
-            await updateSession(phoneNumber, { history: newHistory.slice(-10) });
-
-            sendSMS(phoneNumber, `mARI Advisory:\n${answer}`);
-
-            const snippet = answer.substring(0, 80) + '...';
-            response = `CON *mARI:* ${snippet}\n1. Ask Follow-up\n0. Menu`;
+        const lastPart = (parts[depth - 1] || '').trim();
+        try {
+            if (depth === 1 || lastPart === '1') {
+                response = `CON *mARI AI Advisor*\n(Synced with WhatsApp)\nType your farming question:`;
+            } else if (lastPart === '0') {
+                response = `CON 🌱 *Pameltex Tech Platform*\n1. Dashboard\n2. Marketplace\n3. Crop Scan\n4. Ask mARI\n5. Finance\n6. Weather\n0. Exit`;
+            } else {
+                const question = lastPart;
+                const session = await getSession(phoneNumber).catch(() => ({ history: [] }));
+                const country = getCountryFromPhone(phoneNumber);
+                const systemPrompt = `You are mARI, an AI agronomist for Pameltex Tech. Location: ${country}. Be concise.`;
+                const data = await askGemini([{ role: 'user', parts: [{ text: question }] }], systemPrompt);
+                const answer = data.candidates?.[0]?.content?.parts?.[0]?.text || 'Processing, check SMS.';
+                await updateSession(phoneNumber, { 
+                    history: [...(session.history || []), { role: 'user', parts: [{ text: question }] }, { role: 'model', parts: [{ text: answer }] }].slice(-10) 
+                }).catch(() => {});
+                sendSMS(phoneNumber, `mARI AI Advice: ${answer}\n\nType MENU to return.`);
+                const snippet = answer.substring(0, 80) + '...';
+                response = `CON *mARI:* ${snippet}\n1. Ask Follow-up\n0. Menu`;
+            }
+        } catch (error) {
+            console.error('[USSD Error]', error);
+            response = `CON ⚠️ mARI is busy.\n1. Retry Question\n0. Menu`;
         }
     } else if (L1 === '5') {
         response = `CON *Finance & Credit*\n1. Check Score\n2. Apply for Loan`;
