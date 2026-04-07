@@ -79,7 +79,7 @@ app.all(['/', '/api/ussd', '/api/ussd/', '/ussd', '/ussd/'], async (req, res, ne
     let response = '';
 
     if (text === '' || L1 === '0' || L1 === 'MENU') {
-        response = `CON 🌱 *Pameltex Tech Platform*\n`;
+        response = `CON 🌱 *mARI Tech Platform*\n`;
         response += `1. Dashboard\n`;
         response += `2. Marketplace\n`;
         response += `3. Crop Scan (Info)\n`;
@@ -87,7 +87,8 @@ app.all(['/', '/api/ussd', '/api/ussd/', '/ussd', '/ussd/'], async (req, res, ne
         response += `5. Finance & Credit\n`;
         response += `6. Weather Forecast\n`;
         response += `7. Farmer Community\n`;
-        response += `9. Set Language`;
+        response += `9. Language\n`;
+        response += `📅 ${new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`;
     } else if (L1 === '1') {
         response = `END *Dashboard*\nYou have 0 active orders and 0 listings. Use the web app for full details.`;
     } else if (L1 === '2') {
@@ -95,8 +96,8 @@ app.all(['/', '/api/ussd', '/api/ussd/', '/ussd', '/ussd/'], async (req, res, ne
     } else if (L1 === '3') {
         response = `END *Crop Scan (mARI AI)*\nTo diagnose a crop disease, please upload a photo using our WhatsApp bot or the Web App.`;
     } else if (L1 === '4') {
-        const lastPart = parts[depth-1];
-        
+        const lastPart = parts[depth - 1];
+
         if (depth === 1 || lastPart === '1') {
             response = `CON *mARI AI Advisor*\n(Synced with WhatsApp)\nType your farming question:`;
         } else if (lastPart === '0') {
@@ -104,14 +105,14 @@ app.all(['/', '/api/ussd', '/api/ussd/', '/ussd', '/ussd/'], async (req, res, ne
         } else {
             const question = lastPart;
             const session = await getSession(phoneNumber);
-            
+
             // Detect location and time context
             const country = getCountryFromPhone(phoneNumber);
             const context = `Current Date: ${new Date().toLocaleDateString()}. Location: ${country}.`;
             const systemPrompt = `You are mARI, an AI agronomist for Pameltex Tech. Use this context: ${context}. Keep your advice localized to ${country}.`;
 
             console.log(`[USSD AI] Q: ${question} | Country: ${country}`);
-            
+
             // Call AI with history and system context
             const contents = [
                 ...(session.history || []),
@@ -119,7 +120,7 @@ app.all(['/', '/api/ussd', '/api/ussd/', '/ussd', '/ussd/'], async (req, res, ne
             ];
             const data = await askGemini(contents, systemPrompt);
             const answer = data.candidates?.[0]?.content?.parts?.[0]?.text || 'No response.';
-            
+
             // Sync to universal history
             const newHistory = [...(session.history || []), { role: 'user', parts: [{ text: question }] }, { role: 'model', parts: [{ text: answer }] }];
             await updateSession(phoneNumber, { history: newHistory.slice(-10) });

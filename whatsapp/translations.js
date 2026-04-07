@@ -17,7 +17,8 @@ export const TRANSLATIONS = {
       `5️⃣  Finance & Credit\n` +
       `6️⃣  Weather Forecast\n` +
       `7️⃣  Farmer Community\n\n` +
-      `Reply with a number (1–7) or type *MENU* anytime to return.\n` +
+      `Reply with a number (1–7) or type *MENU* anytime to return.\n\n` +
+      `📅 _Today is ${new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}_\n` +
       `🌍 Send *9* to Change Language.`,
     change_lang: "🌍 *Select Language:*\n1. English\n2. Tswana\n3. French\n4. Nyanja\n5. Bemba\n\nType *CANCEL* to go back.",
     ussd_lang: "CON Select Language:\n1. English\n2. Tswana\n3. French\n4. Nyanja\n5. Bemba",
