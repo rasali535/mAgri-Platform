@@ -28,12 +28,12 @@ app.use((req, res, next) => {
 
 // Middleware for CORS (standard for modern browser-based apps)
 app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type,Authorization');
-  res.setHeader('Access-Control-Allow-Credentials', 'true');
-  if (req.method === 'OPTIONS') return res.sendStatus(204);
-  next();
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type,Authorization');
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
+    if (req.method === 'OPTIONS') return res.sendStatus(204);
+    next();
 });
 
 // USSD Specific Health Check (Plain Text)
@@ -51,16 +51,25 @@ async function sendSMS(to, message) {
     }
 }
 
+function getCountryFromPhone(phone) {
+    if (phone.startsWith('+267')) return 'Botswana';
+    if (phone.startsWith('+260')) return 'Zambia';
+    if (phone.startsWith('+254')) return 'Kenya';
+    if (phone.startsWith('+225')) return "Côte d'Ivoire";
+    if (phone.startsWith('+234')) return 'Nigeria';
+    return 'Africa';
+}
+
 // USSD Bridge Configuration (Handles root / and /api/ussd)
 app.all(['/', '/api/ussd', '/api/ussd/', '/ussd', '/ussd/'], async (req, res, next) => {
     const { phoneNumber, text = '' } = { ...req.query, ...req.body };
-    
+
     // Safety check: only treat it as USSD if phoneNumber exists
     if (!phoneNumber) {
         if (req.method === 'GET') return next(); // Not USSD, let the static-serve handle it
         return res.status(204).end();
     }
-    
+
     console.log(`USSD Handler: ${req.method} ${req.url} - Text: "${text}" from ${phoneNumber}`);
 
     const parts = (text || '').toString().trim().split('*');
@@ -70,7 +79,7 @@ app.all(['/', '/api/ussd', '/api/ussd/', '/ussd', '/ussd/'], async (req, res, ne
     let response = '';
 
     if (text === '' || L1 === '0' || L1 === 'MENU') {
-        response = `CON 🌱 *Pameltex Tech Platform*\n`;
+        response = `CON 🌱 *mARI Tech Platform*\n`;
         response += `1. Dashboard\n`;
         response += `2. Marketplace\n`;
         response += `3. Crop Scan (Info)\n`;
@@ -89,27 +98,34 @@ app.all(['/', '/api/ussd', '/api/ussd/', '/ussd', '/ussd/'], async (req, res, ne
         const lastPart = parts[depth-1];
         
         if (depth === 1 || lastPart === '1') {
-            // User just arrived or just asked for a follow-up
             response = `CON *mARI AI Advisor*\n(Synced with WhatsApp)\nType your farming question:`;
         } else if (lastPart === '0') {
-            // User wants to go back
             return res.send(`CON Welcome to Pameltex Tech\n1. Dashboard\n2. Marketplace\n3. Crop Scan\n4. Ask mARI\n5. Finance\n6. Weather\n0. Exit`);
         } else {
-            // User has provided a question (the last part)
             const question = lastPart;
             const session = await getSession(phoneNumber);
             
-            console.log(`[USSD AI Loop] Q: ${question} from ${phoneNumber}`);
-            const answer = await askGemini(question, session.history, session.language || 'en');
+            // Detect location and time context
+            const country = getCountryFromPhone(phoneNumber);
+            const context = `Current Date: ${new Date().toLocaleDateString()}. Location: ${country}.`;
+            const systemPrompt = `You are mARI, an AI agronomist for Pameltex Tech. Use this context: ${context}. Keep your advice localized to ${country}.`;
+
+            console.log(`[USSD AI] Q: ${question} | Country: ${country}`);
+            
+            // Call AI with history and system context
+            const contents = [
+                ...(session.history || []),
+                { role: 'user', parts: [{ text: question }] }
+            ];
+            const data = await askGemini(contents, systemPrompt);
+            const answer = data.candidates?.[0]?.content?.parts?.[0]?.text || 'No response.';
             
             // Sync to universal history
             const newHistory = [...(session.history || []), { role: 'user', parts: [{ text: question }] }, { role: 'model', parts: [{ text: answer }] }];
             await updateSession(phoneNumber, { history: newHistory.slice(-10) });
 
-            // Send full answer via SMS
             sendSMS(phoneNumber, `mARI Advisory:\n${answer}`);
 
-            // Keep USSD session alive for INFITE follow-ups
             const snippet = answer.substring(0, 80) + '...';
             response = `CON *mARI:* ${snippet}\n1. Ask Follow-up\n0. Menu`;
         }
@@ -156,11 +172,11 @@ app.get('/api/info', (req, res) => {
 
 // Health Check Route (Must be before general routes)
 app.get(['/health', '/api/health'], (req, res) => {
-    res.json({ 
-        status: 'ok', 
-        service: 'mARI Platform', 
-        node: process.version, 
-        baileys: baileysStarted ? 'online' : 'offline' 
+    res.json({
+        status: 'ok',
+        service: 'mARI Platform',
+        node: process.version,
+        baileys: baileysStarted ? 'online' : 'offline'
     });
 });
 
@@ -238,16 +254,16 @@ app.get('*', (req, res) => {
     const distIndex = path.join(distPath, 'index.html');
     const buildIndex = path.join(buildPath, 'index.html');
     const rootIndex = path.join(__dirname, 'index.html'); // fallback
-    
+
     if (path.extname(req.path)) return res.status(404).send('Not Found');
-    
+
     res.sendFile(distIndex, (err) => {
         if (err) {
             res.sendFile(buildIndex, (err2) => {
                 if (err2) {
-                   res.sendFile(rootIndex, (err3) => {
+                    res.sendFile(rootIndex, (err3) => {
                         if (err3) res.status(200).send('mARI Platform: Frontend build missing. Run "npm run build".');
-                   });
+                    });
                 }
             });
         }
