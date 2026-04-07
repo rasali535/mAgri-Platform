@@ -116,21 +116,31 @@ app.all(['/', '/api/ussd', '/api/ussd/', '/ussd', '/ussd/'], async (req, res, ne
                 response = `CON 🌱 *Pameltex Tech Platform*\n1. Dashboard\n2. Marketplace\n3. Crop Scan\n4. Ask mARI\n5. Finance\n6. Weather\n0. Exit`;
             } else {
                 const question = lastPart;
-                const session = await getSession(phoneNumber).catch(() => ({ history: [] }));
+                // Session fallback: if DB fails, keep going with empty history
+                let session = { history: [] };
+                try {
+                    session = await getSession(phoneNumber);
+                } catch (dbErr) {
+                    console.error('[mARI DB Fallback] DB unavailable, using memory.');
+                }
+
                 const country = getCountryFromPhone(phoneNumber);
-                const systemPrompt = `You are mARI, an AI agronomist for Pameltex Tech. Location: ${country}. Be concise.`;
+                const systemPrompt = `You are mARI, an AI agronomist for Pameltex Tech. Location: ${country}. Be extremely concise.`;
                 const data = await askGemini([{ role: 'user', parts: [{ text: question }] }], systemPrompt);
-                const answer = data.candidates?.[0]?.content?.parts?.[0]?.text || 'Processing, check SMS.';
-                await updateSession(phoneNumber, { 
+                const answer = data.candidates?.[0]?.content?.parts?.[0]?.text || 'I am thinking... please check SMS shortly.';
+                
+                // Try to sync, but don't crash if it fails
+                updateSession(phoneNumber, { 
                     history: [...(session.history || []), { role: 'user', parts: [{ text: question }] }, { role: 'model', parts: [{ text: answer }] }].slice(-10) 
                 }).catch(() => {});
+
                 sendSMS(phoneNumber, `mARI AI Advice: ${answer}\n\nType MENU to return.`);
                 const snippet = answer.substring(0, 80) + '...';
                 response = `CON *mARI:* ${snippet}\n1. Ask Follow-up\n0. Menu`;
             }
         } catch (error) {
-            console.error('[USSD Error]', error);
-            response = `CON ⚠️ mARI is busy.\n1. Retry Question\n0. Menu`;
+            console.error('[USSD AI Error]', error);
+            response = `CON ⚠️ mARI is having trouble connecting to AI.\n1. Try Again\n0. Menu`;
         }
     } else if (L1 === '5') {
         response = `CON *Finance & Credit*\n1. Check Score\n2. Apply for Loan`;
