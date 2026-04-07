@@ -384,14 +384,14 @@ elseif ($depth === 2) {
             $response = "END Expert Review Requested!\n\n";
             $response .= "A human agronomist will contact you via SMS within 24 hours.\n";
             $response .= "Reference: ESC-" . rand(10000, 99999);
-            sendSMS($phoneNumber, "mAgri: Your expert review request has been received. An agronomist will contact you within 24 hours. Ref: ESC-" . rand(10000, 99999));
+            sendSMS($phoneNumber, "mARI: Your expert review request has been received. An agronomist will contact you within 24 hours. Ref: ESC-" . rand(10000, 99999));
         } elseif ($levels[1] === '5') {
             // Camera Tool
             $response = "CON Smartphone Camera Tool\n\n";
             $response .= "An SMS link has been sent to your phone.\n\n";
             $response .= "Click the link to upload a photo of your crop for instant AI diagnosis.\n\n";
             $response .= "0. Back";
-            sendSMS($phoneNumber, "mAgri Camera Tool: Click here to upload a photo for instant AI diagnosis: https://navajowhite-monkey-252201.hostingersite.com/?tab=diagnose");
+            sendSMS($phoneNumber, "mARI Camera Tool: Click here to upload a photo for instant AI diagnosis: https://navajowhite-monkey-252201.hostingersite.com/?tab=diagnose");
         } else {
             $response = "CON Invalid option.\n\n0. Back";
         }
@@ -520,7 +520,7 @@ elseif ($depth === 2) {
             $response = "CON SMS Messages\n\n";
             $response .= "1. Buyer: Interested in\n";
             $response .= "   500kg Maize (NEW)\n";
-            $response .= "2. mAgri: Weather alert\n";
+            $response .= "2. mARI: Weather alert\n";
             $response .= "   rain expected tomorrow\n";
             $response .= "3. Expert: Your cocoa looks\n";
             $response .= "   healthy, continue care\n\n";
@@ -530,7 +530,7 @@ elseif ($depth === 2) {
             $response .= "1. How to use USSD\n";
             $response .= "2. Contact Support\n";
             $response .= "3. Report a Problem\n";
-            $response .= "4. About mAgri Platform\n\n";
+            $response .= "4. About mARI Platform\n\n";
             $response .= "0. Back";
         } elseif ($levels[1] === '4') {
             // Switch Role
@@ -547,7 +547,7 @@ elseif ($depth === 2) {
             $response = "END Role Switched!\n\n";
             $response .= "You are now logged in as a: $newRole\n\n";
             $response .= "Your AgriMarket menus will now be tailored for $newRole actions.";
-            sendSMS($phoneNumber, "mAgri Portal: Your role has been updated to $newRole. Your marketplace experience is now optimized for " . ($newRole === 'Buyer' ? 'purchasing' : 'selling') . ".");
+            sendSMS($phoneNumber, "mARI Portal: Your role has been updated to $newRole. Your marketplace experience is now optimized for " . ($newRole === 'Buyer' ? 'purchasing' : 'selling') . ".");
         } else {
             $response = "CON Invalid option.\n\n0. Back";
         }
@@ -609,7 +609,7 @@ elseif ($depth === 3) {
             $response .= "Symptom: {$symptoms[$levels[2]]}\n";
             $response .= "An AI analysis will be sent via SMS.\n\n";
             $response .= "Ref: SCAN-" . rand(10000, 99999);
-            sendSMS($phoneNumber, "mAgri Crop Scan: Your report for '{$symptoms[$levels[2]]}' has been received. AI analysis in progress. You will receive results via SMS.");
+            sendSMS($phoneNumber, "mARI Crop Scan: Your report for '{$symptoms[$levels[2]]}' has been received. AI analysis in progress. You will receive results via SMS.");
         } else {
             $response = "CON Please describe the problem:\n(Type your description)\n\n0. Back";
         }
@@ -696,7 +696,7 @@ elseif ($depth === 3) {
         if ($levels[2] === '1') {
             $topic = $topics[$levels[1]];
             $response = "END $topic guide sent to your phone via SMS!";
-            sendSMS($phoneNumber, "mAgri $topic Guide: Detailed information has been sent. Visit our web app for more: navajowhite-monkey-252201.hostingersite.com");
+            sendSMS($phoneNumber, "mARI $topic Guide: Detailed information has been sent. Visit our web app for more: navajowhite-monkey-252201.hostingersite.com");
         } else {
             $response = "CON Invalid option.\n\n0. Back";
         }
@@ -727,7 +727,7 @@ elseif ($depth === 3) {
         global $userLang;
         $aiAnswer = callOpenAI("User asked: " . $question, $userLang);
         $response = "CON AI Agronomist:\n\n$aiAnswer\n\n0. Back";
-        sendSMS($phoneNumber, "mAgri AI Response: $aiAnswer");
+        sendSMS($phoneNumber, "mARI AI Response: $aiAnswer");
     }
 
     // --- 5.2.X - Finance > Micro-Credit > Select Amount ---
@@ -834,10 +834,10 @@ elseif ($depth === 4) {
         $seller = isset($listings[$levels[2]]) ? $listings[$levels[2]] : 'Seller';
         if ($levels[3] === '1') {
             $response = "CON SMS sent to $seller!\n\nThey will contact you shortly.\nRef: MKT-" . rand(10000, 99999) . "\n\n0. Back";
-            sendSMS($phoneNumber, "mAgri Market: Your interest has been sent to $seller. They will contact you shortly.");
+            sendSMS($phoneNumber, "mARI Market: Your interest has been sent to $seller. They will contact you shortly.");
         } else {
             $response = "CON Interest expressed to $seller!\n\nYou will receive their response via SMS.\nRef: MKT-" . rand(10000, 99999) . "\n\n0. Back";
-            sendSMS($phoneNumber, "mAgri Market: You expressed interest. $seller will be notified.");
+            sendSMS($phoneNumber, "mARI Market: You expressed interest. $seller will be notified.");
         }
     }
 
@@ -1103,7 +1103,7 @@ function callOpenAI($prompt, $language) // Keeping name for compatibility in the
     if (!$apiKey)
         return "AI is currently unavailable.";
 
-    $fullPrompt = "You are mARI, an expert AI agronomist for mAgri Platform. 
+    $fullPrompt = "You are mARI, an expert AI agronomist for mARI Platform. 
     Question: $prompt
     
     IMPORTANT: 

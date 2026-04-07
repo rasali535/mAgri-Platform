@@ -1,6 +1,6 @@
 <?php
 /**
- * mAgri SMS Gateway Handler (PHP)
+ * mARI SMS Gateway Handler (PHP)
  * 
  * This handles incoming SMS from Africa's Talking.
  * Callback URL: https://navajowhite-monkey-252201.hostingersite.com/sms.php

@@ -69,35 +69,52 @@ app.use((req, res, next) => {
 });
 
 // USSD & SMS Bridge Configuration
-app.all(['/api/ussd', '/api/ussd/'], (req, res) => {
-    const { sessionId, serviceCode, phoneNumber, text = '' } = { ...req.query, ...req.body };
+app.all(['/api/ussd', '/api/ussd/'], async (req, res) => {
+    const { phoneNumber, text = '' } = { ...req.query, ...req.body };
     console.log(`USSD Handler: ${req.method} ${req.url} - Text: "${text}" from ${phoneNumber}`);
 
-    let response = '';
-    const currentText = (text || '').toString();
+    const parts = (text || '').toString().trim().split('*');
+    const depth = parts.length;
+    const L1 = parts[0];
 
-    if (currentText === '') {
+    // Simple language prefix normalization (since server.js doesn't have the same translations structure, we'll keep it simple)
+    const possibleLangs = ['1', '2', '3', '4', '5'];
+    let effectiveParts = parts;
+    // Assume if depth >= 2 and L1=1, it might be English prefix from index.js session
+    if (depth >= 2 && possibleLangs.includes(L1)) {
+        effectiveParts = parts.slice(1);
+    }
+
+    const eDepth = effectiveParts.length;
+    const eL1 = effectiveParts[0];
+    const eL2 = effectiveParts[1];
+
+    let response = '';
+
+    if (text === '' || eL1 === '0' || eL1 === 'MENU') {
         response = `CON Welcome to mARI Platform\n`;
         response += `1. Check mARI Credit Score\n`;
         response += `2. Apply for Micro-Credit\n`;
         response += `3. Check Weather Forecast\n`;
         response += `4. Ask mARI AI\n`;
         response += `5. View/Respond to Buyer SMS`;
-    } else if (currentText === '1') {
+    } else if (eL1 === '1') {
         response = `END Your current mARI Credit Score is 745 (Excellent).`;
         sendSMS(phoneNumber, "Your current mARI Credit Score is 745 (Excellent). Keep up the good work!");
-    } else if (currentText === '2') {
+    } else if (eL1 === '2') {
         response = `END Your application for micro-credit has been received. You will receive an SMS confirmation.`;
         sendSMS(phoneNumber, "mARI Platform: Your application for KES 5,000 micro-credit has been received.");
-    } else if (currentText === '3') {
+    } else if (eL1 === '3') {
         response = `END Weather forecast for your region: Sunny with light showers.`;
         sendSMS(phoneNumber, "mARI Platform Weather: Sunny with light showers in the evening.");
-    } else if (currentText === '4') {
-        response = `CON Ask mARI (AI Advisor):\nType your farming question:`;
-    } else if (currentText.startsWith('4*')) {
-        response = `END Your message has been sent to our expert agronomists.`;
-        sendSMS(phoneNumber, "mARI: Your question has been routed. Expect a reply shortly.");
-    } else if (currentText === '5') {
+    } else if (eL1 === '4') {
+        if (eDepth === 1) {
+            response = `CON Ask mARI (AI Advisor):\nType your farming question:`;
+        } else {
+            response = `END Your message has been sent to our expert AI advisors.`;
+            sendSMS(phoneNumber, "mARI: Your question has been routed to our AI. Expect a reply shortly.");
+        }
+    } else if (eL1 === '5') {
         response = `END You have 1 new message from a Buyer: "Interested in 500kg Maize."`;
         sendSMS(phoneNumber, "mARI Platform: New buyer message received. Dial *384*14032*5# to respond.");
     } else {
@@ -120,7 +137,7 @@ app.post('/api/sms', (req, res) => {
 // 2. Static File Serving (Lower Priority)
 app.use(express.static(path.join(__dirname, 'dist')));
 
-// AI Services Bridge - Gemini 1.5 Flash
+// AI Services Bridge - Gemini 2.5 Flash
 async function askGemini(contents, systemInstruction = "") {
     const apiKey = process.env.VITE_GEMINI_API_KEY || process.env.GEMINI_API_KEY;
     if (!apiKey) return { error: 'Gemini API not configured' };
@@ -158,7 +175,7 @@ app.post('/api/chat', async (req, res) => {
             parts: [{ text: m.content }]
         }));
 
-        const systemInstruction = "You are mARI, a premium AI agronomist for the mAgri Platform, developed by Pameltex Tech. Provide helpful agricultural advice.";
+        const systemInstruction = "You are mARI, a premium AI agronomist for the mARI Platform, developed by Pameltex Tech. Provide helpful agricultural advice.";
         const data = await askGemini(contents, systemInstruction);
         const text = data.candidates?.[0]?.content?.parts?.[0]?.text || 'No response from AI.';
         res.json({ role: 'assistant', content: text });
@@ -182,15 +199,18 @@ app.post('/api/diagnose', async (req, res) => {
         }]);
 
         let text = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
-        // Strip markdown backticks if AI included them
-        text = text.replace(/^```json\n?/, '').replace(/\n?```$/, '').replace(/^```\n?/, '').trim();
+        const jsonMatch = text.match(/\{[\s\S]*\}/);
+        if (!jsonMatch) {
+            console.error('No JSON block found in AI response:', text);
+            return res.status(500).json({ error: 'AI returned invalid output format' });
+        }
         
         try {
-            const parsed = JSON.parse(text);
+            const parsed = JSON.parse(jsonMatch[0]);
             res.json(parsed);
         } catch (e) {
-            console.error('Invalid AI JSON:', text);
-            res.status(500).json({ error: 'AI returned invalid JSON format' });
+            console.error('Invalid AI JSON parse error:', e.message, 'Text:', text);
+            res.status(500).json({ error: 'AI returned invalid JSON content' });
         }
     } catch (error) {
         res.status(500).json({ error: 'Failed to process diagnosis' });
