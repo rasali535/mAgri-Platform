@@ -40,7 +40,7 @@ COPY package*.json ./
 RUN npm ci --omit=dev
 
 # Copy built application and required folders from builder
-COPY --from=builder /app/build ./build
+COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/src ./src
 COPY --from=builder /app/whatsapp ./whatsapp

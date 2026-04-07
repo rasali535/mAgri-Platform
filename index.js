@@ -126,6 +126,16 @@ app.get('/api/info', (req, res) => {
     });
 });
 
+// Health Check Route (Must be before general routes)
+app.get(['/health', '/api/health'], (req, res) => {
+    res.json({ 
+        status: 'ok', 
+        service: 'mARI Platform', 
+        node: process.version, 
+        baileys: baileysStarted ? 'online' : 'offline' 
+    });
+});
+
 // AI Services Bridge - Gemini 2.5 Flash
 async function askGemini(contents, systemInstruction = "") {
     const apiKey = process.env.VITE_GEMINI_API_KEY || process.env.GEMINI_API_KEY;
