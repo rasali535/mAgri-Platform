@@ -13,7 +13,7 @@
     "build": "vite build",
     "start": "node index.js",
     "preview": "vite preview",
-    "clean": "rm -rf dist",
+    "clean": "npx -y rimraf dist",
     "lint": "tsc --noEmit"
   },
   "dependencies": {
@@ -22,8 +22,7 @@
     "@tailwindcss/vite": "^4.1.14",
     "@vitejs/plugin-react": "^5.0.4",
     "@whiskeysockets/baileys": "^7.0.0-rc.9",
-    "africastalking": "^0.7.9",
-    "better-sqlite3": "^12.4.1",
+    "africastalking": "^0.7.4",
     "dotenv": "^17.2.3",
     "express": "^4.21.2",
     "lucide-react": "^0.546.0",

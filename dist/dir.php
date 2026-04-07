@@ -1,7 +1,7 @@
 <?php
 header('Content-Type: text/plain');
 
-$nodejs_dir = '/home/u723774100/domains/navajowhite-monkey-252201.hostingersite.com/nodejs';
+$nodejs_dir = '/home/u723774100/domains/orangered-clam-470152.hostingersite.com/nodejs';
 
 echo "=== ecosystem.config.cjs ===\n";
 echo file_get_contents($nodejs_dir . '/ecosystem.config.cjs') . "\n";
