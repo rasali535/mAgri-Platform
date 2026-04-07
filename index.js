@@ -50,9 +50,16 @@ async function sendSMS(to, message) {
     }
 }
 
-// USSD Bridge Configuration
-app.all(['/api/ussd', '/api/ussd/', '/ussd', '/ussd/'], async (req, res) => {
+// USSD Bridge Configuration (Handles root / and /api/ussd)
+app.all(['/', '/api/ussd', '/api/ussd/', '/ussd', '/ussd/'], async (req, res, next) => {
     const { phoneNumber, text = '' } = { ...req.query, ...req.body };
+    
+    // Safety check: only treat it as USSD if phoneNumber exists
+    if (!phoneNumber) {
+        if (req.method === 'GET') return next(); // Not USSD, let the static-serve handle it
+        return res.status(204).end();
+    }
+    
     console.log(`USSD Handler: ${req.method} ${req.url} - Text: "${text}" from ${phoneNumber}`);
 
     const parts = (text || '').toString().trim().split('*');
