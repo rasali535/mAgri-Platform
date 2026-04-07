@@ -1,14 +1,15 @@
 RewriteEngine On
 RewriteBase /
 
-# Force everything to Node.js
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^(.*)$ index.js [L]
-
 # Phusion Passenger Setup
 <IfModule mod_passenger.c>
   PassengerEnabled on
-  PassengerAppRoot /home/u723774100/domains/navajowhite-monkey-252201.hostingersite.com/public_html
+  PassengerAppRoot /home/u723774100/domains/navajowhite-monkey-252201.hostingersite.com
   PassengerStartupFile index.js
   PassengerAppType node
 </IfModule>
+
+# Standard Node.js rewrite rule
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.js [L]

@@ -151,18 +151,31 @@ app.post(['/api/whatsapp/send', '/api/whatsapp/send/'], async (req, res) => {
 
 // ── Web Application Diagnosis API ───────────────────────────────────────────
 app.all(['/api/diagnose', '/api/diagnose/'], async (req, res) => {
-    if (req.method === 'GET') {
-        return res.json({ status: 'Diagnosis endpoint active', use: 'POST imageBase64 and mimeType' });
+    console.log(`[Diagnose API] ${req.method} request received`);
+    
+    if (req.method === 'GET' || req.method === 'HEAD') {
+        return res.json({ 
+            status: 'Diagnosis endpoint active', 
+            methods_allowed: ['POST'],
+            usage: 'POST imageBase64 and mimeType fields in JSON body'
+        });
     }
     
     try {
         const { imageBase64, mimeType } = req.body;
-        if (!imageBase64) return res.status(400).json({ error: 'Image data missing' });
+        if (!imageBase64) {
+            console.warn('[Diagnose API] Missing imageBase64 in body');
+            return res.status(400).json({ error: 'Image data missing' });
+        }
 
         const apiKey = process.env.VITE_GEMINI_API_KEY || process.env.GEMINI_API_KEY;
-        if (!apiKey) return res.status(500).json({ error: 'Diagnosis service unconfigured' });
+        if (!apiKey) {
+            console.error('[Diagnose API] Missing API Key');
+            return res.status(500).json({ error: 'Diagnosis service unconfigured' });
+        }
 
-        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
+        console.log(`[Diagnose API] Calling Gemini AI... (Mime: ${mimeType || 'image/jpeg'})`);
+        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -175,15 +188,22 @@ app.all(['/api/diagnose', '/api/diagnose/'], async (req, res) => {
             })
         });
 
-        if (!response.ok) throw new Error(`AI error: ${response.status}`);
-        const data = await response.json();
+        if (!response.ok) {
+            const errBody = await response.text();
+            throw new Error(`AI API error ${response.status}: ${errBody}`);
+        }
         
+        const data = await response.json();
         let text = data.candidates?.[0]?.content?.parts?.[0]?.text || '{}';
-        text = text.replace(/```json|```/g, '').trim();
-        res.json(JSON.parse(text));
+        
+        // Robust JSON extraction
+        const jsonMatch = text.match(/\{[\s\S]*\}/);
+        if (!jsonMatch) throw new Error('No valid JSON block found in AI response');
+        
+        res.json(JSON.parse(jsonMatch[0]));
     } catch (err) {
         console.error('[Diagnose API Error]', err.message);
-        res.status(500).json({ error: 'Analysis failed' });
+        res.status(500).json({ error: err.message || 'Analysis failed' });
     }
 });
 
@@ -196,7 +216,7 @@ async function askGeminiUSSD(question) {
         if (!apiKey) return 'AI service unavailable. Our team will reply shortly.';
 
         const resp = await fetch(
-            `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
+            `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
             {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -434,7 +454,9 @@ app.post(['/api/sms', '/api/sms/'], async (req, res) => {
 
 
 // 2. Static File Serving (Lower Priority)
+app.use(express.static(path.join(__dirname, 'dist')));
 app.use(express.static(path.join(__dirname, 'build')));
+app.use('/public', express.static(path.join(__dirname, 'public')));
 
 let openai;
 try {
@@ -479,7 +501,7 @@ app.post('/api/chat', async (req, res) => {
             parts: [{ text: m.content }]
         }));
 
-        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
+        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -509,9 +531,17 @@ app.get('*', (req, res) => {
     // If it's a browser request (has Accept: text/html), serve the app
     const accept = req.headers.accept || '';
     if (accept.includes('text/html')) {
-        return res.sendFile(path.join(__dirname, 'build', 'index.html'), (err) => {
+        // Try dist first, then build
+        const distIndex = path.join(__dirname, 'dist', 'index.html');
+        const buildIndex = path.join(__dirname, 'build', 'index.html');
+        
+        return res.sendFile(distIndex, (err) => {
             if (err) {
-                res.status(404).send('Pameltex Tech SPA not found. Please run build.');
+                res.sendFile(buildIndex, (err2) => {
+                    if (err2) {
+                        res.status(404).send('mAgri Platform Client app not found. Please run build.');
+                    }
+                });
             }
         });
     }

@@ -71,7 +71,7 @@ async function generateCropDiagnosis(messageContent) {
     console.log(`[Gemini Diagnosis] Image downloaded. Size: ${buffer.length} bytes. Mime: ${mimeType}`);
 
     // 3. Prompt Gemini AI
-    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -183,7 +183,7 @@ async function askGemini(question, history = [], lang = 'en') {
     const targetLang = languageNames[lang] || 'English';
 
     const resp = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
