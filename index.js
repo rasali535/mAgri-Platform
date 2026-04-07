@@ -26,6 +26,22 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true }));
 
+// Global Request Logger for Debugging on Hostinger
+app.use((req, res, next) => {
+    console.log(`[mARI API ${new Date().toISOString()}] ${req.method} ${req.url}`);
+    next();
+});
+
+// Middleware for CORS (essential for browser-based fetch)
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type,Authorization');
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  if (req.method === 'OPTIONS') return res.sendStatus(204);
+  next();
+});
+
 app.get('/', (req, res) => {
     res.send('mARI Platform Node Server - Operational');
 });

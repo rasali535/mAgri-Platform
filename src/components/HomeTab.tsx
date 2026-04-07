@@ -2,15 +2,39 @@ import React from 'react';
 import { CloudSun, TrendingUp, AlertCircle, Store, ArrowUpRight, Zap, Target, MessageSquare, ChevronRight, Droplets, Wind, Thermometer } from 'lucide-react';
 import { motion } from 'motion/react';
 
-export default function HomeTab({ onNavigate, userRole }: { onNavigate: (tab: string) => void, userRole: 'seller' | 'buyer' | 'agronomist' }) {
+export default function HomeTab({ onNavigate, userRole, phone, location }: { 
+  onNavigate: (tab: string) => void, 
+  userRole: 'seller' | 'buyer' | 'agronomist',
+  phone: string,
+  location: {lat: number, lng: number} | null
+}) {
+  const currentDate = new Date().toLocaleDateString('en-US', { 
+    weekday: 'long', 
+    year: 'numeric', 
+    month: 'long', 
+    day: 'numeric' 
+  });
+
+  const getPhoneRegion = (ph: string) => {
+    if (ph.startsWith('+260')) return 'Zambia';
+    if (ph.startsWith('+254')) return 'Kenya';
+    if (ph.startsWith('+27')) return 'South Africa';
+    if (ph.startsWith('+233')) return 'Ghana';
+    if (ph.startsWith('+234')) return 'Nigeria';
+    if (ph.startsWith('+267')) return 'Botswana';
+    return 'Africa Region';
+  };
+
+  const region = getPhoneRegion(phone);
+
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
       {/* Page Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h2 className="text-3xl font-bold text-neutral-900 tracking-tight">Welcome back, John! 👋</h2>
+          <h2 className="text-3xl font-bold text-neutral-900 tracking-tight">Welcome back! 👋</h2>
           <p className="text-neutral-500 font-medium mt-1">
-            {userRole === 'buyer' ? "Here's what's happening in the market today." : "Here's what's happening on your farm today."}
+            {currentDate} • {phone}
           </p>
         </div>
         <div className="flex gap-2">
@@ -30,7 +54,7 @@ export default function HomeTab({ onNavigate, userRole }: { onNavigate: (tab: st
             </div>
             <div className="relative z-10">
               <span className="inline-flex items-center px-3 py-1 bg-white/15 backdrop-blur-md rounded-full text-xs font-bold border border-white/20 mb-5">
-                <Target size={12} className="mr-1.5" /> Current Outlook — Zambia
+                <Target size={12} className="mr-1.5" /> Current Outlook — {region}
               </span>
               <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
                 <div>

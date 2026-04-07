@@ -16,8 +16,18 @@ app.use(express.urlencoded({ extended: true }));
 
 // Global Request Logger for Debugging on Hostinger
 app.use((req, res, next) => {
-    console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
+    console.log(`[mARI API ${new Date().toISOString()}] ${req.method} ${req.url}`);
     next();
+});
+
+// Middleware for CORS (standard for modern browser-based apps)
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type,Authorization');
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  if (req.method === 'OPTIONS') return res.sendStatus(204);
+  next();
 });
 
 // USSD Specific Health Check (Plain Text) - PRIORITY 1
@@ -184,13 +194,26 @@ app.post('/api/chat', async (req, res) => {
     }
 });
 
-app.post('/api/diagnose', async (req, res) => {
+app.all(['/api/diagnose', '/api/diagnose/'], async (req, res) => {
+    console.log(`[Diagnose API Intercepted] ${req.method} ${req.path}`);
+    
+    // Handle status checks or standard GET browser hits
+    if (req.method === 'GET' || req.method === 'HEAD') {
+        return res.json({ 
+            status: 'mARI Platform Diagnosis Endpoint Active', 
+            methods: ['POST'],
+            current_date: new Date().toISOString()
+        });
+    }
+
     try {
         const { imageBase64, mimeType } = req.body;
         if (!imageBase64 || !mimeType) {
+            console.warn('[Diagnose API] Missing image data in POST');
             return res.status(400).json({ error: 'Image and mimeType are required' });
         }
 
+        console.log(`[Diagnose API] Forwarding to Gemini Vision (Mime: ${mimeType})...`);
         const data = await askGemini([{
             parts: [
                 { text: 'You are mARI, an expert agronomist AI. Analyze the crop image for diseases. Respond in valid JSON exactly: {"disease": "...", "confidence": 0-100, "recommendation": "..."}' },
@@ -213,6 +236,7 @@ app.post('/api/diagnose', async (req, res) => {
             res.status(500).json({ error: 'AI returned invalid JSON content' });
         }
     } catch (error) {
+        console.error('[Diagnose API] Global Error:', error);
         res.status(500).json({ error: 'Failed to process diagnosis' });
     }
 });

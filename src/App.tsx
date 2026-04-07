@@ -209,7 +209,14 @@ export default function App() {
                   <AgronomistDashboard />
                 ) : (
                   <>
-                    {activeTab === 'home' && <HomeTab userRole={userRole} onNavigate={setActiveTab} />}
+                    {activeTab === 'home' && (
+                      <HomeTab 
+                        userRole={userRole} 
+                        onNavigate={setActiveTab} 
+                        phone={userPhone} 
+                        location={userLocation} 
+                      />
+                    )}
                     {activeTab === 'market' && <MarketplaceTab userRole={userRole} />}
                     {activeTab === 'diagnose' && <DiagnoseTab />}
                     {activeTab === 'chat' && <ChatTab />}
