@@ -4,8 +4,16 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import OpenAI from 'openai';
 import { initBaileys, getQRAsHTML } from './whatsapp/baileys.js';
-import { sendSMS } from './whatsapp/africa.js';
+import { sendSMS as atSendSMS } from './whatsapp/africa.js';
 import { getSession, updateSession } from './whatsapp/supabaseStore.js';
+
+// Global error handler for Railway diagnostics
+process.on('uncaughtException', (err) => {
+    console.error('[FATAL] Uncaught Exception:', err);
+});
+process.on('unhandledRejection', (reason, promise) => {
+    console.error('[FATAL] Unhandled Rejection:', reason);
+});
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -46,6 +54,7 @@ app.all(['/api/ussd-health', '/ussd-health', '/ussd-health/'], (req, res) => {
     res.set('Content-Type', 'text/plain');
     res.send('CON Health Check OK');
 });
+
 async function sendSMS(to, message) {
     try {
         await atSendSMS(to, message);
