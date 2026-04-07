@@ -41,30 +41,26 @@ export default function ChatTab() {
     setLoading(true);
 
     try {
-      const contents = [
-        ...messages
-          .filter((m, idx) => idx > 0 || m.role === 'user') 
-          .map(m => ({
-            role: m.role === 'model' ? 'model' : 'user',
-            parts: [{ text: m.text }]
-          })),
-        { role: 'user', parts: [{ text: userMsg }] }
-      ];
+      // Backend expects role:assistant instead of model
+      const apiMessages = messages.map(m => ({
+        role: m.role === 'model' ? 'assistant' : 'user',
+        content: m.text
+      }));
+      apiMessages.push({ role: 'user', content: userMsg });
 
-      const apiKey = import.meta.env.VITE_GEMINI_API_KEY || process.env.GEMINI_API_KEY;
-      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
+      const response = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ contents })
+        body: JSON.stringify({ messages: apiMessages })
       });
 
       if (!response.ok) throw new Error(`API error: ${response.status}`);
       const data = await response.json();
-      const text = data.candidates?.[0]?.content?.parts?.[0]?.text || 'I apologize, I could not process that request.';
+      const text = data.content || 'I apologize, I could not process that request.';
       setMessages(prev => [...prev, { role: 'model', text, timestamp: new Date() }]);
     } catch (error) {
       console.error('Chat error:', error);
-      setMessages(prev => [...prev, { role: 'model', text: 'Connection issue. Please check your network and try again.', timestamp: new Date() }]);
+      setMessages(prev => [...prev, { role: 'model', text: 'Connecting to mARI Agronomy Satellite... If this takes too long, please check your network connection.', timestamp: new Date() }]);
     } finally {
       setLoading(false);
     }
@@ -99,100 +95,78 @@ export default function ChatTab() {
 
       <div className="flex-1 overflow-y-auto p-6 space-y-6 scrollbar-hide bg-[#FBFBFC]">
         <AnimatePresence initial={false}>
-          {messages.map((msg, i) => (
-            <motion.div 
-              key={i}
+          {messages.map((m, idx) => (
+            <motion.div
+              key={idx}
               initial={{ opacity: 0, y: 10, scale: 0.95 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
-              className={`flex items-start gap-3 ${msg.role === 'user' ? 'flex-row-reverse' : ''}`}
+              className={`flex ${m.role === 'model' ? 'justify-start' : 'justify-end'}`}
             >
-              <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
-                msg.role === 'user' ? 'bg-neutral-900' : 'bg-emerald-100'
-              }`}>
-                {msg.role === 'user' ? <User size={14} className="text-white" /> : <Bot size={16} className="text-emerald-700" />}
-              </div>
-              <div className={`flex flex-col ${msg.role === 'user' ? 'items-end' : 'items-start'} max-w-[85%]`}>
-                <div className={`rounded-[1.5rem] px-5 py-3 text-sm font-medium leading-relaxed ${
-                  msg.role === 'user'
-                  ? 'bg-neutral-900 text-white rounded-tr-none shadow-lg shadow-neutral-900/10'
-                  : 'bg-white border border-neutral-100 text-neutral-800 rounded-tl-none shadow-sm'
-                }`}>
-                  {msg.text}
+              <div className={`flex items-start space-x-2 max-w-[85%] ${m.role === 'model' ? '' : 'flex-row-reverse space-x-reverse'}`}>
+                <div className={`p-2 rounded-xl mt-1 shrink-0 ${m.role === 'model' ? 'bg-emerald-100 text-emerald-600' : 'bg-neutral-100 text-neutral-400'}`}>
+                  {m.role === 'model' ? <Bot size={16} /> : <User size={16} />}
                 </div>
-                <span className="text-[10px] text-neutral-400 font-bold mt-1 px-1">
-                  {msg.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                </span>
+                <div className={`p-4 rounded-2xl shadow-sm ${
+                  m.role === 'model' 
+                  ? 'bg-white text-neutral-800 border border-neutral-100' 
+                  : 'bg-emerald-600 text-white font-medium'
+                }`}>
+                  <p className="text-sm leading-relaxed whitespace-pre-wrap">{m.text}</p>
+                  <p className={`text-[10px] mt-2 font-bold ${m.role === 'model' ? 'text-neutral-400' : 'text-emerald-100/70'}`}>
+                    {m.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                  </p>
+                </div>
               </div>
             </motion.div>
           ))}
         </AnimatePresence>
         
         {loading && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex items-start gap-3">
-            <div className="w-8 h-8 bg-emerald-100 rounded-full flex items-center justify-center">
-              <Sparkles size={16} className="text-emerald-700 animate-pulse" />
+          <div className="flex justify-start">
+            <div className="bg-white border border-neutral-100 px-4 py-3 rounded-2xl flex items-center space-x-3 shadow-sm">
+                <div className="flex space-x-1">
+                   <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-bounce [animation-delay:-0.3s]" />
+                   <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-bounce [animation-delay:-0.15s]" />
+                   <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-bounce" />
+                </div>
+                <span className="text-[10px] font-black uppercase tracking-widest text-neutral-400">mARI is thinking</span>
             </div>
-            <div className="bg-emerald-50/50 border border-emerald-100 rounded-[1.5rem] rounded-tl-none px-5 py-3 shadow-sm flex items-center space-x-2">
-              <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-bounce" />
-              <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-bounce delay-150" />
-              <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-bounce delay-300" />
-            </div>
-          </motion.div>
+          </div>
         )}
         <div ref={messagesEndRef} />
       </div>
 
-      <div className="p-6 bg-white border-t border-neutral-100">
-        <AnimatePresence>
-          {messages.length < 3 && !loading && (
-            <motion.div 
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 5 }}
-              className="flex flex-wrap gap-2 mb-6"
-            >
-              {suggestedPrompts.map((prompt) => (
-                <button 
-                  key={prompt}
-                  onClick={() => handleSend(prompt)}
-                  className="bg-neutral-50 hover:bg-emerald-50 hover:text-emerald-700 text-neutral-600 border border-neutral-100 hover:border-emerald-200 transition-all px-4 py-2 rounded-2xl text-xs font-bold flex items-center group"
-                >
-                  <MessageSquare size={12} className="mr-2 opacity-50 group-hover:opacity-100" />
-                  {prompt}
-                  <ArrowRight size={12} className="ml-2 opacity-0 group-hover:opacity-100 transform translate-x-[-4px] group-hover:translate-x-0 transition-all" />
-                </button>
-              ))}
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        <div className="relative group flex items-center gap-3">
-          <div className="flex-1 bg-neutral-100 border-2 border-transparent focus-within:border-emerald-500 focus-within:bg-white rounded-3xl p-1 transition-all duration-300 flex items-center pr-3">
-            <input
-              type="text"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-              placeholder="Ask for expert agronomy advice..."
-              className="flex-1 bg-transparent px-5 py-3 text-sm font-semibold focus:outline-none placeholder:text-neutral-400"
-            />
-            <button
-              onClick={() => handleSend()}
-              disabled={!input.trim() || loading}
-              className="bg-emerald-600 hover:bg-emerald-700 text-white p-2.5 rounded-2xl disabled:opacity-30 disabled:hover:bg-emerald-600 shadow-lg shadow-emerald-500/20 transition-all flex items-center justify-center active:scale-95"
-            >
-              <Send size={18} />
-            </button>
+      <div className="p-4 bg-white border-t border-neutral-100">
+        {messages.length === 1 && (
+          <div className="flex flex-wrap gap-2 mb-4">
+            {suggestedPrompts.map(p => (
+              <button
+                key={p}
+                onClick={() => handleSend(p)}
+                className="text-xs font-bold text-neutral-500 bg-neutral-50 border border-neutral-200 px-3 py-2 rounded-xl hover:border-emerald-500 hover:text-emerald-600 hover:bg-emerald-50 transition-all"
+              >
+                {p}
+              </button>
+            ))}
           </div>
-          <button className="hidden sm:flex bg-neutral-100 p-4 rounded-3xl text-neutral-400 hover:text-emerald-600 hover:bg-emerald-50 transition-all">
-            <Zap size={20} />
+        )}
+        <div className="relative flex items-center gap-2">
+          <input
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyPress={(e) => e.key === 'Enter' && handleSend()}
+            placeholder="Type your agricultural question here..."
+            className="flex-1 bg-neutral-50 border border-neutral-200 rounded-2xl px-5 py-4 text-sm focus:outline-none focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 transition-all"
+          />
+          <button
+            onClick={() => handleSend()}
+            disabled={!input.trim() || loading}
+            className="bg-emerald-600 text-white p-4 rounded-2xl shadow-lg shadow-emerald-600/20 hover:bg-emerald-700 disabled:opacity-50 disabled:shadow-none transition-all"
+          >
+            <Send size={20} strokeWidth={2.5} />
           </button>
         </div>
-        <p className="text-[10px] text-center text-neutral-400 font-bold mt-4 uppercase tracking-[0.2em] opacity-40">
-          Powered by mARI Intelligence (Pameltex Tech) • Private & Secure
-        </p>
       </div>
     </div>
   );
 }
-

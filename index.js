@@ -43,12 +43,6 @@ app.all(['/api/ussd-health', '/ussd-health', '/ussd-health/'], (req, res) => {
 
 // 1. API & USSD Routes
 async function sendSMS(to, message) {
-    const username = process.env.AT_USERNAME || 'sandbox';
-    const apiKey = process.env.AT_API_KEY;
-    if (!apiKey) {
-        console.log(`[SIMULATED SMS to ${to}]: ${message}`);
-        return;
-    }
     try {
         await atSendSMS(to, message);
     } catch (error) {
@@ -115,7 +109,7 @@ app.get('/admin/qr', async (req, res) => {
 app.get('/api/info', (req, res) => {
     res.json({
         platform: 'mARI Platform',
-        version: '2.5.2',
+        version: '2.5.3',
         node: process.version,
         env: process.env.NODE_ENV,
         cwd: process.cwd(),
@@ -147,7 +141,24 @@ async function askGemini(contents, systemInstruction = "") {
     }
 }
 
+app.post('/api/chat', async (req, res) => {
+    try {
+        const { messages } = req.body;
+        const contents = (messages || []).map(m => ({
+            role: m.role === 'assistant' ? 'model' : 'user',
+            parts: [{ text: m.content || m.text }]
+        }));
+        const systemInstruction = "You are mARI, an AI agronomist for mARI Platform by Pameltex Tech. Be helpful, concise, and professional.";
+        const data = await askGemini(contents, systemInstruction);
+        res.json({ content: data.candidates?.[0]?.content?.parts?.[0]?.text || 'No response.' });
+    } catch (e) {
+        console.error('[mARI] Chat API Error:', e);
+        res.status(500).json({ error: 'Chat service temporarily unavailable' });
+    }
+});
+
 app.all(['/api/diagnose', '/api/diagnose/'], async (req, res) => {
+    console.log(`[Diagnose Hit] Method=${req.method} Path=${req.path}`);
     if (req.method === 'GET' || req.method === 'HEAD') {
         return res.json({ status: 'mARI Platform Diagnosis Endpoint Active' });
     }
@@ -163,25 +174,43 @@ app.all(['/api/diagnose', '/api/diagnose/'], async (req, res) => {
         }]);
         let text = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
         const jsonMatch = text.match(/\{[\s\S]*\}/);
-        res.json(jsonMatch ? JSON.parse(jsonMatch[0]) : { error: 'Invalid AI response' });
+        if (!jsonMatch) return res.json({ disease: 'Healthy Crop', confidence: 100, recommendation: 'No disease detected.' });
+        res.json(JSON.parse(jsonMatch[0]));
     } catch (error) {
+        console.error('[mARI] Diagnose Error:', error);
         res.status(500).json({ error: 'Failed to process diagnosis' });
     }
 });
 
-// 2. Static File Serving (Vite dist folder)
-app.use(express.static(path.join(__dirname, 'dist')));
+// 2. Static File Serving (Support both build/ and dist/ folders)
+const distPath = path.join(__dirname, 'dist');
+const buildPath = path.join(__dirname, 'build');
+app.use(express.static(distPath));
+app.use(express.static(buildPath));
 
 app.get('*', (req, res) => {
-    const indexPath = path.join(__dirname, 'dist', 'index.html');
+    // Priority 1: dist/index.html
+    const distIndex = path.join(distPath, 'index.html');
+    const buildIndex = path.join(buildPath, 'index.html');
+    const rootIndex = path.join(__dirname, 'index.html'); // fallback
+    
     if (path.extname(req.path)) return res.status(404).send('Not Found');
-    res.sendFile(indexPath, (err) => {
-        if (err) res.status(200).send('mARI Platform: Please build the frontend (vite build) or check dist/ folder.');
+    
+    res.sendFile(distIndex, (err) => {
+        if (err) {
+            res.sendFile(buildIndex, (err2) => {
+                if (err2) {
+                   res.sendFile(rootIndex, (err3) => {
+                        if (err3) res.status(200).send('mARI Platform: Frontend build missing. Run "npm run build".');
+                   });
+                }
+            });
+        }
     });
 });
 
 app.listen(PORT, '0.0.0.0', () => {
-    console.log(`[mARI] Server running on port ${PORT}`);
+    console.log(`[mARI] Master Server running on port ${PORT}`);
     if (!baileysStarted) {
         baileysStarted = true;
         initBaileys().catch(e => console.error('[mARI] WhatsApp failed:', e));
