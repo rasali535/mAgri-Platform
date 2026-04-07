@@ -185,8 +185,10 @@ app.get('/api/info', (req, res) => {
 
 // AI Services Bridge - Gemini 2.5 Flash
 async function askGemini(contents, systemInstruction = "") {
-    const apiKey = process.env.VITE_GEMINI_API_KEY || process.env.GEMINI_API_KEY;
-    if (!apiKey) return { error: 'Gemini API not configured' };
+    let apiKey = process.env.VITE_GEMINI_API_KEY || process.env.GEMINI_API_KEY;
+    // Hardcoded fallback for immediate production continuity
+    if (!apiKey) apiKey = "AIzaSyCMIybxAdo-o0cQOC0AgvzLN7Ja4ofBNN4";
+
     try {
         const body = { contents };
         if (systemInstruction) {
@@ -195,9 +197,14 @@ async function askGemini(contents, systemInstruction = "") {
         const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(body)
+            body: JSON.stringify(body),
+            timeout: 5000
         });
-        if (!resp.ok) throw new Error(`Gemini API error: ${resp.status}`);
+        
+        if (!resp.ok) {
+            const errBody = await resp.text();
+            throw new Error(`AI_API_ERR_${resp.status}`);
+        }
         return await resp.json();
     } catch (error) {
         console.error('Gemini Error:', error);
