@@ -2,7 +2,7 @@ import 'dotenv/config';
 import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import OpenAI from 'openai';
+// import OpenAI from 'openai'; - Unused now using Gemini
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -10,6 +10,7 @@ const __dirname = path.dirname(__filename);
 // WhatsApp & Baileys Integrations
 import { initBaileys, getQRAsHTML } from './whatsapp/baileys.js';
 import { sendSMS as atSendSMS } from './whatsapp/africa.js';
+import { askGemini } from './services/ai.js';
 
 // Initialize Baileys once (but it will be called in app.listen)
 let baileysStarted = false;
@@ -159,49 +160,7 @@ app.post('/api/sms', (req, res) => {
 
 // 2. Static File Serving (Lower Priority)
 app.use(express.static(path.join(__dirname, 'dist')));
-
-// AI Services Bridge - Gemini 2.5 Flash
-async function askGemini(contents, systemInstruction = "") {
-    let apiKey = process.env.VITE_GEMINI_API_KEY || process.env.GEMINI_API_KEY;
-    // Fallback key from .env (the one we verified as working)
-    if (!apiKey) apiKey = "AIzaSyDNGTLhltItUI2s9CSyLJMNLpjRxWBaxbU";
-
-    try {
-        const body = { contents };
-        if (systemInstruction) {
-            body.system_instruction = { parts: [{ text: systemInstruction }] };
-        }
-        
-        const model = "gemini-flash-latest";
-        const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
-        
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 12000); // 12s timeout for USSD stability
-
-        const response = await fetch(url, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(body),
-            signal: controller.signal
-        });
-        
-        clearTimeout(timeoutId);
-
-        if (!response.ok) {
-            const errText = await response.text();
-            console.error(`[Gemini API Error] Status: ${response.status}`, errText);
-            throw new Error(`AI_API_ERR_${response.status}`);
-        }
-        return await response.json();
-    } catch (error) {
-        if (error.name === 'AbortError') {
-            console.error('[Gemini Error] Request timed out');
-            throw new Error('AI_API_TIMEOUT');
-        }
-        console.error('Gemini Error:', error);
-        throw error;
-    }
-}
+// Using centralized askGemini from services/ai.js imported at top of file
 
 app.post('/api/chat', async (req, res) => {
     try {
@@ -216,9 +175,8 @@ app.post('/api/chat', async (req, res) => {
         }));
 
         const systemInstruction = "You are mARI, a premium AI agronomist for the mARI Platform, developed by Pameltex Tech. Provide helpful agricultural advice.";
-        const data = await askGemini(contents, systemInstruction);
-        const text = data.candidates?.[0]?.content?.parts?.[0]?.text || 'No response from AI.';
-        res.json({ role: 'assistant', content: text });
+        const answer = await askGemini(contents, systemInstruction);
+        res.json({ role: 'assistant', content: answer });
     } catch (error) {
         res.status(500).json({ error: 'Failed to process chat request' });
     }

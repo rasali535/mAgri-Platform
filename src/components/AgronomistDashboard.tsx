@@ -43,7 +43,10 @@ export default function AgronomistDashboard() {
       </div>
 
       <div className="flex gap-4">
-        <button className="flex-1 bg-white p-4 rounded-2xl shadow-sm border border-stone-200 flex items-center space-x-3 hover:bg-stone-50 transition-all">
+        <button 
+          onClick={() => window.dispatchEvent(new CustomEvent('nav-change', { detail: 'vuka' }))}
+          className="flex-1 bg-white p-4 rounded-2xl shadow-sm border border-stone-200 flex items-center space-x-3 hover:bg-stone-50 transition-all"
+        >
           <div className="bg-sky-100 p-2 rounded-xl text-sky-600">
             <Users size={20} />
           </div>
@@ -52,7 +55,10 @@ export default function AgronomistDashboard() {
             <p className="text-[10px] text-stone-500 font-medium">Connect with farmers</p>
           </div>
         </button>
-        <button className="flex-1 bg-white p-4 rounded-2xl shadow-sm border border-stone-200 flex items-center space-x-3 hover:bg-stone-50 transition-all">
+        <button 
+          onClick={() => window.dispatchEvent(new CustomEvent('nav-change', { detail: 'mpotsa' }))}
+          className="flex-1 bg-white p-4 rounded-2xl shadow-sm border border-stone-200 flex items-center space-x-3 hover:bg-stone-50 transition-all"
+        >
           <div className="bg-purple-100 p-2 rounded-xl text-purple-600">
             <HelpCircle size={20} />
           </div>

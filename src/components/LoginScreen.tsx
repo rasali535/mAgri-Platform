@@ -61,16 +61,16 @@ export default function LoginScreen({ onLogin }: LoginScreenProps) {
 
   return (
     <div className="min-h-screen bg-emerald-900 flex flex-col items-center justify-center p-4">
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         className="w-full max-w-md bg-white rounded-3xl overflow-hidden shadow-2xl"
       >
         <div className="bg-emerald-800 p-8 text-center text-white">
           <div className="w-16 h-16 bg-white text-emerald-800 rounded-2xl flex items-center justify-center shadow-lg mx-auto mb-4 font-bold text-3xl font-outfit uppercase tracking-tighter">
-            P
+            m
           </div>
-          <h1 className="text-2xl font-bold mb-1 font-outfit uppercase tracking-tighter">Pameltex Tech</h1>
+          <h1 className="text-2xl font-bold mb-1 font-outfit uppercase tracking-tighter">mARI-Platform</h1>
           <p className="text-emerald-200 text-sm font-medium">Bespoke Farmer Marketplace</p>
         </div>
 
@@ -84,11 +84,10 @@ export default function LoginScreen({ onLogin }: LoginScreenProps) {
                     key={r.id}
                     type="button"
                     onClick={() => setRole(r.id)}
-                    className={`flex items-start p-3 rounded-xl border-2 text-left transition-all ${
-                      role === r.id 
-                      ? 'border-emerald-500 bg-emerald-50' 
-                      : 'border-neutral-200 hover:border-emerald-200'
-                    }`}
+                    className={`flex items-start p-3 rounded-xl border-2 text-left transition-all ${role === r.id
+                        ? 'border-emerald-500 bg-emerald-50'
+                        : 'border-neutral-200 hover:border-emerald-200'
+                      }`}
                   >
                     <div className={`p-2 rounded-lg mr-3 ${role === r.id ? 'bg-emerald-500 text-white' : 'bg-neutral-100 text-neutral-500'}`}>
                       {r.icon}

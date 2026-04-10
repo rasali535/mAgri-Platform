@@ -3,11 +3,11 @@ import { askGemini } from '../services/ai.js';
 
 async function test() {
     try {
-        console.log('Testing AI connectivity...');
-        const response = await askGemini([{ role: 'user', parts: [{ text: 'Hello' }] }]);
-        console.log('AI Response:', response);
+        console.log('Testing Gemini API with Key:', process.env.VITE_GEMINI_API_KEY || process.env.GEMINI_API_KEY);
+        const res = await askGemini([{ role: 'user', parts: [{ text: 'Hello, are you online?' }] }], 'Be concise.');
+        console.log('Response:', res);
     } catch (e) {
-        console.error('AI Test Failed:', e.message);
+        console.error('Test Failed:', e);
     }
 }
 

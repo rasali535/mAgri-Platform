@@ -89,10 +89,10 @@ export default function App() {
         <div className="flex flex-col h-full">
           <div className="p-6 flex items-center space-x-3">
             <div className="w-10 h-10 bg-emerald-500 rounded-xl flex items-center justify-center shadow-lg shadow-emerald-950/20">
-              <span className="font-bold text-xl text-white">P</span>
+              <span className="font-bold text-xl text-white">m</span>
             </div>
             <div>
-              <h1 className="font-bold text-lg leading-tight text-white font-outfit uppercase tracking-tighter">Pameltex Tech</h1>
+              <h1 className="font-bold text-lg leading-tight text-white font-outfit uppercase tracking-tighter">mAgri-Platform</h1>
               <p className="text-emerald-400 text-[10px] uppercase tracking-widest font-bold">Farmer Marketplace</p>
             </div>
           </div>

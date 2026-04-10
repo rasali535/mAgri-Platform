@@ -2,7 +2,7 @@ import 'dotenv/config';
 import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import OpenAI from 'openai';
+// import OpenAI from 'openai'; - Unused now using Gemini
 import { initBaileys, getQRAsHTML } from './whatsapp/baileys.js';
 import { sendSMS as atSendSMS } from './whatsapp/africa.js';
 import { getSession, updateSession } from './whatsapp/supabaseStore.js';
@@ -95,23 +95,23 @@ app.all(['/', '/api/ussd', '/api/ussd/', '/ussd', '/ussd/'], async (req, res, ne
     let response = '';
 
     if (text === '' || L1 === '0' || L1 === 'MENU') {
-        response = `CON 🌱 *mARI Tech Platform*\n`;
+        response = `CON 🌱 *mAgri-Platform*\n`;
         response += `1. Dashboard\n`;
         response += `2. Marketplace\n`;
-        response += `3. Crop Scan (Info)\n`;
+        response += `3. Crop Scan\n`;
         response += `4. Ask mARI (AI Advisor)\n`;
         response += `5. Finance & Credit\n`;
         response += `6. Weather Forecast\n`;
         response += `7. Farmer Community\n`;
         response += `8. Vuka Social\n`;
-        response += `9. Language\n`;
+        response += `9. Language Settings\n`;
         response += `10. Mpotsa Q&A\n`;
         response += `📅 ${new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`;
 
     } else if (L1 === '1') {
         response = `END *Dashboard*\nYou have 0 active orders and 0 listings. Use the web app for full details.`;
     } else if (L1 === '2') {
-        response = `END *Pameltex Tech Marketplace*\nBrowse local grain prices or post your crop for sale in the community forum.`;
+        response = `END *mAgri-Platform Marketplace*\nBrowse local grain prices or post your crop for sale in the community forum.`;
     } else if (L1 === '3') {
         response = `END *Crop Scan (mARI AI)*\nTo diagnose a crop disease, please upload a photo using our WhatsApp bot or the Web App.`;
     } else if (L1 === '4') {
@@ -120,7 +120,7 @@ app.all(['/', '/api/ussd', '/api/ussd/', '/ussd', '/ussd/'], async (req, res, ne
             if (depth === 1 || lastPart === '1') {
                 response = `CON *mARI AI Advisor*\n(Synced with WhatsApp)\nType your farming question:`;
             } else if (lastPart === '0') {
-                response = `CON 🌱 *Pameltex Tech Platform*\n1. Dashboard\n2. Marketplace\n3. Crop Scan\n4. Ask mARI\n5. Finance\n6. Weather\n0. Exit`;
+                response = `CON 🌱 *mAgri-Platform*\n1. Dashboard\n2. Marketplace\n3. Crop Scan\n4. Ask mARI\n5. Finance\n6. Weather\n0. Exit`;
             } else {
                 const question = lastPart;
                 // Session fallback: if DB fails, keep going with empty history
@@ -132,7 +132,7 @@ app.all(['/', '/api/ussd', '/api/ussd/', '/ussd', '/ussd/'], async (req, res, ne
                 }
 
                 const country = getCountryFromPhone(phoneNumber);
-                const systemPrompt = `You are mARI, an AI agronomist for Pameltex Tech. Location: ${country}. Be extremely concise.`;
+                const systemPrompt = `You are mARI, an AI agronomist for mAgri-Platform. Location: ${country}. Be extremely concise.`;
                 const answer = await askGemini([{ role: 'user', parts: [{ text: question }] }], systemPrompt);
                 
                 // Try to sync, but don't crash if it fails

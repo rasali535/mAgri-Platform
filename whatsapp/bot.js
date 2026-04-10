@@ -37,7 +37,7 @@ function isValidEmail(str) {
 // ─── Gemini Image Diagnostics ─────────────────────────────────────────────────
 
 async function generateCropDiagnosis(phone, messageContent) {
-  const apiKey = process.env.VITE_GEMINI_API_KEY || process.env.GEMINI_API_KEY || "AIzaSyDNGTLhltItUI2s9CSyLJMNLpjRxWBaxbU";
+  // Relying on askGemini centralized service for API key management
 
   try {
     const stream = await downloadContentFromMessage(messageContent, 'image');
@@ -53,7 +53,7 @@ async function generateCropDiagnosis(phone, messageContent) {
       Context: User in ${country}, Time: ${dateStr}. 
       Respond in JSON: {"disease": "...", "confidence": 0-100, "recommendation": "..."}`;
 
-    const model = "gemini-flash-latest";
+    // Using centralized model config in askGemini
 const data = await askGemini([{
       parts: [
         { text: systemPrompt },
@@ -245,7 +245,7 @@ export async function processMessage(phone, rawText) {
     sendWhatsApp(phone, "⏳ Consulting mARI Advisor...").catch(()=>{});
     const country = getCountryFromPhone(phone);
     const dateStr = new Date().toLocaleString();
-    const systemInstruction = `You are mARI, an AI agronomist for Pameltex Tech. Context: Date ${dateStr}, User Country: ${country}. Give localized advice for ${country} farmers. Reply in ${session.language}.`;
+    const systemInstruction = `You are mARI, an AI agronomist for mAgri-Platform. Context: Date ${dateStr}, User Country: ${country}. Give localized advice for ${country} farmers. Reply in ${session.language}.`;
     
     const contents = [
       ...(session.history || []).map(h => ({
