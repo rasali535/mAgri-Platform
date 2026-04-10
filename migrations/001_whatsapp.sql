@@ -9,14 +9,14 @@ CREATE TABLE IF NOT EXISTS whatsapp_sessions (
     phone       TEXT        NOT NULL UNIQUE,        -- E.164, e.g. +254712345678
     state       TEXT        NOT NULL DEFAULT 'WELCOME',
     linked      BOOLEAN     NOT NULL DEFAULT FALSE,
-    email       TEXT,                               -- linked mAgri account email
+    email       TEXT,                               -- linked mARI account email
     last_updated TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
 CREATE INDEX IF NOT EXISTS idx_whatsapp_sessions_phone ON whatsapp_sessions(phone);
 
 -- ─── 2. WhatsApp Account Links ────────────────────────────────────────────────
--- Maps a WhatsApp phone number to an mAgri user email.
+-- Maps a WhatsApp phone number to an mARI user email.
 CREATE TABLE IF NOT EXISTS whatsapp_links (
     id          BIGSERIAL PRIMARY KEY,
     phone       TEXT        NOT NULL UNIQUE,

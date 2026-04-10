@@ -2,11 +2,11 @@ import 'dotenv/config';
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
 /**
- * Centralized AI service for mARI Platform.
+ * Centralized AI service for mARI Platform by Pameltex Tech.
  * Ensures consistent model usage, timeouts, and error handling across USSD and WhatsApp.
  */
 
-const DEFAULT_MODEL = "gemini-2.5-flash"; 
+const DEFAULT_MODEL = "gemini-1.5-flash"; // Fixed model name 
 const DEFAULT_TIMEOUT = 12000; // 12 seconds
 
 /**

@@ -127,10 +127,10 @@ app.all(['/api/ussd', '/api/ussd/'], async (req, res) => {
         sendSMS(phoneNumber, "Your current mARI Credit Score is 745 (Excellent). Keep up the good work!");
     } else if (eL1 === '2') {
         response = `END Your application for micro-credit has been received. You will receive an SMS confirmation.`;
-        sendSMS(phoneNumber, "mARI Platform: Your application for KES 5,000 micro-credit has been received.");
+        sendSMS(phoneNumber, "mARI Platform by Pameltex Tech: Your application for KES 5,000 micro-credit has been received.");
     } else if (eL1 === '3') {
         response = `END Weather forecast for your region: Sunny with light showers.`;
-        sendSMS(phoneNumber, "mARI Platform Weather: Sunny with light showers in the evening.");
+        sendSMS(phoneNumber, "mARI Platform by Pameltex Tech Weather: Sunny with light showers in the evening.");
     } else if (eL1 === '4') {
         if (eDepth === 1) {
             response = `CON Ask mARI (AI Advisor):\nType your farming question:`;
@@ -140,7 +140,7 @@ app.all(['/api/ussd', '/api/ussd/'], async (req, res) => {
         }
     } else if (eL1 === '5') {
         response = `END You have 1 new message from a Buyer: "Interested in 500kg Maize."`;
-        sendSMS(phoneNumber, "mARI Platform: New buyer message received. Dial *384*14032*5# to respond.");
+        sendSMS(phoneNumber, "mARI Platform by Pameltex Tech: New buyer message received. Dial *384*14032*5# to respond.");
     } else {
         response = `END Invalid option. Please try again.`;
     }
@@ -153,7 +153,7 @@ app.post('/api/sms', (req, res) => {
     const { from, text } = { ...req.query, ...req.body };
     console.log(`SMS Received: from ${from}: ${text}`);
     if (text && text.toLowerCase().includes('help')) {
-        sendSMS(from, "Welcome to mARI Platform Help. Reply with 'CREDIT', 'WEATHER', or 'MARKET'.");
+        sendSMS(from, "Welcome to mARI Platform by Pameltex Tech Help. Reply with 'CREDIT', 'WEATHER', or 'MARKET'.");
     }
     res.status(200).send('SMS Received');
 });
@@ -174,7 +174,7 @@ app.post('/api/chat', async (req, res) => {
             parts: [{ text: m.content }]
         }));
 
-        const systemInstruction = "You are mARI, a premium AI agronomist for the mAgri-Platform. Provide helpful agricultural advice.";
+        const systemInstruction = "You are mARI, a premium AI agronomist for the mARI Platform by Pameltex Tech. Provide helpful agricultural advice.";
         const answer = await askGemini(contents, systemInstruction);
         res.json({ role: 'assistant', content: answer });
     } catch (error) {
@@ -188,7 +188,7 @@ app.all(['/api/diagnose', '/api/diagnose/'], async (req, res) => {
     // Handle status checks or standard GET browser hits
     if (req.method === 'GET' || req.method === 'HEAD') {
         return res.json({ 
-            status: 'mARI Platform Diagnosis Endpoint Active', 
+            status: 'mARI Platform by Pameltex Tech Diagnosis Endpoint Active', 
             methods: ['POST'],
             current_date: new Date().toISOString()
         });
@@ -241,7 +241,7 @@ app.get('/admin/qr', async (req, res) => {
 
 app.get('/api/info', (req, res) => {
     res.json({
-        platform: 'mARI Platform',
+        platform: 'mARI Platform by Pameltex Tech',
         version: '2.5.1',
         node: process.version,
         env: process.env.NODE_ENV,
@@ -262,7 +262,7 @@ app.get('*', (req, res) => {
 });
 
 app.listen(PORT, '0.0.0.0', () => {
-    console.log(`Server (mARI Platform) is running on port ${PORT}`);
+    console.log(`Server (mARI Platform by Pameltex Tech) is running on port ${PORT}`);
     if (!baileysStarted) {
         baileysStarted = true;
         initBaileys().catch(e => console.error('[MASTER] Baileys init failed:', e));

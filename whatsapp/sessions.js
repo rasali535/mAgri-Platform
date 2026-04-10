@@ -16,8 +16,8 @@ export function getSession(phone) {
     sessions.set(phone, {
       phone,
       state: 'WELCOME',          // current menu state
-      linked: false,             // has the user linked their mAgri-Platform account?
-      email: null,               // linked mAgri-Platform email
+      linked: false,             // has the user linked their mARI Platform by Pameltex Tech account?
+      email: null,               // linked mARI Platform by Pameltex Tech email
       history: [],               // last few bot exchanges for context
       lastUpdated: Date.now(),
     });

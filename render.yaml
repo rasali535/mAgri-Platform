@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: magri-backend
+    name: mari-platform-backend
     env: node
     plan: free
     buildCommand: npm install && npm run build

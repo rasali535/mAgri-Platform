@@ -74,7 +74,7 @@ export async function resetSession(phone) {
 // ─── WhatsApp link helpers ────────────────────────────────────────────────────
 
 /**
- * Record that a WhatsApp number has been linked to an mAgri-Platform email.
+ * Record that a WhatsApp number has been linked to an mARI Platform by Pameltex Tech email.
  */
 export async function linkAccount(phone, email) {
   const supabase = getSupabaseClient();

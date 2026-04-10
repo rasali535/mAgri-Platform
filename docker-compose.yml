@@ -3,7 +3,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: magri-app
+    container_name: mari-app
     ports:
       - "3000:3000"
     environment:
@@ -42,7 +42,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: magri-app-dev
+    container_name: mari-app-dev
     ports:
       - "3001:3000"
     environment:
@@ -58,11 +58,11 @@ services:
   # Optional: PostgreSQL database service (uncomment to enable)
   # postgres:
   #   image: postgres:16-alpine
-  #   container_name: magri-postgres
+  #   container_name: mari-postgres
   #   environment:
   #     - POSTGRES_USER=postgres
   #     - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
-  #     - POSTGRES_DB=magri
+  #     - POSTGRES_DB=mari_db
   #   volumes:
   #     - postgres_data:/var/lib/postgresql/data
   #   ports:

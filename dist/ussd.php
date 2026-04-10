@@ -10,7 +10,7 @@
 header('Content-Type: text/plain');
 
 // 1. The new Production URL on Railway
-const PROD_URL = "https://mAgri-Platform-production.up.railway.app/api/ussd";
+const PROD_URL = "https://mari-platform-production.up.railway.app/api/ussd";
 
 // 2. Collect all parameters sent by Africa's Talking
 $params = [

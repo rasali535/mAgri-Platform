@@ -8,7 +8,7 @@ export default function ChatTab() {
   const [messages, setMessages] = useState<Message[]>([
     { 
       role: 'model', 
-      text: 'Dumela! I am mARI, your AI Agronomist by mAgri-Platform. I can assist you in English, Setswana, Bemba, and Nyanja. How is your farm doing today?',
+      text: 'Dumela! I am mARI, your AI Agronomist by mARI Platform by Pameltex Tech. I can assist you in English, Setswana, Bemba, and Nyanja. How is your farm doing today?',
       timestamp: new Date()
     }
   ]);

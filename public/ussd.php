@@ -10,7 +10,7 @@
 header('Content-Type: text/plain');
 
 // 1. The new Production URL on Railway
-const PROD_URL = "https://mAgri-Platform-production.up.railway.app/api/ussd";
+const PROD_URL = "https://mari-platform-production.up.railway.app/api/ussd";
 
 // 2. Collect all parameters sent by Africa's Talking
 $params = [
@@ -36,7 +36,7 @@ $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
 if (curl_errno($ch) || $httpCode >= 400) {
     // Fallback if Railway is unreachable or times out
-    echo "CON 🌱 *mARI Tech Platform*\n⚠️ mARI is currently having trouble connecting to AI.\n\n1. Try Again\n0. Menu";
+    echo "CON 🌱 *mARI Platform by Pameltex Tech*\n⚠️ mARI is currently having trouble connecting to AI.\n\n1. Try Again\n0. Menu";
 } else {
     // Return the EXACT response from the new unified Node.js server
     echo $response;

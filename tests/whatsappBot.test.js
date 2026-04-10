@@ -41,28 +41,28 @@ function resetAll() {
 
 // ─── Tests ────────────────────────────────────────────────────────────────────
 
-describe('mAgri WhatsApp Bot FSM', () => {
+describe('mARI WhatsApp Bot FSM', () => {
   beforeEach(resetAll);
 
   // Welcome / global commands
   describe('Welcome state', () => {
     test('HELLO triggers welcome menu', async () => {
       const reply = await processMessage(PHONE, 'hello');
-      expect(reply).toContain('Welcome to mAgri Platform');
+      expect(reply).toContain('Welcome to mARI Platform by Pameltex Tech');
       expect(reply).toContain('1️⃣');
       expect(reply).toContain('Marketplace');
     });
 
     test('START triggers welcome menu', async () => {
       const reply = await processMessage(PHONE, 'START');
-      expect(reply).toContain('Welcome to mAgri Platform');
+      expect(reply).toContain('Welcome to mARI Platform by Pameltex Tech');
     });
 
     test('MENU returns to welcome from any state', async () => {
       // Simulate being in MARKETPLACE state
       mockSessions.set(PHONE, { phone: PHONE, state: 'MARKETPLACE', linked: false, email: null, history: [] });
       const reply = await processMessage(PHONE, 'MENU');
-      expect(reply).toContain('Welcome to mAgri Platform');
+      expect(reply).toContain('Welcome to mARI Platform by Pameltex Tech');
     });
 
     test('Unknown input in WELCOME returns unknown message', async () => {
@@ -100,7 +100,7 @@ describe('mAgri WhatsApp Bot FSM', () => {
       await processMessage(PHONE, 'hello');
       await processMessage(PHONE, '1');
       const reply = await processMessage(PHONE, '0');
-      expect(reply).toContain('Welcome to mAgri Platform');
+      expect(reply).toContain('Welcome to mARI Platform by Pameltex Tech');
     });
   });
 
@@ -212,7 +212,7 @@ describe('mAgri WhatsApp Bot FSM', () => {
     test('CANCEL from AWAIT_LINK returns to welcome', async () => {
       await processMessage(PHONE, 'LINK');
       const reply = await processMessage(PHONE, 'CANCEL');
-      expect(reply).toContain('Welcome to mAgri Platform');
+      expect(reply).toContain('Welcome to mARI Platform by Pameltex Tech');
     });
   });
 
@@ -222,7 +222,7 @@ describe('mAgri WhatsApp Bot FSM', () => {
       await processMessage(PHONE, 'hello');
       const reply = await processMessage(PHONE, '6');
       expect(reply).toContain('http');
-      expect(reply).toContain('Open mAgri Platform');
+      expect(reply).toContain('Open mARI Platform by Pameltex Tech');
     });
   });
 });

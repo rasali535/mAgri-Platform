@@ -2,7 +2,7 @@
  * whatsapp/bot.js
  * Core WhatsApp conversational FSM.
  *
- * persona: mARI, the expert AI Agronomist for the mAgri-Platform.
+ * persona: mARI, the expert AI Agronomist for the mARI Platform by Pameltex Tech.
  */
 
 import { getSession, updateSession, resetSession } from './supabaseStore.js';
@@ -245,7 +245,7 @@ export async function processMessage(phone, rawText) {
     sendWhatsApp(phone, "⏳ Consulting mARI Advisor...").catch(()=>{});
     const country = getCountryFromPhone(phone);
     const dateStr = new Date().toLocaleString();
-    const systemInstruction = `You are mARI, an AI agronomist for mAgri-Platform. Context: Date ${dateStr}, User Country: ${country}. Give localized advice for ${country} farmers. Reply in ${session.language}.`;
+    const systemInstruction = `You are mARI, an AI agronomist for mARI Platform by Pameltex Tech. Context: Date ${dateStr}, User Country: ${country}. Give localized advice for ${country} farmers. Reply in ${session.language}.`;
     
     const contents = [
       ...(session.history || []).map(h => ({

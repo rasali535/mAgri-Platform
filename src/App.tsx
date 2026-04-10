@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { 
   Home, Camera, MessageSquare, Wallet, Settings, UserCircle, Store, 
   Briefcase, Menu, X, Bell, Search, LogOut, ChevronLeft, ChevronRight,
-  Users, HelpCircle
+  Users, HelpCircle, CloudSun, Globe
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import HomeTab from './components/HomeTab';
@@ -17,6 +17,8 @@ import USSDSettings from './components/USSDSettings';
 import MarketplaceTab from './components/MarketplaceTab';
 import VukaTab from './components/VukaTab';
 import MpotsaTab from './components/MpotsaTab';
+import WeatherTab from './components/WeatherTab';
+import CommunityTab from './components/CommunityTab';
 import LoginScreen from './components/LoginScreen';
 import { useCurrency, COUNTRIES } from './CurrencyContext';
 
@@ -75,6 +77,8 @@ export default function App() {
     { id: 'mpotsa', icon: <HelpCircle size={20} />, label: 'Mpotsa Q&A' },
     { id: 'diagnose', icon: <Camera size={20} />, label: 'Crop Scan' },
     { id: 'chat', icon: <MessageSquare size={20} />, label: 'AI Advisor' },
+    { id: 'weather', icon: <CloudSun size={20} />, label: 'Weather' },
+    { id: 'community', icon: <Globe size={20} />, label: 'Community' },
     { id: 'finance', icon: <Wallet size={20} />, label: 'Finance' },
   ];
 
@@ -92,7 +96,7 @@ export default function App() {
               <span className="font-bold text-xl text-white">m</span>
             </div>
             <div>
-              <h1 className="font-bold text-lg leading-tight text-white font-outfit uppercase tracking-tighter">mAgri-Platform</h1>
+              <h1 className="font-bold text-lg leading-tight text-white font-outfit uppercase tracking-tighter">mARI Platform by Pameltex Tech</h1>
               <p className="text-emerald-400 text-[10px] uppercase tracking-widest font-bold">Farmer Marketplace</p>
             </div>
           </div>
@@ -144,7 +148,7 @@ export default function App() {
             <button onClick={() => setIsSidebarOpen(true)} className="p-2 text-neutral-500 hover:bg-neutral-100 rounded-lg transition-colors">
               <Menu size={24} />
             </button>
-            <span className="ml-3 font-bold text-lg">mAgri-Platform</span>
+            <span className="ml-3 font-bold text-lg">mARI Platform by Pameltex Tech</span>
           </div>
 
           <div className="hidden md:flex flex-1 max-w-md relative group">
@@ -239,6 +243,8 @@ export default function App() {
                 {activeTab === 'diagnose' && <DiagnoseTab />}
                 {activeTab === 'chat' && <ChatTab />}
                 {activeTab === 'finance' && <FinanceTab onNavigate={setActiveTab} />}
+                {activeTab === 'weather' && <WeatherTab />}
+                {activeTab === 'community' && <CommunityTab />}
 
                 {activeTab === 'credit_apply' && <CreditApplication onBack={() => setActiveTab('finance')} />}
                 {activeTab === 'insurance_apply' && <InsuranceApplication onBack={() => setActiveTab('finance')} />}

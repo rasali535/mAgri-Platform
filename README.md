@@ -1,8 +1,6 @@
+# mARI Platform by Pameltex Tech
 
-
-# mARI Platform
-
-The mARI Platform connects smallholder farmers to markets, finance, weather, and expert agronomists — accessible on the **web** and through **WhatsApp**.
+The mARI Platform by Pameltex Tech connects smallholder farmers to markets, finance, weather, and expert agronomists — accessible on the **web**, **USSD**, and through **WhatsApp**.
 
 ---
 
@@ -10,36 +8,40 @@ The mARI Platform connects smallholder farmers to markets, finance, weather, and
 
 **Prerequisites:** Node.js ≥ 20
 
-1. Install dependencies:
-   ```bash
-   npm install
-   ```
+1. **Install dependencies:**
 
-2. Copy `.env.example` to `.env` and fill in your credentials:
-   ```bash
-   cp .env.example .env
-   ```
+    ```bash
+    npm install
+    ```
 
-3. Run the dev server (Vite frontend):
-   ```bash
-   npm run dev
-   ```
+2. **Copy `.env.example` to `.env` and fill in your credentials:**
 
-4. Run the Node backend (Express + WhatsApp bot):
-   ```bash
-   node index.js
-   ```
+    ```bash
+    cp .env.example .env
+    ```
+
+3. **Run the dev server (Vite frontend):**
+
+    ```bash
+    npm run dev
+    ```
+
+4. **Run the Node backend (Express + WhatsApp bot):**
+
+    ```bash
+    node index.js
+    ```
 
 ---
 
 ## Environment Variables
 
 | Variable | Required | Description |
-|----------|----------|-------------|
+| :--- | :--- | :--- |
 | `AT_API_KEY` | ✅ | Africa's Talking API key |
 | `AT_USERNAME` | ✅ | Africa's Talking username (`sandbox` for testing) |
 | `WEBAPP_URL` | ✅ | Public URL of this platform (sent in WhatsApp messages) |
-| `VITE_GEMINI_API_KEY` | ✅ | Google Gemini API key (for Luna AI chat) |
+| `VITE_GEMINI_API_KEY` | ✅ | Google Gemini API key (for mARI AI Advisor) |
 | `VITE_SUPABASE_URL` | ✅ | Supabase project URL |
 | `VITE_SUPABASE_ANON_KEY` | ✅ | Supabase anon/publishable key |
 | `DATABASE_URL` | ✅ | PostgreSQL connection string (Supabase) |
@@ -49,12 +51,12 @@ The mARI Platform connects smallholder farmers to markets, finance, weather, and
 
 ## WhatsApp Conversational Menu (via Africa's Talking)
 
-Users can interact with the full mAgri-Platform directly through WhatsApp.
+Users can interact with the full mARI Platform by Pameltex Tech directly through WhatsApp.
 
 ### Features accessible via WhatsApp
 
 | Option | Feature |
-|--------|---------|
+| :--- | :--- |
 | 1️⃣ | **Marketplace** — browse/search live produce listings |
 | 2️⃣ | **My Orders** — view order status |
 | 3️⃣ | **Credit & Finance** — check score, apply for micro-credit |
@@ -63,13 +65,14 @@ Users can interact with the full mAgri-Platform directly through WhatsApp.
 | 6️⃣ | **Open Web App** — receive a direct link |
 
 Universal commands work from any state:
+
 - `MENU` / `HI` / `HELLO` — return to main menu
 - `LINK` — link your WhatsApp number to your mARI account
 - `CANCEL` — go back
 
 ### Bot Architecture
 
-```
+```text
 Africa's Talking (WhatsApp)
         │
         ▼ POST /api/whatsapp/webhook
@@ -85,32 +88,40 @@ Africa's Talking (WhatsApp)
 
 ### Setup
 
-1. **Create an Africa's Talking account** at [africastalking.com](https://africastalking.com)
-2. Enable the **WhatsApp channel** in your dashboard
-3. Set the **Callback URL** to:
-   ```
-   https://navajowhite-monkey-252201.hostingersite.com/api/whatsapp/webhook
-   ```
-4. For local testing, use [ngrok](https://ngrok.com):
-   ```bash
-   ngrok http 3000
-   # Copy the HTTPS URL → paste into AT dashboard as Callback URL
-   ```
-5. Run the server:
-   ```bash
-   node index.js
-   ```
-6. Send a message from WhatsApp to your AT sandbox number to begin.
+1. **Create an Africa's Talking account** at <https://africastalking.com>
+2. **Enable the WhatsApp channel** in your dashboard
+3. **Set the Callback URL** to:
+
+    ```text
+    https://navajowhite-monkey-252201.hostingersite.com/api/whatsapp/webhook
+    ```
+
+4. **For local testing**, use [ngrok](https://ngrok.com):
+
+    ```bash
+    ngrok http 3000
+    # Copy the HTTPS URL → paste into AT dashboard as Callback URL
+    ```
+
+5. **Run the server:**
+
+    ```bash
+    node index.js
+    ```
+
+6. **Send a message** from WhatsApp to your AT sandbox number to begin.
 
 ### Supabase Tables (optional — for persistent sessions)
 
 Run `migrations/001_whatsapp.sql` in the Supabase SQL editor to create:
+
 - `whatsapp_sessions` — conversation state per phone number
-- `whatsapp_links` — maps WhatsApp phone to mAgri-Platform account email
+- `whatsapp_links` — maps WhatsApp phone to mARI Platform by Pameltex Tech account email
 - `whatsapp_messages` — full audit log of inbound/outbound messages
 
 Then swap the import in `whatsapp/bot.js`:
-```js
+
+```javascript
 // From:
 import { getSession, updateSession, resetSession } from './sessions.js';
 // To:
@@ -121,7 +132,7 @@ import { getSession, updateSession, resetSession } from './supabaseStore.js';
 
 Send a WhatsApp message programmatically from any part of the backend:
 
-```js
+```javascript
 // Raw message
 POST /api/whatsapp/send
 { "to": "+254712345678", "message": "Your listing has been approved!" }
@@ -158,8 +169,8 @@ node scripts/whatsappBotTest.js
 
 ## Project Structure
 
-```
-mAgri-Platform/
+```text
+mARI-Platform/
 ├── index.js               # Express server (entry point)
 ├── src/                   # React + Vite frontend
 │   └── components/        # UI components (Marketplace, Finance, etc.)

@@ -46,7 +46,7 @@ export default function USSDSettings({ onBack }: { onBack: () => void }) {
                        <h4 className="text-xs font-black text-neutral-400 uppercase tracking-widest mb-4">Main Access Code</h4>
                        <p className="text-3xl font-black text-neutral-900 tabular-nums">*384*14032#</p>
                        <p className="text-xs text-neutral-500 font-medium mt-4 leading-relaxed">
-                          Primary gateway for all mAgri-Platform services. Works globally on any GSM network without internet.
+                          Primary gateway for all mARI Platform by Pameltex Tech services. Works globally on any GSM network without internet.
                        </p>
                     </div>
                     <div className="bg-neutral-50 rounded-3xl p-6 border border-neutral-100">
@@ -74,7 +74,7 @@ export default function USSDSettings({ onBack }: { onBack: () => void }) {
                  <div>
                     <h3 className="text-2xl font-black mb-3">Hybrid Offline Architecture</h3>
                     <p className="text-neutral-400 font-medium leading-relaxed">
-                       mAgri-Platform uses a dual-redundancy model. When local internet (4G/5G) fails, the platform automatically switches to USSD protocol for session continuity. No data is lost, no session is dropped.
+                       mARI Platform by Pameltex Tech uses a dual-redundancy model. When local internet (4G/5G) fails, the platform automatically switches to USSD protocol for session continuity. No data is lost, no session is dropped.
                     </p>
                     <div className="mt-6 flex gap-4">
                        <span className="inline-flex items-center text-[10px] font-black uppercase tracking-[0.2em] text-emerald-400">

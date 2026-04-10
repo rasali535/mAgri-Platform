@@ -1,10 +1,11 @@
-# mARI by mAgri-Platform — Task List
+# mARI Platform by Pameltex Tech — Task List
 
 ## ✅ Completed (Previous Sprint)
+
 - [x] Abort Supabase Edge Functions migration.
 - [x] Create `render.yaml` configuration for Render deploy.
 - [x] Push code to GitHub (`git add .`, `git commit`, `git push`).
-- [x] Connect the GitHub repository to Render (https://dashboard.render.com/select-repo).
+- [x] Connect the GitHub repository to Render: <https://dashboard.render.com/select-repo>
 - [x] In Render settings, add the Environment Variables from `.env`.
 - [x] Update Africa's Talking USSD and WhatsApp callbacks to Render URL.
 
@@ -25,9 +26,9 @@
 - [x] Fixed 405 Method Not Allowed error on `/api/diagnose`.
 - [x] Synchronized mARI rebranding across USSD, WhatsApp, and WebApp.
 - [x] Fixed WhatsApp bot image diagnosis by correcting the Gemini model name (to `gemini-1.5-flash`).
+- [x] **Global Rebranding**: Finalized identity as **mARI Platform by Pameltex Tech** across all components.
 
 ## ⏳ Remaining
-
 
 - [ ] Add all env vars to **Render Dashboard** → service → Environment Variables:
   - `SUPABASE_SERVICE_KEY`

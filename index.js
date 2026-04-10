@@ -9,6 +9,7 @@ import { getSession, updateSession } from './whatsapp/supabaseStore.js';
 import { VukaService } from './services/vuka.js';
 import { MpotsaService } from './services/mpotsa.js';
 import { askGemini } from './services/ai.js';
+import { getLang } from './whatsapp/translations.js';
 
 
 // Global error handler for Railway diagnostics
@@ -50,7 +51,7 @@ app.use((req, res, next) => {
 
 // 1. Mandatory Healthcheck for Railway/Production
 app.get(['/health', '/api/health', '/healthcheck'], (req, res) => {
-    res.status(200).json({ status: 'ok', service: 'mARI-Platform', time: new Date().toISOString() });
+    res.status(200).json({ status: 'ok', service: 'mARI Platform by Pameltex Tech', time: new Date().toISOString() });
 });
 
 // USSD Specific Health Check (Plain Text)
@@ -94,24 +95,36 @@ app.all(['/', '/api/ussd', '/api/ussd/', '/ussd', '/ussd/'], async (req, res, ne
 
     let response = '';
 
+    const session = await getSession(phoneNumber);
+    const language = session.language || 'en';
+    const L = getLang(language);
+
     if (text === '' || L1 === '0' || L1 === 'MENU') {
-        response = `CON 🌱 *mARI Tech Platform*\n`;
-        response += `1. Dashboard\n`;
-        response += `2. Marketplace\n`;
-        response += `3. Crop Scan\n`;
-        response += `4. Ask mARI (AI Advisor)\n`;
-        response += `5. Finance & Credit\n`;
-        response += `6. Weather Forecast\n`;
-        response += `7. Farmer Community\n`;
-        response += `8. Vuka Social\n`;
-        response += `9. Language Settings\n`;
-        response += `10. Mpotsa Q&A\n`;
-        response += `📅 ${new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`;
+        const dateStr = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+        
+        // Use ussd_menu translation if available, else fallback to branded list
+        if (L.ussd_menu) {
+            response = L.ussd_menu.replace(/\\n/g, '\n');
+            if (!response.includes(dateStr)) response += `\n📅 ${dateStr}`;
+        } else {
+            response = `CON 🌱 *mARI Platform by Pameltex Tech*\n`;
+            response += `1. Dashboard\n`;
+            response += `2. Marketplace\n`;
+            response += `3. Crop Scan\n`;
+            response += `4. Ask mARI (AI Advisor)\n`;
+            response += `5. Finance & Credit\n`;
+            response += `6. Weather Forecast\n`;
+            response += `7. Farmer Community\n`;
+            response += `8. Vuka Social\n`;
+            response += `9. Language Settings\n`;
+            response += `10. Mpotsa Q&A\n`;
+            response += `📅 ${dateStr}`;
+        }
 
     } else if (L1 === '1') {
         response = `END *Dashboard*\nYou have 0 active orders and 0 listings. Use the web app for full details.`;
     } else if (L1 === '2') {
-        response = `END *mAgri-Platform Marketplace*\nBrowse local grain prices or post your crop for sale in the community forum.`;
+        response = `END *mARI Platform by Pameltex Tech Marketplace*\nBrowse local grain prices or post your crop for sale in the community forum.`;
     } else if (L1 === '3') {
         response = `END *Crop Scan (mARI AI)*\nTo diagnose a crop disease, please upload a photo using our WhatsApp bot or the Web App.`;
     } else if (L1 === '4') {
@@ -120,7 +133,7 @@ app.all(['/', '/api/ussd', '/api/ussd/', '/ussd', '/ussd/'], async (req, res, ne
             if (depth === 1 || lastPart === '1') {
                 response = `CON *mARI AI Advisor*\n(Synced with WhatsApp)\nType your farming question:`;
             } else if (lastPart === '0') {
-                response = `CON 🌱 *mAgri-Platform*\n1. Dashboard\n2. Marketplace\n3. Crop Scan\n4. Ask mARI\n5. Finance\n6. Weather\n0. Exit`;
+                response = `CON 🌱 *mARI Platform by Pameltex Tech*\n1. Dashboard\n2. Marketplace\n3. Crop Scan\n4. Ask mARI\n5. Finance\n6. Weather\n0. Exit`;
             } else {
                 const question = lastPart;
                 // Session fallback: if DB fails, keep going with empty history
@@ -132,7 +145,7 @@ app.all(['/', '/api/ussd', '/api/ussd/', '/ussd', '/ussd/'], async (req, res, ne
                 }
 
                 const country = getCountryFromPhone(phoneNumber);
-                const systemPrompt = `You are mARI, an AI agronomist for mAgri-Platform. Location: ${country}. Be extremely concise.`;
+                const systemPrompt = `You are mARI, an AI agronomist for the mARI Platform by Pameltex Tech. Location: ${country}. Respond in ${language}. Be extremely concise.`;
                 const answer = await askGemini([{ role: 'user', parts: [{ text: question }] }], systemPrompt);
 
                 // Try to sync, but don't crash if it fails
@@ -155,9 +168,9 @@ app.all(['/', '/api/ussd', '/api/ussd/', '/ussd', '/ussd/'], async (req, res, ne
         response = `CON *Finance & Credit*\n1. Check Score\n2. Apply for Loan`;
     } else if (L1 === '6') {
         response = `END *Weather Forecast*\nSunny with light showers expected in the evening. Keep your seeds dry!`;
-        sendSMS(phoneNumber, "mARI Weather: Region forecast is Sunny with light showers in the evening.");
+        sendSMS(phoneNumber, "mARI Platform by Pameltex Tech Weather: Region forecast is Sunny with light showers in the evening.");
     } else if (L1 === '7') {
-        response = `END *Farmer Community*\nJoin the mAgri-Platform community to discuss crop prices and tips. High activity in Lusaka/Kitwe.`;
+        response = `END *Farmer Community*\nJoin the mARI Platform by Pameltex Tech community to discuss crop prices and tips. High activity in Lusaka/Kitwe.`;
     } else if (L1 === '8') {
         // Vuka Social Network
         if (depth === 1) {
@@ -196,7 +209,19 @@ app.all(['/', '/api/ussd', '/api/ussd/', '/ussd', '/ussd/'], async (req, res, ne
             response = `END Vuka: Feature coming soon!`;
         }
     } else if (L1 === '9') {
-        response = `CON *Set Language*\n1. English\n2. Setswana\n3. French`;
+        if (depth === 1) {
+            response = L.change_lang ? `CON ${L.change_lang.replace(/\*/g, '')}` : `CON Select Language:\n1. English\n2. Tswana\n3. French\n4. Nyanja\n5. Bemba`;
+        } else {
+            let newLang = 'en';
+            if (parts[1] === '1') newLang = 'en';
+            else if (parts[1] === '2') newLang = 'tn';
+            else if (parts[1] === '3') newLang = 'fr';
+            else if (parts[1] === '4') newLang = 'ny';
+            else if (parts[1] === '5') newLang = 'be';
+            
+            await updateSession(phoneNumber, { language: newLang });
+            response = `END Language updated to ${newLang.toUpperCase()}! Please restart USSD session.`;
+        }
     } else if (L1 === '10') {
         // Mpotsa Q&A
         if (depth === 1) {
@@ -232,7 +257,7 @@ app.get('/admin/qr', async (req, res) => {
 // Diagnostic Route
 app.get('/api/info', (req, res) => {
     res.json({
-        platform: 'mARI Platform',
+        platform: 'mARI Platform by Pameltex Tech',
         version: '2.5.3',
         node: process.version,
         env: process.env.NODE_ENV,
@@ -252,7 +277,7 @@ app.post('/api/chat', async (req, res) => {
             role: m.role === 'assistant' ? 'model' : 'user',
             parts: [{ text: m.content || m.text }]
         }));
-        const systemInstruction = "You are mARI, an AI agronomist for the mAgri-Platform. Be helpful, concise, and professional.";
+        const systemInstruction = "You are mARI, an AI agronomist for mARI Platform by Pameltex Tech. Be helpful, concise, and professional.";
         const answer = await askGemini(contents, systemInstruction);
         res.json({ content: answer });
     } catch (e) {
