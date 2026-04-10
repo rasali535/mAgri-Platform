@@ -9,7 +9,9 @@
     "npm": ">=9.0.0"
   },
   "scripts": {
-    "dev": "vite --port=3000 --host=0.0.0.0",
+    "dev": "vite",
+    "backend": "node index.js",
+    "dev:full": "start /B node index.js && vite",
     "build": "vite build",
     "start": "node index.js",
     "preview": "vite preview",
