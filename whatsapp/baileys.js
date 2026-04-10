@@ -37,10 +37,15 @@ export async function initBaileys() {
         }
 
         if (connection === 'close') {
-            const shouldReconnect = lastDisconnect.error?.output?.statusCode !== DisconnectReason.loggedOut;
-            console.log('connection closed due to ', lastDisconnect.error, ', reconnecting ', shouldReconnect);
+            const statusCode = lastDisconnect?.error?.output?.statusCode;
+            const isConflict = lastDisconnect?.error?.data?.tag === 'conflict';
+            const shouldReconnect = statusCode !== DisconnectReason.loggedOut;
+            console.log('connection closed due to ', lastDisconnect?.error?.message || 'unknown', ', reconnecting ', shouldReconnect);
             if (shouldReconnect) {
-                initBaileys();
+                // Wait longer on conflict (another session replaced us)
+                const delay = isConflict ? 8000 : 2000;
+                console.log(`[Baileys] Reconnecting in ${delay/1000}s...`);
+                setTimeout(() => initBaileys(), delay);
             } else {
                 console.log('Logged out. Please re-scan QR.');
             }
