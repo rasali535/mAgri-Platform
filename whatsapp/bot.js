@@ -12,6 +12,9 @@ import { uploadMediaToSupabase } from './imageUploader.js';
 import { createListing } from './listingsStore.js';
 import { sendWhatsApp } from './africa.js';
 import { downloadContentFromMessage } from '@whiskeysockets/baileys';
+import { VukaService } from '../services/vuka.js';
+import { MpotsaService } from '../services/mpotsa.js';
+
 
 const WEBAPP_URL = process.env.WEBAPP_URL || 'https://navajowhite-monkey-252201.hostingersite.com';
 
@@ -155,6 +158,26 @@ export async function processMessage(phone, rawText) {
     return L.welcome(session.linked);
   }
 
+  // --- Vuka WhatsApp Mirror ---
+  const vukaUser = await VukaService.getUser(phone);
+  if (vukaUser) {
+    if (upper.startsWith('BROADCAST')) {
+      const msg = text.substring(9).trim();
+      const friends = await VukaService.getFriends(phone);
+      for (const friend of friends) {
+        // In a real app we'd send to their WhatsApp if they have it, or SMS
+        // For now, let's relay to WhatsApp to simulate social action
+        VukaService.relayToWhatsApp(phone, friend.friend_msisdn, `[BROADCAST] ${msg}`).catch(()=>{});
+      }
+      return `📢 Broadcast sent to ${friends.length} friends!`;
+    }
+    if (upper === 'FRIENDS') {
+      const friends = await VukaService.getFriends(phone);
+      if (friends.length === 0) return `👥 You have no Vuka friends yet. Add them on USSD!`;
+      return `👥 *Your Vuka Friends:*\n` + friends.map(f => `• ${f.friend_msisdn}`).join('\n');
+    }
+  }
+
   if (upper === 'LINK') {
     await updateSession(phone, { state: 'AWAIT_LINK' });
     return L.await_link;
@@ -189,9 +212,17 @@ export async function processMessage(phone, rawText) {
     if (text === '7') {
       return `💬 *Community*\nJoin our 5,000+ member farmer forum here: ${WEBAPP_URL}/community\n\nReply *MENU* to return.`;
     }
+    if (text === '8') {
+      await updateSession(phone, { state: 'VUKA' });
+      return MENU.VUKA_MENU;
+    }
     if (text === '9') {
       await updateSession(phone, { state: 'SET_LANGUAGE' });
       return L.change_lang;
+    }
+    if (text === '10') {
+      await updateSession(phone, { state: 'MPOTSA' });
+      return MENU.MPOTSA_PROMPT;
     }
     return L.unknown;
   }
@@ -202,6 +233,40 @@ export async function processMessage(phone, rawText) {
       return MENU.LINKED_OK(text);
     }
     return `❌ Invalid email. Type *CANCEL* to go back.`;
+  }
+
+  if (session.state === 'VUKA') {
+    if (text === '0' || upper === 'MENU') {
+      await updateSession(phone, { state: 'WELCOME' });
+      return L.welcome(session.linked);
+    }
+    if (text === '1') {
+      const u = await VukaService.getUser(phone);
+      if (!u) return `❌ Profile not found. Create one on USSD first!`;
+      return `👤 *My Profile*\nName: ${u.display_name || 'N/A'}\nBio: ${u.bio || 'N/A'}\n\nType *0* to go back.`;
+    }
+    if (text === '2') {
+      const friends = await VukaService.getFriends(phone);
+      return `👥 *Find Friends*\nYou have ${friends.length} friends.\nUse USSD *144# to search for more.\n\nType *0* to go back.`;
+    }
+    if (text === '3') {
+      return `💬 *Groups*\nGroup chat mirror coming soon to WhatsApp!\n\nType *0* to go back.`;
+    }
+    return `❓ Invalid option. Type *0* to go back.`;
+  }
+
+  if (session.state === 'MPOTSA') {
+    if (upper === 'CANCEL' || upper === 'MENU' || text === '0') {
+      await updateSession(phone, { state: 'WELCOME' });
+      return L.welcome(session.linked);
+    }
+    // Search Q&A
+    const result = await MpotsaService.search(text, phone);
+    if (result.type === 'NONE') {
+      return `🔍 ${result.text}\n\nType another keyword or *0* to exit.`;
+    }
+    
+    return `📚 *Answer:*\n${result.text}\n\nType another keyword or *0* to exit.`;
   }
 
   if (session.state === 'AGRONOMIST') {
@@ -239,6 +304,36 @@ export async function processMessage(phone, rawText) {
     const newHistory = [...(session.history || []), { role: 'user', parts: [{ text }] }, { role: 'model', parts: [{ text: answer }] }];
     await updateSession(phone, { history: newHistory.slice(-10) });
     return `🔬 *Diagnostic Follow-up:*\n\n${answer}\n\nType *MENU* to exit.`;
+  }
+
+  if (session.state === 'MARKETPLACE') {
+    if (text === '0' || upper === 'MENU') {
+      await updateSession(phone, { state: 'WELCOME' });
+      return L.welcome(session.linked);
+    }
+    return `🛒 *Marketplace Search*\nShowing results for "${text}":\n\nNo listings found in your area yet.\n\nType *0* to go back.`;
+  }
+
+  if (session.state === 'CREDIT') {
+    if (text === '0' || upper === 'MENU') {
+      await updateSession(phone, { state: 'WELCOME' });
+      return L.welcome(session.linked);
+    }
+    if (text === '1') return `📊 *Your Credit Score*\nScore: 780 (A+)\nStatus: Eligible for 5,000 credit limit.\n\nType *0* to go back.`;
+    if (text === '2') {
+      await updateSession(phone, { state: 'CREDIT_APPLY' });
+      return MENU.CREDIT_APPLY_PROMPT;
+    }
+    return `❓ Invalid option. Type *0* to go back.`;
+  }
+
+  if (session.state === 'CREDIT_APPLY') {
+    if (upper === 'CANCEL' || upper === 'MENU') {
+      await updateSession(phone, { state: 'CREDIT' });
+      return MENU.CREDIT_MENU;
+    }
+    await updateSession(phone, { state: 'WELCOME' });
+    return MENU.CREDIT_APPLY_OK(text);
   }
 
   return L.welcome(session.linked);

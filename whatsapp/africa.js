@@ -39,9 +39,15 @@ export async function sendSMS(to, message) {
     body: new URLSearchParams({ username, to: toStr, message }),
   });
 
-  const data = await res.json();
-  console.log('[AT SMS]', JSON.stringify(data));
-  return data;
+  const text = await res.text();
+  try {
+    const data = JSON.parse(text);
+    console.log('[AT SMS]', JSON.stringify(data));
+    return data;
+  } catch (e) {
+    console.error('[AT SMS ERR] Non-JSON response:', text);
+    return { error: 'Non-JSON response', raw: text };
+  }
 }
 
 import { sock } from './baileys.js';

@@ -16,8 +16,10 @@ export const TRANSLATIONS = {
       `4️⃣  Ask mARI (AI Advisor)\n` +
       `5️⃣  Finance & Credit\n` +
       `6️⃣  Weather Forecast\n` +
-      `7️⃣  Farmer Community\n\n` +
-      `Reply with a number (1–7) or type *MENU* anytime to return.\n\n` +
+      `7️⃣  Farmer Community\n` +
+      `8️⃣  Vuka Social Network 👥\n` +
+      `🔟  Mpotsa Q&A Engine 📚\n\n` +
+      `Reply with a number (1–10) or type *MENU* anytime to return.\n\n` +
       `📅 _Today is ${new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}_\n` +
       `🌍 Send *9* to Change Language.`,
     change_lang: "🌍 *Select Language:*\n1. English\n2. Tswana\n3. French\n4. Nyanja\n5. Bemba\n\nType *CANCEL* to go back.",
@@ -32,28 +34,32 @@ export const TRANSLATIONS = {
     agronomist_prompt: "🧑‍🌾 *Ask mARI AI Advisor*\nType your farming question below.",
   },
   tn: {
-    welcome: (linked) => `🌱 *Amogela mo Pameltex Tech Platform!*\n\n1. Tesheboto\n2. Marekelo\n3. Crop Scan 🔍\n4. Ask mARI (Advisor)\n5. Finance\n6. Weather\n7. Community\n9. Fetola Puo 🌍`,
+    welcome: (linked) => `🌱 *Amogela mo Pameltex Tech Platform!*\n\n1. Tesheboto\n2. Marekelo\n3. Crop Scan 🔍\n4. Ask mARI (Advisor)\n5. Finance\n6. Weather\n7. Community\n8. Vuka Social 👥\n9. Fetola Puo 🌍\n10. Mpotsa Q&A 📚`,
+
     change_lang: "🌍 *Tlhopha Puo:*\n1. English\n2. Tswana\n3. French\n4. Nyanja\n5. Bemba",
     ussd_menu: "CON Pameltex Tech\n1. Dashboard\n2. Marketplace\n3. Crop Scan\n4. AI Advisor\n5. Finance\n6. Weather\n7. Community",
     thinking: "⏳ Ke a akanya...",
     unknown: "❓ Ga ke utlwe. Thapa *MENU*.",
   },
   fr: {
-    welcome: (linked) => `🌱 *Bienvenue sur Pameltex Tech Platform!*\n\n1. Tableau de bord\n2. Marché\n3. Scanner Culture 🔍\n4. Ask mARI (Conseiller)\n5. Finance\n6. Météo\n7. Communauté\n9. Changer Langue 🌍`,
+    welcome: (linked) => `🌱 *Bienvenue sur Pameltex Tech Platform!*\n\n1. Tableau de bord\n2. Marché\n3. Scanner Culture 🔍\n4. Ask mARI (Conseiller)\n5. Finance\n6. Météo\n7. Communauté\n8. Réseau Vuka 👥\n9. Changer Langue 🌍\n10. Mpotsa Q&A 📚`,
+
     change_lang: "🌍 *Choisir la langue:*\n1. English\n2. Tswana\n3. French\n4. Nyanja\n5. Bemba",
     ussd_menu: "CON Pameltex Tech\n1. Dashboard\n2. Marché\n3. Crop Scan\n4. AI Advisor\n5. Finance\n6. Météo\n7. Communauté",
     thinking: "⏳ Analyse...",
     unknown: "❓ Option inconnue. Tapez *MENU*.",
   },
   ny: {
-    welcome: (linked) => `🌱 *Takulandirani ku Pameltex Tech Platform!*\n\n1. Dashboard\n2. Market\n3. Crop Scan 🔍\n4. Funzani mARI (Advisor)\n5. Finance\n6. Weather\n7. Community\n9. Sinthani Chilankhulo 🌍`,
+    welcome: (linked) => `🌱 *Takulandirani ku Pameltex Tech Platform!*\n\n1. Dashboard\n2. Market\n3. Crop Scan 🔍\n4. Funzani mARI (Advisor)\n5. Finance\n6. Weather\n7. Community\n8. Vuka Social 👥\n9. Sinthani Chilankhulo 🌍\n10. Mpotsa Q&A 📚`,
+
     change_lang: "🌍 *Sankhani Chilankhulo:*\n1. English\n2. Tswana\n3. French\n4. Nyanja\n5. Bemba",
     ussd_menu: "CON Pameltex Tech\n1. Dashboard\n2. Market\n3. Crop Scan\n4. AI Advisor\n5. Finance\n6. Weather\n7. Community",
     thinking: "⏳ Ndikuganiza...",
     unknown: "❓ Siziwika. Lembani *MENU*.",
   },
   be: {
-    welcome: (linked) => `🌱 *Mwaiseni mu Pameltex Tech Platform!*\n\n1. Dashboard\n2. Market\n3. Crop Scan 🔍\n4. Sipusheni mARI (Advisor)\n5. Finance\n6. Weather\n7. Community\n9. Alyeni Ululimi 🌍`,
+    welcome: (linked) => `🌱 *Mwaiseni mu Pameltex Tech Platform!*\n\n1. Dashboard\n2. Market\n3. Crop Scan 🔍\n4. Sipusheni mARI (Advisor)\n5. Finance\n6. Weather\n7. Community\n8. Vuka Social 👥\n9. Alyeni Ululimi 🌍\n10. Mpotsa Q&A 📚`,
+
     change_lang: "🌍 *Saleni Ululimi:*\n1. English\n2. Tswana\n3. French\n4. Nyanja\n5. Bemba",
     ussd_menu: "CON Pameltex Tech\n1. Dashboard\n2. Market\n3. Crop Scan\n4. AI Advisor\n5. Finance\n6. Weather\n7. Community",
     thinking: "⏳ Ndekutontonkanya...",

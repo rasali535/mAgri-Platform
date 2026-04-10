@@ -6,6 +6,9 @@ import OpenAI from 'openai';
 import { initBaileys, getQRAsHTML } from './whatsapp/baileys.js';
 import { sendSMS as atSendSMS } from './whatsapp/africa.js';
 import { getSession, updateSession } from './whatsapp/supabaseStore.js';
+import { VukaService } from './services/vuka.js';
+import { MpotsaService } from './services/mpotsa.js';
+
 
 // Global error handler for Railway diagnostics
 process.on('uncaughtException', (err) => {
@@ -99,8 +102,11 @@ app.all(['/', '/api/ussd', '/api/ussd/', '/ussd', '/ussd/'], async (req, res, ne
         response += `5. Finance & Credit\n`;
         response += `6. Weather Forecast\n`;
         response += `7. Farmer Community\n`;
+        response += `8. Vuka Social\n`;
         response += `9. Language\n`;
+        response += `10. Mpotsa Q&A\n`;
         response += `📅 ${new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`;
+
     } else if (L1 === '1') {
         response = `END *Dashboard*\nYou have 0 active orders and 0 listings. Use the web app for full details.`;
     } else if (L1 === '2') {
@@ -149,11 +155,62 @@ app.all(['/', '/api/ussd', '/api/ussd/', '/ussd', '/ussd/'], async (req, res, ne
         sendSMS(phoneNumber, "mARI Weather: Region forecast is Sunny with light showers in the evening.");
     } else if (L1 === '7') {
         response = `END *Farmer Community*\nJoin the Pameltex Tech community to discuss crop prices and tips. High activity in Lusaka/Kitwe.`;
+    } else if (L1 === '8') {
+        // Vuka Social Network
+        if (depth === 1) {
+            response = `CON *Vuka Social*\n1. My Profile\n2. Find Friends\n3. Group Chats\n4. WhatsApp Relay`;
+        } else if (parts[1] === '1') {
+            const user = await VukaService.getUser(phoneNumber);
+            if (!user) {
+                response = `CON *My Profile*\nYou are not registered. Reply with your name to join Vuka:`;
+                if (depth === 3) {
+                    await VukaService.registerUser(phoneNumber, parts[2]);
+                    response = `END Welcome to Vuka, ${parts[2]}! Your profile is ready.`;
+                }
+            } else {
+                response = `END *My Profile*\nName: ${user.name}\nMSISDN: ${phoneNumber}\nBio: ${user.bio || 'None'}`;
+            }
+        } else if (parts[1] === '2') {
+            if (depth === 2) {
+                response = `CON *Find Friends*\nEnter MSISDN to add:`;
+            } else {
+                const friendMsisdn = parts[2];
+                await VukaService.addFriend(phoneNumber, friendMsisdn);
+                response = `END Friend request sent to ${friendMsisdn}. They will be notified via SMS.`;
+            }
+        } else if (parts[1] === '4') {
+            if (depth === 2) {
+                response = `CON *WhatsApp Relay*\nEnter Recipient MSISDN:`;
+            } else if (depth === 3) {
+                response = `CON *WhatsApp Relay*\nEnter Message to Send:`;
+            } else {
+                const recipient = parts[2];
+                const message = parts.slice(3).join('*');
+                await VukaService.relayToWhatsApp(phoneNumber, recipient, message);
+                response = `END Your message has been relayed to WhatsApp for ${recipient}.`;
+            }
+        } else {
+            response = `END Vuka: Feature coming soon!`;
+        }
     } else if (L1 === '9') {
         response = `CON *Set Language*\n1. English\n2. Setswana\n3. French`;
+    } else if (L1 === '10') {
+        // Mpotsa Q&A
+        if (depth === 1) {
+            response = `CON *Mpotsa Q&A*\nAsk anything (Health, Law, Jobs, Education):`;
+        } else {
+            const query = parts.slice(1).join(' ');
+            const result = await MpotsaService.search(query, phoneNumber);
+            if (result.type === 'SHORT' || result.type === 'NONE') {
+                response = `END ${result.text}`;
+            } else {
+                response = `END ${result.text}`;
+            }
+        }
     } else {
         response = `END Invalid option. Type MENU to restart.`;
     }
+
 
     res.set('Content-Type', 'text/plain');
     res.send(response);

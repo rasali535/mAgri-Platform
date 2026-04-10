@@ -29,7 +29,9 @@ export const MENU = {
     `5️⃣  Finance & Credit\n` +
     `6️⃣  Weather Forecast\n` +
     `7️⃣  Farmer Community\n` +
-    `\nReply with a number (1–7) or type *MENU* anytime to return.`,
+    `8️⃣  Vuka Social Network 👥\n` +
+    `🔟  Mpotsa Q&A Engine 📚\n` +
+    `\nReply with a number (1–10) or type *MENU* anytime to return.`,
 
   AWAIT_LINK:
     `📧 Please send your Pameltex Tech account *email address* to link your WhatsApp number.\n` +
@@ -81,6 +83,19 @@ export const MENU = {
   UNKNOWN:
     `❓ I didn't understand that. Please reply with a number from the menu or type *MENU* to start over.`,
 
+  VUKA_MENU:
+    `👥 *Vuka Social Network*\n\n` +
+    `1️⃣  My Social Profile\n` +
+    `2️⃣  Find Friends\n` +
+    `3️⃣  Group Chats\n` +
+    `0️⃣  Back to main menu`,
+
+  MPOTSA_PROMPT:
+    `📚 *Mpotsa Q&A Engine*\n` +
+    `Type any keyword or question to search our database (e.g. "Health", "Legal", "Jobs").\n\n` +
+    `Type *CANCEL* to go back.`,
+
   ERROR:
     `⚠️ Something went wrong on our end. Please try again in a moment or type *MENU* to restart.`,
 };
+
