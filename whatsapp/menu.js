@@ -30,6 +30,7 @@ export const MENU = {
     `6️⃣  Weather Forecast\n` +
     `7️⃣  Farmer Community\n` +
     `8️⃣  Vuka Social Network 👥\n` +
+    `9️⃣  Language Settings\n` +
     `🔟  Mpotsa Q&A Engine 📚\n` +
     `\nReply with a number (1–10) or type *MENU* anytime to return.`,
 

@@ -145,8 +145,11 @@ app.all(['/', '/api/ussd', '/api/ussd/', '/ussd', '/ussd/'], async (req, res, ne
                 response = `CON *mARI:* ${snippet}\n1. Ask Follow-up\n0. Menu`;
             }
         } catch (error) {
-            console.error('[USSD AI Error]', error);
-            response = `CON ⚠️ mARI is having trouble connecting to AI.\n1. Try Again\n0. Menu`;
+            console.error('[USSD AI Error]', error.message || error);
+            const errorType = error.message?.includes('AI_API_ERR_404') ? 'Model Not Found' : 
+                               error.message?.includes('AI_API_ERR_401') ? 'API Key Invalid' : 
+                               error.message?.includes('timeout') ? 'Connection Timeout' : 'Service Down';
+            response = `CON ⚠️ mARI AI is busy (${errorType}).\n1. Try Again\n0. Menu`;
         }
     } else if (L1 === '5') {
         response = `CON *Finance & Credit*\n1. Check Score\n2. Apply for Loan`;
@@ -243,27 +246,42 @@ app.get('/api/info', (req, res) => {
 // AI Services Bridge - Gemini 2.5 Flash
 async function askGemini(contents, systemInstruction = "") {
     let apiKey = process.env.VITE_GEMINI_API_KEY || process.env.GEMINI_API_KEY;
-    // Hardcoded fallback for immediate production continuity
-    if (!apiKey) apiKey = "AIzaSyCMIybxAdo-o0cQOC0AgvzLN7Ja4ofBNN4";
+    // Fallback key from .env (the one we verified as working)
+    if (!apiKey) apiKey = "AIzaSyDNGTLhltItUI2s9CSyLJMNLpjRxWBaxbU";
 
     try {
         const body = { contents };
         if (systemInstruction) {
             body.system_instruction = { parts: [{ text: systemInstruction }] };
         }
-        const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
+        
+        // Using 'gemini-flash-latest' to ensure we use the best available flash model in 2026
+        const model = "gemini-flash-latest";
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+        
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 12000); // 12s timeout for USSD stability
+
+        const resp = await fetch(url, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(body),
-            timeout: 5000
+            signal: controller.signal
         });
         
+        clearTimeout(timeoutId);
+        
         if (!resp.ok) {
-            const errBody = await resp.text();
+            const errText = await resp.text();
+            console.error(`[Gemini API Error] Status: ${resp.status}`, errText);
             throw new Error(`AI_API_ERR_${resp.status}`);
         }
         return await resp.json();
     } catch (error) {
+        if (error.name === 'AbortError') {
+            console.error('[Gemini Error] Request timed out');
+            throw new Error('AI_API_TIMEOUT');
+        }
         console.error('Gemini Error:', error);
         throw error;
     }

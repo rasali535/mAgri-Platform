@@ -1,5 +1,8 @@
 import React from 'react';
-import { CloudSun, TrendingUp, AlertCircle, Store, ArrowUpRight, Zap, Target, MessageSquare, ChevronRight, Droplets, Wind, Thermometer } from 'lucide-react';
+import { 
+  CloudSun, TrendingUp, AlertCircle, Store, ArrowUpRight, Zap, Target, 
+  MessageSquare, ChevronRight, Droplets, Wind, Thermometer, Users, HelpCircle 
+} from 'lucide-react';
 import { motion } from 'motion/react';
 
 export default function HomeTab({ onNavigate, userRole, phone, location }: { 
@@ -115,6 +118,22 @@ export default function HomeTab({ onNavigate, userRole, phone, location }: {
                 description="24/7 expert agronomy advice powered by Gemini"
                 gradient="from-rose-500 to-pink-600"
                 badge="Online"
+              />
+              <ActionCard
+                onClick={() => onNavigate('vuka')}
+                icon={<Users size={28} />}
+                label="Vuka Social"
+                description="Social network and WhatsApp relay for farmers"
+                gradient="from-sky-500 to-blue-600"
+                badge="New"
+              />
+              <ActionCard
+                onClick={() => onNavigate('mpotsa')}
+                icon={<HelpCircle size={28} />}
+                label="Mpotsa Q&A"
+                description="Knowledge base for health, legal & more"
+                gradient="from-purple-500 to-indigo-600"
+                badge="Expert"
               />
             </div>
           </div>

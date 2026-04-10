@@ -36,8 +36,7 @@ function isValidEmail(str) {
 // ─── Gemini Image Diagnostics ─────────────────────────────────────────────────
 
 async function generateCropDiagnosis(phone, messageContent) {
-  const apiKey = process.env.VITE_GEMINI_API_KEY || process.env.GEMINI_API_KEY;
-  if (!apiKey) return '❌ AI Diagnosis unavailable (API key missing).';
+  const apiKey = process.env.VITE_GEMINI_API_KEY || process.env.GEMINI_API_KEY || "AIzaSyDNGTLhltItUI2s9CSyLJMNLpjRxWBaxbU";
 
   try {
     const stream = await downloadContentFromMessage(messageContent, 'image');
@@ -53,7 +52,8 @@ async function generateCropDiagnosis(phone, messageContent) {
       Context: User in ${country}, Time: ${dateStr}. 
       Respond in JSON: {"disease": "...", "confidence": 0-100, "recommendation": "..."}`;
 
-    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
+    const model = "gemini-flash-latest";
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -118,8 +118,7 @@ export async function processImage(phone, messageContent) {
 }
 
 async function askGemini(phone, question, history = [], lang = 'en') {
-  const apiKey = process.env.VITE_GEMINI_API_KEY || process.env.GEMINI_API_KEY;
-  if (!apiKey) return '❌ AI service unavailable.';
+  const apiKey = process.env.VITE_GEMINI_API_KEY || process.env.GEMINI_API_KEY || "AIzaSyDNGTLhltItUI2s9CSyLJMNLpjRxWBaxbU";
 
   try {
     const country = getCountryFromPhone(phone);
@@ -128,12 +127,16 @@ async function askGemini(phone, question, history = [], lang = 'en') {
       Context: Date ${dateStr}, User Country: ${country}. 
       Give localized advice for ${country} farmers. Reply in ${lang}.`;
 
-    const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
+    const model = "gemini-flash-latest";
+    const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         contents: [
-          ...history,
+          ...history.map(h => ({
+            role: h.role,
+            parts: h.parts ? h.parts : [{ text: h.text }]
+          })),
           { role: 'user', parts: [{ text: `Instruction: ${systemPrompt}\nQuestion: ${question}` }] }
         ]
       })
@@ -141,6 +144,7 @@ async function askGemini(phone, question, history = [], lang = 'en') {
     const data = await resp.json();
     return (data.candidates?.[0]?.content?.parts?.[0]?.text || 'No answer.').trim();
   } catch (e) {
+    console.error('[WhatsApp AI Error]', e);
     return '❌ AI error. Please try again later.';
   }
 }

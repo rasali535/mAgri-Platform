@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { AlertTriangle, CheckCircle, Clock, Send, User } from 'lucide-react';
+import { AlertTriangle, CheckCircle, Clock, Send, User, Users, HelpCircle } from 'lucide-react';
 
 export default function AgronomistDashboard() {
   const [tickets, setTickets] = useState([
@@ -40,6 +40,27 @@ export default function AgronomistDashboard() {
       <div className="space-y-2">
         <h2 className="text-xl font-bold text-stone-800">Agronomist Portal</h2>
         <p className="text-sm text-stone-500">Review escalated AI diagnostics</p>
+      </div>
+
+      <div className="flex gap-4">
+        <button className="flex-1 bg-white p-4 rounded-2xl shadow-sm border border-stone-200 flex items-center space-x-3 hover:bg-stone-50 transition-all">
+          <div className="bg-sky-100 p-2 rounded-xl text-sky-600">
+            <Users size={20} />
+          </div>
+          <div className="text-left">
+            <p className="text-sm font-bold text-stone-800">Vuka Social</p>
+            <p className="text-[10px] text-stone-500 font-medium">Connect with farmers</p>
+          </div>
+        </button>
+        <button className="flex-1 bg-white p-4 rounded-2xl shadow-sm border border-stone-200 flex items-center space-x-3 hover:bg-stone-50 transition-all">
+          <div className="bg-purple-100 p-2 rounded-xl text-purple-600">
+            <HelpCircle size={20} />
+          </div>
+          <div className="text-left">
+            <p className="text-sm font-bold text-stone-800">Mpotsa Q&A</p>
+            <p className="text-[10px] text-stone-500 font-medium">Expert advice</p>
+          </div>
+        </button>
       </div>
 
       <div className="space-y-4">

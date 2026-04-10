@@ -109,12 +109,18 @@ app.all(['/api/ussd', '/api/ussd/'], async (req, res) => {
     let response = '';
 
     if (text === '' || eL1 === '0' || eL1 === 'MENU') {
-        response = `CON Welcome to mARI Platform\n`;
-        response += `1. Check mARI Credit Score\n`;
-        response += `2. Apply for Micro-Credit\n`;
-        response += `3. Check Weather Forecast\n`;
-        response += `4. Ask mARI AI\n`;
-        response += `5. View/Respond to Buyer SMS`;
+        response = `CON 🌱 *mARI Tech Platform*\n`;
+        response += `1. Dashboard\n`;
+        response += `2. Marketplace\n`;
+        response += `3. Crop Scan (Info)\n`;
+        response += `4. Ask mARI (AI Advisor)\n`;
+        response += `5. Finance & Credit\n`;
+        response += `6. Weather Forecast\n`;
+        response += `7. Farmer Community\n`;
+        response += `8. Vuka Social\n`;
+        response += `9. Language\n`;
+        response += `10. Mpotsa Q&A\n`;
+        response += `📅 ${new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`;
     } else if (eL1 === '1') {
         response = `END Your current mARI Credit Score is 745 (Excellent).`;
         sendSMS(phoneNumber, "Your current mARI Credit Score is 745 (Excellent). Keep up the good work!");
@@ -156,25 +162,42 @@ app.use(express.static(path.join(__dirname, 'dist')));
 
 // AI Services Bridge - Gemini 2.5 Flash
 async function askGemini(contents, systemInstruction = "") {
-    const apiKey = process.env.VITE_GEMINI_API_KEY || process.env.GEMINI_API_KEY;
-    if (!apiKey) return { error: 'Gemini API not configured' };
+    let apiKey = process.env.VITE_GEMINI_API_KEY || process.env.GEMINI_API_KEY;
+    // Fallback key from .env (the one we verified as working)
+    if (!apiKey) apiKey = "AIzaSyDNGTLhltItUI2s9CSyLJMNLpjRxWBaxbU";
 
     try {
         const body = { contents };
         if (systemInstruction) {
-            body.system_instruction = {
-                parts: [{ text: systemInstruction }]
-            };
+            body.system_instruction = { parts: [{ text: systemInstruction }] };
         }
+        
+        const model = "gemini-flash-latest";
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+        
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 12000); // 12s timeout for USSD stability
 
-        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
+        const response = await fetch(url, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(body)
+            body: JSON.stringify(body),
+            signal: controller.signal
         });
-        if (!response.ok) throw new Error(`Gemini API error: ${response.status}`);
+        
+        clearTimeout(timeoutId);
+
+        if (!response.ok) {
+            const errText = await response.text();
+            console.error(`[Gemini API Error] Status: ${response.status}`, errText);
+            throw new Error(`AI_API_ERR_${response.status}`);
+        }
         return await response.json();
     } catch (error) {
+        if (error.name === 'AbortError') {
+            console.error('[Gemini Error] Request timed out');
+            throw new Error('AI_API_TIMEOUT');
+        }
         console.error('Gemini Error:', error);
         throw error;
     }

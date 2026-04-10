@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { 
   Home, Camera, MessageSquare, Wallet, Settings, UserCircle, Store, 
-  Briefcase, Menu, X, Bell, Search, LogOut, ChevronLeft, ChevronRight 
+  Briefcase, Menu, X, Bell, Search, LogOut, ChevronLeft, ChevronRight,
+  Users, HelpCircle
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import HomeTab from './components/HomeTab';
@@ -14,6 +15,8 @@ import CreditApplication from './components/CreditApplication';
 import InsuranceApplication from './components/InsuranceApplication';
 import USSDSettings from './components/USSDSettings';
 import MarketplaceTab from './components/MarketplaceTab';
+import VukaTab from './components/VukaTab';
+import MpotsaTab from './components/MpotsaTab';
 import LoginScreen from './components/LoginScreen';
 import { useCurrency, COUNTRIES } from './CurrencyContext';
 
@@ -59,6 +62,8 @@ export default function App() {
   const navItems = [
     { id: 'home', icon: <Home size={20} />, label: 'Dashboard' },
     { id: 'market', icon: <Store size={20} />, label: 'Marketplace' },
+    { id: 'vuka', icon: <Users size={20} />, label: 'Vuka Social' },
+    { id: 'mpotsa', icon: <HelpCircle size={20} />, label: 'Mpotsa Q&A' },
     { id: 'diagnose', icon: <Camera size={20} />, label: 'Crop Scan' },
     { id: 'chat', icon: <MessageSquare size={20} />, label: 'AI Advisor' },
     { id: 'finance', icon: <Wallet size={20} />, label: 'Finance' },
@@ -205,28 +210,28 @@ export default function App() {
                 transition={{ duration: 0.2 }}
                 className="min-h-full"
               >
-                {userRole === 'agronomist' ? (
-                  <AgronomistDashboard />
-                ) : (
-                  <>
-                    {activeTab === 'home' && (
-                      <HomeTab 
-                        userRole={userRole} 
-                        onNavigate={setActiveTab} 
-                        phone={userPhone} 
-                        location={userLocation} 
-                      />
-                    )}
-                    {activeTab === 'market' && <MarketplaceTab userRole={userRole} />}
-                    {activeTab === 'diagnose' && <DiagnoseTab />}
-                    {activeTab === 'chat' && <ChatTab />}
-                    {activeTab === 'finance' && <FinanceTab onNavigate={setActiveTab} />}
-
-                    {activeTab === 'credit_apply' && <CreditApplication onBack={() => setActiveTab('finance')} />}
-                    {activeTab === 'insurance_apply' && <InsuranceApplication onBack={() => setActiveTab('finance')} />}
-                    {activeTab === 'ussd' && <USSDSettings onBack={() => setActiveTab('home')} />}
-                  </>
+                {activeTab === 'home' && (
+                  userRole === 'agronomist' ? (
+                    <AgronomistDashboard />
+                  ) : (
+                    <HomeTab 
+                      userRole={userRole} 
+                      onNavigate={setActiveTab} 
+                      phone={userPhone} 
+                      location={userLocation} 
+                    />
+                  )
                 )}
+                {activeTab === 'market' && <MarketplaceTab userRole={userRole} />}
+                {activeTab === 'vuka' && <VukaTab />}
+                {activeTab === 'mpotsa' && <MpotsaTab />}
+                {activeTab === 'diagnose' && <DiagnoseTab />}
+                {activeTab === 'chat' && <ChatTab />}
+                {activeTab === 'finance' && <FinanceTab onNavigate={setActiveTab} />}
+
+                {activeTab === 'credit_apply' && <CreditApplication onBack={() => setActiveTab('finance')} />}
+                {activeTab === 'insurance_apply' && <InsuranceApplication onBack={() => setActiveTab('finance')} />}
+                {activeTab === 'ussd' && <USSDSettings onBack={() => setActiveTab('home')} />}
               </motion.div>
             </AnimatePresence>
           </div>
@@ -235,7 +240,7 @@ export default function App() {
         {/* Bottom Nav - Mobile Only */}
         {userRole !== 'agronomist' && (
           <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-neutral-200 flex justify-around items-center h-16 pb-safe z-40">
-            {navItems.map((item) => (
+            {navItems.filter(i => ['home', 'market', 'vuka', 'mpotsa', 'finance'].includes(i.id)).map((item) => (
               <button
                 key={item.id}
                 onClick={() => setActiveTab(item.id)}

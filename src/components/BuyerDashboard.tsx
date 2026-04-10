@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Send, Radio, MessageSquare, MapPin, Package, CheckCircle, Clock, Smartphone } from 'lucide-react';
+import { Send, Radio, MessageSquare, MapPin, Package, CheckCircle, Clock, Smartphone, Users, HelpCircle } from 'lucide-react';
 import { useCurrency } from '../CurrencyContext';
 
 export default function BuyerDashboard() {
@@ -48,6 +48,28 @@ export default function BuyerDashboard() {
       <div className="space-y-2">
         <h2 className="text-xl font-bold text-indigo-900">Buyer Portal</h2>
         <p className="text-sm text-stone-500">Broadcast requests to farmers via SMS</p>
+      </div>
+
+      {/* Quick Access to Vuka and Mpotsa */}
+      <div className="grid grid-cols-2 gap-3">
+        <button 
+          onClick={() => window.dispatchEvent(new CustomEvent('nav-change', { detail: 'vuka' }))}
+          className="bg-white p-4 rounded-2xl shadow-sm border border-indigo-100 flex flex-col items-center justify-center space-y-2 hover:bg-indigo-50 transition-colors"
+        >
+          <div className="bg-indigo-100 p-2 rounded-xl text-indigo-600">
+            <Users size={20} />
+          </div>
+          <span className="text-xs font-bold text-stone-700">Vuka Social</span>
+        </button>
+        <button 
+          onClick={() => window.dispatchEvent(new CustomEvent('nav-change', { detail: 'mpotsa' }))}
+          className="bg-white p-4 rounded-2xl shadow-sm border border-indigo-100 flex flex-col items-center justify-center space-y-2 hover:bg-indigo-50 transition-colors"
+        >
+          <div className="bg-emerald-100 p-2 rounded-xl text-emerald-600">
+            <HelpCircle size={20} />
+          </div>
+          <span className="text-xs font-bold text-stone-700">Mpotsa Q&A</span>
+        </button>
       </div>
 
       {/* Broadcast Form */}
