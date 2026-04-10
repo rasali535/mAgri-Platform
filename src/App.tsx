@@ -144,7 +144,7 @@ export default function App() {
             <button onClick={() => setIsSidebarOpen(true)} className="p-2 text-neutral-500 hover:bg-neutral-100 rounded-lg transition-colors">
               <Menu size={24} />
             </button>
-            <span className="ml-3 font-bold text-lg">Pameltex</span>
+            <span className="ml-3 font-bold text-lg">mAgri-Platform</span>
           </div>
 
           <div className="hidden md:flex flex-1 max-w-md relative group">

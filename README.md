@@ -49,7 +49,7 @@ The mARI Platform connects smallholder farmers to markets, finance, weather, and
 
 ## WhatsApp Conversational Menu (via Africa's Talking)
 
-Users can interact with the full Pameltex Tech platform directly through WhatsApp.
+Users can interact with the full mAgri-Platform directly through WhatsApp.
 
 ### Features accessible via WhatsApp
 
@@ -106,7 +106,7 @@ Africa's Talking (WhatsApp)
 
 Run `migrations/001_whatsapp.sql` in the Supabase SQL editor to create:
 - `whatsapp_sessions` — conversation state per phone number
-- `whatsapp_links` — maps WhatsApp phone to Pameltex Tech account email
+- `whatsapp_links` — maps WhatsApp phone to mAgri-Platform account email
 - `whatsapp_messages` — full audit log of inbound/outbound messages
 
 Then swap the import in `whatsapp/bot.js`:
@@ -159,7 +159,7 @@ node scripts/whatsappBotTest.js
 ## Project Structure
 
 ```
-Pameltex Tech-Platform/
+mAgri-Platform/
 ├── index.js               # Express server (entry point)
 ├── src/                   # React + Vite frontend
 │   └── components/        # UI components (Marketplace, Finance, etc.)

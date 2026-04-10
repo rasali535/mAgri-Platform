@@ -174,7 +174,7 @@ app.post('/api/chat', async (req, res) => {
             parts: [{ text: m.content }]
         }));
 
-        const systemInstruction = "You are mARI, a premium AI agronomist for the mARI Platform, developed by Pameltex Tech. Provide helpful agricultural advice.";
+        const systemInstruction = "You are mARI, a premium AI agronomist for the mAgri-Platform. Provide helpful agricultural advice.";
         const answer = await askGemini(contents, systemInstruction);
         res.json({ role: 'assistant', content: answer });
     } catch (error) {

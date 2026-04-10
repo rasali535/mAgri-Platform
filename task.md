@@ -1,4 +1,4 @@
-# mARI by Pameltex Tech — Task List
+# mARI by mAgri-Platform — Task List
 
 ## ✅ Completed (Previous Sprint)
 - [x] Abort Supabase Edge Functions migration.

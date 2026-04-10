@@ -2,7 +2,7 @@
  * whatsapp/bot.js
  * Core WhatsApp conversational FSM.
  *
- * persona: mARI, the expert AI Agronomist by mARI Platform, developed by Pameltex Tech.
+ * persona: mARI, the expert AI Agronomist for the mAgri-Platform.
  */
 
 import { getSession, updateSession, resetSession } from './supabaseStore.js';

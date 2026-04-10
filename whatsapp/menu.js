@@ -19,7 +19,7 @@
 
 export const MENU = {
   WELCOME: (linked) =>
-    `🌱 *Welcome to Pameltex Tech Platform!*\n` +
+    `🌱 *Welcome to mAgri-Platform!*\n` +
     (linked ? `` : `\n⚠️ Your WhatsApp number is not linked yet. Send *LINK* to connect your account, or continue as a guest.\n`) +
     `\nPlease choose an option:\n` +
     `1️⃣  Dashboard & Orders\n` +
@@ -35,14 +35,14 @@ export const MENU = {
     `\nReply with a number (1–10) or type *MENU* anytime to return.`,
 
   AWAIT_LINK:
-    `📧 Please send your Pameltex Tech account *email address* to link your WhatsApp number.\n` +
+    `📧 Please send your mAgri-Platform email address to link your WhatsApp number.\n` +
     `Example: _you@example.com_\n\nType *CANCEL* to go back.`,
 
   LINKED_OK: (email) =>
     `✅ Your WhatsApp is now linked to *${email}*.\n\nType *MENU* to return to the main menu.`,
 
   MARKETPLACE_LOADING:
-    `🛒 *Pameltex Tech Market*\nFetching live listings...\n\nReply with:\n• A *crop name* to search (e.g. _Maize_, _Cocoa_)\n• *ALL* to see all listings\n• *0* to go back`,
+    `🛒 *mAgri-Platform Market*\nFetching live listings...\n\nReply with:\n• A *crop name* to search (e.g. _Maize_, _Cocoa_)\n• *ALL* to see all listings\n• *0* to go back`,
 
   CREDIT_MENU:
     `💳 *Credit & Finance*\n\n` +
@@ -51,7 +51,7 @@ export const MENU = {
     `0️⃣  Back to main menu`,
 
   CREDIT_SCORE: (score) =>
-    `📊 Your current Pameltex Tech Credit Score is *${score}* (Excellent).\n\nKeep up responsible trading to maintain a high score!\n\nReply *0* to go back.`,
+    `📊 Your current mAgri-Platform Credit Score is *${score}* (Excellent).\n\nKeep up responsible trading to maintain a high score!\n\nReply *0* to go back.`,
 
   CREDIT_APPLY_PROMPT:
     `💰 How much credit are you applying for?\n` +
@@ -76,7 +76,7 @@ export const MENU = {
     `✅ Your question has been sent to our expert agronomists.\nExpect a reply within 24 hours.\n\nReply *MENU* to return.`,
 
   WEBAPP_LINK: (url) =>
-    `🌐 *Open Pameltex Tech Platform*\n\nAccess the full web app here:\n${url}\n\nAll features are available on the website including listings, finance, weather, and more.\n\nReply *MENU* to return.`,
+    `🌐 *Open mAgri-Platform*\n\nAccess the full web app here:\n${url}\n\nAll features are available on the website including listings, finance, weather, and more.\n\nReply *MENU* to return.`,
 
   ORDERS_PLACEHOLDER:
     `📦 *My Orders*\n\nYou have *no active orders* at the moment.\nVisit the web app to place or manage orders.\n\nReply *MENU* to return.`,

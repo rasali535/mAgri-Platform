@@ -95,7 +95,7 @@ app.all(['/', '/api/ussd', '/api/ussd/', '/ussd', '/ussd/'], async (req, res, ne
     let response = '';
 
     if (text === '' || L1 === '0' || L1 === 'MENU') {
-        response = `CON 🌱 *mAgri-Platform*\n`;
+        response = `CON 🌱 *mARI Tech Platform*\n`;
         response += `1. Dashboard\n`;
         response += `2. Marketplace\n`;
         response += `3. Crop Scan\n`;
@@ -134,11 +134,11 @@ app.all(['/', '/api/ussd', '/api/ussd/', '/ussd', '/ussd/'], async (req, res, ne
                 const country = getCountryFromPhone(phoneNumber);
                 const systemPrompt = `You are mARI, an AI agronomist for mAgri-Platform. Location: ${country}. Be extremely concise.`;
                 const answer = await askGemini([{ role: 'user', parts: [{ text: question }] }], systemPrompt);
-                
+
                 // Try to sync, but don't crash if it fails
-                updateSession(phoneNumber, { 
-                    history: [...(session.history || []), { role: 'user', parts: [{ text: question }] }, { role: 'model', parts: [{ text: answer }] }].slice(-10) 
-                }).catch(() => {});
+                updateSession(phoneNumber, {
+                    history: [...(session.history || []), { role: 'user', parts: [{ text: question }] }, { role: 'model', parts: [{ text: answer }] }].slice(-10)
+                }).catch(() => { });
 
                 sendSMS(phoneNumber, `mARI AI Advice: ${answer}\n\nType MENU to return.`);
                 const snippet = answer.substring(0, 80) + '...';
@@ -146,9 +146,9 @@ app.all(['/', '/api/ussd', '/api/ussd/', '/ussd', '/ussd/'], async (req, res, ne
             }
         } catch (error) {
             console.error('[USSD AI Error]', error.message || error);
-            const errorType = error.message?.includes('AI_API_ERR_404') ? 'Model Not Found' : 
-                               error.message?.includes('AI_API_ERR_401') ? 'API Key Invalid' : 
-                               error.message?.includes('TIMEOUT') ? 'Request Timeout' : 'Service Down';
+            const errorType = error.message?.includes('AI_API_ERR_404') ? 'Model Not Found' :
+                error.message?.includes('AI_API_ERR_401') ? 'API Key Invalid' :
+                    error.message?.includes('TIMEOUT') ? 'Request Timeout' : 'Service Down';
             response = `CON ⚠️ mARI is having trouble connecting to AI (${errorType}).\n1. Try Again\n0. Menu`;
         }
     } else if (L1 === '5') {
@@ -157,7 +157,7 @@ app.all(['/', '/api/ussd', '/api/ussd/', '/ussd', '/ussd/'], async (req, res, ne
         response = `END *Weather Forecast*\nSunny with light showers expected in the evening. Keep your seeds dry!`;
         sendSMS(phoneNumber, "mARI Weather: Region forecast is Sunny with light showers in the evening.");
     } else if (L1 === '7') {
-        response = `END *Farmer Community*\nJoin the Pameltex Tech community to discuss crop prices and tips. High activity in Lusaka/Kitwe.`;
+        response = `END *Farmer Community*\nJoin the mAgri-Platform community to discuss crop prices and tips. High activity in Lusaka/Kitwe.`;
     } else if (L1 === '8') {
         // Vuka Social Network
         if (depth === 1) {
@@ -252,7 +252,7 @@ app.post('/api/chat', async (req, res) => {
             role: m.role === 'assistant' ? 'model' : 'user',
             parts: [{ text: m.content || m.text }]
         }));
-        const systemInstruction = "You are mARI, an AI agronomist for mARI Platform by Pameltex Tech. Be helpful, concise, and professional.";
+        const systemInstruction = "You are mARI, an AI agronomist for the mAgri-Platform. Be helpful, concise, and professional.";
         const answer = await askGemini(contents, systemInstruction);
         res.json({ content: answer });
     } catch (e) {
