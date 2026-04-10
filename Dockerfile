@@ -42,12 +42,14 @@ RUN npm ci --omit=dev
 # Copy built application and required folders from builder
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/public ./public
-COPY --from=builder /app/src ./src
+COPY --from=builder /app/src/lib ./src/lib
 COPY --from=builder /app/whatsapp ./whatsapp
+COPY --from=builder /app/services ./services
 COPY --from=builder /app/migrations ./migrations
 COPY --from=builder /app/*.js ./
 COPY --from=builder /app/package.json ./
 COPY --from=builder /app/package-lock.json ./
+COPY --from=builder /app/metadata.json ./
 
 # Set environment
 ENV NODE_ENV=production
