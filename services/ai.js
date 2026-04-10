@@ -6,8 +6,8 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
  * Ensures consistent model usage, timeouts, and error handling across USSD and WhatsApp.
  */
 
-const DEFAULT_MODEL = "gemini-1.5-flash"; // Fixed model name 
-const DEFAULT_TIMEOUT = 12000; // 12 seconds
+const DEFAULT_MODEL = "gemini-2.5-flash"; // gemini-2.5-flash confirmed working (2.0 deprecated for new keys)
+const DEFAULT_TIMEOUT = 20000; // 20 seconds (2.5 may be slightly slower for thinking)
 
 /**
  * Ask Gemini API
