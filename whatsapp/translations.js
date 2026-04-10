@@ -18,10 +18,10 @@ export const TRANSLATIONS = {
       `6️⃣  Weather Forecast\n` +
       `7️⃣  Farmer Community\n` +
       `8️⃣  Vuka Social Network 👥\n` +
+      `9️⃣  Language Settings 🌍\n` +
       `🔟  Mpotsa Q&A Engine 📚\n\n` +
       `Reply with a number (1–10) or type *MENU* anytime to return.\n\n` +
-      `📅 _Today is ${new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}_\n` +
-      `🌍 Send *9* to Change Language.`,
+      `📅 _Today is ${new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}_`,
     change_lang: "🌍 *Select Language:*\n1. English\n2. Tswana\n3. French\n4. Nyanja\n5. Bemba\n\nType *CANCEL* to go back.",
     ussd_lang: "CON Select Language:\n1. English\n2. Tswana\n3. French\n4. Nyanja\n5. Bemba",
     ussd_menu: "CON Welcome to Pameltex Tech\n1. Dashboard\n2. Marketplace\n3. Crop Scan\n4. AI Advisor\n5. Finance\n6. Weather\n7. Community\n9. Language",

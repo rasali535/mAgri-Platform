@@ -43,6 +43,15 @@ export default function App() {
     }
   }, [activeTab, isAuth]);
 
+  // Handle cross-component navigation
+  useEffect(() => {
+    const handleNavChange = (e: any) => {
+      if (e.detail) setActiveTab(e.detail);
+    };
+    window.addEventListener('nav-change', handleNavChange);
+    return () => window.removeEventListener('nav-change', handleNavChange);
+  }, []);
+
   const handleLogin = (phone: string, role: typeof userRole, location: {lat: number, lng: number} | null) => {
     setUserPhone(phone);
     setUserRole(role);
@@ -213,6 +222,8 @@ export default function App() {
                 {activeTab === 'home' && (
                   userRole === 'agronomist' ? (
                     <AgronomistDashboard />
+                  ) : userRole === 'buyer' ? (
+                    <BuyerDashboard />
                   ) : (
                     <HomeTab 
                       userRole={userRole} 
