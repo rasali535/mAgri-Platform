@@ -3,7 +3,7 @@
  * mARI SMS Gateway Handler (PHP)
  * 
  * This handles incoming SMS from Africa's Talking.
- * Callback URL: https://navajowhite-monkey-252201.hostingersite.com/sms.php
+ * Callback URL: https://orangered-clam-470152.hostingersite.com/sms.php
  */
 
 header('Content-Type: text/plain');

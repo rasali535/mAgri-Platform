@@ -29,14 +29,14 @@ $ch = curl_init(PROD_URL);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_POST, true);
 curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params));
-curl_setopt($ch, CURLOPT_TIMEOUT, 8); // Stay within USSD limits
+curl_setopt($ch, CURLOPT_TIMEOUT, 15); // Increased to 15s for AI stability
 
 $response = curl_exec($ch);
 $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
 if (curl_errno($ch) || $httpCode >= 400) {
-    // Fallback if Railway is unreachable
-    echo "CON 🌱 *Pameltex Tech Platform*\n⚠️ System update in progress. Please try again in 5 minutes.\n\n0. Exit";
+    // Fallback if Railway is unreachable or times out
+    echo "CON 🌱 *mARI Tech Platform*\n⚠️ mARI is currently having trouble connecting to AI.\n\n1. Try Again\n0. Menu";
 } else {
     // Return the EXACT response from the new unified Node.js server
     echo $response;

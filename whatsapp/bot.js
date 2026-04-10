@@ -14,6 +14,7 @@ import { sendWhatsApp } from './africa.js';
 import { downloadContentFromMessage } from '@whiskeysockets/baileys';
 import { VukaService } from '../services/vuka.js';
 import { MpotsaService } from '../services/mpotsa.js';
+import { askGemini } from '../services/ai.js';
 
 
 const WEBAPP_URL = process.env.WEBAPP_URL || 'https://navajowhite-monkey-252201.hostingersite.com';
@@ -53,21 +54,14 @@ async function generateCropDiagnosis(phone, messageContent) {
       Respond in JSON: {"disease": "...", "confidence": 0-100, "recommendation": "..."}`;
 
     const model = "gemini-flash-latest";
-    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        contents: [{
-          parts: [
-            { text: systemPrompt },
-            { inline_data: { mime_type: mimeType, data: base64Data } }
-          ]
-        }]
-      })
-    });
+const data = await askGemini([{
+      parts: [
+        { text: systemPrompt },
+        { inline_data: { mime_type: mimeType, data: base64Data } }
+      ]
+    }]);
 
-    const data = await response.json();
-    const text = data.candidates?.[0]?.content?.parts?.[0]?.text || '{}';
+    const text = data || '{}';
     const jsonMatch = text.match(/\{[\s\S]*\}/);
     if (!jsonMatch) throw new Error('No JSON found');
     const parsed = JSON.parse(jsonMatch[0]);
@@ -117,37 +111,7 @@ export async function processImage(phone, messageContent) {
   return `📸 Got your image, but we aren't expecting one. Reply *3* for a Scan or *MENU*.`;
 }
 
-async function askGemini(phone, question, history = [], lang = 'en') {
-  const apiKey = process.env.VITE_GEMINI_API_KEY || process.env.GEMINI_API_KEY || "AIzaSyDNGTLhltItUI2s9CSyLJMNLpjRxWBaxbU";
-
-  try {
-    const country = getCountryFromPhone(phone);
-    const dateStr = new Date().toLocaleString();
-    const systemPrompt = `You are mARI, an AI agronomist for Pameltex Tech. 
-      Context: Date ${dateStr}, User Country: ${country}. 
-      Give localized advice for ${country} farmers. Reply in ${lang}.`;
-
-    const model = "gemini-flash-latest";
-    const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        contents: [
-          ...history.map(h => ({
-            role: h.role,
-            parts: h.parts ? h.parts : [{ text: h.text }]
-          })),
-          { role: 'user', parts: [{ text: `Instruction: ${systemPrompt}\nQuestion: ${question}` }] }
-        ]
-      })
-    });
-    const data = await resp.json();
-    return (data.candidates?.[0]?.content?.parts?.[0]?.text || 'No answer.').trim();
-  } catch (e) {
-    console.error('[WhatsApp AI Error]', e);
-    return '❌ AI error. Please try again later.';
-  }
-}
+// AI logic is now centralized in services/ai.js
 
 // ─── Main handler ─────────────────────────────────────────────────────────────
 
@@ -279,7 +243,19 @@ export async function processMessage(phone, rawText) {
       return L.welcome(session.linked);
     }
     sendWhatsApp(phone, "⏳ Consulting mARI Advisor...").catch(()=>{});
-    const answer = await askGemini(phone, text, session.history, session.language);
+    const country = getCountryFromPhone(phone);
+    const dateStr = new Date().toLocaleString();
+    const systemInstruction = `You are mARI, an AI agronomist for Pameltex Tech. Context: Date ${dateStr}, User Country: ${country}. Give localized advice for ${country} farmers. Reply in ${session.language}.`;
+    
+    const contents = [
+      ...(session.history || []).map(h => ({
+        role: h.role,
+        parts: h.parts ? h.parts : [{ text: h.text }]
+      })),
+      { role: 'user', parts: [{ text }] }
+    ];
+
+    const answer = await askGemini(contents, systemInstruction);
     const newHistory = [...(session.history || []), { role: 'user', parts: [{ text }] }, { role: 'model', parts: [{ text: answer }] }];
     await updateSession(phone, { history: newHistory.slice(-10) });
     return `🧑‍🌾 *mARI Agronomist:*\n\n${answer}\n\nType *MENU* to exit.`;
@@ -304,7 +280,19 @@ export async function processMessage(phone, rawText) {
       return L.welcome(session.linked);
     }
     sendWhatsApp(phone, "⏳ Thinking...").catch(()=>{});
-    const answer = await askGemini(phone, text, session.history, session.language);
+    const country = getCountryFromPhone(phone);
+    const dateStr = new Date().toLocaleString();
+    const systemInstruction = `You are mARI, an expert AI agronomist. User is following up on a crop diagnosis in ${country}. Current time: ${dateStr}. Reply in ${session.language}.`;
+
+    const contents = [
+      ...(session.history || []).map(h => ({
+        role: h.role,
+        parts: h.parts ? h.parts : [{ text: h.text }]
+      })),
+      { role: 'user', parts: [{ text }] }
+    ];
+
+    const answer = await askGemini(contents, systemInstruction);
     const newHistory = [...(session.history || []), { role: 'user', parts: [{ text }] }, { role: 'model', parts: [{ text: answer }] }];
     await updateSession(phone, { history: newHistory.slice(-10) });
     return `🔬 *Diagnostic Follow-up:*\n\n${answer}\n\nType *MENU* to exit.`;

@@ -8,6 +8,7 @@ import { sendSMS as atSendSMS } from './whatsapp/africa.js';
 import { getSession, updateSession } from './whatsapp/supabaseStore.js';
 import { VukaService } from './services/vuka.js';
 import { MpotsaService } from './services/mpotsa.js';
+import { askGemini } from './services/ai.js';
 
 
 // Global error handler for Railway diagnostics
@@ -132,8 +133,7 @@ app.all(['/', '/api/ussd', '/api/ussd/', '/ussd', '/ussd/'], async (req, res, ne
 
                 const country = getCountryFromPhone(phoneNumber);
                 const systemPrompt = `You are mARI, an AI agronomist for Pameltex Tech. Location: ${country}. Be extremely concise.`;
-                const data = await askGemini([{ role: 'user', parts: [{ text: question }] }], systemPrompt);
-                const answer = data.candidates?.[0]?.content?.parts?.[0]?.text || 'I am thinking... please check SMS shortly.';
+                const answer = await askGemini([{ role: 'user', parts: [{ text: question }] }], systemPrompt);
                 
                 // Try to sync, but don't crash if it fails
                 updateSession(phoneNumber, { 
@@ -148,8 +148,8 @@ app.all(['/', '/api/ussd', '/api/ussd/', '/ussd', '/ussd/'], async (req, res, ne
             console.error('[USSD AI Error]', error.message || error);
             const errorType = error.message?.includes('AI_API_ERR_404') ? 'Model Not Found' : 
                                error.message?.includes('AI_API_ERR_401') ? 'API Key Invalid' : 
-                               error.message?.includes('timeout') ? 'Connection Timeout' : 'Service Down';
-            response = `CON ⚠️ mARI AI is busy (${errorType}).\n1. Try Again\n0. Menu`;
+                               error.message?.includes('TIMEOUT') ? 'Request Timeout' : 'Service Down';
+            response = `CON ⚠️ mARI is having trouble connecting to AI (${errorType}).\n1. Try Again\n0. Menu`;
         }
     } else if (L1 === '5') {
         response = `CON *Finance & Credit*\n1. Check Score\n2. Apply for Loan`;
@@ -243,49 +243,7 @@ app.get('/api/info', (req, res) => {
     });
 });
 
-// AI Services Bridge - Gemini 2.5 Flash
-async function askGemini(contents, systemInstruction = "") {
-    let apiKey = process.env.VITE_GEMINI_API_KEY || process.env.GEMINI_API_KEY;
-    // Fallback key from .env (the one we verified as working)
-    if (!apiKey) apiKey = "AIzaSyDNGTLhltItUI2s9CSyLJMNLpjRxWBaxbU";
-
-    try {
-        const body = { contents };
-        if (systemInstruction) {
-            body.system_instruction = { parts: [{ text: systemInstruction }] };
-        }
-        
-        // Using 'gemini-flash-latest' to ensure we use the best available flash model in 2026
-        const model = "gemini-flash-latest";
-        const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
-        
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 12000); // 12s timeout for USSD stability
-
-        const resp = await fetch(url, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(body),
-            signal: controller.signal
-        });
-        
-        clearTimeout(timeoutId);
-        
-        if (!resp.ok) {
-            const errText = await resp.text();
-            console.error(`[Gemini API Error] Status: ${resp.status}`, errText);
-            throw new Error(`AI_API_ERR_${resp.status}`);
-        }
-        return await resp.json();
-    } catch (error) {
-        if (error.name === 'AbortError') {
-            console.error('[Gemini Error] Request timed out');
-            throw new Error('AI_API_TIMEOUT');
-        }
-        console.error('Gemini Error:', error);
-        throw error;
-    }
-}
+// AI logic is now centralized in services/ai.js
 
 app.post('/api/chat', async (req, res) => {
     try {
@@ -295,8 +253,8 @@ app.post('/api/chat', async (req, res) => {
             parts: [{ text: m.content || m.text }]
         }));
         const systemInstruction = "You are mARI, an AI agronomist for mARI Platform by Pameltex Tech. Be helpful, concise, and professional.";
-        const data = await askGemini(contents, systemInstruction);
-        res.json({ content: data.candidates?.[0]?.content?.parts?.[0]?.text || 'No response.' });
+        const answer = await askGemini(contents, systemInstruction);
+        res.json({ content: answer });
     } catch (e) {
         console.error('[mARI] Chat API Error:', e);
         res.status(500).json({ error: 'Chat service temporarily unavailable' });
@@ -318,7 +276,7 @@ app.all(['/api/diagnose', '/api/diagnose/'], async (req, res) => {
                 { inline_data: { mime_type: mimeType, data: imageBase64 } }
             ]
         }]);
-        let text = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+        let text = data || '';
         const jsonMatch = text.match(/\{[\s\S]*\}/);
         if (!jsonMatch) return res.json({ disease: 'Healthy Crop', confidence: 100, recommendation: 'No disease detected.' });
         res.json(JSON.parse(jsonMatch[0]));
