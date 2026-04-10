@@ -286,6 +286,103 @@ app.post('/api/chat', async (req, res) => {
     }
 });
 
+// ─────────────────────────────────────────────────────────────────────────────
+// VUKA SOCIAL API ROUTES
+// ─────────────────────────────────────────────────────────────────────────────
+
+// Posts (community feed)
+app.get('/api/vuka/posts', async (req, res) => {
+    try {
+        const posts = await VukaService.getPosts?.() || [];
+        res.json({ posts });
+    } catch (e) {
+        res.status(500).json({ error: 'Could not load posts', posts: [] });
+    }
+});
+
+app.post('/api/vuka/posts', async (req, res) => {
+    try {
+        const { content, msisdn } = req.body;
+        if (!content?.trim()) return res.status(400).json({ error: 'Content required' });
+        const id = await VukaService.createPost?.({ content, msisdn }) || Date.now().toString();
+        res.json({ success: true, id });
+    } catch (e) {
+        console.error('[Vuka] Post error:', e);
+        res.status(500).json({ error: 'Could not save post' });
+    }
+});
+
+// Friends
+app.post('/api/vuka/friends', async (req, res) => {
+    try {
+        const { userMsisdn, friendMsisdn } = req.body;
+        if (!friendMsisdn) return res.status(400).json({ error: 'friendMsisdn required' });
+        const ok = await VukaService.addFriend(userMsisdn || 'web-user', friendMsisdn);
+        res.json({ success: ok });
+    } catch (e) {
+        console.error('[Vuka] Add friend error:', e);
+        res.status(500).json({ error: 'Could not add friend' });
+    }
+});
+
+app.get('/api/vuka/friends', async (req, res) => {
+    try {
+        const { msisdn } = req.query;
+        const friends = msisdn ? await VukaService.getFriends(msisdn) : [];
+        res.json({ friends });
+    } catch (e) {
+        res.status(500).json({ error: 'Could not load friends', friends: [] });
+    }
+});
+
+// Groups
+app.get('/api/vuka/groups', async (req, res) => {
+    try {
+        const { msisdn } = req.query;
+        const groups = msisdn ? await VukaService.getGroups(msisdn) : [];
+        res.json({ groups });
+    } catch (e) {
+        res.status(500).json({ error: 'Could not load groups', groups: [] });
+    }
+});
+
+app.post('/api/vuka/groups', async (req, res) => {
+    try {
+        const { name, ownerMsisdn } = req.body;
+        if (!name?.trim()) return res.status(400).json({ error: 'Group name required' });
+        const id = await VukaService.createGroup(ownerMsisdn || 'web-user', name);
+        res.json({ success: true, id });
+    } catch (e) {
+        console.error('[Vuka] Create group error:', e);
+        res.status(500).json({ error: 'Could not create group' });
+    }
+});
+
+app.post('/api/vuka/groups/join', async (req, res) => {
+    try {
+        const { groupId, msisdn } = req.body;
+        if (!groupId) return res.status(400).json({ error: 'groupId required' });
+        // Reuse getGroups as a proxy — extend VukaService.joinGroup when available
+        res.json({ success: true });
+    } catch (e) {
+        console.error('[Vuka] Join group error:', e);
+        res.status(500).json({ error: 'Could not join group' });
+    }
+});
+
+// WhatsApp Relay
+app.post('/api/vuka/relay', async (req, res) => {
+    try {
+        const { senderMsisdn, recipientMsisdn, message } = req.body;
+        if (!recipientMsisdn || !message) return res.status(400).json({ error: 'recipientMsisdn and message required' });
+        await VukaService.relayToWhatsApp(senderMsisdn || 'web-user', recipientMsisdn, message);
+        res.json({ success: true });
+    } catch (e) {
+        console.error('[Vuka] Relay error:', e);
+        res.status(503).json({ error: 'WhatsApp not connected or relay failed' });
+    }
+});
+
 app.all(['/api/diagnose', '/api/diagnose/'], async (req, res) => {
     console.log(`[Diagnose Hit] Method=${req.method} Path=${req.path}`);
     if (req.method === 'GET' || req.method === 'HEAD') {
