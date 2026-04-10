@@ -14,7 +14,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 COPY package*.json ./
 
 # Install all dependencies including devDependencies for build
-RUN npm ci --include=dev
+RUN npm install --legacy-peer-deps
 
 # Copy source code
 COPY . .
@@ -37,7 +37,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 COPY package*.json ./
 
 # Install production dependencies only
-RUN npm ci --omit=dev
+RUN npm install --omit=dev --legacy-peer-deps
 
 # Copy built application and required folders from builder
 COPY --from=builder /app/dist ./dist
