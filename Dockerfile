@@ -1,4 +1,4 @@
-# Build stage: compile frontend assets with Vite
+# Build stage
 FROM node:20-slim AS builder
 
 WORKDIR /app
@@ -10,36 +10,32 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     g++ \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy package files
+# Copy package files and install all dependencies
 COPY package*.json ./
-
-# Install all dependencies including devDependencies for build
 RUN npm install --legacy-peer-deps
 
-# Copy source code
+# Copy source code and build frontend
 COPY . .
-
-# Build the Vite frontend (outputs to 'build' folder)
 RUN npm run build
 
-# Production stage: lightweight runtime
+# Prune devDependencies to keep node_modules lean for the production stage
+RUN npm prune --production
+
+# Production stage
 FROM node:20-slim
 
 WORKDIR /app
 
-# Install runtime dependencies for Baileys media handling
+# Install runtime dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ffmpeg \
     libwebp-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy package files
-COPY package*.json ./
+# Copy pruned node_modules from builder
+COPY --from=builder /app/node_modules ./node_modules
 
-# Install production dependencies only
-RUN npm install --omit=dev --legacy-peer-deps
-
-# Copy built application and required folders from builder
+# Copy built application and required folders
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/src/lib ./src/lib
@@ -48,11 +44,13 @@ COPY --from=builder /app/services ./services
 COPY --from=builder /app/migrations ./migrations
 COPY --from=builder /app/*.js ./
 COPY --from=builder /app/package.json ./
-COPY --from=builder /app/package-lock.json ./
 COPY --from=builder /app/metadata.json ./
 
 # Set environment
 ENV NODE_ENV=production
+# Add memory limits for the Node process to prevent OOM on standard plans
+ENV NODE_OPTIONS="--max-old-space-size=400"
+
 EXPOSE 8080
 
 # Run application

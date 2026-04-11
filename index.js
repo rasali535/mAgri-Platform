@@ -1,4 +1,5 @@
 import 'dotenv/config';
+console.log('[FATAL DIAGNOSTIC] Module index.js load started');
 import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
