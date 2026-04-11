@@ -3,7 +3,7 @@ import { Camera, AlertTriangle, CheckCircle, User, Loader2, X, RefreshCcw, Shiel
 import { motion, AnimatePresence } from 'motion/react';
 import { supabase } from '../supabaseClient';
 
-export default function DiagnoseTab() {
+export default function DiagnoseTab({ phone }: { phone?: string }) {
   const [image, setImage] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<{ disease: string; confidence: number; recommendation: string } | null>(null);
@@ -42,7 +42,6 @@ export default function DiagnoseTab() {
       if (!response.ok) throw new Error(`API error: ${response.status}`);
       const data = await response.json();
       
-      // The backend now returns the parsed JSON directly
       const resultData = {
         disease: data.disease || 'Unknown Diagnosis',
         confidence: data.confidence || 0,
@@ -53,6 +52,7 @@ export default function DiagnoseTab() {
 
       try {
         await supabase.from('resources').insert([{
+          phone: phone || 'anonymous',
           title: resultData.disease,
           type: 'Diagnosis',
           description: resultData.recommendation,

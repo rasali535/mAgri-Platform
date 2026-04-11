@@ -240,7 +240,7 @@ export default function App() {
                 {activeTab === 'market' && <MarketplaceTab userRole={userRole} />}
                 {activeTab === 'vuka' && <VukaTab />}
                 {activeTab === 'mpotsa' && <MpotsaTab />}
-                {activeTab === 'diagnose' && <DiagnoseTab />}
+                {activeTab === 'diagnose' && <DiagnoseTab phone={userPhone} />}
                 {activeTab === 'chat' && <ChatTab />}
                 {activeTab === 'finance' && <FinanceTab onNavigate={setActiveTab} />}
                 {activeTab === 'weather' && <WeatherTab />}

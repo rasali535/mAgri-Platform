@@ -138,10 +138,11 @@ export const USSDService = {
         
         try {
             const supabase = getSupabaseClient();
-            // Parity Fix: Select count where type IS 'Diagnosis' (matches DiagnoseTab.tsx)
+            // Parity Fix: Filter by the CURRENT user's phone number
             const { count } = await supabase
                 .from('resources')
                 .select('*', { count: 'exact', head: true })
+                .eq('phone', cleanMsisdn)
                 .eq('type', 'Diagnosis'); 
             
             response += `Total Scans: ${count || 0}\n`;

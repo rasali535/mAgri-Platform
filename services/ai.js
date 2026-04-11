@@ -25,6 +25,7 @@ export async function askGemini(contents, systemInstruction = "") {
 
     const genAI = new GoogleGenerativeAI(apiKey);
     const modelsToTry = [
+        'gemini-1.5-flash-latest', // Most robust alias
         'gemini-1.5-flash',
         'gemini-1.5-flash-8b', 
         'gemini-1.5-pro',

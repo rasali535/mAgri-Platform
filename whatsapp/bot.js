@@ -66,6 +66,21 @@ const data = await askGemini([{
     const jsonMatch = text.match(/\{[\s\S]*\}/);
     if (!jsonMatch) throw new Error('No JSON found');
     const parsed = JSON.parse(jsonMatch[0]);
+
+    // Parity Fix: Store WhatsApp scan in the centralized resources table
+    try {
+        const { supabase } = await import('../supabaseClient.js');
+        const cleanPhone = phone.replace(/\+/g, '').trim();
+        await supabase.from('resources').insert([{
+            phone: cleanPhone,
+            title: parsed.disease || 'WhatsApp Diagnosis',
+            type: 'Diagnosis',
+            description: parsed.recommendation || 'No recommendation.',
+            image: `whatsapp_media_${Date.now()}` // Reference for tracing
+        }]);
+    } catch (storeErr) {
+        console.error('[WhatsApp Bot] Failed to sync scan to resources:', storeErr.message);
+    }
     
     return `🔬 *Crop Diagnostic Complete*\n\n` +
            `🌍 *Region:* ${country}\n` +
@@ -117,43 +132,44 @@ export async function processImage(phone, messageContent) {
 // ─── Main handler ─────────────────────────────────────────────────────────────
 
 export async function processMessage(phone, rawText) {
+  const cleanPhone = (phone || '').toString().replace(/\+/g, '').trim();
   const text = (rawText || '').trim();
   const upper = text.toUpperCase();
-  const session = await getSession(phone);
+  const session = await getSession(cleanPhone);
   const L = getLang(session.language);
 
   if (upper === 'MENU' || upper === 'HI' || upper === 'HELLO' || upper === 'START') {
-    await updateSession(phone, { state: 'WELCOME' });
+    await updateSession(cleanPhone, { state: 'WELCOME' });
     return L.welcome(session.linked);
   }
 
   // --- Vuka WhatsApp Mirror ---
-  const vukaUser = await VukaService.getUser(phone);
+  const vukaUser = await VukaService.getUser(cleanPhone);
   if (vukaUser) {
     if (upper.startsWith('BROADCAST')) {
       const msg = text.substring(9).trim();
-      const friends = await VukaService.getFriends(phone);
+      const friends = await VukaService.getFriends(cleanPhone);
       for (const friend of friends) {
         // In a real app we'd send to their WhatsApp if they have it, or SMS
         // For now, let's relay to WhatsApp to simulate social action
-        VukaService.relayToWhatsApp(phone, friend.friend_msisdn, `[BROADCAST] ${msg}`).catch(()=>{});
+        VukaService.relayToWhatsApp(cleanPhone, friend.friend_msisdn, `[BROADCAST] ${msg}`).catch(()=>{});
       }
       return `📢 Broadcast sent to ${friends.length} friends!`;
     }
     if (upper === 'FRIENDS') {
-      const friends = await VukaService.getFriends(phone);
+      const friends = await VukaService.getFriends(cleanPhone);
       if (friends.length === 0) return `👥 You have no Vuka friends yet. Add them on USSD!`;
       return `👥 *Your Vuka Friends:*\n` + friends.map(f => `• ${f.friend_msisdn}`).join('\n');
     }
   }
 
   if (upper === 'LINK') {
-    await updateSession(phone, { state: 'AWAIT_LINK' });
+    await updateSession(cleanPhone, { state: 'AWAIT_LINK' });
     return L.await_link;
   }
 
   if (upper === 'CANCEL') {
-    await updateSession(phone, { state: 'WELCOME' });
+    await updateSession(cleanPhone, { state: 'WELCOME' });
     return L.welcome(session.linked);
   }
 
@@ -163,19 +179,19 @@ export async function processMessage(phone, rawText) {
         return `📦 *Dashboard*\nStatus: ${status}\nActive Orders: 0\nYour Listings: 0\n\nReply *MENU* to return.`;
     }
     if (text === '2') {
-      await updateSession(phone, { state: 'MARKETPLACE' });
+      await updateSession(cleanPhone, { state: 'MARKETPLACE' });
       return MENU.MARKETPLACE_LOADING;
     }
     if (text === '3') {
-      await updateSession(phone, { state: 'DIAGNOSE_PENDING' });
+      await updateSession(cleanPhone, { state: 'DIAGNOSE_PENDING' });
       return L.diagnose_prompt;
     }
     if (text === '4') {
-      await updateSession(phone, { state: 'AGRONOMIST' });
+      await updateSession(cleanPhone, { state: 'AGRONOMIST' });
       return L.agronomist_prompt;
     }
     if (text === '5') {
-      await updateSession(phone, { state: 'CREDIT' });
+      await updateSession(cleanPhone, { state: 'CREDIT' });
       return MENU.CREDIT_MENU;
     }
     if (text === '6') {
@@ -185,15 +201,15 @@ export async function processMessage(phone, rawText) {
       return `💬 *Community*\nJoin our 5,000+ member farmer forum here: ${WEBAPP_URL}/community\n\nReply *MENU* to return.`;
     }
     if (text === '8') {
-      await updateSession(phone, { state: 'VUKA' });
+      await updateSession(cleanPhone, { state: 'VUKA' });
       return MENU.VUKA_MENU;
     }
     if (text === '9') {
-      await updateSession(phone, { state: 'SET_LANGUAGE' });
+      await updateSession(cleanPhone, { state: 'SET_LANGUAGE' });
       return L.change_lang;
     }
     if (text === '10') {
-      await updateSession(phone, { state: 'MPOTSA' });
+      await updateSession(cleanPhone, { state: 'MPOTSA' });
       return MENU.MPOTSA_PROMPT;
     }
     return L.unknown;
@@ -201,7 +217,7 @@ export async function processMessage(phone, rawText) {
 
   if (session.state === 'AWAIT_LINK') {
     if (isValidEmail(text)) {
-      await updateSession(phone, { state: 'WELCOME', linked: true, email: text });
+      await updateSession(cleanPhone, { state: 'WELCOME', linked: true, email: text });
       return MENU.LINKED_OK(text);
     }
     return `❌ Invalid email. Type *CANCEL* to go back.`;
@@ -209,16 +225,16 @@ export async function processMessage(phone, rawText) {
 
   if (session.state === 'VUKA') {
     if (text === '0' || upper === 'MENU') {
-      await updateSession(phone, { state: 'WELCOME' });
+      await updateSession(cleanPhone, { state: 'WELCOME' });
       return L.welcome(session.linked);
     }
     if (text === '1') {
-      const u = await VukaService.getUser(phone);
+      const u = await VukaService.getUser(cleanPhone);
       if (!u) return `❌ Profile not found. Create one on USSD first!`;
       return `👤 *My Profile*\nName: ${u.display_name || 'N/A'}\nBio: ${u.bio || 'N/A'}\n\nType *0* to go back.`;
     }
     if (text === '2') {
-      const friends = await VukaService.getFriends(phone);
+      const friends = await VukaService.getFriends(cleanPhone);
       return `👥 *Find Friends*\nYou have ${friends.length} friends.\nUse USSD *144# to search for more.\n\nType *0* to go back.`;
     }
     if (text === '3') {
@@ -229,11 +245,11 @@ export async function processMessage(phone, rawText) {
 
   if (session.state === 'MPOTSA') {
     if (upper === 'CANCEL' || upper === 'MENU' || text === '0') {
-      await updateSession(phone, { state: 'WELCOME' });
+      await updateSession(cleanPhone, { state: 'WELCOME' });
       return L.welcome(session.linked);
     }
     // Search Q&A
-    const result = await MpotsaService.search(text, phone);
+    const result = await MpotsaService.search(text, cleanPhone);
     if (result.type === 'NONE') {
       return `🔍 ${result.text}\n\nType another keyword or *0* to exit.`;
     }
@@ -243,11 +259,11 @@ export async function processMessage(phone, rawText) {
 
   if (session.state === 'AGRONOMIST') {
     if (upper === '0' || upper === 'MENU') {
-      await updateSession(phone, { state: 'WELCOME' });
+      await updateSession(cleanPhone, { state: 'WELCOME' });
       return L.welcome(session.linked);
     }
-    sendWhatsApp(phone, "⏳ Consulting mARI Advisor...").catch(()=>{});
-    const country = getCountryFromPhone(phone);
+    sendWhatsApp(cleanPhone, "⏳ Consulting mARI Advisor...").catch(()=>{});
+    const country = getCountryFromPhone(cleanPhone);
     const dateStr = new Date().toLocaleString();
     const systemInstruction = `You are mARI, an AI agronomist for mARI Platform by Pameltex Tech. Context: Date ${dateStr}, User Country: ${country}. Give localized advice for ${country} farmers. Reply in ${session.language}.`;
     
@@ -261,7 +277,7 @@ export async function processMessage(phone, rawText) {
 
     const answer = await askGemini(contents, systemInstruction);
     const newHistory = [...(session.history || []), { role: 'user', parts: [{ text }] }, { role: 'model', parts: [{ text: answer }] }];
-    await updateSession(phone, { history: newHistory.slice(-10) });
+    await updateSession(cleanPhone, { history: newHistory.slice(-10) });
     return `🧑‍🌾 *mARI Agronomist:*\n\n${answer}\n\nType *MENU* to exit.`;
   }
 
@@ -274,17 +290,17 @@ export async function processMessage(phone, rawText) {
     else if (text === '5') newLang = 'be';
     else return L.change_lang;
 
-    await updateSession(phone, { state: 'WELCOME', language: newLang });
+    await updateSession(cleanPhone, { state: 'WELCOME', language: newLang });
     return `✅ Language updated!\n\n` + getLang(newLang).welcome(session.linked);
   }
 
   if (session.state === 'DIAGNOSE_FOLLOWUP') {
     if (upper === '0' || upper === 'MENU') {
-      await updateSession(phone, { state: 'WELCOME', history: [] });
+      await updateSession(cleanPhone, { state: 'WELCOME', history: [] });
       return L.welcome(session.linked);
     }
-    sendWhatsApp(phone, "⏳ Thinking...").catch(()=>{});
-    const country = getCountryFromPhone(phone);
+    sendWhatsApp(cleanPhone, "⏳ Thinking...").catch(()=>{});
+    const country = getCountryFromPhone(cleanPhone);
     const dateStr = new Date().toLocaleString();
     const systemInstruction = `You are mARI, an expert AI agronomist. User is following up on a crop diagnosis in ${country}. Current time: ${dateStr}. Reply in ${session.language}.`;
 
@@ -298,13 +314,13 @@ export async function processMessage(phone, rawText) {
 
     const answer = await askGemini(contents, systemInstruction);
     const newHistory = [...(session.history || []), { role: 'user', parts: [{ text }] }, { role: 'model', parts: [{ text: answer }] }];
-    await updateSession(phone, { history: newHistory.slice(-10) });
+    await updateSession(cleanPhone, { history: newHistory.slice(-10) });
     return `🔬 *Diagnostic Follow-up:*\n\n${answer}\n\nType *MENU* to exit.`;
   }
 
   if (session.state === 'MARKETPLACE') {
     if (text === '0' || upper === 'MENU') {
-      await updateSession(phone, { state: 'WELCOME' });
+      await updateSession(cleanPhone, { state: 'WELCOME' });
       return L.welcome(session.linked);
     }
     
@@ -318,12 +334,12 @@ export async function processMessage(phone, rawText) {
 
   if (session.state === 'CREDIT') {
     if (text === '0' || upper === 'MENU') {
-      await updateSession(phone, { state: 'WELCOME' });
+      await updateSession(cleanPhone, { state: 'WELCOME' });
       return L.welcome(session.linked);
     }
     if (text === '1') return `📊 *Your Credit Score*\nScore: 780 (A+)\nStatus: Eligible for 5,000 credit limit.\n\nType *0* to go back.`;
     if (text === '2') {
-      await updateSession(phone, { state: 'CREDIT_APPLY' });
+      await updateSession(cleanPhone, { state: 'CREDIT_APPLY' });
       return MENU.CREDIT_APPLY_PROMPT;
     }
     return `❓ Invalid option. Type *0* to go back.`;
