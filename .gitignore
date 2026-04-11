@@ -1,4 +1,5 @@
 node_modules/
+dist/
 build/
 coverage/
 .DS_Store
@@ -6,3 +7,6 @@ coverage/
 .env*
 !.env.example
 *.db
+temp/
+scratch/
+.agentic/
