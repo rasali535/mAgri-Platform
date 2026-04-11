@@ -66,11 +66,20 @@ export async function askGemini(contents, systemInstruction = "", options = {}) 
             
             console.warn(`[AI Service] ${modelName} failed (Status: ${status}):`, error.message);
             
-            if (status === 401 || status === 403) {
-                console.error('[AI Service] Authentication failed. Check API Key.');
-                const authErr = new Error('AI_AUTH_FAILED');
-                if (gracefulFallback) return JSON.stringify({ disease: 'Auth Failed', confidence: 0, recommendation: 'Check your Gemini API key.' });
-                throw authErr;
+            const isLeaked = error.message?.toLowerCase().includes('leaked');
+            const isExpired = error.message?.toLowerCase().includes('expired');
+            
+            if (status === 401 || status === 403 || isLeaked || isExpired) {
+                const reason = isLeaked ? 'API_KEY_LEAKED' : (isExpired ? 'API_KEY_EXPIRED' : 'AI_AUTH_FAILED');
+                console.error(`[AI Service] Authentication failed (${reason}). PLEASE UPDATE YOUR API KEY IN .env.`);
+                
+                if (gracefulFallback) return JSON.stringify({ 
+                    disease: 'Authentication Error', 
+                    confidence: 0, 
+                    recommendation: `AI Service key is ${isLeaked ? 'leaked' : (isExpired ? 'expired' : 'invalid')}. Please update it in the server configuration.` 
+                });
+                
+                throw new Error(reason);
             }
             // For 429 (quota) and other errors, continue to next model
         }
