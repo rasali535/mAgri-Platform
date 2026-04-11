@@ -5,15 +5,17 @@ import { PaymentService } from './payment.js';
 import { getLang } from '../whatsapp/translations.js';
 import { askGemini } from './ai.js';
 import { sendSMS } from '../whatsapp/africa.js';
+import { getSupabaseClient } from '../src/lib/supabaseClient.js';
 
 export const USSDService = {
     handleRequest: async (msisdn, text) => {
-        const parts = (text || '').toString().trim().split('*');
+        // Normalize text (handle cumulative parts from AT)
+        const parts = (text || '').toString().trim().split('*').filter(p => p !== '');
         const depth = parts.length;
         const L1 = parts[0];
         const stateData = USSDService.getState(msisdn);
         
-        console.log(`[USSD] ${msisdn} | Text: "${text}" | State: ${stateData.state}`);
+        console.log(`[USSD] ${msisdn} | Raw: "${text}" | Parts: ${JSON.stringify(parts)} | L1: ${L1} | State: ${stateData.state}`);
         
         // Reset state if text is empty or starts with 0 (Menu)
         if (text === '' || L1 === '0' || L1 === 'MENU') {
@@ -21,7 +23,7 @@ export const USSDService = {
             return USSDService.showMainMenu(msisdn);
         }
 
-        // --- State Handle ---
+        // --- State Handle (Highest Priority) ---
         if (stateData.state === 'VUKA_RELAY_RECIPIENT') {
             const recipient = parts[parts.length - 1];
             USSDService.setState(msisdn, 'VUKA_RELAY_MESSAGE', { recipient });
@@ -50,12 +52,18 @@ export const USSDService = {
                 USSDService.setState(msisdn, 'IDLE');
                 return USSDService.showMainMenu(msisdn);
             }
-            const aiResponse = await askGemini([{ role: 'user', parts: [{ text: query }] }], "You are mARI, a concise AI agronomist for USSD. Max 140 chars.");
-            if (aiResponse.length > 160) {
-                await sendSMS(msisdn, `mARI Advisor: ${aiResponse}`);
-                return `CON mARI: Response sent via SMS to save space.\n\nAsk another question or 0 for Menu:`;
+            try {
+                // Ensure we use the correct format for the new ai.js (array of parts)
+                const aiResponse = await askGemini([{ parts: [{ text: query }] }], "You are mARI, a concise AI agronomist for USSD. Max 140 chars.");
+                if (aiResponse.length > 160) {
+                    await sendSMS(msisdn, `mARI Advisor: ${aiResponse}`);
+                    return `CON mARI: Response sent via SMS to save space.\n\nAsk another question or 0 for Menu:`;
+                }
+                return `CON mARI: ${aiResponse}\n\nAsk another or 0 for Menu:`;
+            } catch (e) {
+                console.error('[USSD AI Error]', e);
+                return `CON mARI: Sorry, AI service is busy. 0 for Menu.`;
             }
-            return `CON mARI: ${aiResponse}\n\nAsk another or 0 for Menu:`;
         }
 
         if (stateData.state === 'MPOTSA_WAITING') {
@@ -68,10 +76,14 @@ export const USSDService = {
             return `CON ${result.text}\n\nAsk another or 0 for Menu:`;
         }
 
-        // --- Traditional Menu Logic ---
+        // --- Traditional Menu Logic (Lower Priority) ---
+        if (L1 === '1') { // Dashboard
+            return await USSDService.handleDashboard(msisdn);
+        }
+
         if (L1 === '4') { // AI Advisor
             USSDService.setState(msisdn, 'USSD_AI_ADVISOR');
-            return `CON *Ask mARI AI*\nType your farming question (concise):`;
+            return `CON *mARI AI Advisor*\nAsk any farming question:`;
         }
 
         if (L1 === '8') { // Vuka
@@ -94,7 +106,7 @@ export const USSDService = {
 
         if (L1 === '10') { // Mpotsa
             USSDService.setState(msisdn, 'MPOTSA_WAITING');
-            return `CON *Mpotsa Q&A*\nAsk anything (Health, Law, Jobs, Education):`;
+            return `CON *Mpotsa Q&A*\nAsk about Health, Law, or Jobs:`;
         }
 
         if (L1 === '11') { // Payments
@@ -110,6 +122,30 @@ export const USSDService = {
         }
 
         return `CON Invalid option or feature coming soon.\n0. Menu`;
+    },
+
+    handleDashboard: async (msisdn) => {
+        const user = db.prepare('SELECT name FROM users WHERE msisdn = ?').get(msisdn);
+        const sub = PaymentService.checkSubscription(msisdn);
+        
+        let response = `CON *mARI Dashboard*\n`;
+        response += `User: ${user ? user.name : 'Guest'}\n`;
+        response += `Status: ${sub.active ? '✅ ACTIVE (' + sub.planType + ')' : '❌ INACTIVE'}\n`;
+        
+        try {
+            const supabase = getSupabaseClient();
+            const { count } = await supabase
+                .from('resources')
+                .select('*', { count: 'exact', head: true })
+                .eq('status', 'Diagnosis'); // Assuming 'Diagnosis' status means a crop scan
+            
+            response += `Total Scans: ${count || 0}\n`;
+        } catch (e) {
+            console.error('[USSD Dashboard] Supabase error:', e.message);
+        }
+
+        response += `\n0. Back to Menu`;
+        return response;
     },
 
     showMainMenu: (msisdn) => {
