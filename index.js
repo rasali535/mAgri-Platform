@@ -1,5 +1,4 @@
 import 'dotenv/config';
-console.log('[FATAL DIAGNOSTIC] Module index.js load started');
 import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -35,6 +34,7 @@ const app = express();
 
 // Initialize Baileys once
 let baileysStarted = false;
+let initializationErrors = [];
 
 // Middleware to parse JSON bodies and URL-encoded data
 app.use(express.json({ limit: '50mb' }));
@@ -63,7 +63,8 @@ app.get(['/', '/health', '/api/health', '/healthcheck', '/_health'], (req, res) 
         status: 'UP', 
         service: 'mARI Platform', 
         timestamp: new Date().toISOString(),
-        uptime: process.uptime()
+        uptime: process.uptime(),
+        errors: initializationErrors.length > 0 ? initializationErrors : undefined
     });
 });
 
@@ -133,7 +134,8 @@ app.get('/api/info', (req, res) => {
         cwd: process.cwd(),
         dir: __dirname,
         time: new Date().toISOString(),
-        baileys: baileysStarted ? 'online' : 'offline'
+        baileys: baileysStarted ? 'online' : 'offline',
+        initErrors: initializationErrors
     });
 });
 
@@ -304,7 +306,7 @@ app.get('*', (req, res) => {
     });
 });
 
-app.listen(PORT, '0.0.0.0', () => {
+const server = app.listen(PORT, '0.0.0.0', () => {
     console.log(`\n---------------------------------------------------`);
     console.log(`🚀 Master Server Live!`);
     console.log(`📡 Binding: 0.0.0.0:${PORT}`);
@@ -316,13 +318,29 @@ app.listen(PORT, '0.0.0.0', () => {
         if (!baileysStarted) {
             baileysStarted = true;
             console.log('[mARI] Initializing Baileys WhatsApp Engine...');
-            initBaileys().catch(e => console.error('[mARI] WhatsApp initialization failed:', e));
+            initBaileys().catch(e => {
+                const msg = `[mARI] WhatsApp initialization failed: ${e?.message || e}`;
+                console.error(msg);
+                initializationErrors.push(msg);
+            });
         }
         
         console.log('[mARI] Initializing Subscription Cron Jobs...');
-        initCron();
+        initCron().catch(e => {
+            const msg = `[mARI] Cron initialization failed: ${e?.message || e}`;
+            console.error(msg);
+            initializationErrors.push(msg);
+        });
     }, 100);
 });
 
+// Graceful shutdown
+process.on('SIGTERM', () => {
+    console.log('[SHUTDOWN] SIGTERM received');
+    server.close(() => {
+        console.log('[SHUTDOWN] Server closed');
+        process.exit(0);
+    });
+});
 
 export default app;
