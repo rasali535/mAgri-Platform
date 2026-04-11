@@ -15,6 +15,7 @@ import { downloadContentFromMessage } from '@whiskeysockets/baileys';
 import { VukaService } from '../services/vuka.js';
 import { MpotsaService } from '../services/mpotsa.js';
 import { askGemini } from '../services/ai.js';
+import { getRecentListings } from './listingsStore.js';
 
 
 const WEBAPP_URL = process.env.WEBAPP_URL || 'https://navajowhite-monkey-252201.hostingersite.com';
@@ -157,7 +158,10 @@ export async function processMessage(phone, rawText) {
   }
 
   if (session.state === 'WELCOME') {
-    if (text === '1') return `📦 *Dashboard*\nYou have 0 active orders and 0 listings.\n\nReply *MENU* to return.`;
+    if (text === '1') {
+        const status = session.linked ? `Linked (${session.email})` : 'Guest Mode';
+        return `📦 *Dashboard*\nStatus: ${status}\nActive Orders: 0\nYour Listings: 0\n\nReply *MENU* to return.`;
+    }
     if (text === '2') {
       await updateSession(phone, { state: 'MARKETPLACE' });
       return MENU.MARKETPLACE_LOADING;
@@ -234,7 +238,7 @@ export async function processMessage(phone, rawText) {
       return `🔍 ${result.text}\n\nType another keyword or *0* to exit.`;
     }
     
-    return `📚 *Answer:*\n${result.text}\n\nType another keyword or *0* to exit.`;
+    return `📚 *Answer (Expert):*\n${result.fullText}\n\nType another keyword or *0* to exit.`;
   }
 
   if (session.state === 'AGRONOMIST') {
@@ -303,7 +307,13 @@ export async function processMessage(phone, rawText) {
       await updateSession(phone, { state: 'WELCOME' });
       return L.welcome(session.linked);
     }
-    return `🛒 *Marketplace Search*\nShowing results for "${text}":\n\nNo listings found in your area yet.\n\nType *0* to go back.`;
+    
+    const listings = await getRecentListings(5);
+    const resultsStr = listings.length > 0 
+        ? listings.map(l => `🌾 *${l.crop_name || 'Crop'}*\nPrice: Negotiable\n seller: ${l.phone}\n [View](${WEBAPP_URL}/marketplace?id=${l.id})`).join('\n\n')
+        : "No active listings found for your search.";
+
+    return `🛒 *Marketplace Search*\nResults for "${text}":\n\n${resultsStr}\n\nType *0* to go back.`;
   }
 
   if (session.state === 'CREDIT') {

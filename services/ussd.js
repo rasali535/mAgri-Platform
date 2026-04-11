@@ -1,12 +1,10 @@
-/**
- * services/ussd.js
- * Modular USSD handler with State Machine logic.
- */
 import db from './database.js';
 import { VukaService } from './vuka.js';
 import { MpotsaService } from './mpotsa.js';
 import { PaymentService } from './payment.js';
 import { getLang } from '../whatsapp/translations.js';
+import { askGemini } from './ai.js';
+import { sendSMS } from '../whatsapp/africa.js';
 
 export const USSDService = {
     handleRequest: async (msisdn, text) => {
@@ -17,9 +15,6 @@ export const USSDService = {
         
         console.log(`[USSD] ${msisdn} | Text: "${text}" | State: ${stateData.state}`);
         
-        let response = '';
-
-
         // Reset state if text is empty or starts with 0 (Menu)
         if (text === '' || L1 === '0' || L1 === 'MENU') {
             USSDService.setState(msisdn, 'IDLE');
@@ -49,7 +44,36 @@ export const USSDService = {
             return `END FAILED: ${res.error}`;
         }
 
+        if (stateData.state === 'USSD_AI_ADVISOR') {
+            const query = parts[parts.length - 1];
+            if (query === '0') {
+                USSDService.setState(msisdn, 'IDLE');
+                return USSDService.showMainMenu(msisdn);
+            }
+            const aiResponse = await askGemini([{ role: 'user', parts: [{ text: query }] }], "You are mARI, a concise AI agronomist for USSD. Max 140 chars.");
+            if (aiResponse.length > 160) {
+                await sendSMS(msisdn, `mARI Advisor: ${aiResponse}`);
+                return `CON mARI: Response sent via SMS to save space.\n\nAsk another question or 0 for Menu:`;
+            }
+            return `CON mARI: ${aiResponse}\n\nAsk another or 0 for Menu:`;
+        }
+
+        if (stateData.state === 'MPOTSA_WAITING') {
+            const query = parts[parts.length - 1];
+            if (query === '0') {
+                USSDService.setState(msisdn, 'IDLE');
+                return USSDService.showMainMenu(msisdn);
+            }
+            const result = await MpotsaService.search(query, msisdn);
+            return `CON ${result.text}\n\nAsk another or 0 for Menu:`;
+        }
+
         // --- Traditional Menu Logic ---
+        if (L1 === '4') { // AI Advisor
+            USSDService.setState(msisdn, 'USSD_AI_ADVISOR');
+            return `CON *Ask mARI AI*\nType your farming question (concise):`;
+        }
+
         if (L1 === '8') { // Vuka
             if (depth === 1) {
                 return `CON *Vuka Social*\n1. My Profile\n2. Find Friends\n3. Group Chats\n4. WhatsApp Relay`;
@@ -57,7 +81,6 @@ export const USSDService = {
                 USSDService.setState(msisdn, 'VUKA_RELAY_RECIPIENT');
                 return `CON *WhatsApp Relay*\nEnter Recipient MSISDN (e.g. 267...):`;
             }
-            // Other Vuka logic (simplified for briefness)
             if (parts[1] === '1') {
                 const user = await VukaService.getUser(msisdn);
                 if (!user) return `CON *My Profile*\nYou are not registered. Reply with your Name:`;
@@ -70,13 +93,11 @@ export const USSDService = {
         }
 
         if (L1 === '10') { // Mpotsa
-            if (depth === 1) return `CON *Mpotsa Q&A*\nAsk anything (Health, Law, Jobs, Education):`;
-            const query = parts.slice(1).join(' ');
-            const result = await MpotsaService.search(query, msisdn);
-            return `END ${result.text}`;
+            USSDService.setState(msisdn, 'MPOTSA_WAITING');
+            return `CON *Mpotsa Q&A*\nAsk anything (Health, Law, Jobs, Education):`;
         }
 
-        if (L1 === '11') { // Payments (New Option)
+        if (L1 === '11') { // Payments
             if (depth === 1) return `CON *Subscriptions*\n1. Monthly (20 BWP)\n2. Yearly (200 BWP)`;
             const planType = parts[ depth-1 ] === '1' ? 'MONTHLY' : 'YEARLY';
             const amount = planType === 'MONTHLY' ? 20 : 200;
@@ -93,8 +114,9 @@ export const USSDService = {
 
     showMainMenu: (msisdn) => {
         const dateStr = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-        let response = `CON 🌱 *mARI Platform (rasali)*\n`;
+        let response = `CON 🌱 *mARI mAgri Platform*\n`;
         response += `1. Dashboard\n`;
+        response += `4. Ask mARI (AI Advisor)\n`;
         response += `8. Vuka Social\n`;
         response += `10. Mpotsa Q&A\n`;
         response += `11. Subscription\n`;
@@ -105,7 +127,11 @@ export const USSDService = {
     getState: (msisdn) => {
         const row = db.prepare('SELECT state, data FROM ussd_states WHERE msisdn = ?').get(msisdn);
         if (!row) return { state: 'IDLE', data: {} };
-        return { state: row.state, data: JSON.parse(row.data || '{}') };
+        try {
+            return { state: row.state, data: JSON.parse(row.data || '{}') };
+        } catch (e) {
+            return { state: 'IDLE', data: {} };
+        }
     },
 
     setState: (msisdn, state, data = {}) => {
