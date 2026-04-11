@@ -20,3 +20,4 @@ CVS
 .hg
 .lock-wscript
 config.gypi
+*.db
