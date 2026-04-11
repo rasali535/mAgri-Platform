@@ -5,11 +5,7 @@
 import cron from 'node-cron';
 import db from './database.js';
 import { sendSMS, sendWhatsApp } from '../whatsapp/africa.js';
-import { luxon } from 'luxon'; // Ensure was installed or use native Date
-
-const DateTime = luxon?.DateTime || {
-    now: () => ({ plus: (obj) => new Date(Date.now() + (obj.days * 24 * 60 * 60 * 1000)) })
-};
+import { DateTime } from 'luxon';
 
 export const initCron = () => {
     // Run daily at 08:00 AM
