@@ -133,10 +133,12 @@ export const USSDService = {
         
         // --- Resolve display name from Supabase (source of truth) ---
         let displayName = null;
+        let linkedWhatsapp = null;
         try {
             // 1. Check vuka_users (USSD/Vuka registrations)
-            const { data: vukaUser } = await supabase.from('vuka_users').select('name').eq('msisdn', cleanMsisdn).maybeSingle();
+            const { data: vukaUser } = await supabase.from('vuka_users').select('name, whatsapp_number').eq('msisdn', cleanMsisdn).maybeSingle();
             if (vukaUser?.name) displayName = vukaUser.name;
+            if (vukaUser?.whatsapp_number) linkedWhatsapp = vukaUser.whatsapp_number;
             
             // 2. Fallback: WhatsApp session (has display name from WA profile)
             if (!displayName) {
@@ -187,6 +189,9 @@ export const USSDService = {
 
         let response = `CON *mARI Dashboard*\n`;
         response += `User: ${displayName}\n`;
+        if (linkedWhatsapp && linkedWhatsapp !== cleanMsisdn) {
+            response += `WA: +${linkedWhatsapp}\n`;
+        }
         response += `Status: ${subStatus.active ? '✅ ACTIVE (' + subStatus.planType + ')' : '❌ INACTIVE'}\n`;
         response += `Total Scans: ${scanCount}\n`;
         response += `\n0. Back to Menu`;

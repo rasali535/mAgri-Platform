@@ -13,6 +13,7 @@ db.exec(`
     msisdn TEXT PRIMARY KEY,
     name TEXT,
     bio TEXT,
+    whatsapp_number TEXT,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
   );
 

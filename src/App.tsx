@@ -20,11 +20,14 @@ import MpotsaTab from './components/MpotsaTab';
 import WeatherTab from './components/WeatherTab';
 import CommunityTab from './components/CommunityTab';
 import LoginScreen from './components/LoginScreen';
+import SignUpScreen from './components/SignUpScreen';
 import { useCurrency, COUNTRIES } from './CurrencyContext';
 
 export default function App() {
   const [isAuth, setIsAuth] = useState(false);
+  const [showSignUp, setShowSignUp] = useState(false);
   const [userPhone, setUserPhone] = useState('');
+  const [userName, setUserName] = useState('');
   const [userLocation, setUserLocation] = useState<{lat: number, lng: number} | null>(null);
 
   const [activeTab, setActiveTab] = useState<string>(() => {
@@ -50,11 +53,25 @@ export default function App() {
     const handleNavChange = (e: any) => {
       if (e.detail) setActiveTab(e.detail);
     };
+    const handleToggleSignUp = () => setShowSignUp(true);
+
     window.addEventListener('nav-change', handleNavChange);
-    return () => window.removeEventListener('nav-change', handleNavChange);
+    window.addEventListener('toggle-signup', handleToggleSignUp);
+    return () => {
+      window.removeEventListener('nav-change', handleNavChange);
+      window.removeEventListener('toggle-signup', handleToggleSignUp);
+    };
   }, []);
 
   const handleLogin = (phone: string, role: typeof userRole, location: {lat: number, lng: number} | null) => {
+    setUserPhone(phone);
+    setUserRole(role);
+    setUserLocation(location);
+    setIsAuth(true);
+  };
+
+  const handleSignUp = (name: string, phone: string, whatsapp: string, role: typeof userRole, location: {lat: number, lng: number} | null) => {
+    setUserName(name);
     setUserPhone(phone);
     setUserRole(role);
     setUserLocation(location);
@@ -83,7 +100,9 @@ export default function App() {
   ];
 
   if (!isAuth) {
-    return <LoginScreen onLogin={handleLogin} />;
+    return showSignUp 
+      ? <SignUpScreen onSignUp={handleSignUp} onBack={() => setShowSignUp(false)} />
+      : <LoginScreen onLogin={handleLogin} />;
   }
 
   return (

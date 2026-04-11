@@ -135,6 +135,17 @@ export default function LoginScreen({ onLogin }: LoginScreenProps) {
               <MapPin size={12} className="mr-1" />
               We will securely request location access to find nearby markets
             </p>
+
+            <div className="pt-4 border-t border-neutral-100 mt-6 text-center">
+              <p className="text-sm text-neutral-500 mb-3 font-medium">New to mARI Platform?</p>
+              <button
+                type="button"
+                onClick={() => (window as any).dispatchEvent(new CustomEvent('toggle-signup'))}
+                className="text-emerald-600 font-bold hover:text-emerald-700 transition-colors"
+              >
+                Create an Account
+              </button>
+            </div>
           </form>
         </div>
       </motion.div>
