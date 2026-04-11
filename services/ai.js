@@ -6,8 +6,8 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
  * Ensures consistent model usage, timeouts, and error handling across USSD and WhatsApp.
  */
 
-const DEFAULT_MODEL = "gemini-1.5-flash"; 
-const FALLBACK_MODELS = ["gemini-1.5-pro", "gemini-pro"];
+const DEFAULT_MODEL = "gemini-2.5-flash"; 
+const FALLBACK_MODELS = ["gemini-2.5-pro", "gemini-2.0-flash"];
 const DEFAULT_TIMEOUT = 25000; 
 
 /**
@@ -32,11 +32,11 @@ export async function askGemini(contents, systemInstruction = "", options = {}) 
 
     const genAI = new GoogleGenerativeAI(apiKey);
     const modelsToTry = [
-        'gemini-2.0-flash',       // Newest, highest priority
-        'gemini-1.5-flash-latest',
-        'gemini-1.5-flash',
-        'gemini-1.5-flash-8b',
-        'gemini-1.5-pro',
+        'gemini-2.5-flash',       // April 2026 Standard
+        'gemini-2.5-pro',
+        'gemini-2.0-flash',
+        'gemini-2.0-flash-lite',
+        'gemini-3.1-flash-lite-preview', // Future-proofing
     ];
     let lastError = null;
 

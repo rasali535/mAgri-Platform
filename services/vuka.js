@@ -13,13 +13,13 @@ export const VukaService = {
         }
     },
 
-    registerUser: async (msisdn, name, whatsapp_number = null) => {
+    registerUser: async (msisdn, name, whatsapp_number = null, lat = null, lng = null, role = 'farmer') => {
         try {
             // Write to local SQLite
-            db.prepare('INSERT OR REPLACE INTO users (msisdn, name, whatsapp_number) VALUES (?, ?, ?)').run(msisdn, name, whatsapp_number);
+            db.prepare('INSERT OR REPLACE INTO users (msisdn, name, whatsapp_number, lat, lng, role) VALUES (?, ?, ?, ?, ?, ?)').run(msisdn, name, whatsapp_number, lat, lng, role);
             // Sync to Supabase so web/WhatsApp dashboards reflect the registration
             const supabase = getSupabaseClient();
-            await supabase.from('vuka_users').upsert({ msisdn, name, whatsapp_number }, { onConflict: 'msisdn' });
+            await supabase.from('vuka_users').upsert({ msisdn, name, whatsapp_number, lat, lng, role }, { onConflict: 'msisdn' });
             return true;
         } catch (e) {
             console.error('Vuka.registerUser error:', e);

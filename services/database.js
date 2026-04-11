@@ -14,6 +14,9 @@ db.exec(`
     name TEXT,
     bio TEXT,
     whatsapp_number TEXT,
+    role TEXT DEFAULT 'farmer',
+    lat REAL,
+    lng REAL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
   );
 
