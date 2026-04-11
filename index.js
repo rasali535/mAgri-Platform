@@ -22,6 +22,10 @@ process.on('unhandledRejection', (reason, promise) => {
     console.error('[FATAL] Unhandled Rejection:', reason);
 });
 
+console.log(`[STARTUP] Environment: ${process.env.NODE_ENV}`);
+console.log(`[STARTUP] Expected Port: ${process.env.PORT || 3001}`);
+console.log(`[STARTUP] Working Directory: ${process.cwd()}`);
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -52,8 +56,14 @@ app.use((req, res, next) => {
 });
 
 // 1. Mandatory Healthcheck for Railway/Production
-app.get(['/health', '/api/health', '/healthcheck'], (req, res) => {
-    res.status(200).json({ status: 'ok', service: 'mARI Platform by Pameltex Tech', time: new Date().toISOString() });
+// Added root health support if needed
+app.get(['/health', '/api/health', '/healthcheck', '/_health'], (req, res) => {
+    res.status(200).json({ 
+        status: 'UP', 
+        service: 'mARI Platform', 
+        timestamp: new Date().toISOString(),
+        uptime: process.uptime()
+    });
 });
 
 // USSD Specific Health Check (Plain Text)
@@ -294,11 +304,19 @@ app.get('*', (req, res) => {
 });
 
 app.listen(PORT, '0.0.0.0', () => {
-    console.log(`[mARI]🚀 Master Server Live | Port: ${PORT} | Env: ${process.env.NODE_ENV}`);
+    console.log(`\n---------------------------------------------------`);
+    console.log(`🚀 Master Server Live!`);
+    console.log(`📡 Binding: 0.0.0.0:${PORT}`);
+    console.log(`📅 Started: ${new Date().toLocaleString()}`);
+    console.log(`---------------------------------------------------\n`);
+    
     if (!baileysStarted) {
         baileysStarted = true;
-        initBaileys().catch(e => console.error('[mARI] WhatsApp failed:', e));
+        console.log('[mARI] Initializing Baileys WhatsApp Engine...');
+        initBaileys().catch(e => console.error('[mARI] WhatsApp initialization failed:', e));
     }
+    
+    console.log('[mARI] Initializing Subscription Cron Jobs...');
     initCron();
 });
 

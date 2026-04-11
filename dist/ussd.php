@@ -42,5 +42,5 @@ if (curl_errno($ch) || $httpCode >= 400) {
     echo $response;
 }
 
-curl_close($ch);
+// curl_close($ch);
 ?>
