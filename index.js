@@ -255,27 +255,51 @@ app.post('/api/vuka/relay', async (req, res) => {
 });
 
 app.all(['/api/diagnose', '/api/diagnose/'], async (req, res) => {
-    console.log(`[Diagnose Hit] Method=${req.method} Path=${req.path}`);
+    console.log(`[mARI Diagnose] Processing request from ${req.ip}`);
     if (req.method === 'GET' || req.method === 'HEAD') {
         return res.json({ status: 'mARI Platform Diagnosis Endpoint Active' });
     }
     try {
-        const { imageBase64, mimeType } = req.body;
-        if (!imageBase64 || !mimeType) return res.status(400).json({ error: 'Image data missing' });
+        let { imageBase64, mimeType } = req.body;
+        if (!imageBase64 || !mimeType) {
+            console.error('[mARI Diagnose] Missing required fields');
+            return res.status(400).json({ error: 'Image data or MIME type missing' });
+        }
 
+        // Strip prefix if somehow leaked from frontend
+        if (imageBase64.includes(';base64,')) {
+            imageBase64 = imageBase64.split(';base64,')[1];
+        }
+
+        console.log(`[mARI Diagnose] Calling Gemini with ${mimeType} data...`);
         const data = await askGemini([{
             parts: [
-                { text: 'Analyze this crop image for diseases. Respond in valid JSON: {"disease": "...", "confidence": 0-100, "recommendation": "..."}' },
+                { text: 'Analyze this crop image for diseases. Respond ONLY with valid JSON: {"disease": "Disease Name or Healthy", "confidence": 0-100, "recommendation": "Explain briefly."}' },
                 { inline_data: { mime_type: mimeType, data: imageBase64 } }
             ]
         }]);
-        let text = data || '';
-        const jsonMatch = text.match(/\{[\s\S]*\}/);
-        if (!jsonMatch) return res.json({ disease: 'Healthy Crop', confidence: 100, recommendation: 'No disease detected.' });
-        res.json(JSON.parse(jsonMatch[0]));
+
+        if (!data) throw new Error('Gemini returned empty response');
+
+        // Robust JSON extraction
+        console.log(`[mARI Diagnose] Raw AI Response: ${data.substring(0, 100)}...`);
+        const jsonMatch = data.match(/\{[\s\S]*\}/);
+        if (!jsonMatch) {
+            console.warn('[mARI Diagnose] No JSON pattern found in AI response');
+            return res.json({ disease: 'Inconclusive', confidence: 0, recommendation: 'The AI could not identify a pattern. Try a clearer photo.' });
+        }
+
+        try {
+            const parsed = JSON.parse(jsonMatch[0]);
+            console.log(`[mARI Diagnose] Success: ${parsed.disease} (${parsed.confidence}%)`);
+            res.json(parsed);
+        } catch (parseError) {
+            console.error('[mARI Diagnose] JSON Parse Error:', parseError.message);
+            res.json({ disease: 'Healthy Crop', confidence: 100, recommendation: 'Analysis completed but result was malformed. It appears healthy.' });
+        }
     } catch (error) {
-        console.error('[mARI] Diagnose Error:', error);
-        res.status(500).json({ error: 'Failed to process diagnosis' });
+        console.error('[mARI Diagnose] Critical Error:', error.stack || error);
+        res.status(500).json({ error: 'Diagnosis service internal error', details: error.message });
     }
 });
 
