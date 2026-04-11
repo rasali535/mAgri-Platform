@@ -7,41 +7,44 @@ import { askGemini } from './ai.js';
 import { sendSMS } from '../whatsapp/africa.js';
 import { getSupabaseClient } from '../src/lib/supabaseClient.js';
 
+const normalizeMsisdn = (phone) => (phone || '').toString().replace(/\+/g, '').trim();
+
 export const USSDService = {
     handleRequest: async (msisdn, text) => {
+        const cleanMsisdn = normalizeMsisdn(msisdn);
         // Normalize text (handle cumulative parts from AT)
         const parts = (text || '').toString().trim().split('*').filter(p => p !== '');
         const depth = parts.length;
         const L1 = parts[0];
-        const stateData = USSDService.getState(msisdn);
+        const stateData = USSDService.getState(cleanMsisdn);
         
-        console.log(`[USSD] ${msisdn} | Raw: "${text}" | Parts: ${JSON.stringify(parts)} | L1: ${L1} | State: ${stateData.state}`);
+        console.log(`[USSD] ${cleanMsisdn} | Raw: "${text}" | Parts: ${JSON.stringify(parts)} | L1: ${L1} | State: ${stateData.state}`);
         
         // Reset state if text is empty or starts with 0 (Menu)
         if (text === '' || L1 === '0' || L1 === 'MENU') {
-            USSDService.setState(msisdn, 'IDLE');
-            return USSDService.showMainMenu(msisdn);
+            USSDService.setState(cleanMsisdn, 'IDLE');
+            return USSDService.showMainMenu(cleanMsisdn);
         }
 
         // --- State Handle (Highest Priority) ---
         if (stateData.state === 'VUKA_RELAY_RECIPIENT') {
             const recipient = parts[parts.length - 1];
-            USSDService.setState(msisdn, 'VUKA_RELAY_MESSAGE', { recipient });
+            USSDService.setState(cleanMsisdn, 'VUKA_RELAY_MESSAGE', { recipient });
             return `CON *WhatsApp Relay*\nEnter Message for ${recipient}:`;
         }
         
         if (stateData.state === 'VUKA_RELAY_MESSAGE') {
             const message = parts[parts.length - 1];
             const recipient = stateData.data.recipient;
-            await VukaService.relayToWhatsApp(msisdn, recipient, message);
-            USSDService.setState(msisdn, 'IDLE');
+            await VukaService.relayToWhatsApp(cleanMsisdn, recipient, message);
+            USSDService.setState(cleanMsisdn, 'IDLE');
             return `END Your message has been relayed to WhatsApp for ${recipient}.`;
         }
 
         if (stateData.state === 'PAYMENT_OTP') {
             const otp = parts[parts.length - 1];
-            const res = await PaymentService.validateOTP(msisdn, stateData.data.payToken, otp, stateData.data.planType);
-            USSDService.setState(msisdn, 'IDLE');
+            const res = await PaymentService.validateOTP(cleanMsisdn, stateData.data.payToken, otp, stateData.data.planType);
+            USSDService.setState(cleanMsisdn, 'IDLE');
             if (res.success) return `END SUCCESS: ${res.message}`;
             return `END FAILED: ${res.error}`;
         }
@@ -49,14 +52,14 @@ export const USSDService = {
         if (stateData.state === 'USSD_AI_ADVISOR') {
             const query = parts[parts.length - 1];
             if (query === '0') {
-                USSDService.setState(msisdn, 'IDLE');
-                return USSDService.showMainMenu(msisdn);
+                USSDService.setState(cleanMsisdn, 'IDLE');
+                return USSDService.showMainMenu(cleanMsisdn);
             }
             try {
-                // Ensure we use the correct format for the new ai.js (array of parts)
-                const aiResponse = await askGemini([{ parts: [{ text: query }] }], "You are mARI, a concise AI agronomist for USSD. Max 140 chars.");
+                // Explicitly send role: 'user' for broad model compatibility
+                const aiResponse = await askGemini([{ role: 'user', parts: [{ text: query }] }], "You are mARI, a concise AI agronomist for USSD. Max 140 chars.");
                 if (aiResponse.length > 160) {
-                    await sendSMS(msisdn, `mARI Advisor: ${aiResponse}`);
+                    await sendSMS(cleanMsisdn, `mARI Advisor: ${aiResponse}`);
                     return `CON mARI: Response sent via SMS to save space.\n\nAsk another question or 0 for Menu:`;
                 }
                 return `CON mARI: ${aiResponse}\n\nAsk another or 0 for Menu:`;
@@ -69,20 +72,20 @@ export const USSDService = {
         if (stateData.state === 'MPOTSA_WAITING') {
             const query = parts[parts.length - 1];
             if (query === '0') {
-                USSDService.setState(msisdn, 'IDLE');
-                return USSDService.showMainMenu(msisdn);
+                USSDService.setState(cleanMsisdn, 'IDLE');
+                return USSDService.showMainMenu(cleanMsisdn);
             }
-            const result = await MpotsaService.search(query, msisdn);
+            const result = await MpotsaService.search(query, cleanMsisdn);
             return `CON ${result.text}\n\nAsk another or 0 for Menu:`;
         }
 
         // --- Traditional Menu Logic (Lower Priority) ---
         if (L1 === '1') { // Dashboard
-            return await USSDService.handleDashboard(msisdn);
+            return await USSDService.handleDashboard(cleanMsisdn);
         }
 
         if (L1 === '4') { // AI Advisor
-            USSDService.setState(msisdn, 'USSD_AI_ADVISOR');
+            USSDService.setState(cleanMsisdn, 'USSD_AI_ADVISOR');
             return `CON *mARI AI Advisor*\nAsk any farming question:`;
         }
 
@@ -90,14 +93,14 @@ export const USSDService = {
             if (depth === 1) {
                 return `CON *Vuka Social*\n1. My Profile\n2. Find Friends\n3. Group Chats\n4. WhatsApp Relay`;
             } else if (parts[1] === '4') { // WhatsApp Relay
-                USSDService.setState(msisdn, 'VUKA_RELAY_RECIPIENT');
+                USSDService.setState(cleanMsisdn, 'VUKA_RELAY_RECIPIENT');
                 return `CON *WhatsApp Relay*\nEnter Recipient MSISDN (e.g. 267...):`;
             }
             if (parts[1] === '1') {
-                const user = await VukaService.getUser(msisdn);
+                const user = await VukaService.getUser(cleanMsisdn);
                 if (!user) return `CON *My Profile*\nYou are not registered. Reply with your Name:`;
                 if (depth === 3) {
-                    await VukaService.registerUser(msisdn, parts[2]);
+                    await VukaService.registerUser(cleanMsisdn, parts[2]);
                     return `END Profile created, ${parts[2]}!`;
                 }
                 return `END *My Profile*\nName: ${user.name}\nBio: ${user.bio || 'None'}`;
@@ -105,7 +108,7 @@ export const USSDService = {
         }
 
         if (L1 === '10') { // Mpotsa
-            USSDService.setState(msisdn, 'MPOTSA_WAITING');
+            USSDService.setState(cleanMsisdn, 'MPOTSA_WAITING');
             return `CON *Mpotsa Q&A*\nAsk about Health, Law, or Jobs:`;
         }
 
@@ -113,9 +116,9 @@ export const USSDService = {
             if (depth === 1) return `CON *Subscriptions*\n1. Monthly (20 BWP)\n2. Yearly (200 BWP)`;
             const planType = parts[ depth-1 ] === '1' ? 'MONTHLY' : 'YEARLY';
             const amount = planType === 'MONTHLY' ? 20 : 200;
-            const payRes = await PaymentService.initiatePayment(msisdn, amount, planType);
+            const payRes = await PaymentService.initiatePayment(cleanMsisdn, amount, planType);
             if (payRes.success) {
-                USSDService.setState(msisdn, 'PAYMENT_OTP', { payToken: payRes.payToken, planType });
+                USSDService.setState(cleanMsisdn, 'PAYMENT_OTP', { payToken: payRes.payToken, planType });
                 return `CON *Subscription Payment*\n1. Dial *145# to generate OTP\n2. Enter the 6-digit OTP here:`;
             }
             return `END Initiation error. Try again later.`;
@@ -125,8 +128,9 @@ export const USSDService = {
     },
 
     handleDashboard: async (msisdn) => {
-        const user = db.prepare('SELECT name FROM users WHERE msisdn = ?').get(msisdn);
-        const sub = PaymentService.checkSubscription(msisdn);
+        const cleanMsisdn = normalizeMsisdn(msisdn);
+        const user = db.prepare('SELECT name FROM users WHERE msisdn = ?').get(cleanMsisdn);
+        const sub = PaymentService.checkSubscription(cleanMsisdn);
         
         let response = `CON *mARI Dashboard*\n`;
         response += `User: ${user ? user.name : 'Guest'}\n`;
@@ -134,10 +138,11 @@ export const USSDService = {
         
         try {
             const supabase = getSupabaseClient();
+            // Parity Fix: Select count where type IS 'Diagnosis' (matches DiagnoseTab.tsx)
             const { count } = await supabase
                 .from('resources')
                 .select('*', { count: 'exact', head: true })
-                .eq('status', 'Diagnosis'); // Assuming 'Diagnosis' status means a crop scan
+                .eq('type', 'Diagnosis'); 
             
             response += `Total Scans: ${count || 0}\n`;
         } catch (e) {

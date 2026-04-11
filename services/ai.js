@@ -24,7 +24,12 @@ export async function askGemini(contents, systemInstruction = "") {
     }
 
     const genAI = new GoogleGenerativeAI(apiKey);
-    const modelsToTry = [DEFAULT_MODEL, ...FALLBACK_MODELS];
+    const modelsToTry = [
+        'gemini-1.5-flash',
+        'gemini-1.5-flash-8b', 
+        'gemini-1.5-pro',
+        'gemini-pro'
+    ];
     let lastError = null;
 
     for (const modelName of modelsToTry) {
@@ -49,13 +54,13 @@ export async function askGemini(contents, systemInstruction = "") {
             
         } catch (error) {
             lastError = error;
-            const status = error.status || (error.message?.includes('429') ? 429 : 0);
+            const status = error.status || (error.message?.includes('429') ? 429 : (error.message?.includes('404') ? 404 : 0));
             
-            console.warn(`[AI Service] ${modelName} failed:`, error.message);
+            console.warn(`[AI Service] ${modelName} failed (Status: ${status}):`, error.message);
             
             if (status === 429) {
-                console.error('[AI Service] Quota exceeded. Skipping further retries.');
-                throw new Error('AI_QUOTA_EXCEEDED');
+                console.log(`[AI Service] Quota reached for ${modelName}. Trying next...`);
+                continue; 
             }
             if (status === 401 || status === 403) {
                 console.error('[AI Service] Authentication failed. Check API Key.');
