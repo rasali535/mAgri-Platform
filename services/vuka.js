@@ -1,6 +1,7 @@
 import db from './database.js';
 import { sock } from '../whatsapp/baileys.js';
 import { sendSMS } from '../whatsapp/africa.js';
+import { getSupabaseClient } from '../src/lib/supabaseClient.js';
 
 export const VukaService = {
     getUser: async (msisdn) => {
@@ -14,8 +15,11 @@ export const VukaService = {
 
     registerUser: async (msisdn, name) => {
         try {
-            const stmt = db.prepare('INSERT OR REPLACE INTO users (msisdn, name) VALUES (?, ?)');
-            stmt.run(msisdn, name);
+            // Write to local SQLite
+            db.prepare('INSERT OR REPLACE INTO users (msisdn, name) VALUES (?, ?)').run(msisdn, name);
+            // Sync to Supabase so web/WhatsApp dashboards reflect the registration
+            const supabase = getSupabaseClient();
+            await supabase.from('vuka_users').upsert({ msisdn, name }, { onConflict: 'msisdn' });
             return true;
         } catch (e) {
             console.error('Vuka.registerUser error:', e);
@@ -70,7 +74,7 @@ export const VukaService = {
         try {
             return db.prepare(`
                 SELECT g.* FROM groups g
-                JOIN group_members gm ON g.id = gm.group_id
+                JOIN group_members gm ON g.group_id = gm.group_id
                 WHERE gm.msisdn = ?
             `).all(msisdn);
         } catch (e) {

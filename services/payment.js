@@ -4,6 +4,7 @@
  */
 import db from './database.js';
 import axios from 'axios';
+import { getSupabaseClient } from '../src/lib/supabaseClient.js';
 
 const ORANGE_MONEY_API = process.env.ORANGE_MONEY_API || 'https://api.orange.com/orange-money-webpay/dev/v1';
 
@@ -59,7 +60,7 @@ export const PaymentService = {
             if (otp === '123456' || !process.env.ORANGE_MERCHANT_KEY) {
                 console.log(`[SIMULATED] Orange Money OTP ${otp} validated for ${msisdn}`);
                 
-                // Update subscription in DB
+                // Update subscription in local SQLite
                 const expiryDate = new Date();
                 if (planType === 'YEARLY') expiryDate.setFullYear(expiryDate.getFullYear() + 1);
                 else expiryDate.setMonth(expiryDate.getMonth() + 1);
@@ -68,6 +69,19 @@ export const PaymentService = {
                     INSERT OR REPLACE INTO subscriptions (userId, planType, status, expiryDate)
                     VALUES (?, ?, ?, ?)
                 `).run(msisdn, planType, 'ACTIVE', expiryDate.toISOString());
+
+                // Sync to Supabase for cross-channel dashboard parity
+                try {
+                    const supabase = getSupabaseClient();
+                    await supabase.from('subscriptions').upsert({
+                        userId: msisdn,
+                        planType,
+                        status: 'ACTIVE',
+                        expiryDate: expiryDate.toISOString()
+                    }, { onConflict: 'userId' });
+                } catch (syncErr) {
+                    console.warn('[Payment] Supabase subscription sync failed:', syncErr.message);
+                }
 
                 return { success: true, message: 'Subscription activated successfully!' };
             }

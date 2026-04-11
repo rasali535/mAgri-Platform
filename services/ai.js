@@ -16,20 +16,27 @@ const DEFAULT_TIMEOUT = 25000;
  * @param {string} systemInstruction - Optional system prompt
  * @returns {Promise<string>} - Gemini API response text
  */
-export async function askGemini(contents, systemInstruction = "") {
+/**
+ * @param {Array} contents - Gemini contents array
+ * @param {string} systemInstruction - Optional system prompt
+ * @param {{ gracefulFallback?: boolean }} [options] - If gracefulFallback=true, returns JSON string on failure (for /api/diagnose). Otherwise throws.
+ */
+export async function askGemini(contents, systemInstruction = "", options = {}) {
+    const { gracefulFallback = false } = options;
     const apiKey = process.env.VITE_GEMINI_API_KEY || process.env.GEMINI_API_KEY;
     
     if (!apiKey) {
+        if (gracefulFallback) return JSON.stringify({ disease: 'No API Key', confidence: 0, recommendation: 'GEMINI_API_KEY is not configured.' });
         throw new Error('MISSING_GEMINI_API_KEY');
     }
 
     const genAI = new GoogleGenerativeAI(apiKey);
     const modelsToTry = [
-        'gemini-1.5-flash-latest', // Most robust alias
+        'gemini-2.0-flash',       // Newest, highest priority
+        'gemini-1.5-flash-latest',
         'gemini-1.5-flash',
-        'gemini-1.5-flash-8b', 
+        'gemini-1.5-flash-8b',
         'gemini-1.5-pro',
-        'gemini-pro'
     ];
     let lastError = null;
 
@@ -38,7 +45,7 @@ export async function askGemini(contents, systemInstruction = "") {
             console.log(`[AI Service] Attempting with ${modelName}...`);
             const model = genAI.getGenerativeModel({ 
                 model: modelName,
-                systemInstruction: systemInstruction || undefined
+                ...(systemInstruction ? { systemInstruction } : {})
             });
 
             const chatPromise = (async () => {
@@ -59,18 +66,26 @@ export async function askGemini(contents, systemInstruction = "") {
             
             console.warn(`[AI Service] ${modelName} failed (Status: ${status}):`, error.message);
             
-            if (status === 429) {
-                console.log(`[AI Service] Quota reached for ${modelName}. Trying next...`);
-                continue; 
-            }
             if (status === 401 || status === 403) {
                 console.error('[AI Service] Authentication failed. Check API Key.');
-                throw new Error('AI_AUTH_FAILED');
+                const authErr = new Error('AI_AUTH_FAILED');
+                if (gracefulFallback) return JSON.stringify({ disease: 'Auth Failed', confidence: 0, recommendation: 'Check your Gemini API key.' });
+                throw authErr;
             }
-            // Continue to next model for other errors (like 404 or 500)
+            // For 429 (quota) and other errors, continue to next model
         }
     }
 
-    console.error('[AI Service] All models failed.');
-    throw lastError || new Error('AI_SERVICE_UNAVAILABLE');
+    console.error('[AI Service] All models exhausted. Last error:', lastError?.message);
+    
+    if (gracefulFallback) {
+        return JSON.stringify({
+            disease: "Service Temporarily Busy",
+            confidence: 0,
+            recommendation: "mARI is currently processing many requests. Please wait a moment and try again."
+        });
+    }
+    
+    // Throw so callers (USSD, chat) can present a clean error message
+    throw new Error(`AI_ALL_MODELS_FAILED: ${lastError?.message || 'Unknown error'}`);
 }

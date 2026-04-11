@@ -56,16 +56,16 @@ export const USSDService = {
                 return USSDService.showMainMenu(cleanMsisdn);
             }
             try {
-                // Explicitly send role: 'user' for broad model compatibility
-                const aiResponse = await askGemini([{ role: 'user', parts: [{ text: query }] }], "You are mARI, a concise AI agronomist for USSD. Max 140 chars.");
-                if (aiResponse.length > 160) {
-                    await sendSMS(cleanMsisdn, `mARI Advisor: ${aiResponse}`);
-                    return `CON mARI: Response sent via SMS to save space.\n\nAsk another question or 0 for Menu:`;
-                }
-                return `CON mARI: ${aiResponse}\n\nAsk another or 0 for Menu:`;
+                const aiResponse = await askGemini(
+                    [{ role: 'user', parts: [{ text: query }] }],
+                    "You are mARI, a concise AI agronomist for USSD. Keep reply under 130 characters."
+                );
+                // Trim to 130 chars to keep USSD screen clean
+                const trimmed = aiResponse.length > 130 ? aiResponse.substring(0, 127) + '...' : aiResponse;
+                return `CON mARI: ${trimmed}\n\nAsk another (or 0 for Menu):`;
             } catch (e) {
-                console.error('[USSD AI Error]', e);
-                return `CON mARI: Sorry, AI service is busy. 0 for Menu.`;
+                console.error('[USSD AI Error]', e.message);
+                return `CON *mARI AI Advisor*\nService busy, try again.\n\nType your question or 0 for Menu:`;
             }
         }
 
@@ -129,27 +129,66 @@ export const USSDService = {
 
     handleDashboard: async (msisdn) => {
         const cleanMsisdn = normalizeMsisdn(msisdn);
-        const user = db.prepare('SELECT name FROM users WHERE msisdn = ?').get(cleanMsisdn);
-        const sub = PaymentService.checkSubscription(cleanMsisdn);
+        const supabase = getSupabaseClient();
         
-        let response = `CON *mARI Dashboard*\n`;
-        response += `User: ${user ? user.name : 'Guest'}\n`;
-        response += `Status: ${sub.active ? '✅ ACTIVE (' + sub.planType + ')' : '❌ INACTIVE'}\n`;
-        
+        // --- Resolve display name from Supabase (source of truth) ---
+        let displayName = null;
         try {
-            const supabase = getSupabaseClient();
-            // Parity Fix: Filter by the CURRENT user's phone number
+            // 1. Check vuka_users (USSD/Vuka registrations)
+            const { data: vukaUser } = await supabase.from('vuka_users').select('name').eq('msisdn', cleanMsisdn).maybeSingle();
+            if (vukaUser?.name) displayName = vukaUser.name;
+            
+            // 2. Fallback: WhatsApp session (has display name from WA profile)
+            if (!displayName) {
+                const { data: waSession } = await supabase.from('whatsapp_sessions').select('email').eq('phone', cleanMsisdn).maybeSingle();
+                if (waSession?.email) displayName = waSession.email.split('@')[0];
+            }
+        } catch (e) {
+            console.warn('[USSD Dashboard] Supabase name lookup failed:', e.message);
+        }
+        
+        // 3. Final fallback: local SQLite
+        if (!displayName) {
+            const localUser = db.prepare('SELECT name FROM users WHERE msisdn = ?').get(cleanMsisdn);
+            displayName = localUser?.name || 'Guest';
+        }
+
+        // --- Subscription: check Supabase first, then local SQLite ---
+        let subStatus = { active: false, planType: null };
+        try {
+            const { data: sbSub } = await supabase
+                .from('subscriptions')
+                .select('*')
+                .eq('userId', cleanMsisdn)
+                .maybeSingle();
+            if (sbSub) {
+                const expired = sbSub.expiryDate && new Date(sbSub.expiryDate) < new Date();
+                subStatus = { active: sbSub.status === 'ACTIVE' && !expired, planType: sbSub.planType };
+            }
+        } catch (e) { /* ignore, fall through to local */ }
+        
+        if (!subStatus.active) {
+            // Local fallback (USSD OTP-activated subscriptions)
+            subStatus = PaymentService.checkSubscription(cleanMsisdn);
+        }
+
+        // --- Scan count from Supabase resources ---
+        let scanCount = 0;
+        try {
             const { count } = await supabase
                 .from('resources')
                 .select('*', { count: 'exact', head: true })
                 .eq('phone', cleanMsisdn)
-                .eq('type', 'Diagnosis'); 
-            
-            response += `Total Scans: ${count || 0}\n`;
+                .eq('type', 'Diagnosis');
+            scanCount = count || 0;
         } catch (e) {
-            console.error('[USSD Dashboard] Supabase error:', e.message);
+            console.warn('[USSD Dashboard] Scan count lookup failed:', e.message);
         }
 
+        let response = `CON *mARI Dashboard*\n`;
+        response += `User: ${displayName}\n`;
+        response += `Status: ${subStatus.active ? '✅ ACTIVE (' + subStatus.planType + ')' : '❌ INACTIVE'}\n`;
+        response += `Total Scans: ${scanCount}\n`;
         response += `\n0. Back to Menu`;
         return response;
     },
