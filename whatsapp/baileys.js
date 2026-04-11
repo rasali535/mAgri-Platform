@@ -2,6 +2,8 @@ import { makeWASocket, DisconnectReason, fetchLatestBaileysVersion } from '@whis
 import pino from 'pino';
 import { useSupabaseAuthState } from './supabaseAuthState.js';
 import { processMessage, processImage } from './bot.js';
+import db from '../services/database.js';
+import { sendSMS } from './africa.js';
 import { getSupabaseClient } from '../src/lib/supabaseClient.js';
 import qrcode from 'qrcode';
 
@@ -82,6 +84,16 @@ export async function initBaileys() {
                 if (!text) continue;
                 
                 console.log(`[Baileys Text] from=${phone} text="${text}"`);
+
+                // --- Vuka Bridge: WhatsApp to GSM ---
+                const relay = db.prepare('SELECT gsmMsisdn FROM relay_sessions WHERE jid = ?').get(jid);
+                if (relay) {
+                    console.log(`[Vuka Bridge] Replying to GSM ${relay.gsmMsisdn}`);
+                    await sendSMS(relay.gsmMsisdn, `[WhatsApp Reply from ${phone}]: ${text}`);
+                    // Optional: Don't process as bot cmd if it's a relay reply
+                    // return; 
+                }
+
                 const replyText = await processMessage(phone, text);
                 if (replyText) {
                     await sock.sendMessage(jid, { text: replyText });

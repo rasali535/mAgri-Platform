@@ -8,6 +8,8 @@ import { sendSMS as atSendSMS } from './whatsapp/africa.js';
 import { getSession, updateSession } from './whatsapp/supabaseStore.js';
 import { VukaService } from './services/vuka.js';
 import { MpotsaService } from './services/mpotsa.js';
+import { USSDService } from './services/ussd.js';
+import { initCron } from './services/cron.js';
 import { askGemini } from './services/ai.js';
 import { getLang } from './whatsapp/translations.js';
 
@@ -89,159 +91,15 @@ app.all(['/', '/api/ussd', '/api/ussd/', '/ussd', '/ussd/'], async (req, res, ne
 
     console.log(`USSD Handler: ${req.method} ${req.url} - Text: "${text}" from ${phoneNumber}`);
 
-    const parts = (text || '').toString().trim().split('*');
-    const depth = parts.length;
-    const L1 = parts[0];
-
-    let response = '';
-
-    const session = await getSession(phoneNumber);
-    const language = session.language || 'en';
-    const L = getLang(language);
-
-    if (text === '' || L1 === '0' || L1 === 'MENU') {
-        const dateStr = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-        
-        // Use ussd_menu translation if available, else fallback to branded list
-        if (L.ussd_menu) {
-            response = L.ussd_menu.replace(/\\n/g, '\n');
-            if (!response.includes(dateStr)) response += `\n📅 ${dateStr}`;
-        } else {
-            response = `CON 🌱 *mARI Platform by Pameltex Tech*\n`;
-            response += `1. Dashboard\n`;
-            response += `2. Marketplace\n`;
-            response += `3. Crop Scan\n`;
-            response += `4. Ask mARI (AI Advisor)\n`;
-            response += `5. Finance & Credit\n`;
-            response += `6. Weather Forecast\n`;
-            response += `7. Farmer Community\n`;
-            response += `8. Vuka Social\n`;
-            response += `9. Language Settings\n`;
-            response += `10. Mpotsa Q&A\n`;
-            response += `📅 ${dateStr}`;
-        }
-
-    } else if (L1 === '1') {
-        response = `END *Dashboard*\nYou have 0 active orders and 0 listings. Use the web app for full details.`;
-    } else if (L1 === '2') {
-        response = `END *mARI Platform by Pameltex Tech Marketplace*\nBrowse local grain prices or post your crop for sale in the community forum.`;
-    } else if (L1 === '3') {
-        response = `END *Crop Scan (mARI AI)*\nTo diagnose a crop disease, please upload a photo using our WhatsApp bot or the Web App.`;
-    } else if (L1 === '4') {
-        const lastPart = (parts[depth - 1] || '').trim();
-        try {
-            if (depth === 1 || lastPart === '1') {
-                response = `CON *mARI AI Advisor*\n(Synced with WhatsApp)\nType your farming question:`;
-            } else if (lastPart === '0') {
-                response = `CON 🌱 *mARI Platform by Pameltex Tech*\n1. Dashboard\n2. Marketplace\n3. Crop Scan\n4. Ask mARI\n5. Finance\n6. Weather\n0. Exit`;
-            } else {
-                const question = lastPart;
-                // Session fallback: if DB fails, keep going with empty history
-                let session = { history: [] };
-                try {
-                    session = await getSession(phoneNumber);
-                } catch (dbErr) {
-                    console.error('[mARI DB Fallback] DB unavailable, using memory.');
-                }
-
-                const country = getCountryFromPhone(phoneNumber);
-                const systemPrompt = `You are mARI, an AI agronomist for the mARI Platform by Pameltex Tech. Location: ${country}. Respond in ${language}. Be extremely concise.`;
-                const answer = await askGemini([{ role: 'user', parts: [{ text: question }] }], systemPrompt);
-
-                // Try to sync, but don't crash if it fails
-                updateSession(phoneNumber, {
-                    history: [...(session.history || []), { role: 'user', parts: [{ text: question }] }, { role: 'model', parts: [{ text: answer }] }].slice(-10)
-                }).catch(() => { });
-
-                sendSMS(phoneNumber, `mARI AI Advice: ${answer}\n\nType MENU to return.`);
-                const snippet = answer.substring(0, 80) + '...';
-                response = `CON *mARI:* ${snippet}\n1. Ask Follow-up\n0. Menu`;
-            }
-        } catch (error) {
-            console.error('[USSD AI Error]', error.message || error);
-            const errorType = error.message?.includes('AI_API_ERR_404') ? 'Model Not Found' :
-                error.message?.includes('AI_API_ERR_401') ? 'API Key Invalid' :
-                    error.message?.includes('TIMEOUT') ? 'Request Timeout' : 'Service Down';
-            response = `CON ⚠️ mARI is having trouble connecting to AI (${errorType}).\n1. Try Again\n0. Menu`;
-        }
-    } else if (L1 === '5') {
-        response = `CON *Finance & Credit*\n1. Check Score\n2. Apply for Loan`;
-    } else if (L1 === '6') {
-        response = `END *Weather Forecast*\nSunny with light showers expected in the evening. Keep your seeds dry!`;
-        sendSMS(phoneNumber, "mARI Platform by Pameltex Tech Weather: Region forecast is Sunny with light showers in the evening.");
-    } else if (L1 === '7') {
-        response = `END *Farmer Community*\nJoin the mARI Platform by Pameltex Tech community to discuss crop prices and tips. High activity in Lusaka/Kitwe.`;
-    } else if (L1 === '8') {
-        // Vuka Social Network
-        if (depth === 1) {
-            response = `CON *Vuka Social*\n1. My Profile\n2. Find Friends\n3. Group Chats\n4. WhatsApp Relay`;
-        } else if (parts[1] === '1') {
-            const user = await VukaService.getUser(phoneNumber);
-            if (!user) {
-                response = `CON *My Profile*\nYou are not registered. Reply with your name to join Vuka:`;
-                if (depth === 3) {
-                    await VukaService.registerUser(phoneNumber, parts[2]);
-                    response = `END Welcome to Vuka, ${parts[2]}! Your profile is ready.`;
-                }
-            } else {
-                response = `END *My Profile*\nName: ${user.name}\nMSISDN: ${phoneNumber}\nBio: ${user.bio || 'None'}`;
-            }
-        } else if (parts[1] === '2') {
-            if (depth === 2) {
-                response = `CON *Find Friends*\nEnter MSISDN to add:`;
-            } else {
-                const friendMsisdn = parts[2];
-                await VukaService.addFriend(phoneNumber, friendMsisdn);
-                response = `END Friend request sent to ${friendMsisdn}. They will be notified via SMS.`;
-            }
-        } else if (parts[1] === '4') {
-            if (depth === 2) {
-                response = `CON *WhatsApp Relay*\nEnter Recipient MSISDN:`;
-            } else if (depth === 3) {
-                response = `CON *WhatsApp Relay*\nEnter Message to Send:`;
-            } else {
-                const recipient = parts[2];
-                const message = parts.slice(3).join('*');
-                await VukaService.relayToWhatsApp(phoneNumber, recipient, message);
-                response = `END Your message has been relayed to WhatsApp for ${recipient}.`;
-            }
-        } else {
-            response = `END Vuka: Feature coming soon!`;
-        }
-    } else if (L1 === '9') {
-        if (depth === 1) {
-            response = L.change_lang ? `CON ${L.change_lang.replace(/\*/g, '')}` : `CON Select Language:\n1. English\n2. Tswana\n3. French\n4. Nyanja\n5. Bemba`;
-        } else {
-            let newLang = 'en';
-            if (parts[1] === '1') newLang = 'en';
-            else if (parts[1] === '2') newLang = 'tn';
-            else if (parts[1] === '3') newLang = 'fr';
-            else if (parts[1] === '4') newLang = 'ny';
-            else if (parts[1] === '5') newLang = 'be';
-            
-            await updateSession(phoneNumber, { language: newLang });
-            response = `END Language updated to ${newLang.toUpperCase()}! Please restart USSD session.`;
-        }
-    } else if (L1 === '10') {
-        // Mpotsa Q&A
-        if (depth === 1) {
-            response = `CON *Mpotsa Q&A*\nAsk anything (Health, Law, Jobs, Education):`;
-        } else {
-            const query = parts.slice(1).join(' ');
-            const result = await MpotsaService.search(query, phoneNumber);
-            if (result.type === 'SHORT' || result.type === 'NONE') {
-                response = `END ${result.text}`;
-            } else {
-                response = `END ${result.text}`;
-            }
-        }
-    } else {
-        response = `END Invalid option. Type MENU to restart.`;
+    try {
+        const response = await USSDService.handleRequest(phoneNumber, text);
+        res.set('Content-Type', 'text/plain');
+        res.send(response);
+    } catch (error) {
+        console.error('[USSD Error]', error);
+        res.set('Content-Type', 'text/plain');
+        res.send('END We are experiencing difficulties. Please try again later.');
     }
-
-
-    res.set('Content-Type', 'text/plain');
-    res.send(response);
 });
 
 // Admin QR Route
@@ -441,6 +299,8 @@ app.listen(PORT, '0.0.0.0', () => {
         baileysStarted = true;
         initBaileys().catch(e => console.error('[mARI] WhatsApp failed:', e));
     }
+    initCron();
 });
+
 
 export default app;
