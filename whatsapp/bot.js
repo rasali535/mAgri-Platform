@@ -16,6 +16,9 @@ import { VukaService } from '../services/vuka.js';
 import { MpotsaService } from '../services/mpotsa.js';
 import { askGemini } from '../services/ai.js';
 import { getRecentListings } from './listingsStore.js';
+import { getSupabaseClient } from '../src/lib/supabaseClient.js';
+import { PaymentService } from '../services/payment.js';
+import db from '../services/database.js';
 
 
 const WEBAPP_URL = process.env.WEBAPP_URL || 'https://navajowhite-monkey-252201.hostingersite.com';
@@ -55,7 +58,8 @@ async function generateCropDiagnosis(phone, messageContent) {
       Respond in JSON: {"disease": "...", "confidence": 0-100, "recommendation": "..."}`;
 
     // Using centralized model config in askGemini
-const data = await askGemini([{
+    const data = await askGemini([{
+      role: 'user',
       parts: [
         { text: systemPrompt },
         { inline_data: { mime_type: mimeType, data: base64Data } }
@@ -69,7 +73,7 @@ const data = await askGemini([{
 
     // Parity Fix: Store WhatsApp scan in the centralized resources table
     try {
-        const { supabase } = await import('../supabaseClient.js');
+        const supabase = getSupabaseClient();
         const cleanPhone = phone.replace(/\+/g, '').trim();
         await supabase.from('resources').insert([{
             phone: cleanPhone,
@@ -175,8 +179,35 @@ export async function processMessage(phone, rawText) {
 
   if (session.state === 'WELCOME') {
     if (text === '1') {
-        const status = session.linked ? `Linked (${session.email})` : 'Guest Mode';
-        return `📦 *Dashboard*\nStatus: ${status}\nActive Orders: 0\nYour Listings: 0\n\nReply *MENU* to return.`;
+        const supabase = getSupabaseClient();
+        let subStatus = { active: false, planType: null };
+        let scanCount = 0;
+        let displayName = session.email ? session.email.split('@')[0] : 'Farmer';
+
+        try {
+            // Check subscription
+            const { data: sbSub } = await supabase.from('subscriptions').select('*').eq('userId', cleanPhone).maybeSingle();
+            if (sbSub) {
+                const expired = sbSub.expiryDate && new Date(sbSub.expiryDate) < new Date();
+                subStatus = { active: sbSub.status === 'ACTIVE' && !expired, planType: sbSub.planType };
+            }
+            if (!subStatus.active) subStatus = await PaymentService.checkSubscription(cleanPhone);
+
+            // Check scans
+            const { count } = await supabase.from('resources').select('*', { count: 'exact', head: true }).eq('phone', cleanPhone).eq('type', 'Diagnosis');
+            scanCount = count || 0;
+
+            // Check Vuka name
+            const { data: vukaUser } = await supabase.from('vuka_users').select('name').eq('msisdn', cleanPhone).maybeSingle();
+            if (vukaUser?.name) displayName = vukaUser.name;
+        } catch (e) { console.warn('[WA Dashboard] Lookup failed:', e.message); }
+
+        return `📦 *mARI Dashboard*\n\n` +
+               `👤 *User:* ${displayName}\n` +
+               `💳 *Status:* ${subStatus.active ? '✅ ACTIVE (' + subStatus.planType + ')' : '❌ INACTIVE'}\n` +
+               `🔬 *Total Scans:* ${scanCount}\n` +
+               `🛍 *Active Listings:* 0\n\n` +
+               `Reply *MENU* to return.`;
     }
     if (text === '2') {
       await updateSession(cleanPhone, { state: 'MARKETPLACE' });

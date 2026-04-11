@@ -1,3 +1,4 @@
+import { getRecentListings, searchListings } from '../whatsapp/listingsStore.js';
 import db from './database.js';
 import { VukaService } from './vuka.js';
 import { MpotsaService } from './mpotsa.js';
@@ -79,9 +80,53 @@ export const USSDService = {
             return `CON ${result.text}\n\nAsk another or 0 for Menu:`;
         }
 
+        if (stateData.state === 'MARKETPLACE_INPUT') {
+            const query = parts[parts.length - 1];
+            if (query === '0') {
+                USSDService.setState(cleanMsisdn, 'IDLE');
+                return USSDService.showMainMenu(cleanMsisdn);
+            }
+            const listings = await searchListings(query, 3);
+            let res = `CON *Marketplace Results: ${query}*\n`;
+            if (listings.length === 0) res += "No matching listings found.";
+            else listings.forEach((l, i) => { res += `${i+1}. ${l.crop_name || 'Crop'} - View online\n`; });
+            res += `\n0. Back`;
+            return res;
+        }
+
         // --- Traditional Menu Logic (Lower Priority) ---
         if (L1 === '1') { // Dashboard
             return await USSDService.handleDashboard(cleanMsisdn);
+        }
+
+        if (L1 === '2') { // Marketplace
+            if (depth === 1) return `CON *Marketplace*\n1. Recent Listings\n2. Search Crops\n\n0. Menu`;
+            if (parts[1] === '1') {
+                const listings = await getRecentListings(5);
+                let res = `CON *Recent Listings*\n`;
+                listings.slice(0, 4).forEach(l => { res += `• ${l.crop_name || 'Crop'} (+${l.phone})\n`; });
+                res += `\n0. Menu`;
+                return res;
+            }
+            if (parts[1] === '2') {
+                USSDService.setState(cleanMsisdn, 'MARKETPLACE_INPUT');
+                return `CON *Search Marketplace*\nEnter Crop Name:`;
+            }
+        }
+
+        if (L1 === '5') { // Finance
+            if (depth === 1) return `CON *Finance*\n1. Credit Score\n2. Apply for Loan\n3. Insurance\n\n0. Menu`;
+            if (parts[1] === '1') return `END *Your Credit Score*\nScore: 780 (A+)\nStatus: Eligible for 5,000 credit limit.`;
+            if (parts[1] === '2') return `END *Loan Application*\nVisit mAgri.com/finance to complete your application.`;
+            if (parts[1] === '3') return `END *mAgri Insurance*\nProtect your harvest today! Dial *145# to pay premiums.`;
+        }
+
+        if (L1 === '6') { // Weather
+            return `CON *Weather*\nBorehole, Botswana:\nSunny, 28°C\nChance of rain: 10%\n\n0. Menu`;
+        }
+
+        if (L1 === '7') { // Community
+            return `CON *Community*\nJoin our farmer forum on WhatsApp or Web!\nLink: mAgri.com/community\n\n0. Menu`;
         }
 
         if (L1 === '4') { // AI Advisor
@@ -171,7 +216,7 @@ export const USSDService = {
         
         if (!subStatus.active) {
             // Local fallback (USSD OTP-activated subscriptions)
-            subStatus = PaymentService.checkSubscription(cleanMsisdn);
+            subStatus = await PaymentService.checkSubscription(cleanMsisdn);
         }
 
         // --- Scan count from Supabase resources ---
@@ -187,8 +232,18 @@ export const USSDService = {
             console.warn('[USSD Dashboard] Scan count lookup failed:', e.message);
         }
 
+        let role = 'Farmer';
+        let location = 'Unknown';
+        try {
+            const { data: vukaDetails } = await supabase.from('vuka_users').select('role, lat, lng').eq('msisdn', cleanMsisdn).maybeSingle();
+            if (vukaDetails?.role) role = vukaDetails.role.charAt(0).toUpperCase() + vukaDetails.role.slice(1);
+            if (vukaDetails?.lat && vukaDetails?.lng) location = `${vukaDetails.lat.toFixed(2)}, ${vukaDetails.lng.toFixed(2)}`;
+        } catch (e) { /* ignore */ }
+
         let response = `CON *mARI Dashboard*\n`;
         response += `User: ${displayName}\n`;
+        response += `Role: ${role}\n`;
+        if (location !== 'Unknown') response += `Loc: ${location}\n`;
         if (linkedWhatsapp && linkedWhatsapp !== cleanMsisdn) {
             response += `WA: +${linkedWhatsapp}\n`;
         }
@@ -202,7 +257,11 @@ export const USSDService = {
         const dateStr = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
         let response = `CON 🌱 *mARI mAgri Platform*\n`;
         response += `1. Dashboard\n`;
-        response += `4. Ask mARI (AI Advisor)\n`;
+        response += `2. Marketplace\n`;
+        response += `4. AI Advisor\n`;
+        response += `5. Finance\n`;
+        response += `6. Weather\n`;
+        response += `7. Community\n`;
         response += `8. Vuka Social\n`;
         response += `10. Mpotsa Q&A\n`;
         response += `11. Subscription\n`;

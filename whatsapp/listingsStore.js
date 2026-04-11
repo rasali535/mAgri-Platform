@@ -45,3 +45,22 @@ export async function getRecentListings(limit = 10) {
   if (error) throw new Error(`listings fetch failed: ${error.message}`);
   return data || [];
 }
+
+/**
+ * Search active listings by crop name.
+ * @param {string} query
+ * @param {number} limit
+ * @returns {Promise<object[]>}
+ */
+export async function searchListings(query, limit = 10) {
+  const { data, error } = await supabase
+    .from('listings')
+    .select('*')
+    .eq('status', 'active')
+    .ilike('crop_name', `%${query}%`)
+    .order('created_at', { ascending: false })
+    .limit(limit);
+
+  if (error) throw new Error(`listings search failed: ${error.message}`);
+  return data || [];
+}

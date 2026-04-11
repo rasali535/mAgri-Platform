@@ -107,9 +107,24 @@ export const PaymentService = {
     },
 
     /**
-     * Check if a user has an active subscription
+     * Check if a user has an active subscription (checks local + Supabase)
      */
-    checkSubscription: (msisdn) => {
+    checkSubscription: async (msisdn) => {
+        // 1. Check Supabase (Source of Truth)
+        try {
+            const supabase = getSupabaseClient();
+            const { data: sbSub } = await supabase.from('subscriptions').select('*').eq('userId', msisdn).maybeSingle();
+            if (sbSub) {
+                const expired = sbSub.expiryDate && new Date(sbSub.expiryDate) < new Date();
+                if (sbSub.status === 'ACTIVE' && !expired) {
+                    return { active: true, planType: sbSub.planType, expiryDate: sbSub.expiryDate };
+                }
+            }
+        } catch (e) {
+            console.warn('[Payment Service] Supabase check failed:', e.message);
+        }
+
+        // 2. Fallback to Local SQLite
         const sub = db.prepare('SELECT * FROM subscriptions WHERE userId = ?').get(msisdn);
         if (!sub) return { active: false };
         
