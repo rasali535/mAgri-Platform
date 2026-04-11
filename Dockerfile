@@ -53,6 +53,7 @@ COPY --from=builder /app/metadata.json ./
 
 # Set environment
 ENV NODE_ENV=production
+EXPOSE 8080
 
 # Run application
 CMD ["node", "index.js"]

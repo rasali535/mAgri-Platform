@@ -13,6 +13,7 @@ import { initCron } from './services/cron.js';
 import { askGemini } from './services/ai.js';
 import { getLang } from './whatsapp/translations.js';
 
+const PORT = process.env.PORT || 8080;
 
 // Global error handler for Railway diagnostics
 process.on('uncaughtException', (err) => {
@@ -22,15 +23,14 @@ process.on('unhandledRejection', (reason, promise) => {
     console.error('[FATAL] Unhandled Rejection:', reason);
 });
 
-console.log(`[STARTUP] Environment: ${process.env.NODE_ENV}`);
-console.log(`[STARTUP] Expected Port: ${process.env.PORT || 3001}`);
+console.log(`[STARTUP] Environment: ${process.env.NODE_ENV || 'development'}`);
+console.log(`[STARTUP] Expected Port: ${PORT}`);
 console.log(`[STARTUP] Working Directory: ${process.cwd()}`);
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-const PORT = process.env.PORT || 3001;
 
 // Initialize Baileys once
 let baileysStarted = false;
@@ -57,7 +57,7 @@ app.use((req, res, next) => {
 
 // 1. Mandatory Healthcheck for Railway/Production
 // Added root health support if needed
-app.get(['/health', '/api/health', '/healthcheck', '/_health'], (req, res) => {
+app.get(['/', '/health', '/api/health', '/healthcheck', '/_health'], (req, res) => {
     res.status(200).json({ 
         status: 'UP', 
         service: 'mARI Platform', 
@@ -310,14 +310,17 @@ app.listen(PORT, '0.0.0.0', () => {
     console.log(`📅 Started: ${new Date().toLocaleString()}`);
     console.log(`---------------------------------------------------\n`);
     
-    if (!baileysStarted) {
-        baileysStarted = true;
-        console.log('[mARI] Initializing Baileys WhatsApp Engine...');
-        initBaileys().catch(e => console.error('[mARI] WhatsApp initialization failed:', e));
-    }
-    
-    console.log('[mARI] Initializing Subscription Cron Jobs...');
-    initCron();
+    // Defer heavy initialization to ensure healthchecks pass as soon as the port binds
+    setTimeout(() => {
+        if (!baileysStarted) {
+            baileysStarted = true;
+            console.log('[mARI] Initializing Baileys WhatsApp Engine...');
+            initBaileys().catch(e => console.error('[mARI] WhatsApp initialization failed:', e));
+        }
+        
+        console.log('[mARI] Initializing Subscription Cron Jobs...');
+        initCron();
+    }, 100);
 });
 
 
