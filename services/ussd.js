@@ -1,12 +1,13 @@
-import { getRecentListings, searchListings } from '../whatsapp/listingsStore.js';
-import db from './database.js';
+import { PaymentService } from './payment.js';
 import { VukaService } from './vuka.js';
 import { MpotsaService } from './mpotsa.js';
-import { PaymentService } from './payment.js';
-import { getLang } from '../whatsapp/translations.js';
-import { askGemini } from './ai.js';
-import { sendSMS } from '../whatsapp/africa.js';
+import { DashboardService } from './dashboard.js';
+import db from './database.js';
 import { getSupabaseClient } from '../src/lib/supabaseClient.js';
+import { sendSMS } from '../whatsapp/africa.js';
+import { askGemini } from './ai.js';
+import { getRecentListings, searchListings } from '../whatsapp/listingsStore.js';
+import { getLang } from '../whatsapp/translations.js';
 
 const normalizeMsisdn = (phone) => (phone || '').toString().replace(/\+/g, '').trim();
 const WEBAPP_URL = process.env.WEBAPP_URL || 'https://navajowhite-monkey-252201.hostingersite.com';
@@ -157,7 +158,7 @@ export const USSDService = {
                 return USSDService.showMainMenu(cleanMsisdn);
             }
             const listings = await searchListings(query, 3);
-            let res = `CON *Marketplace Results: ${query}*\n`;
+            let res = `CON *${query}* results:\n`;
             if (listings.length === 0) res += "No matching listings found.";
             else listings.forEach((l, i) => { res += `${i+1}. ${l.crop_name || 'Crop'} - View online\n`; });
             res += `\n0. Back`;
@@ -165,12 +166,10 @@ export const USSDService = {
         }
 
         // --- Traditional Menu Logic (Lower Priority) ---
-        if (L1 === '1') { // Dashboard
-            return await USSDService.handleDashboard(cleanMsisdn);
-        }
+        if (L1 === '1') return await USSDService.handleDashboard(cleanMsisdn);
 
         if (L1 === '2') { // Marketplace
-            if (depth === 1) return `CON *Marketplace*\n1. Recent Listings\n2. Search Crops\n\n0. Menu`;
+            if (depth === 1) return `CON ` + T.marketplace_menu;
             if (parts[1] === '1') {
                 const listings = await getRecentListings(5);
                 let res = `CON *Recent Listings*\n`;
@@ -180,80 +179,72 @@ export const USSDService = {
             }
             if (parts[1] === '2') {
                 USSDService.setState(cleanMsisdn, 'MARKETPLACE_INPUT');
-                return `CON *Search Marketplace*\nEnter Crop Name:`;
+                return `CON ` + T.marketplace_prompt;
             }
-        }
-
-        if (L1 === '5') { // Finance
-            if (depth === 1) return `CON *Finance*\n1. Credit Score\n2. Apply for Loan\n3. Insurance\n\n0. Menu`;
-            if (parts[1] === '1') return `END *Your Credit Score*\nScore: 780 (A+)\nStatus: Eligible for 5,000 credit limit.`;
-            if (parts[1] === '2') return `END *Loan Application*\nVisit mAgri.com/finance to complete your application.`;
-            if (parts[1] === '3') return `END *mAgri Insurance*\nProtect your harvest today! Dial *145# to pay premiums.`;
-        }
-
-        if (L1 === '6') { // Weather
-            return `CON *Weather*\nBorehole, Botswana:\nSunny, 28°C\nChance of rain: 10%\n\n0. Menu`;
-        }
-
-        if (L1 === '7') { // Community
-            return `CON *Community*\nJoin our farmer forum on WhatsApp or Web!\nLink: mAgri.com/community\n\n0. Menu`;
         }
 
         if (L1 === '3') { // Crop Scan
-            if (depth === 1) {
-                return `CON *Crop Scan*\n1. Web App Link\n2. WhatsApp Link\n\n0. Menu`;
-            }
+            if (depth === 1) return `CON *Crop Scan*\n1. Web App Link\n2. WhatsApp Link\n\n0. Menu`;
             if (parts[1] === '1') {
-                const webUrl = WEBAPP_URL ? `${WEBAPP_URL}/diagnose` : 'https://magri.com/diagnose';
+                const webUrl = `${WEBAPP_URL}/diagnose`;
                 await sendSMS(cleanMsisdn, `mAgri: Use this link for Web Crop Scan: ${webUrl}`);
-                return `END A link to the Web App Crop Scan has been sent to your phone via SMS.`;
+                return `END A link to the Web App Crop Scan has been sent via SMS.`;
             }
             if (parts[1] === '2') {
-                // Use a standard WhatsApp shortlink or the bot's specific link
-                const waLink = "https://wa.me/26772345678?text=Scan"; 
+                const botPhone = process.env.WHATSAPP_NUMBER || '26771383838'; // Fallback
+                const waLink = `https://wa.me/${botPhone.replace(/\+/g,'')}?text=Scan`; 
                 await sendSMS(cleanMsisdn, `mAgri: Use this link for WhatsApp Crop Scan: ${waLink}`);
-                return `END A link to the WhatsApp Crop Scan has been sent to your phone via SMS.`;
+                return `END A link to the WhatsApp Crop Scan has been sent via SMS.`;
             }
         }
 
-        if (L1 === '4') { // AI Advisor
+        if (L1 === '4') { // Ask mARI
             USSDService.setState(cleanMsisdn, 'USSD_AI_ADVISOR');
-            return `CON *mARI AI Advisor*\nAsk any farming question:`;
+            return `CON ` + T.agronomist_prompt;
+        }
+
+        if (L1 === '5') { // Finance
+            if (depth === 1) return `CON ` + T.credit_menu;
+            if (parts[1] === '1') return `END ` + T.credit_score('780');
+            return `END *mARI Finance*\nVisit the web app to manage your applications.`;
+        }
+
+        if (L1 === '6') { // Weather
+            return `CON ` + T.weather_info + `\n\n0. Menu`;
+        }
+
+        if (L1 === '7') { // Community
+            return `CON ` + T.community_info(WEBAPP_URL) + `\n\n0. Menu`;
         }
 
         if (L1 === '8') { // Vuka
-            if (depth === 1) {
-                return `CON *Vuka Social*\n1. My Profile\n2. Find Friends\n3. Group Chats\n4. WhatsApp Relay\n\n0. Menu`;
-            }
-            
-            if (parts[1] === '4') { // WhatsApp Relay
-                USSDService.setState(cleanMsisdn, 'VUKA_RELAY_RECIPIENT');
-                return `CON *WhatsApp Relay*\nEnter Recipient MSISDN (e.g. 267...):`;
-            }
-
-            if (parts[1] === '2') { // Find Friends
-                USSDService.setState(cleanMsisdn, 'VUKA_SEARCH_FRIEND');
-                return `CON *Find Friends*\nEnter name or phone number:`;
-            }
-
+            if (depth === 1) return `CON ` + T.vuka_menu;
             if (parts[1] === '1') {
                 const user = await VukaService.getUser(cleanMsisdn);
                 if (!user) {
                     USSDService.setState(cleanMsisdn, 'VUKA_REGISTER_NAME');
-                    return `CON *My Profile*\nYou are not registered.\n\nReply with your Name:`;
+                    return `CON ` + T.vuka_register_prompt;
                 }
                 const friends = await VukaService.getFriends(cleanMsisdn);
-                return `END *My Profile*\nName: ${user.name}\nRole: ${user.role || 'Farmer'}\nFriends: ${friends.length}\n\nWA: ${user.whatsapp_number ? '+'+user.whatsapp_number : 'Not Linked'}`;
+                return `END ` + T.vuka_profile(user, friends.length);
             }
-
-            if (parts[1] === '3') { // Group Chats
-                return `CON *Vuka Groups*\nMost group features are on Web/WhatsApp.\n\n1. List My Groups\n0. Back`;
+            if (parts[1] === '2') { // Social Feed
+                const posts = await VukaService.getPosts();
+                let feed = `CON *Vuka Feed*\n`;
+                posts.slice(0, 3).forEach(p => { feed += `• ${p.content.substring(0, 30)}...\n`; });
+                feed += `\n0. Back`;
+                return feed;
             }
+            if (parts[1] === '5') {
+                USSDService.setState(cleanMsisdn, 'VUKA_SEARCH_FRIEND');
+                return `CON ` + T.vuka_search_prompt;
+            }
+            return `CON *Vuka Groups*\nFeature coming soon to USSD.\n\n0. Back`;
         }
 
         if (L1 === '9') { // Language
             if (depth === 1) {
-                return `CON Select Language:\n1. English\n2. Tswana\n3. French\n4. Nyanja\n5. Bemba\n\n0. Menu`;
+                return `CON ` + T.change_lang;
             }
             if (depth === 2) {
                 const choice = parts[1];
@@ -266,7 +257,7 @@ export const USSDService = {
                          console.warn('[USSD] Language update failed:', e.message);
                     }
                     USSDService.setState(cleanMsisdn, 'IDLE');
-                    return `END Language updated successfully. Dial again to use new language.`;
+                    return `END Language updated to ${newLang === 'en' ? 'English' : newLang === 'tn' ? 'Setswana' : newLang}. Dial again to use new language.`;
                 } else {
                     return `CON Invalid choice.\n0. Back`;
                 }
@@ -275,12 +266,13 @@ export const USSDService = {
 
         if (L1 === '10') { // Mpotsa
             USSDService.setState(cleanMsisdn, 'MPOTSA_WAITING');
-            return `CON *Mpotsa Universal Q&A*\nAsk about Farming, Health, Law, Jobs or anything:`;
+            return `CON ` + T.mpotsa_prompt;
         }
 
         if (L1 === '11') { // Payments
-            if (depth === 1) return `CON *Subscriptions*\n1. Monthly (20 BWP)\n2. Yearly (200 BWP)`;
-            const planType = parts[ depth-1 ] === '1' ? 'MONTHLY' : 'YEARLY';
+            if (depth === 1) return `CON ` + T.subscription_info + `\n1. Monthly (20 BWP)\n2. Yearly (200 BWP)\n0. Menu`;
+            const choice = parts[depth-1];
+            const planType = choice === '1' ? 'MONTHLY' : 'YEARLY';
             const amount = planType === 'MONTHLY' ? 20 : 200;
             const payRes = await PaymentService.initiatePayment(cleanMsisdn, amount, planType);
             if (payRes.success) {
@@ -293,77 +285,15 @@ export const USSDService = {
         return `CON Invalid option or feature coming soon.\n0. Menu`;
     },
 
-    handleDashboard: async (msisdn) => {
-        const cleanMsisdn = normalizeMsisdn(msisdn);
-        const supabase = getSupabaseClient();
+    handleDashboard: async (cleanMsisdn) => {
+        const data = await DashboardService.getData(cleanMsisdn);
+        const { profile, subscription, stats } = data;
         
-        let displayName = 'Guest';
-        let role = 'Farmer';
-        let location = 'Unknown';
-        let linkedWhatsapp = null;
+        // Get lang for dashboard
+        let lang = profile.language || 'en';
+        const T = getLang(lang);
 
-        try {
-            // Use VukaService which handles the local SQLite vs Supabase synchronization
-            const vukaData = await VukaService.getUser(cleanMsisdn);
-            if (vukaData) {
-                if (vukaData.name) displayName = vukaData.name;
-                if (vukaData.role) role = vukaData.role.charAt(0).toUpperCase() + vukaData.role.slice(1);
-                if (vukaData.lat && vukaData.lng) location = `${vukaData.lat.toFixed(2)}, ${vukaData.lng.toFixed(2)}`;
-                if (vukaData.whatsapp_number) linkedWhatsapp = vukaData.whatsapp_number;
-            }
-
-            // Fallback: WhatsApp session (has display name from WA profile if they linked)
-            if (displayName === 'Guest') {
-                const { data: waSession } = await supabase.from('whatsapp_sessions').select('email').eq('phone', cleanMsisdn).maybeSingle();
-                if (waSession?.email) displayName = waSession.email.split('@')[0];
-            }
-        } catch (e) {
-            console.warn('[USSD Dashboard] Vuka profile lookup failed:', e.message);
-        }
-
-        // --- Subscription: check Supabase first, then local SQLite ---
-        let subStatus = { active: false, planType: null };
-        try {
-            const { data: sbSub } = await supabase
-                .from('subscriptions')
-                .select('*')
-                .eq('userId', cleanMsisdn)
-                .maybeSingle();
-            if (sbSub) {
-                const expired = sbSub.expiryDate && new Date(sbSub.expiryDate) < new Date();
-                subStatus = { active: sbSub.status === 'ACTIVE' && !expired, planType: sbSub.planType };
-            }
-        } catch (e) { /* ignore, fall through to local */ }
-        
-        if (!subStatus.active) {
-            // Local fallback (USSD OTP-activated subscriptions)
-            subStatus = await PaymentService.checkSubscription(cleanMsisdn);
-        }
-
-        // --- Scan count from Supabase resources ---
-        let scanCount = 0;
-        try {
-            const { count } = await supabase
-                .from('resources')
-                .select('*', { count: 'exact', head: true })
-                .eq('phone', cleanMsisdn)
-                .eq('type', 'Diagnosis');
-            scanCount = count || 0;
-        } catch (e) {
-            console.warn('[USSD Dashboard] Scan count lookup failed:', e.message);
-        }
-
-        let response = `CON *mARI Dashboard*\n`;
-        response += `User: ${displayName}\n`;
-        response += `Role: ${role}\n`;
-        if (location !== 'Unknown') response += `Loc: ${location}\n`;
-        if (linkedWhatsapp && linkedWhatsapp !== cleanMsisdn) {
-            response += `WA: +${linkedWhatsapp}\n`;
-        }
-        response += `Status: ${subStatus.active ? '✅ ACTIVE (' + subStatus.planType + ')' : '❌ INACTIVE'}\n`;
-        response += `Total Scans: ${scanCount}\n`;
-        response += `\n0. Back to Menu`;
-        return response;
+        return `CON ` + T.dashboard(profile, subscription, stats) + `\n\n0. Menu`;
     },
 
     showMainMenu: (msisdn) => {
@@ -371,17 +301,16 @@ export const USSDService = {
         let lang = 'en';
         try {
             const user = db.prepare('SELECT language FROM users WHERE msisdn = ?').get(cleanMsisdn);
-            if (user && user.language) {
-                lang = user.language;
-            }
-        } catch (e) {
-            console.error('[USSD] Error fetching user language:', e);
-        }
-        
+            if (user && user.language) lang = user.language;
+        } catch (e) {}
+
+        const T = getLang(lang);
         const dateStr = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-        const L = getLang(lang);
-        let response = L.ussd_menu || `CON 🌱 *mARI mAgri Platform*\n1. Dashboard\n2. Marketplace\n3. Crop Scan\n4. AI Advisor\n5. Finance\n6. Weather\n7. Community\n8. Vuka Social\n10. Mpotsa Q&A\n11. Subscription`;
-        response += `\n📅 ${dateStr}`;
+        
+        let response = T.ussd_menu; 
+        // If ussd_menu doesn't start with CON (it does in translation.js), add it.
+        if (!response.startsWith('CON')) response = 'CON ' + response;
+        response += `\n\n📅 ${dateStr}`;
         return response;
     },
 

@@ -19,6 +19,7 @@ import { getRecentListings } from './listingsStore.js';
 import { getSupabaseClient } from '../src/lib/supabaseClient.js';
 import { PaymentService } from '../services/payment.js';
 import db from '../services/database.js';
+import { DashboardService } from '../services/dashboard.js';
 
 
 const WEBAPP_URL = process.env.WEBAPP_URL || 'https://navajowhite-monkey-252201.hostingersite.com';
@@ -225,48 +226,12 @@ export async function processMessage(phone, rawText) {
 
   if (session.state === 'WELCOME') {
     if (text === '1') {
-        const supabase = getSupabaseClient();
-        let subStatus = { active: false, planType: null };
-        let scanCount = 0;
-        let displayName = session.email ? session.email.split('@')[0] : 'Farmer';
-
-        let role = 'Farmer';
-        let location = 'Unknown';
-
-        try {
-            // Check subscription
-            const { data: sbSub } = await supabase.from('subscriptions').select('*').eq('userId', cleanPhone).maybeSingle();
-            if (sbSub) {
-                const expired = sbSub.expiryDate && new Date(sbSub.expiryDate) < new Date();
-                subStatus = { active: sbSub.status === 'ACTIVE' && !expired, planType: sbSub.planType };
-            }
-            if (!subStatus.active) subStatus = await PaymentService.checkSubscription(cleanPhone);
-
-            // Check scans
-            const { count } = await supabase.from('resources').select('*', { count: 'exact', head: true }).eq('phone', cleanPhone).eq('type', 'Diagnosis');
-            scanCount = count || 0;
-
-            // Check Vuka data (Name, Role, Location)
-            const vukaData = await VukaService.getUser(cleanPhone);
-            if (vukaData) {
-                if (vukaData.name) displayName = vukaData.name;
-                if (vukaData.role) role = vukaData.role;
-                if (vukaData.lat && vukaData.lng) location = `${vukaData.lat.toFixed(2)}, ${vukaData.lng.toFixed(2)}`;
-            }
-        } catch (e) { console.warn('[WA Dashboard] Lookup failed:', e.message); }
-
-        return `📦 *mARI Dashboard*\n\n` +
-               `👤 *User:* ${displayName}\n` +
-               `🎖 *Role:* ${role}\n` +
-               `📍 *Loc:* ${location}\n` +
-               `💳 *Status:* ${subStatus.active ? '✅ ACTIVE (' + subStatus.planType + ')' : '❌ INACTIVE'}\n` +
-               `🔬 *Total Scans:* ${scanCount}\n` +
-               `👥 *Vuka Friends:* ${(await VukaService.getFriends(cleanPhone)).length}\n\n` +
-               `Reply *MENU* to return.`;
+        const data = await DashboardService.getData(cleanPhone);
+        return L.dashboard(data.profile, data.subscription, data.stats) + `\n\nReply *MENU* to return.`;
     }
     if (text === '2') {
       await updateSession(cleanPhone, { state: 'MARKETPLACE' });
-      return MENU.MARKETPLACE_LOADING;
+      return L.marketplace_menu;
     }
     if (text === '3') {
       await updateSession(cleanPhone, { state: 'DIAGNOSE_PENDING' });
@@ -278,17 +243,17 @@ export async function processMessage(phone, rawText) {
     }
     if (text === '5') {
       await updateSession(cleanPhone, { state: 'CREDIT' });
-      return MENU.CREDIT_MENU;
+      return L.credit_menu;
     }
     if (text === '6') {
-      return `🌦 *Weather Forecast*\nSunny with light showers. Good for your crops!\n\nReply *MENU* to return.`;
+      return L.weather_info + `\n\n` + L.back_menu;
     }
     if (text === '7') {
-      return `💬 *Community*\nJoin our 5,000+ member farmer forum here: ${WEBAPP_URL}/community\n\nReply *MENU* to return.`;
+      return L.community_info(WEBAPP_URL) + `\n\n` + L.back_menu;
     }
     if (text === '8') {
       await updateSession(cleanPhone, { state: 'VUKA' });
-      return MENU.VUKA_MENU;
+      return L.vuka_menu;
     }
     if (text === '9') {
       await updateSession(cleanPhone, { state: 'SET_LANGUAGE' });
@@ -296,7 +261,10 @@ export async function processMessage(phone, rawText) {
     }
     if (text === '10') {
       await updateSession(cleanPhone, { state: 'MPOTSA' });
-      return MENU.MPOTSA_PROMPT;
+      return L.mpotsa_prompt;
+    }
+    if (text === '11') {
+        return L.subscription_info + `\n\n` + L.back_menu;
     }
     return L.unknown;
   }
@@ -322,9 +290,10 @@ export async function processMessage(phone, rawText) {
       const u = await VukaService.getUser(cleanPhone);
       if (!u) {
         await updateSession(cleanPhone, { state: 'VUKA_REGISTER_NAME' });
-        return `👤 *My Profile*\nYou don't have a Vuka profile yet.\n\nReply with your *Name* to create one:`;
+        return L.vuka_register_prompt;
       }
-      return `👤 *My Profile*\nName: ${u.name || 'N/A'}\nRole: ${u.role || 'Farmer'}\nBio: ${u.bio || 'N/A'}\n\n*Options:*\n2. Social Feed\n3. Create Post\n0. Back`;
+      const friends = await VukaService.getFriends(cleanPhone);
+      return L.vuka_profile(u, friends.length);
     }
 
     // 2. Social Feed
@@ -345,16 +314,16 @@ export async function processMessage(phone, rawText) {
       const u = await VukaService.getUser(cleanPhone);
       if (!u) {
         await updateSession(cleanPhone, { state: 'VUKA_REGISTER_NAME' });
-        return `❌ You need a profile to post.\n\nReply with your *Name* to register:`;
+        return `❌ You need a profile to post.\n\n` + L.vuka_register_prompt;
       }
       await updateSession(cleanPhone, { state: 'VUKA_CREATE_POST' });
-      return `📝 *Create Post*\nType what's on your mind (e.g. crop updates, tips):`;
+      return L.vuka_post_prompt;
     }
 
     // 5. Find Friends
     if (text === '5') {
         await updateSession(cleanPhone, { state: 'VUKA_SEARCH' });
-        return `🔍 *Find Friends*\nEnter a name or phone number to search for on Vuka:`;
+        return L.vuka_search_prompt;
     }
 
     return MENU.VUKA_MENU;
@@ -382,10 +351,10 @@ export async function processMessage(phone, rawText) {
         const friend = users[choice - 1];
         await VukaService.addFriend(cleanPhone, friend.msisdn);
         await updateSession(cleanPhone, { state: 'VUKA' });
-        return `✅ Friend request sent to *${friend.name}*!\n\n${MENU.VUKA_MENU}`;
+        return `✅ Friend request sent to *${friend.name}*!\n\n${L.vuka_menu}`;
     }
     await updateSession(cleanPhone, { state: 'VUKA' });
-    return MENU.VUKA_MENU;
+    return L.vuka_menu;
   }
 
   if (session.state === 'VUKA_REGISTER_NAME') {
@@ -420,7 +389,7 @@ export async function processMessage(phone, rawText) {
       return L.welcome(session.linked, greetingName);
     }
     if (text === '1') {
-      return MENU.CREDIT_SCORE('850');
+      return L.credit_score('850');
     }
     if (text === '2') {
       await updateSession(cleanPhone, { state: 'CREDIT_APPLY' });
@@ -438,7 +407,7 @@ export async function processMessage(phone, rawText) {
     }
     // Simulate processing
     await updateSession(cleanPhone, { state: 'WELCOME' });
-    return MENU.CREDIT_APPLY_OK(text);
+    return L.credit_apply_ok(text) + `\n\n` + L.back_menu;
   }
 
   if (session.state === 'MPOTSA') {
@@ -538,9 +507,9 @@ export async function processMessage(phone, rawText) {
     const listings = await getRecentListings(5);
     const resultsStr = listings.length > 0 
         ? listings.map(l => `🌾 *${l.crop_name || 'Crop'}*\nPrice: Negotiable\n seller: ${l.phone}\n [View](${WEBAPP_URL}/marketplace?id=${l.id})`).join('\n\n')
-        : "No active listings found for your search.";
+        : L.marketplace_no_results;
 
-    return `🛒 *Marketplace Search*\nResults for "${text}":\n\n${resultsStr}\n\nType *0* to go back.`;
+    return L.marketplace_results(text) + `\n\n${resultsStr}\n\n` + L.cancel_exit;
   }
 
   if (session.state === 'DIAGNOSE_PENDING') {

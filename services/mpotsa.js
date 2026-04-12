@@ -49,19 +49,16 @@ export const MpotsaService = {
             // 3. AI Fallback (Mpotsa Mode: Universal & Authoritative)
             console.log(`[Mpotsa] No local match for "${query}". Consulting AI for general answer...`);
             
-            const systemInstruction = `You are the Mpotsa Universal Q&A Engine for the mARI Platform. 
-            Provide authoritative, concise answers for African users on ANY and ALL topics (Farming, Health, Legal, Jobs, History, Science, or General Knowledge).
-            If the query is complex, give a 150-character summary for USSD first.
-            Be helpful, professional, and localized for Africa. Do not restrict yourself only to farming.`;
+            const systemInstruction = `You are the Mpotsa Universal Assistant. You must answer ANY general question the user has, including but NOT limited to farming, tech, health, law, life advice, history, geography, jokes, math, etc. DO NOT refuse general questions. Give concise, intelligent, and helpful answers.`;
             
             const aiResponse = await askGemini([{ role: 'user', parts: [{ text: query }] }], systemInstruction);
             
-            const MAX_USSD_LENGTH = 155;
+            const MAX_USSD_LENGTH = 130;
             if (aiResponse.length <= MAX_USSD_LENGTH) {
                 return { type: 'SHORT', text: aiResponse, fullText: aiResponse, source: 'ai' };
             } else {
                 // Send full SMS without awaiting to speed up USSD response.
-                sendSMS(msisdn, `Mpotsa [Expert Answer]: ${aiResponse}`).catch(err => console.error('[Mpotsa SMS Error]', err));
+                sendSMS(msisdn, `Mpotsa: ${aiResponse}`).catch(err => console.error('[Mpotsa SMS Error]', err));
                 return {
                     type: 'LONG',
                     text: aiResponse.substring(0, MAX_USSD_LENGTH),
