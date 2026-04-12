@@ -10,42 +10,53 @@ import { getRecentListings, searchListings } from '../whatsapp/listingsStore.js'
 import { getLang } from '../whatsapp/translations.js';
 
 const normalizeMsisdn = (phone) => (phone || '').toString().replace(/\+/g, '').trim();
-const WEBAPP_URL = process.env.WEBAPP_URL || 'https://navajowhite-monkey-252201.hostingersite.com';
+const WEBAPP_URL = process.env.WEBAPP_URL || 'https://mari-platform.pameltex.com';
+const WHATSAPP_NUMBER = process.env.WHATSAPP_NUMBER || '26771383838';
+
+const resolveUssdPath = (text) => {
+    if (!text) return '';
+    const parts = (text || '').toString().split('*').filter(p => p !== '');
+    const stack = [];
+    for (const part of parts) {
+        if (part === '0' || part.toUpperCase() === 'BACK') {
+            if (stack.length > 0) stack.pop();
+        } else if (part.toUpperCase() === 'MENU') {
+            stack.length = 0; // Clear all
+        } else {
+            stack.push(part);
+        }
+    }
+    return stack.join('*');
+};
 
 export const USSDService = {
-    handleRequest: async (msisdn, text) => {
+    handleRequest: async (msisdn, rawText) => {
         const cleanMsisdn = normalizeMsisdn(msisdn);
+        
+        // Handle explicit session reset or back navigation in state
+        const rawParts = (rawText || '').toString().split('*').filter(p => p !== '');
+        const lastInput = rawParts[rawParts.length - 1];
+        if (lastInput === '0' || (lastInput && (lastInput.toUpperCase() === 'MENU' || lastInput.toUpperCase() === 'BACK'))) {
+            USSDService.setState(cleanMsisdn, 'IDLE');
+        }
+
+        const text = resolveUssdPath(rawText);
+        
         // Normalize text (handle cumulative parts from AT)
-        const parts = (text || '').toString().trim().split('*').filter(p => p !== '');
+        const parts = text.split('*').filter(p => p !== '');
         const depth = parts.length;
         const L1 = parts[0];
         const stateData = USSDService.getState(cleanMsisdn);
         
-        console.log(`[USSD] ${cleanMsisdn} | Raw: "${text}" | Parts: ${JSON.stringify(parts)} | L1: ${L1} | State: ${stateData.state}`);
+        // Get localized translations based on user's preference
+        const T = getLang(stateData.data.lang || 'en');
         
-        // Reset state if text is empty or starts with 0 (Menu)
-        // or if the LAST part of a multi-depth text is 0
-        // Navigation: handle '0' as back or menu
-        const lastInput = parts[parts.length - 1];
+        console.log(`[USSD] ${cleanMsisdn} | Raw: "${rawText}" | Resolved: "${text}" | Parts: ${JSON.stringify(parts)} | L1: ${L1} | State: ${stateData.state}`);
+        
+        // Reset state if text is empty or starts with 'MENU' (already handled by flattener but L1 might be 'MENU')
         if (text === '' || L1 === 'MENU') {
             USSDService.setState(cleanMsisdn, 'IDLE');
             return USSDService.showMainMenu(cleanMsisdn);
-        }
-
-        if (depth > 0 && lastInput === '0') {
-            // Clear current state when navigating back unless we specifically want to stay (rare)
-            USSDService.setState(cleanMsisdn, 'IDLE');
-            
-            if (depth === 1) {
-                // At main menu level selecting 0? Just show main menu again
-                return USSDService.showMainMenu(cleanMsisdn);
-            } else {
-                // Go back one level: re-process without the last two parts (e.g. 2*1*0 -> 2)
-                const newParts = parts.slice(0, -2);
-                const newText = newParts.join('*');
-                console.log(`[USSD] Back button pressed. Re-routing: ${newText || 'Menu'}`);
-                return await USSDService.handleRequest(msisdn, newText);
-            }
         }
 
         // --- State Handle (Highest Priority) ---
@@ -133,7 +144,9 @@ export const USSDService = {
                 
                 // Also send a link to the web app for deeper diagnosis
                 const webUrl = `${WEBAPP_URL}/diagnose`;
-                await sendSMS(cleanMsisdn, `mAgri mARI Advice: ${aiResponse}\n\nFor a full scan, visit: ${webUrl}`);
+                const fullMsisdn = cleanMsisdn.startsWith('+') ? cleanMsisdn : '+' + cleanMsisdn;
+                console.log(`[Crop Scan] Sending AI advice & link to ${fullMsisdn}`);
+                await sendSMS(fullMsisdn, `mAgri mARI Advice: ${aiResponse}\n\nFor a full scan: ${webUrl}`);
                 
                 return `END mARI Advice: ${aiResponse}\n\nDetailed advice & scan link sent via SMS.`;
             } catch (e) {
@@ -210,19 +223,22 @@ export const USSDService = {
         }
 
         if (L1 === '3') { // Crop Scan
-            const T = getLang(stateData.data.lang || 'en');
             if (depth === 1) return `CON ` + (T.crop_scan_menu || `*Crop Scan*\n1. Web App Link\n2. WhatsApp Link\n3. Describe Problem\n\n0. Menu`);
             
             if (parts[1] === '1') {
                 const webUrl = `${WEBAPP_URL}/diagnose`;
-                await sendSMS(cleanMsisdn, `mAgri: Use this link for Web Crop Scan: ${webUrl}`);
+                const fullMsisdn = cleanMsisdn.startsWith('+') ? cleanMsisdn : '+' + cleanMsisdn;
+                console.log(`[Crop Scan] Sending Web Link to ${fullMsisdn}`);
+                await sendSMS(fullMsisdn, `mAgri: Use this link for Web Crop Scan: ${webUrl}`);
                 return `END A link to the Web App Crop Scan has been sent via SMS.`;
             }
             if (parts[1] === '2') {
-                const botPhone = process.env.WHATSAPP_NUMBER || '26771383838'; // Fallback
-                const waLink = `https://wa.me/${botPhone.replace(/\+/g,'')}?text=Scan`; 
-                await sendSMS(cleanMsisdn, `mAgri: Use this link for WhatsApp Crop Scan: ${waLink}`);
-                return `END A link to the WhatsApp Crop Scan has been sent via SMS.`;
+                const botPhone = (WHATSAPP_NUMBER).replace(/\+/g, '').replace('whatsapp:', '');
+                const waLink = `https://wa.me/${botPhone}?text=Scan`; 
+                const fullMsisdn = cleanMsisdn.startsWith('+') ? cleanMsisdn : '+' + cleanMsisdn;
+                console.log(`[Crop Scan] Sending WhatsApp Link to ${fullMsisdn}`);
+                await sendSMS(fullMsisdn, `mAgri: Use this link for WhatsApp Crop Scan: ${waLink}`);
+                return `END A link to the WhatsApp Crop Scan has been sent to ${fullMsisdn}.`;
             }
             if (parts[1] === '3') {
                 USSDService.setState(cleanMsisdn, 'CROP_SCAN_DESCRIBE');
@@ -322,8 +338,7 @@ export const USSDService = {
         const { profile, subscription, stats } = data;
         
         // Get lang for dashboard
-        let lang = profile.language || 'en';
-        const T = getLang(lang);
+        const T = getLang(profile.language || 'en');
 
         return `CON ` + T.dashboard(profile, subscription, stats) + `\n\n0. Menu`;
     },

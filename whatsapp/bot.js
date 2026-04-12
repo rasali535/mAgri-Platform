@@ -22,7 +22,7 @@ import db from '../services/database.js';
 import { DashboardService } from '../services/dashboard.js';
 
 
-const WEBAPP_URL = process.env.WEBAPP_URL || 'https://navajowhite-monkey-252201.hostingersite.com';
+const WEBAPP_URL = process.env.WEBAPP_URL || 'https://mari-platform.pameltex.com';
 
 // ─── Locale Helpers ──────────────────────────────────────────────────────────
 

@@ -84,6 +84,8 @@ export const TRANSLATIONS = {
     vuka_post_prompt: "📝 *Kwala Sentele*\nKwala se o se akanyang:",
     thinking: "⏳ Ke a akanya...",
     unknown: "❓ Ga ke utlwe. Type *MENU*.",
+    crop_scan_menu: "*Hlahlobo ya Dijalo*\n1. Link ya Web App\n2. Link ya WhatsApp\n3. Tlhalosa Bothata\n\n0. Menu",
+    crop_scan_describe_prompt: "*Tlhalosa Bothata*\nKa kopo tlhalosa gore bothata jwa gago ke eng ka dijalo tsa gago:",
   },
   fr: {
     welcome: (linked, name) => `🌱 *Bienvenue sur mARI Platform by Pameltex Tech!* ${name ? name : ''}\n\n1. Tableau de bord\n2. Marché\n3. Scanner Culture 🔍\n4. Ask mARI (Conseiller)\n5. Finance\n6. Météo\n7. Communauté\n8. Réseau Vuka 👥\n9. Language 🌍\n10. Mpotsa Q&A\n11. Subscription 💳`,
@@ -106,6 +108,8 @@ export const TRANSLATIONS = {
     vuka_post_prompt: "📝 *Créer un message*\nÉcrivez ce que vous pensez:",
     thinking: "⏳ Analyse...",
     unknown: "❓ Option inconnue. Tapez *MENU*.",
+    crop_scan_menu: "*Analyse de Culture*\n1. Lien Web App\n2. Lien WhatsApp\n3. Décrire le problème\n\n0. Menu",
+    crop_scan_describe_prompt: "*Décrire le problème*\nVeuillez décrire le problème de votre culture:",
   },
   ny: {
     welcome: (linked, name) => `🌱 *Takulandirani ku mARI Platform by Pameltex Tech!* ${name ? name : ''}\n\n1. Dashboard\n2. Malonda\n3. Crop Scan 🔍\n4. Funzani mARI (Advisor)\n5. Finance\n6. Weather\n7. Community\n8. Vuka Social 👥\n9. Language 🌍\n10. Mpotsa Q&A\n11. Subscription 💳`,
@@ -128,6 +132,8 @@ export const TRANSLATIONS = {
     vuka_post_prompt: "📝 *Lembani Uthenga*\nLembani zomwe mukuganiza:",
     thinking: "⏳ Ndikuganiza...",
     unknown: "❓ Siziwika. Lembani *MENU*.",
+    crop_scan_menu: "*Kuyang'ana Mbewu*\n1. Linki ya Web App\n2. Linki ya WhatsApp\n3. Fotokozani vuto\n\n0. M'ndandanda",
+    crop_scan_describe_prompt: "*Fotokozani vuto*\nChonde fotokozani vuto la mbewu zanu:",
   },
   be: {
     welcome: (linked, name) => `🌱 *Mwaiseni mu mARI Platform by Pameltex Tech!* ${name ? name : ''}\n\n1. Dashboard\n2. Market\n3. Crop Scan 🔍\n4. Sipusheni mARI (Advisor)\n5. Finance\n6. Weather\n7. Community\n8. Vuka Social 👥\n9. Language 🌍\n10. Mpotsa Q&A\n11. Subscription 💳`,
@@ -150,6 +156,8 @@ export const TRANSLATIONS = {
     vuka_post_prompt: "📝 *Lembani Icifumununa*\nLembani ifyo muletonkanya:",
     thinking: "⏳ Ndekutontonkanya...",
     unknown: "❓ Tafishibikwe. Lembani *MENU*.",
+    crop_scan_menu: "*Ukupimisha imishi*\n1. Linki ya Web App\n2. Linki ya WhatsApp\n3. Shimikeni ubulwishi\n\n0. Menu",
+    crop_scan_describe_prompt: "*Shimikeni ubulwishi*\nLembani ubulwishi bwa mushi wenu:",
   }
 };
 

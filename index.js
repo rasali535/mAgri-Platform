@@ -14,6 +14,8 @@ import { askGemini } from './services/ai.js';
 import { getLang } from './whatsapp/translations.js';
 
 const PORT = process.env.PORT || 3001;
+const WEBAPP_URL = process.env.WEBAPP_URL || 'https://mari-platform.pameltex.com';
+const WHATSAPP_NUMBER = process.env.WHATSAPP_NUMBER || '26771383838';
 
 // Global error handler for Railway diagnostics
 process.on('uncaughtException', (err) => {
@@ -73,6 +75,8 @@ app.all(['/api/ussd-health', '/ussd-health', '/ussd-health/'], (req, res) => {
     res.set('Content-Type', 'text/plain');
     res.send('CON Health Check OK');
 });
+
+// specific routes will go here...
 
 async function sendSMS(to, message) {
     try {
@@ -158,50 +162,10 @@ app.post('/api/chat', async (req, res) => {
     }
 });
 
-// ─────────────────────────────────────────────────────────────────────────────
-// VUKA SOCIAL API ROUTES
-// ─────────────────────────────────────────────────────────────────────────────
-
-// Posts (community feed)
-app.get('/api/vuka/posts', async (req, res) => {
-    try {
-        const posts = await VukaService.getPosts?.() || [];
-        res.json({ posts });
-    } catch (e) {
-        res.status(500).json({ error: 'Could not load posts', posts: [] });
-    }
-});
-
-app.post('/api/vuka/posts', async (req, res) => {
-    try {
-        const { content, msisdn } = req.body;
-        if (!content?.trim()) return res.status(400).json({ error: 'Content required' });
-        // Corrected API: passes msisdn and content as separate args
-        const resObj = await VukaService.createPost?.(msisdn, content);
-        res.json({ success: true, id: resObj?.id || Date.now().toString() });
-    } catch (e) {
-        console.error('[Vuka] Post error:', e);
-        res.status(500).json({ error: 'Could not save post' });
-    }
-});
-
-// Friends
-app.post('/api/vuka/friends', async (req, res) => {
-    try {
-        const { userMsisdn, friendMsisdn } = req.body;
-        if (!friendMsisdn) return res.status(400).json({ error: 'friendMsisdn required' });
-        const ok = await VukaService.addFriend(userMsisdn || 'web-user', friendMsisdn);
-        res.json({ success: ok });
-    } catch (e) {
-        console.error('[Vuka] Add friend error:', e);
-        res.status(500).json({ error: 'Could not add friend' });
-    }
-});
-
-// Posts
+// Community Feed (Posts)
 app.get(['/api/vuka/posts', '/api/vuka/posts/'], async (req, res) => {
     try {
-        const posts = await VukaService.getPosts();
+        const posts = await VukaService.getPosts() || [];
         res.json({ posts });
     } catch (e) {
         console.error('[Vuka] Fetch posts error:', e);
@@ -212,7 +176,7 @@ app.get(['/api/vuka/posts', '/api/vuka/posts/'], async (req, res) => {
 app.post(['/api/vuka/posts', '/api/vuka/posts/'], async (req, res) => {
     try {
         const { msisdn, content } = req.body;
-        if (!content) return res.status(400).json({ error: 'Content required' });
+        if (!content?.trim()) return res.status(400).json({ error: 'Content required' });
         await VukaService.createPost(msisdn || 'web-user', content);
         res.json({ success: true });
     } catch (e) {
@@ -221,12 +185,15 @@ app.post(['/api/vuka/posts', '/api/vuka/posts/'], async (req, res) => {
     }
 });
 
+// Friends Management
 app.get(['/api/vuka/friends', '/api/vuka/friends/'], async (req, res) => {
     try {
         const { msisdn } = req.query;
-        const friends = msisdn ? await VukaService.getFriends(msisdn) : [];
-        res.json({ friends });
+        if (!msisdn) return res.json({ friends: [] });
+        const friends = await VukaService.getFriends(msisdn);
+        res.json({ friends: friends || [] });
     } catch (e) {
+        console.error('[Vuka] Fetch friends error:', e);
         res.status(500).json({ error: 'Could not load friends', friends: [] });
     }
 });
@@ -235,8 +202,8 @@ app.post(['/api/vuka/friends', '/api/vuka/friends/'], async (req, res) => {
     try {
         const { msisdn, friendMsisdn } = req.body;
         if (!friendMsisdn) return res.status(400).json({ error: 'friendMsisdn required' });
-        await VukaService.addFriend(msisdn || 'web-user', friendMsisdn);
-        res.json({ success: true });
+        const ok = await VukaService.addFriend(msisdn || 'web-user', friendMsisdn);
+        res.json({ success: ok });
     } catch (e) {
         console.error('[Vuka] Add friend error:', e);
         res.status(500).json({ error: 'Could not add friend' });
@@ -286,11 +253,17 @@ app.all(['/api/vuka/relay', '/api/vuka/relay/'], async (req, res) => {
     try {
         const { senderMsisdn, recipientMsisdn, message } = req.body;
         if (!recipientMsisdn || !message) return res.status(400).json({ error: 'recipientMsisdn and message required' });
+        
         await VukaService.relayToWhatsApp(senderMsisdn || 'web-user', recipientMsisdn, message);
         res.json({ success: true });
     } catch (e) {
-        console.error('[Vuka] Relay error:', e);
-        res.status(503).json({ error: 'WhatsApp not connected or relay failed' });
+        console.error('[Vuka] Relay error:', e.message);
+        // Special case: if it's a 404 from Supabase or similar, keep JSON
+        res.status(503).json({ 
+            error: 'Bridge failure', 
+            details: e.message,
+            tip: 'Ensure WhatsApp bot is connected at /admin/qr' 
+        });
     }
 });
 
@@ -348,6 +321,30 @@ app.all(['/api/diagnose', '/api/diagnose/'], async (req, res) => {
     }
 });
 
+// Global API Catch-all for non-existent endpoints (MUST be below all specific /api/ routes)
+app.all('/api/*', (req, res, next) => {
+    if (res.headersSent) return;
+    console.warn(`[mARI API 404] ${req.method} ${req.url} - Not Handled`);
+    res.status(404).json({ 
+        error: `Endpoint ${req.url} not found`, 
+        path: req.path,
+        method: req.method 
+    });
+});
+
+// Final error handler to prevent HTML leaks on internal errors
+app.use((err, req, res, next) => {
+    console.error(`[mARI FATAL ERROR ${new Date().toISOString()}]`, err);
+    if (req.path.startsWith('/api/')) {
+        return res.status(500).json({ 
+            error: 'Internal Server Error', 
+            message: err.message,
+            timestamp: new Date().toISOString()
+        });
+    }
+    next(err); 
+});
+
 // 2. Static File Serving (Support both build/ and dist/ folders)
 const distPath = path.join(__dirname, 'dist');
 const buildPath = path.join(__dirname, 'build');
@@ -359,10 +356,6 @@ app.get('*', (req, res) => {
     const distIndex = path.join(distPath, 'index.html');
     const buildIndex = path.join(buildPath, 'index.html');
     const rootIndex = path.join(__dirname, 'index.html'); // fallback
-
-    if (req.path.startsWith('/api/')) {
-        return res.status(404).json({ error: `API route not found: ${req.path}` });
-    }
 
     if (path.extname(req.path)) return res.status(404).send('Not Found');
 

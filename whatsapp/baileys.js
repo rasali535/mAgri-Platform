@@ -25,9 +25,12 @@ export async function initBaileys() {
         printQRInTerminal: false,
         browser: ['mARI Platform by Pameltex Tech', 'Chrome', '1.0.0'],
     });
+    
+    // Set global reference for other modules to use (e.g., africa.js)
+    global.wa_sock = sock;
 
     // 3. Handle Connection Updates
-    sock.ev.on('connection.update', (update) => {
+    sock.ev.on('connection.update', async (update) => {
         const { connection, lastDisconnect, qr } = update;
 
         if (qr) {
@@ -39,29 +42,42 @@ export async function initBaileys() {
         }
 
         if (connection === 'close') {
-            const statusCode = lastDisconnect?.error?.output?.statusCode;
-            const isConflict = lastDisconnect?.error?.data?.tag === 'conflict';
+            const statusCode = (lastDisconnect?.error)?.output?.statusCode;
+            const errorMsg = lastDisconnect?.error?.message || 'unknown error';
+            const isConflict = lastDisconnect?.error?.data?.tag === 'conflict' || statusCode === DisconnectReason.connectionLost;
+            
+            // Should we reconnect?
             const shouldReconnect = statusCode !== DisconnectReason.loggedOut;
-            console.log('connection closed due to ', lastDisconnect?.error?.message || 'unknown', ', reconnecting ', shouldReconnect);
+            
+            console.log(`[Baileys] Connection closed: ${errorMsg} (Status: ${statusCode}). Reconnecting: ${shouldReconnect}`);
+            
             if (shouldReconnect) {
-                // Wait longer on conflict (another session replaced us)
-                const delay = isConflict ? 15000 : 2000;
-                console.log(`[Baileys] ${isConflict ? 'CONFLICT DETECTED. Session may be active elsewhere.' : 'Closing.'} Reconnecting in ${delay/1000}s...`);
+                // Conflict detection (another session kicked this one)
+                // Add jitter to avoid a "ping-pong" effect if two instances compete
+                const delay = isConflict ? (30000 + Math.random() * 20000) : 3000;
+                console.log(`[Baileys] Reconnecting in ${Math.round(delay/1000)}s... ${isConflict ? '(Conflict/Lost detected - with jitter)' : ''}`);
                 
-                // Cleanup old socket events if any
+                // Cleanup to avoid memory leaks
                 if (sock) {
-                    sock.ev.removeAllListeners('connection.update');
-                    sock.ev.removeAllListeners('creds.update');
-                    sock.ev.removeAllListeners('messages.upsert');
+                    try {
+                        sock.ev.removeAllListeners('connection.update');
+                        sock.ev.removeAllListeners('creds.update');
+                        sock.ev.removeAllListeners('messages.upsert');
+                    } catch (e) {}
                 }
 
-                setTimeout(() => initBaileys(), delay);
+                setTimeout(() => {
+                    console.log('[Baileys] Attempting reconnection...');
+                    initBaileys().catch(err => console.error('[Baileys] Re-init failed:', err));
+                }, delay);
             } else {
-                console.log('Logged out. Please re-scan QR.');
+                console.log('[Baileys] Logged out. Manual intervention required (re-scan QR).');
+                currentQR = '';
             }
         } else if (connection === 'open') {
-            console.log('Baileys opened connection');
-            currentQR = ''; // connection established, no need for QR
+            console.log('[Baileys] Connection successfully opened');
+            global.wa_sock = sock; // Update global reference on success
+            currentQR = ''; 
         }
     });
 
@@ -70,43 +86,59 @@ export async function initBaileys() {
 
     // 4. Handle incoming messages
     sock.ev.on('messages.upsert', async (m) => {
-        if (m.type !== 'notify') return;
-        
-        for (const msg of m.messages) {
-            if (!msg.message || msg.key.fromMe) continue; // ignore outgoing
-            const jid = msg.key.remoteJid;
-            let phone = jid.split('@')[0]; 
-            if (!phone.startsWith('+')) phone = '+' + phone;
+        try {
+            if (m.type !== 'notify') return;
             
-            // Check if it's an image
-            const imageMessage = msg.message?.imageMessage;
-            if (imageMessage) {
-                console.log(`[Baileys Image] from=${phone}`);
-                const replyText = await processImage(phone, imageMessage);
-                if (replyText) {
-                    await sock.sendMessage(jid, { text: replyText });
-                }
-            } else {
-                // Must be text
-                const text = msg.message?.conversation || msg.message?.extendedTextMessage?.text || '';
-                if (!text) continue;
+            for (const msg of m.messages) {
+                if (!msg.message || msg.key.fromMe) continue; 
                 
-                console.log(`[Baileys Text] from=${phone} text="${text}"`);
+                const jid = msg.key.remoteJid;
+                if (!jid || jid.includes('@g.us')) continue; // Ignore groups for now to save quota/noise
 
-                // --- Vuka Bridge: WhatsApp to GSM ---
-                const relay = db.prepare('SELECT gsmMsisdn FROM relay_sessions WHERE jid = ?').get(jid);
-                if (relay) {
-                    console.log(`[Vuka Bridge] Replying to GSM ${relay.gsmMsisdn}`);
-                    await sendSMS(relay.gsmMsisdn, `[WhatsApp Reply from ${phone}]: ${text}`);
-                    // Optional: Don't process as bot cmd if it's a relay reply
-                    // return; 
-                }
+                let phone = jid.split('@')[0]; 
+                if (!phone.startsWith('+')) phone = '+' + phone;
+                
+                const imageMessage = msg.message?.imageMessage || msg.message?.viewOnceMessageV2?.message?.imageMessage;
+                
+                if (imageMessage) {
+                    console.log(`[Baileys] Image RX from ${phone}`);
+                    try {
+                        const replyText = await processImage(phone, imageMessage);
+                        if (replyText) await sock.sendMessage(jid, { text: replyText });
+                    } catch (err) {
+                        console.error(`[Baileys] Error processing image from ${phone}:`, err.message);
+                        await sock.sendMessage(jid, { text: "❌ Sorry, I had trouble processing that image. Please try again." });
+                    }
+                } else {
+                    const text = msg.message?.conversation || msg.message?.extendedTextMessage?.text || msg.message?.listResponseMessage?.title || '';
+                    if (!text) continue;
+                    
+                    console.log(`[Baileys] Msg RX from ${phone}: "${text.substring(0, 50)}${text.length > 50 ? '...' : ''}"`);
 
-                const replyText = await processMessage(phone, text);
-                if (replyText) {
-                    await sock.sendMessage(jid, { text: replyText });
+                    // --- Vuka Bridge: WhatsApp to GSM ---
+                    try {
+                        const relay = db.prepare('SELECT gsmMsisdn FROM relay_sessions WHERE jid = ?').get(jid);
+                        if (relay) {
+                            console.log(`[Vuka Bridge] Replying to GSM ${relay.gsmMsisdn}`);
+                            await sendSMS(relay.gsmMsisdn, `[WhatsApp Reply from ${phone}]: ${text}`);
+                        }
+                    } catch (relayErr) {
+                        console.error('[Baileys] Relay check failed:', relayErr.message);
+                    }
+
+                    try {
+                        const replyText = await processMessage(phone, text);
+                        if (replyText) {
+                            await sock.sendMessage(jid, { text: replyText });
+                        }
+                    } catch (err) {
+                        console.error(`[Baileys] Error processing message from ${phone}:`, err.message);
+                        await sock.sendMessage(jid, { text: "❌ mARI is momentarily overwhelmed. Please type *MENU* in a few seconds." });
+                    }
                 }
             }
+        } catch (globalErr) {
+            console.error('[Baileys] Upsert handler CRITICAL error:', globalErr);
         }
     });
 

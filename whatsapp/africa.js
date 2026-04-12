@@ -50,8 +50,6 @@ export async function sendSMS(to, message) {
   }
 }
 
-import { sock } from './baileys.js';
-
 /**
  * Send a WhatsApp message via Baileys.
  *
@@ -59,18 +57,23 @@ import { sock } from './baileys.js';
  * @param {string} message Text body
  */
 export async function sendWhatsApp(to, message) {
-  if (!sock) {
-    console.error('Baileys socket is not initialized yet. Cannot send message to', to);
+  // Use global.wa_sock to avoid circular dependency with baileys.js
+  const activeSock = global.wa_sock;
+  
+  if (!activeSock) {
+    console.warn(`[sendWhatsApp] Baileys socket not ready. Message to ${to} deferred.`);
     return;
   }
   
   // Ensure we format the clean number to Baileys JID format
-  const cleanTo = to.replace(/^whatsapp:\+?/, '').replace(/^\+/, '');
+  const cleanTo = (to || '').toString().replace(/^whatsapp:\+?/, '').replace(/^\+/, '').trim();
+  if (!cleanTo) return;
+
   const jid = `${cleanTo}@s.whatsapp.net`;
   
   try {
-    await sock.sendMessage(jid, { text: message });
+    await activeSock.sendMessage(jid, { text: message });
   } catch (err) {
-    console.error('Error sending message via Baileys:', err);
+    console.error(`[sendWhatsApp] Error sending to ${jid}:`, err.message);
   }
 }
