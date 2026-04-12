@@ -51,6 +51,8 @@ export const TRANSLATIONS = {
     await_link: "📧 Please send your email to link your account. Type *CANCEL* to go back.",
     linked_ok: (email) => `✅ Linked to *${email}*. Type *MENU* to return.`,
     diagnose_prompt: "🔍 *Crop Scan*\nPlease send a photo of your plant for mARI to analyze.",
+    crop_scan_menu: "*Crop Scan*\n1. Web App Link\n2. WhatsApp Link\n3. Describe Problem\n\n0. Menu",
+    crop_scan_describe_prompt: "*Describe Problem*\nPlease describe what is wrong with your crop:",
     agronomist_prompt: "🧑‍🌾 *Ask mARI AI Advisor*\nType your farming question below.",
     
     weather_info: "🌦 *Weather Forecast*\nSunny with light showers. Good for your crops!",

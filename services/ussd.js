@@ -117,6 +117,32 @@ export const USSDService = {
             return `END FAILED: ${res.error}`;
         }
 
+        if (stateData.state === 'CROP_SCAN_DESCRIBE') {
+            const description = parts[parts.length - 1];
+            if (description === '0') {
+                USSDService.setState(cleanMsisdn, 'IDLE');
+                return USSDService.showMainMenu(cleanMsisdn);
+            }
+            
+            try {
+                const aiResponse = await askGemini(
+                    [{ role: 'user', parts: [{ text: `My crop has this problem: ${description}` }] }],
+                    "You are mARI, a concise AI agronomist. Provide a quick 1-2 sentence advice under 120 chars."
+                );
+                USSDService.setState(cleanMsisdn, 'IDLE');
+                
+                // Also send a link to the web app for deeper diagnosis
+                const webUrl = `${WEBAPP_URL}/diagnose`;
+                await sendSMS(cleanMsisdn, `mAgri mARI Advice: ${aiResponse}\n\nFor a full scan, visit: ${webUrl}`);
+                
+                return `END mARI Advice: ${aiResponse}\n\nDetailed advice & scan link sent via SMS.`;
+            } catch (e) {
+                console.error('[USSD Crop Scan Error]', e.message);
+                USSDService.setState(cleanMsisdn, 'IDLE');
+                return `END Thank you. Your problem has been logged. We will contact you with advice via SMS.`;
+            }
+        }
+
         if (stateData.state === 'USSD_AI_ADVISOR') {
             const query = parts[parts.length - 1];
             if (query === '0') {
@@ -184,7 +210,9 @@ export const USSDService = {
         }
 
         if (L1 === '3') { // Crop Scan
-            if (depth === 1) return `CON *Crop Scan*\n1. Web App Link\n2. WhatsApp Link\n\n0. Menu`;
+            const T = getLang(stateData.data.lang || 'en');
+            if (depth === 1) return `CON ` + (T.crop_scan_menu || `*Crop Scan*\n1. Web App Link\n2. WhatsApp Link\n3. Describe Problem\n\n0. Menu`);
+            
             if (parts[1] === '1') {
                 const webUrl = `${WEBAPP_URL}/diagnose`;
                 await sendSMS(cleanMsisdn, `mAgri: Use this link for Web Crop Scan: ${webUrl}`);
@@ -195,6 +223,10 @@ export const USSDService = {
                 const waLink = `https://wa.me/${botPhone.replace(/\+/g,'')}?text=Scan`; 
                 await sendSMS(cleanMsisdn, `mAgri: Use this link for WhatsApp Crop Scan: ${waLink}`);
                 return `END A link to the WhatsApp Crop Scan has been sent via SMS.`;
+            }
+            if (parts[1] === '3') {
+                USSDService.setState(cleanMsisdn, 'CROP_SCAN_DESCRIBE');
+                return `CON ` + (T.crop_scan_describe_prompt || `*Describe Problem*\nPlease describe what is wrong with your crop:`);
             }
         }
 

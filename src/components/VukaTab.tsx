@@ -95,14 +95,16 @@ export default function VukaTab({ phone, name }: { phone?: string; name?: string
   const [friends, setFriends] = useState<Friend[]>(DEMO_FRIENDS);
   const [groups, setGroups] = useState<Group[]>(DEMO_GROUPS);
 
-  // Fetch real posts on mount
+  // Fetch real data on mount
   useEffect(() => {
-    const fetchPosts = async () => {
+    const fetchData = async () => {
+      setLoading(true);
       try {
-        const res = await API('/vuka/posts');
-        const data = await res.json();
-        if (data.posts) {
-          const mapped: Post[] = data.posts.map((p: any) => ({
+        // 1. Posts
+        const postsRes = await API('/vuka/posts');
+        const postsData = await postsRes.json();
+        if (postsData.posts) {
+          const mapped: Post[] = postsData.posts.map((p: any) => ({
             id: p.id || p.created_at,
             user: p.author?.name || p.author_msisdn || 'Farmer',
             avatar: avatar(p.author_msisdn || 'Farmer'),
@@ -113,15 +115,40 @@ export default function VukaTab({ phone, name }: { phone?: string; name?: string
           }));
           setPosts(mapped);
         }
+
+        // 2. Friends (if phone available)
+        if (phone) {
+          const friendsRes = await API(`/vuka/friends?msisdn=${phone}`);
+          const friendsData = await friendsRes.json();
+          if (friendsData.friends?.length > 0) {
+            const mappedFriends: Friend[] = friendsData.friends.map((f: any) => ({
+              name: f.name || 'Farmer',
+              msisdn: f.friend_msisdn || f.msisdn,
+              status: 'Online',
+              avatar: avatar(f.friend_msisdn || f.msisdn)
+            }));
+            setFriends(mappedFriends);
+          }
+        }
+
+        // 3. Groups (if phone available)
+        if (phone) {
+          const groupsRes = await API(`/vuka/groups?msisdn=${phone}`);
+          const groupsData = await groupsRes.json();
+          if (groupsData.groups?.length > 0) {
+            setGroups(groupsData.groups);
+          }
+        }
+
       } catch (err) {
-        console.error('Failed to fetch Vuka posts:', err);
+        console.error('Failed to fetch Vuka data:', err);
         setPosts(DEMO_POSTS); // Fallback to demo data on error
       } finally {
         setLoading(false);
       }
     };
-    fetchPosts();
-  }, []);
+    fetchData();
+  }, [phone]);
 
   // Post form
   const [postText, setPostText] = useState('');
@@ -211,7 +238,10 @@ export default function VukaTab({ phone, name }: { phone?: string; name?: string
     try {
       await API('/vuka/friends', {
         method: 'POST',
-        body: JSON.stringify({ friendMsisdn: friend.msisdn })
+        body: JSON.stringify({ 
+          msisdn: phone, // User's phone
+          friendMsisdn: friend.msisdn 
+        })
       });
       showToast(`Friend request sent to ${friend.name}!`);
     } catch {
@@ -226,7 +256,10 @@ export default function VukaTab({ phone, name }: { phone?: string; name?: string
     try {
       const res = await API('/vuka/groups', {
         method: 'POST',
-        body: JSON.stringify({ name: groupName.trim() })
+        body: JSON.stringify({ 
+          name: groupName.trim(),
+          ownerMsisdn: phone || 'web-user'
+        })
       });
       const data = await res.json().catch(() => null);
       const newGroup: Group = {
@@ -248,7 +281,10 @@ export default function VukaTab({ phone, name }: { phone?: string; name?: string
     try {
       await API('/vuka/groups/join', {
         method: 'POST',
-        body: JSON.stringify({ groupId: group.id })
+        body: JSON.stringify({ 
+          groupId: group.id,
+          msisdn: phone
+        })
       });
       setGroups(prev => prev.map(g =>
         g.id === group.id ? { ...g, members: g.members + 1 } : g
@@ -267,7 +303,11 @@ export default function VukaTab({ phone, name }: { phone?: string; name?: string
     try {
       const res = await API('/vuka/relay', {
         method: 'POST',
-        body: JSON.stringify({ recipientMsisdn: relayTarget, message: relayMsg })
+        body: JSON.stringify({ 
+          senderMsisdn: phone,
+          recipientMsisdn: relayTarget, 
+          message: relayMsg 
+        })
       });
       if (!res.ok) throw new Error();
       setRelayTarget('');
