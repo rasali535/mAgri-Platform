@@ -37,29 +37,39 @@ export default function SignUpScreen({ onSignUp, onBack }: SignUpScreenProps) {
 
     const proceedSignUp = async (lat: number | null, lng: number | null) => {
       try {
-        // Sync to Supabase vuka_users
-        const { error: upsertError } = await supabase.from('vuka_users').upsert([
-          { 
-            msisdn: phone, 
-            name, 
-            whatsapp_number: finalWhatsapp,
-            role,
-            lat,
-            lng
-          }
-        ], { onConflict: 'msisdn' });
+        const cleanPhone = phone.replace(/\+/g, '').trim();
+        const cleanWhatsapp = finalWhatsapp.replace(/\+/g, '').trim();
 
-        if (upsertError) throw upsertError;
+        const userData = { 
+          msisdn: cleanPhone, 
+          name, 
+          whatsapp_number: cleanWhatsapp,
+          role,
+          lat,
+          lng
+        };
+
+        console.log('[SignUp] Attempting Supabase upsert:', userData);
+
+        // Sync to Supabase vuka_users
+        const { error: upsertError } = await supabase.from('vuka_users').upsert([userData], { onConflict: 'msisdn' });
+
+        if (upsertError) {
+            console.error('[SignUp] Supabase Upsert Error:', upsertError);
+            throw upsertError;
+        }
+
+        console.log('[SignUp] Sync success. Logging event...');
 
         // Also record the login event
         await supabase.from('webapp_logins').insert([
-          { phone, role, lat, lng }
+          { phone: cleanPhone, role, lat, lng }
         ]);
 
         onSignUp(name, phone, finalWhatsapp, role, lat && lng ? { lat, lng } : null);
       } catch (err: any) {
-        console.error('Sign up failed', err);
-        setError(err.message || 'Failed to complete sign up. Please try again.');
+        console.error('[SignUp] Registration failed completely:', err);
+        setError(err.hint || err.message || 'Failed to complete sign up. Please try again.');
         setLoading(false);
       }
     };

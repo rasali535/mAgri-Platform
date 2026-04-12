@@ -17,17 +17,18 @@ import { getSupabaseClient } from '../src/lib/supabaseClient.js';
  * Get session for a phone number. Creates a fresh row if none exists.
  */
 export async function getSession(phone) {
+  const cleanPhone = (phone || '').toString().replace(/\+/g, '').trim();
   const supabase = getSupabaseClient();
   const { data, error } = await supabase
     .from('whatsapp_sessions')
     .select('*')
-    .eq('phone', phone)
+    .eq('phone', cleanPhone)
     .single();
 
   if (error || !data) {
     // Create new session
     const fresh = {
-      phone,
+      phone: cleanPhone,
       state: 'WELCOME',
       linked: false,
       email: null,
@@ -45,12 +46,13 @@ export async function getSession(phone) {
  * Update fields of an existing session.
  */
 export async function updateSession(phone, patch) {
+  const cleanPhone = (phone || '').toString().replace(/\+/g, '').trim();
   const supabase = getSupabaseClient();
   const update = { ...patch, last_updated: new Date().toISOString() };
   const { error } = await supabase
     .from('whatsapp_sessions')
     .update(update)
-    .eq('phone', phone);
+    .eq('phone', cleanPhone);
 
   if (error) console.error('[Supabase] updateSession error:', error.message);
 }
@@ -59,6 +61,7 @@ export async function updateSession(phone, patch) {
  * Reset a session back to WELCOME state.
  */
 export async function resetSession(phone) {
+  const cleanPhone = (phone || '').toString().replace(/\+/g, '').trim();
   const supabase = getSupabaseClient();
   await supabase
     .from('whatsapp_sessions')
@@ -68,7 +71,7 @@ export async function resetSession(phone) {
       email: null,
       last_updated: new Date().toISOString(),
     })
-    .eq('phone', phone);
+    .eq('phone', cleanPhone);
 }
 
 // ─── WhatsApp link helpers ────────────────────────────────────────────────────
@@ -77,9 +80,10 @@ export async function resetSession(phone) {
  * Record that a WhatsApp number has been linked to an mARI Platform by Pameltex Tech email.
  */
 export async function linkAccount(phone, email) {
+  const cleanPhone = (phone || '').toString().replace(/\+/g, '').trim();
   const supabase = getSupabaseClient();
   const { error } = await supabase.from('whatsapp_links').upsert(
-    { phone, user_email: email, linked_at: new Date().toISOString() },
+    { phone: cleanPhone, user_email: email, linked_at: new Date().toISOString() },
     { onConflict: 'phone' }
   );
   if (error) console.error('[Supabase] linkAccount error:', error.message);
@@ -92,9 +96,10 @@ export async function linkAccount(phone, email) {
  * direction: 'inbound' | 'outbound'
  */
 export async function logMessage({ phone, direction, body, channel = 'whatsapp', status = 'sent' }) {
+  const cleanPhone = (phone || '').toString().replace(/\+/g, '').trim();
   const supabase = getSupabaseClient();
   const { error } = await supabase.from('whatsapp_messages').insert({
-    phone,
+    phone: cleanPhone,
     direction,
     body,
     channel,

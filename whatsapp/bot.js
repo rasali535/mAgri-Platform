@@ -107,6 +107,9 @@ async function generateCropDiagnosis(phone, messageContent) {
            `📊 *Confidence:* ${parsed.confidence || '??'}%\n\n` +
            `🛡 *Recommendation:*\n${parsed.recommendation || 'No recommendation.'}`;
   } catch (error) {
+    console.error('[WhatsApp Bot] Diagnosis error for', phone, ':', error.message || error);
+    if (error.message === 'EMPTY_IMAGE_BUFFER') return '❌ Failed to download image. Please try again.';
+    if (error.message === 'AI_API_TIMEOUT') return '❌ mARI AI took too long to respond. Please try again.';
     return '❌ Analysis failed. Ensure the image is clear and try again.';
   }
 }
@@ -114,7 +117,8 @@ async function generateCropDiagnosis(phone, messageContent) {
 // ─── Image handler ────────────────────────────────────────────────────────────
 
 export async function processImage(phone, messageContent) {
-  const session = await getSession(phone);
+  const cleanPhone = (phone || '').toString().replace(/\+/g, '').trim();
+  const session = await getSession(cleanPhone);
 
   if (session.state === 'DIAGNOSE_PENDING') {
     sendWhatsApp(phone, "⏳ Analyzing your crop image... Please hold.").catch(() => {});
@@ -277,7 +281,8 @@ export async function processMessage(phone, rawText) {
     if (text === '1') {
       const u = await VukaService.getUser(cleanPhone);
       if (!u) return `❌ Profile not found. Create one on USSD first!`;
-      return `👤 *My Profile*\nName: ${u.display_name || 'N/A'}\nBio: ${u.bio || 'N/A'}\n\nType *0* to go back.`;
+      // Parity Fix: uses 'name' and 'bio' from vuka_users/SQLite
+      return `👤 *My Profile*\nName: ${u.name || 'N/A'}\nBio: ${u.bio || 'N/A'}\n\nType *0* to go back.`;
     }
     if (text === '2') {
       const friends = await VukaService.getFriends(cleanPhone);

@@ -176,8 +176,9 @@ app.post('/api/vuka/posts', async (req, res) => {
     try {
         const { content, msisdn } = req.body;
         if (!content?.trim()) return res.status(400).json({ error: 'Content required' });
-        const id = await VukaService.createPost?.({ content, msisdn }) || Date.now().toString();
-        res.json({ success: true, id });
+        // Corrected API: passes msisdn and content as separate args
+        const resObj = await VukaService.createPost?.(msisdn, content);
+        res.json({ success: true, id: resObj?.id || Date.now().toString() });
     } catch (e) {
         console.error('[Vuka] Post error:', e);
         res.status(500).json({ error: 'Could not save post' });

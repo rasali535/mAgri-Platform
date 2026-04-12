@@ -45,8 +45,16 @@ export async function initBaileys() {
             console.log('connection closed due to ', lastDisconnect?.error?.message || 'unknown', ', reconnecting ', shouldReconnect);
             if (shouldReconnect) {
                 // Wait longer on conflict (another session replaced us)
-                const delay = isConflict ? 8000 : 2000;
-                console.log(`[Baileys] Reconnecting in ${delay/1000}s...`);
+                const delay = isConflict ? 15000 : 2000;
+                console.log(`[Baileys] ${isConflict ? 'CONFLICT DETECTED. Session may be active elsewhere.' : 'Closing.'} Reconnecting in ${delay/1000}s...`);
+                
+                // Cleanup old socket events if any
+                if (sock) {
+                    sock.ev.removeAllListeners('connection.update');
+                    sock.ev.removeAllListeners('creds.update');
+                    sock.ev.removeAllListeners('messages.upsert');
+                }
+
                 setTimeout(() => initBaileys(), delay);
             } else {
                 console.log('Logged out. Please re-scan QR.');
