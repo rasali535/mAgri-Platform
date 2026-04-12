@@ -6,23 +6,53 @@ import { getSupabaseClient } from '../src/lib/supabaseClient.js';
 export const VukaService = {
     getUser: async (msisdn) => {
         try {
-            return db.prepare('SELECT * FROM users WHERE msisdn = ?').get(msisdn);
+            const cleanPhone = msisdn.replace(/\+/g, '').trim();
+            // 1. Check Supabase first (Source of Truth for cross-channel)
+            const supabase = getSupabaseClient();
+            const { data: user, error } = await supabase.from('vuka_users').select('*').eq('msisdn', cleanPhone).maybeSingle();
+            
+            if (user) {
+                // Keep local cache in sync
+                try {
+                    db.prepare('INSERT OR REPLACE INTO users (msisdn, name, whatsapp_number, lat, lng, role, bio) VALUES (?, ?, ?, ?, ?, ?, ?)')
+                      .run(cleanPhone, user.name, user.whatsapp_number, user.lat, user.lng, user.role, user.bio || '');
+                } catch (e) {}
+                return user;
+            }
+
+            // 2. Fallback to local SQLite if Supabase is down or user is only local (legacy)
+            return db.prepare('SELECT * FROM users WHERE msisdn = ?').get(cleanPhone);
         } catch (e) {
             console.error('Vuka.getUser error:', e);
-            return null;
+            // Last resort: local
+            return db.prepare('SELECT * FROM users WHERE msisdn = ?').get(msisdn);
         }
     },
 
     registerUser: async (msisdn, name, whatsapp_number = null, lat = null, lng = null, role = 'farmer') => {
         try {
-            // Write to local SQLite
-            db.prepare('INSERT OR REPLACE INTO users (msisdn, name, whatsapp_number, lat, lng, role) VALUES (?, ?, ?, ?, ?, ?)').run(msisdn, name, whatsapp_number, lat, lng, role);
-            // Sync to Supabase so web/WhatsApp dashboards reflect the registration
+            const cleanPhone = msisdn.replace(/\+/g, '').trim();
+            console.log(`[Vuka] Registering ${cleanPhone} as ${name}`);
+
+            // 1. Write to local SQLite for fast USSD access
+            db.prepare('INSERT OR REPLACE INTO users (msisdn, name, whatsapp_number, lat, lng, role) VALUES (?, ?, ?, ?, ?, ?)')
+              .run(cleanPhone, name, whatsapp_number, lat, lng, role);
+            
+            // 2. Sync to Supabase so web/WhatsApp dashboards reflect the registration
             const supabase = getSupabaseClient();
-            await supabase.from('vuka_users').upsert({ msisdn, name, whatsapp_number, lat, lng, role }, { onConflict: 'msisdn' });
+            const { error } = await supabase.from('vuka_users').upsert({ 
+                msisdn: cleanPhone, 
+                name, 
+                whatsapp_number: whatsapp_number || cleanPhone, 
+                lat, 
+                lng, 
+                role 
+            }, { onConflict: 'msisdn' });
+
+            if (error) throw error;
             return true;
         } catch (e) {
-            console.error('Vuka.registerUser error:', e);
+            console.error('Vuka.registerUser error:', e.message);
             return false;
         }
     },

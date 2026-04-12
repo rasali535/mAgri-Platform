@@ -42,6 +42,18 @@ export const USSDService = {
             return `END Your message has been relayed to WhatsApp for ${recipient}.`;
         }
 
+        if (stateData.state === 'VUKA_REGISTER_NAME') {
+            const name = parts[parts.length - 1];
+            if (!name || name === '0') {
+                USSDService.setState(cleanMsisdn, 'IDLE');
+                return USSDService.showMainMenu(cleanMsisdn);
+            }
+            const success = await VukaService.registerUser(cleanMsisdn, name);
+            USSDService.setState(cleanMsisdn, 'IDLE');
+            if (success) return `END Profile created, ${name}! Welcome to Vuka Social.`;
+            return `END Error creating profile. Please try again.`;
+        }
+
         if (stateData.state === 'PAYMENT_OTP') {
             const otp = parts[parts.length - 1];
             const res = await PaymentService.validateOTP(cleanMsisdn, stateData.data.payToken, otp, stateData.data.planType);
@@ -143,12 +155,11 @@ export const USSDService = {
             }
             if (parts[1] === '1') {
                 const user = await VukaService.getUser(cleanMsisdn);
-                if (!user) return `CON *My Profile*\nYou are not registered. Reply with your Name:`;
-                if (depth === 3) {
-                    await VukaService.registerUser(cleanMsisdn, parts[2]);
-                    return `END Profile created, ${parts[2]}!`;
+                if (!user) {
+                    USSDService.setState(cleanMsisdn, 'VUKA_REGISTER_NAME');
+                    return `CON *My Profile*\nYou are not registered.\n\nReply with your Name:`;
                 }
-                return `END *My Profile*\nName: ${user.name}\nBio: ${user.bio || 'None'}`;
+                return `END *My Profile*\nName: ${user.name}\nRole: ${user.role || 'Farmer'}\nBio: ${user.bio || 'None'}\n\nWA: ${user.whatsapp_number ? '+'+user.whatsapp_number : 'Not Linked'}`;
             }
         }
 

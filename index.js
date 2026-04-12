@@ -13,7 +13,7 @@ import { initCron } from './services/cron.js';
 import { askGemini } from './services/ai.js';
 import { getLang } from './whatsapp/translations.js';
 
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 3001;
 
 // Global error handler for Railway diagnostics
 process.on('uncaughtException', (err) => {
@@ -356,11 +356,11 @@ const server = app.listen(PORT, '0.0.0.0', () => {
         }
         
         console.log('[mARI] Initializing Subscription Cron Jobs...');
-        initCron().catch(e => {
-            const msg = `[mARI] Cron initialization failed: ${e?.message || e}`;
-            console.error(msg);
-            initializationErrors.push(msg);
-        });
+        try {
+            initCron();
+        } catch (e) {
+            console.error('[mARI] Cron initialization failed:', e.message);
+        }
     }, 100);
 });
 

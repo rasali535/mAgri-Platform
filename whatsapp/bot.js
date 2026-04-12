@@ -41,34 +41,49 @@ function isValidEmail(str) {
 // ─── Gemini Image Diagnostics ─────────────────────────────────────────────────
 
 async function generateCropDiagnosis(phone, messageContent) {
-  // Relying on askGemini centralized service for API key management
+  const cleanPhone = phone.replace(/\+/g, '').trim();
+  console.log(`[WA AI] Starting diagnosis for ${cleanPhone}`);
 
   try {
     const stream = await downloadContentFromMessage(messageContent, 'image');
     let buffer = Buffer.from([]);
     for await (const chunk of stream) { buffer = Buffer.concat([buffer, chunk]); }
     
+    if (buffer.length === 0) throw new Error('EMPTY_IMAGE_BUFFER');
+    console.log(`[WA AI] Downloaded image: ${buffer.length} bytes`);
+
     const mimeType = messageContent.mimetype || 'image/jpeg';
     const base64Data = buffer.toString('base64');
     const country = getCountryFromPhone(phone);
     const dateStr = new Date().toLocaleString();
 
-    const systemPrompt = `Analyze this crop image for diseases. 
-      Context: User in ${country}, Time: ${dateStr}. 
-      Respond in JSON: {"disease": "...", "confidence": 0-100, "recommendation": "..."}`;
+    const systemInstruction = `You are mARI, an expert AI agronomist. 
+      Analyze the provided crop image from a farmer in ${country}. 
+      Current Date: ${dateStr}.
+      You must respond ONLY with a JSON object.
+      Schema: {"disease": "Disease Name", "confidence": 0-100, "recommendation": "Short actionable advice"}`;
 
-    // Using centralized model config in askGemini
-    const data = await askGemini([{
-      role: 'user',
-      parts: [
-        { text: systemPrompt },
-        { inline_data: { mime_type: mimeType, data: base64Data } }
-      ]
-    }]);
+    const userPrompt = "Analyze this crop image for diseases and pests. Provide results in the required JSON format.";
+
+    console.log(`[WA AI] Requesting Gemini analysis...`);
+    // Using centralized askGemini with systemInstruction
+    const data = await askGemini(
+      [{
+        role: 'user',
+        parts: [
+          { text: userPrompt },
+          { inline_data: { mime_type: mimeType, data: base64Data } }
+        ]
+      }],
+      systemInstruction,
+      { gracefulFallback: true }
+    );
 
     const text = data || '{}';
+    console.log(`[WA AI] Raw response from Gemini:`, text);
+
     const jsonMatch = text.match(/\{[\s\S]*\}/);
-    if (!jsonMatch) throw new Error('No JSON found');
+    if (!jsonMatch) throw new Error('INVALID_JSON_RESPONSE');
     const parsed = JSON.parse(jsonMatch[0]);
 
     // Parity Fix: Store WhatsApp scan in the centralized resources table
