@@ -297,28 +297,28 @@ export const USSDService = {
         const cleanMsisdn = normalizeMsisdn(msisdn);
         const supabase = getSupabaseClient();
         
-        // --- Resolve display name from Supabase (source of truth) ---
-        let displayName = null;
+        let displayName = 'Guest';
+        let role = 'Farmer';
+        let location = 'Unknown';
         let linkedWhatsapp = null;
+
         try {
-            // 1. Check vuka_users (USSD/Vuka registrations)
-            const { data: vukaUser } = await supabase.from('vuka_users').select('name, whatsapp_number').eq('msisdn', cleanMsisdn).maybeSingle();
-            if (vukaUser?.name) displayName = vukaUser.name;
-            if (vukaUser?.whatsapp_number) linkedWhatsapp = vukaUser.whatsapp_number;
-            
-            // 2. Fallback: WhatsApp session (has display name from WA profile)
-            if (!displayName) {
+            // Use VukaService which handles the local SQLite vs Supabase synchronization
+            const vukaData = await VukaService.getUser(cleanMsisdn);
+            if (vukaData) {
+                if (vukaData.name) displayName = vukaData.name;
+                if (vukaData.role) role = vukaData.role.charAt(0).toUpperCase() + vukaData.role.slice(1);
+                if (vukaData.lat && vukaData.lng) location = `${vukaData.lat.toFixed(2)}, ${vukaData.lng.toFixed(2)}`;
+                if (vukaData.whatsapp_number) linkedWhatsapp = vukaData.whatsapp_number;
+            }
+
+            // Fallback: WhatsApp session (has display name from WA profile if they linked)
+            if (displayName === 'Guest') {
                 const { data: waSession } = await supabase.from('whatsapp_sessions').select('email').eq('phone', cleanMsisdn).maybeSingle();
                 if (waSession?.email) displayName = waSession.email.split('@')[0];
             }
         } catch (e) {
-            console.warn('[USSD Dashboard] Supabase name lookup failed:', e.message);
-        }
-        
-        // 3. Final fallback: local SQLite
-        if (!displayName) {
-            const localUser = db.prepare('SELECT name FROM users WHERE msisdn = ?').get(cleanMsisdn);
-            displayName = localUser?.name || 'Guest';
+            console.warn('[USSD Dashboard] Vuka profile lookup failed:', e.message);
         }
 
         // --- Subscription: check Supabase first, then local SQLite ---
@@ -352,14 +352,6 @@ export const USSDService = {
         } catch (e) {
             console.warn('[USSD Dashboard] Scan count lookup failed:', e.message);
         }
-
-        let role = 'Farmer';
-        let location = 'Unknown';
-        try {
-            const { data: vukaDetails } = await supabase.from('vuka_users').select('role, lat, lng').eq('msisdn', cleanMsisdn).maybeSingle();
-            if (vukaDetails?.role) role = vukaDetails.role.charAt(0).toUpperCase() + vukaDetails.role.slice(1);
-            if (vukaDetails?.lat && vukaDetails?.lng) location = `${vukaDetails.lat.toFixed(2)}, ${vukaDetails.lng.toFixed(2)}`;
-        } catch (e) { /* ignore */ }
 
         let response = `CON *mARI Dashboard*\n`;
         response += `User: ${displayName}\n`;
