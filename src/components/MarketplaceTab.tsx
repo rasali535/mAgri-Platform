@@ -47,7 +47,7 @@ const LOCATION_DATA: Record<string, Record<string, string[]>> = {
   }
 };
 
-export default function MarketplaceTab({ userRole }: { userRole: 'seller' | 'buyer' | 'agronomist' }) {
+export default function MarketplaceTab({ userRole, userPhone }: { userRole: 'seller' | 'buyer' | 'agronomist', userPhone?: string }) {
   const [view, setView] = useState<'browse' | 'my_listings' | 'demands'>('browse');
   const [showAddModal, setShowAddModal] = useState(false);
   const [selectedListing, setSelectedListing] = useState<Listing | null>(null);
@@ -56,83 +56,80 @@ export default function MarketplaceTab({ userRole }: { userRole: 'seller' | 'buy
   const [selectedDistrict, setSelectedDistrict] = useState('All');
   const [activeCategory, setActiveCategory] = useState('All');
   const [activeFilter, setActiveFilter] = useState<'all' | 'sell' | 'buy'>('all');
+  const [isLoading, setIsLoading] = useState(true);
   const { formatCurrency, country } = useCurrency();
 
-  const [listings, setListings] = useState<Listing[]>([
-    { 
-      id: '1', type: 'buy', produce: 'Maize', quantity: '5 Tons', basePrice: null, 
-      location: 'Lusaka, Zambia', country: 'ZM', region: 'Lusaka', district: 'Lusaka District', user: 'AgriCorp Buyers', isMine: false,
-      description: 'Looking for high-quality white maize. Moisture content should be below 13.5%. Preference for bulk suppliers.',
-      timestamp: '2 hours ago'
-    },
-    { 
-      id: '2', type: 'sell', produce: 'Cocoa Beans', quantity: '200 kg', basePrice: 60, 
-      location: 'Abidjan, CI', country: 'CI', region: 'Lagunes', district: 'Abidjan', user: 'Kouame', isMine: false,
-      description: 'Grade A cocoa beans, sun-dried and fermented. Ready for immediate export or local processing.',
-      timestamp: '5 hours ago'
-    },
-    { 
-      id: '3', type: 'buy', produce: 'Cashew Nuts', quantity: '1 Ton', basePrice: null, 
-      location: 'Bouaké, CI', country: 'CI', region: 'Vallée du Bandama', district: 'Bouaké', user: 'Export Co.', isMine: false,
-      description: 'Raw cashew nuts (RCN) wanted. Minimum KOR 48.',
-      timestamp: '1 day ago'
-    },
-    { 
-      id: '4', type: 'sell', produce: 'Tomatoes', quantity: '50 kg', basePrice: 300, 
-      location: 'Ndola, Zambia', country: 'ZM', region: 'Copperbelt', district: 'Ndola', user: 'Grace', isMine: false,
-      description: 'Fresh Roma tomatoes, harvested this morning. Multiple crates available.',
-      timestamp: '30 mins ago'
-    },
-    { 
-      id: '5', type: 'sell', produce: 'Onions', quantity: '500 kg', basePrice: 120, 
-      location: 'Livingstone, ZM', country: 'ZM', region: 'Southern', district: 'Livingstone', user: 'Banda', isMine: false,
-      description: 'Red onions available in 10kg bags. Excellent shelf life.',
-      timestamp: '6 hours ago'
-    },
-    { 
-      id: '6', type: 'buy', produce: 'Soybeans', quantity: '10 Tons', basePrice: null, 
-      location: 'Kitwe, ZM', country: 'ZM', region: 'Copperbelt', district: 'Kitwe', user: 'Global Feed Co', isMine: false,
-      description: 'Non-GMO soybeans for poultry feed production. Regular monthly contract available.',
-      timestamp: '3 hours ago'
-    },
-    { 
-      id: '7', type: 'sell', produce: 'Sugar Snaps', quantity: '200 kg', basePrice: 450, 
-      location: 'Choma, ZM', country: 'ZM', region: 'Southern', district: 'Choma', user: 'Green Valley', isMine: false,
-      harvestType: 'pre_harvest',
-      growingPeriod: '65 Days',
-      startDate: 'Oct 15, 2026',
-      expectedHarvest: 'Dec 20, 2026',
-      description: 'Pre-order now for the December harvest. High export quality.',
-      timestamp: 'Just now'
-    },
-  ]);
+  const [listings, setListings] = useState<Listing[]>([]);
+
+  // Fetch listings from API
+  const fetchListings = async () => {
+    try {
+      setIsLoading(true);
+      const res = await fetch('/api/marketplace/listings?limit=50');
+      const data = await res.json();
+      if (data.listings) {
+        const mapped = data.listings.map((l: any) => ({
+          id: l.id.toString(),
+          type: l.type || 'sell',
+          produce: l.crop_name || 'Produce',
+          quantity: l.quantity || 'Unknown Qty',
+          basePrice: l.price || null,
+          location: l.location || 'Local',
+          country: l.country || 'ZM',
+          region: l.region || 'All',
+          district: l.district || 'All',
+          user: l.phone || 'Anonymous',
+          isMine: userPhone && l.phone === userPhone,
+          image: l.image_url,
+          description: l.description,
+          timestamp: new Date(l.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + ' ' + new Date(l.created_at).toLocaleDateString()
+        }));
+        setListings(mapped);
+      }
+    } catch (e) {
+      console.error('Failed to fetch listings:', e);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  React.useEffect(() => {
+    fetchListings();
+  }, []);
 
   const [newListing, setNewListing] = useState({ produce: '', quantity: '', price: '', location: '' });
 
-  const handleAddListing = () => {
+  const handleAddListing = async () => {
     if (!newListing.produce || !newListing.quantity) return;
     const parsedPrice = parseFloat(newListing.price);
     const basePrice = isNaN(parsedPrice) ? null : parsedPrice / country.rate;
 
-    const listing: Listing = {
-      id: Math.random().toString(36).substr(2, 9),
-      type: 'sell',
-      produce: newListing.produce,
-      quantity: newListing.quantity,
-      basePrice: basePrice,
-      location: `${newListing.location || 'Local District'}, ${country.name}`,
-      country: country.code,
-      region: 'My Region',
-      district: newListing.location || 'Local District',
-      user: 'Me',
-      isMine: true,
-      timestamp: 'Just now'
-    };
+    try {
+      const res = await fetch('/api/marketplace/listings', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          phone: userPhone || 'WebUser',
+          cropName: newListing.produce,
+          type: userRole === 'buyer' ? 'buy' : 'sell',
+          description: `${newListing.produce} available at ${newListing.location || 'Local'}`,
+          quantity: newListing.quantity,
+          price: basePrice,
+          location: `${newListing.location || 'Local'}, ${country.name}`,
+          country: country.code,
+          district: newListing.location || 'Local'
+        })
+      });
 
-    setListings([listing, ...listings]);
-    setShowAddModal(false);
-    setNewListing({ produce: '', quantity: '', price: '', location: '' });
-    setView('my_listings');
+      if (res.ok) {
+        fetchListings();
+        setShowAddModal(false);
+        setNewListing({ produce: '', quantity: '', price: '', location: '' });
+        setView('my_listings');
+      }
+    } catch (e) {
+      console.error('Failed to post listing:', e);
+    }
   };
 
   const filteredListings = listings.filter(l => 
@@ -363,12 +360,19 @@ export default function MarketplaceTab({ userRole }: { userRole: 'seller' | 'buy
                 </section>
               )}
               
-              {filteredListings.length === 0 && (
+              {(filteredListings.length === 0 && !isLoading) && (
                  <div className="py-20 flex flex-col items-center justify-center text-neutral-400 bg-white rounded-[3rem] border-2 border-dashed border-neutral-100">
                    <ShoppingBag size={64} strokeWidth={1} className="mb-4 opacity-20" />
                    <p className="text-lg font-bold">No markets found</p>
                    <p className="text-sm">Try adjusting your search or filters.</p>
                  </div>
+              )}
+              
+              {isLoading && (
+                <div className="py-20 flex flex-col items-center justify-center text-emerald-600">
+                  <div className="w-12 h-12 border-4 border-emerald-200 border-t-emerald-600 rounded-full animate-spin mb-4"></div>
+                  <p className="font-bold">Syncing Market Data...</p>
+                </div>
               )}
             </div>
           </motion.div>

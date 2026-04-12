@@ -158,7 +158,7 @@ export async function processImage(phone, messageContent) {
   if (session.state === 'UPLOAD_PENDING') {
     try {
       const publicUrl = await uploadMediaToSupabase(messageContent, phone);
-      const listing = await createListing(phone, publicUrl);
+      const listing = await createListing({ phone, imageUrl: publicUrl, type: 'sell' });
       await updateSession(phone, { state: 'WELCOME' });
       return `✅ *Listing Created!*\n\nView here: ${WEBAPP_URL}/marketplace?listing=${listing.id}\n\nReply *MENU* to return.`;
     } catch (err) {
@@ -501,15 +501,54 @@ export async function processMessage(phone, rawText) {
   if (session.state === 'MARKETPLACE') {
     if (text === '0' || upper === 'MENU') {
       await updateSession(cleanPhone, { state: 'WELCOME' });
-      return L.welcome(session.linked);
+      const vukaData = await VukaService.getUser(cleanPhone);
+      const greetingName = vukaData?.name || (session.email ? session.email.split('@')[0] : null);
+      return L.welcome(session.linked, greetingName);
     }
     
-    const listings = await getRecentListings(5);
-    const resultsStr = listings.length > 0 
-        ? listings.map(l => `🌾 *${l.crop_name || 'Crop'}*\nPrice: Negotiable\n seller: ${l.phone}\n [View](${WEBAPP_URL}/marketplace?id=${l.id})`).join('\n\n')
-        : L.marketplace_no_results;
+    // 1. Supplies or 2. Demands
+    if (text === '1' || text === '2') {
+      const type = text === '1' ? 'sell' : 'buy';
+      const listings = await getRecentListings(10, type);
+      
+      if (listings.length === 0) {
+        return `🛒 *Marketplace*\nNo ${type === 'sell' ? 'supplies' : 'demands'} found in your area yet.\n\nReply with *MENU* to return.`;
+      }
 
-    return L.marketplace_results(text) + `\n\n${resultsStr}\n\n` + L.cancel_exit;
+      let res = `🛒 *Marketplace: ${type === 'sell' ? 'Supplies' : 'Demands'}*\n\n`;
+      listings.forEach((l, i) => {
+        const price = l.price ? `${l.price} (USD)` : 'Negotiable';
+        res += `${i + 1}️⃣ *${l.crop_name}*\n📦 Qty: ${l.quantity}\n💰 Price: ${price}\n📍 Loc: ${l.district || l.location || 'Local'}\n👤: ${l.phone}\n🔗 [View Details](${WEBAPP_URL}/marketplace?id=${l.id})\n\n`;
+      });
+      res += `Reply with *MENU* to return.`;
+      return res;
+    }
+
+    // 3. Search
+    if (text === '3') {
+      await updateSession(cleanPhone, { state: 'MARKETPLACE_SEARCH' });
+      return L.marketplace_prompt;
+    }
+
+    return L.marketplace_menu;
+  }
+
+  if (session.state === 'MARKETPLACE_SEARCH') {
+    if (text === '0' || upper === 'MENU' || upper === 'CANCEL') {
+      await updateSession(cleanPhone, { state: 'MARKETPLACE' });
+      return L.marketplace_menu;
+    }
+
+    const listings = await searchListings(text, 5);
+    if (listings.length === 0) return L.marketplace_no_results + "\n\nTry another crop or type *0* to go back.";
+
+    let res = `🔎 *Search Results: ${text}*\n\n`;
+    listings.forEach((l, i) => {
+      const typeLabel = l.type === 'buy' ? '📍 BUY' : '🛒 SELL';
+      res += `${i + 1}️⃣ ${typeLabel}: *${l.crop_name}*\nQty: ${l.quantity}\nPrice: ${l.price || 'Neg.'}\nLoc: ${l.district || 'All'}\n\n`;
+    });
+    res += `Reply *MENU* to return.`;
+    return res;
   }
 
   if (session.state === 'DIAGNOSE_PENDING') {

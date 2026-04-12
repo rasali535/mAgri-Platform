@@ -143,6 +143,49 @@ app.get('/api/info', (req, res) => {
 });
 
 // AI logic is now centralized in services/ai.js
+import { getRecentListings, createListing, searchListings } from './whatsapp/listingsStore.js';
+
+// Marketplace API
+app.get(['/api/marketplace/listings', '/api/marketplace/listings/'], async (req, res) => {
+    try {
+        const { limit = 20, type = 'all', query = '' } = req.query;
+        let listings;
+        if (query) {
+            listings = await searchListings(query, parseInt(limit), type);
+        } else {
+            listings = await getRecentListings(parseInt(limit), type);
+        }
+        res.json({ listings });
+    } catch (e) {
+        console.error('[Marketplace] Fetch error:', e);
+        res.status(500).json({ error: 'Could not load listings', listings: [] });
+    }
+});
+
+app.post(['/api/marketplace/listings', '/api/marketplace/listings/'], async (req, res) => {
+    try {
+        const { 
+            phone, imageUrl, cropName, type, 
+            description, quantity, price, location, 
+            country, region, district 
+        } = req.body;
+        
+        if (!phone || !cropName) {
+            return res.status(400).json({ error: 'Phone and Crop Name are required' });
+        }
+
+        const listing = await createListing({
+            phone, imageUrl, cropName, type,
+            description, quantity, price, location,
+            country, region, district
+        });
+        
+        res.json({ success: true, listing });
+    } catch (e) {
+        console.error('[Marketplace] Create error:', e);
+        res.status(500).json({ error: 'Could not create listing' });
+    }
+});
 
 app.post('/api/chat', async (req, res) => {
     try {

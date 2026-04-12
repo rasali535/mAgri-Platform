@@ -12,55 +12,84 @@ const supabase = createClient(
 );
 
 /**
- * Insert a new listing row after a successful image upload.
- * @param {string} phone      – farmer's E.164 phone number
- * @param {string} imageUrl   – public Supabase Storage URL
- * @param {string} [cropName] – optional crop name
+ * Insert a new listing row.
+ * @param {object} params – { phone, imageUrl, cropName, type, description, quantity, price, location, country, region, district }
  * @returns {Promise<object>} inserted row
  */
-export async function createListing(phone, imageUrl, cropName = null) {
+export async function createListing({ 
+  phone, imageUrl, cropName, type = 'sell', 
+  description = '', quantity = '', price = null, 
+  location = '', country = '', region = '', district = '' 
+}) {
   const { data, error } = await supabase
     .from('listings')
-    .insert({ phone, image_url: imageUrl, crop_name: cropName })
+    .insert({ 
+      phone, 
+      image_url: imageUrl, 
+      crop_name: cropName, 
+      type, 
+      description, 
+      quantity, 
+      price, 
+      location, 
+      country, 
+      region, 
+      district 
+    })
     .select()
     .single();
 
-  if (error) throw new Error(`listings insert failed: ${error.message}`);
+  if (error) {
+    console.error('Listings insert error:', error);
+    throw new Error(`listings insert failed: ${error.message}`);
+  }
   return data;
 }
 
 /**
- * Fetch the N most recent active listings.
+ * Fetch recent active listings with optional type filter.
  * @param {number} limit
+ * @param {string} type – 'sell' | 'buy' | 'all'
  * @returns {Promise<object[]>}
  */
-export async function getRecentListings(limit = 10) {
-  const { data, error } = await supabase
+export async function getRecentListings(limit = 10, type = 'all') {
+  let query = supabase
     .from('listings')
     .select('*')
     .eq('status', 'active')
     .order('created_at', { ascending: false })
     .limit(limit);
 
+  if (type !== 'all') {
+    query = query.eq('type', type);
+  }
+
+  const { data, error } = await query;
   if (error) throw new Error(`listings fetch failed: ${error.message}`);
   return data || [];
 }
 
 /**
- * Search active listings by crop name.
- * @param {string} query
+ * Search active listings by crop name with optional type filter.
+ * @param {string} searchTerm
  * @param {number} limit
+ * @param {string} type – 'sell' | 'buy' | 'all'
  * @returns {Promise<object[]>}
  */
-export async function searchListings(query, limit = 10) {
-  const { data, error } = await supabase
+export async function searchListings(searchTerm, limit = 10, type = 'all') {
+  let query = supabase
     .from('listings')
     .select('*')
     .eq('status', 'active')
-    .ilike('crop_name', `%${query}%`)
+    .ilike('crop_name', `%${searchTerm}%`)
     .order('created_at', { ascending: false })
     .limit(limit);
 
+  if (type !== 'all') {
+    query = query.eq('type', type);
+  }
+
+  const { data, error } = await query;
   if (error) throw new Error(`listings search failed: ${error.message}`);
   return data || [];
 }

@@ -248,29 +248,30 @@ export const USSDService = {
         if (L1 === '2') { // Marketplace
             if (depth === 1) return `CON ` + T.marketplace_menu;
             
-            // 1. Recent Listings
-            if (L2 === '1') {
-                const listings = await getRecentListings(5);
+            // 1. Supplies (Sell) or 2. Demands (Buy)
+            if (L2 === '1' || L2 === '2') {
+                const type = L2 === '1' ? 'sell' : 'buy';
+                const listings = await getRecentListings(5, type);
                 
                 // Details View (Selection)
                 if (depth === 3) {
                     const choice = parseInt(L3);
                     if (choice > 0 && choice <= listings.length) {
                         const l = listings[choice - 1];
-                        return `CON *${l.crop_name}*\nFarmer: ${l.phone}\nDate: ${new Date(l.created_at).toLocaleDateString()}\nStatus: ${l.status}\n\n1. Contact via SMS\n0. Back\n00. Menu`;
+                        return `CON *${l.crop_name}*\n${type === 'sell' ? 'Seller' : 'Buyer'}: ${l.phone}\nQty: ${l.quantity}\nPrice: ${l.price || 'Negotiable'}\nLoc: ${l.district || l.location || 'Local'}\n\n1. Contact via SMS\n0. Back\n00. Menu`;
                     }
                 }
 
                 // Listing List
-                let res = `CON *Recent Listings*\n`;
+                let res = `CON *Recent ${type === 'sell' ? 'Supplies' : 'Demands'}*\n`;
                 if (listings.length === 0) res += "No active listings found.";
-                else listings.forEach((l, i) => { res += `${i+1}. ${l.crop_name || 'Crop'} (${l.phone})\n`; });
+                else listings.forEach((l, i) => { res += `${i+1}. ${l.crop_name || 'Crop'} (${l.price || 'Neg.'})\n`; });
                 res += `\n0. Back\n00. Menu`;
                 return res;
             }
 
-            // 2. Search
-            if (L2 === '2') {
+            // 3. Search
+            if (L2 === '3') {
                 if (depth === 2) {
                     USSDService.setState(cleanMsisdn, 'MARKETPLACE_INPUT');
                     return `CON ` + T.marketplace_prompt;

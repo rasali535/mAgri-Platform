@@ -284,7 +284,7 @@ export default function App() {
                     />
                   )
                 )}
-                {activeTab === 'market' && <MarketplaceTab userRole={userRole} />}
+                {activeTab === 'market' && <MarketplaceTab userRole={userRole} userPhone={userPhone} />}
                 {activeTab === 'vuka' && <VukaTab phone={userPhone} name={userName} />}
                 {activeTab === 'mpotsa' && <MpotsaTab />}
                 {activeTab === 'diagnose' && <DiagnoseTab phone={userPhone} />}

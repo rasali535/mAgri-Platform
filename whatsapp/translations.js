@@ -28,7 +28,7 @@ export const TRANSLATIONS = {
     
     dashboard: (p, s, st) => `📦 *mARI Dashboard*\n\n👤 *User:* ${p.name} (${p.role})\n📍 *Loc:* ${p.location}\n💳 *Status:* ${s.active ? '✅ ACTIVE' : '❌ INACTIVE'}\n🔬 *Scans:* ${st.scans}\n👥 *Vuka Friends:* ${p.friendsCount}`,
     
-    marketplace_menu: "🛒 *Marketplace*\n1. Recent Listings\n2. Search Crops\n\n0. Back",
+    marketplace_menu: "🛒 *Marketplace*\n1. Supplies (Sell)\n2. Demands (Buy)\n3. Search Crops\n\n0. Back",
     marketplace_prompt: "Enter crop name to search:",
     marketplace_results: (text) => `🛒 *Marketplace Search*\nResults for "${text}":`,
     marketplace_no_results: "No active listings found for your search.",
@@ -66,7 +66,7 @@ export const TRANSLATIONS = {
     welcome: (linked, name) => `🌱 *Mogala wa mARI Platform by Pameltex Tech!* ${name ? name : ''}\n\n1. Dashboard\n2. Marekelo\n3. Crop Scan 🔍\n4. Ask mARI (Advisor)\n5. Finance\n6. Weather\n7. Community\n8. Vuka Social 👥\n9. Language 🌍\n10. Mpotsa Q&A\n11. Subscription 💳`,
     ussd_menu: "mARI Platform by Pameltex Tech\n1. Dashboard\n2. Marekelo\n3. Crop Scan\n4. Ask mARI\n5. Finance\n6. Weather\n7. Community\n8. Vuka Social\n9. Language\n10. Mpotsa Q&A\n11. Subscription",
     dashboard: (p, s, st) => `📦 *mARI Dashboard*\n\n👤 *User:* ${p.name}\n📍 *Lefelo:* ${p.location}\n💳 *Status:* ${s.active ? '✅ ACTIVE' : '❌ INACTIVE'}`,
-    marketplace_menu: "🛒 *Marekelo*\n1. Di-listing tsa bosheng\n2. Batla dijalo\n\n0. Back",
+    marketplace_menu: "🛒 *Marekelo*\n1. Supplies (Sell)\n2. Demands (Buy)\n3. Batla dijalo\n\n0. Back",
     marketplace_prompt: "Kwala leina la sejalwa:",
     marketplace_results: (text) => `🛒 *Dipatlisiso tsa Marekelo*\nDipadi tsa "${text}":`,
     marketplace_no_results: "Ga go a bonwa sepe se o se batlang.",
