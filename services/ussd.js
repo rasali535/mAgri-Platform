@@ -251,6 +251,28 @@ export const USSDService = {
             }
         }
 
+        if (L1 === '9') { // Language
+            if (depth === 1) {
+                return `CON Select Language:\n1. English\n2. Tswana\n3. French\n4. Nyanja\n5. Bemba\n\n0. Menu`;
+            }
+            if (depth === 2) {
+                const choice = parts[1];
+                const langMap = { '1': 'en', '2': 'tn', '3': 'fr', '4': 'ny', '5': 'be' };
+                const newLang = langMap[choice];
+                if (newLang) {
+                    try {
+                        db.prepare('UPDATE users SET language = ? WHERE msisdn = ?').run(newLang, cleanMsisdn);
+                    } catch (e) {
+                         console.warn('[USSD] Language update failed:', e.message);
+                    }
+                    USSDService.setState(cleanMsisdn, 'IDLE');
+                    return `END Language updated successfully. Dial again to use new language.`;
+                } else {
+                    return `CON Invalid choice.\n0. Back`;
+                }
+            }
+        }
+
         if (L1 === '10') { // Mpotsa
             USSDService.setState(cleanMsisdn, 'MPOTSA_WAITING');
             return `CON *Mpotsa Universal Q&A*\nAsk about Farming, Health, Law, Jobs or anything:`;
@@ -353,19 +375,21 @@ export const USSDService = {
     },
 
     showMainMenu: (msisdn) => {
+        const cleanMsisdn = normalizeMsisdn(msisdn);
+        let lang = 'en';
+        try {
+            const user = db.prepare('SELECT language FROM users WHERE msisdn = ?').get(cleanMsisdn);
+            if (user && user.language) {
+                lang = user.language;
+            }
+        } catch (e) {
+            console.error('[USSD] Error fetching user language:', e);
+        }
+        
         const dateStr = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-        let response = `CON 🌱 *mARI mAgri Platform*\n`;
-        response += `1. Dashboard\n`;
-        response += `2. Marketplace\n`;
-        response += `3. Crop Scan\n`;
-        response += `4. AI Advisor\n`;
-        response += `5. Finance\n`;
-        response += `6. Weather\n`;
-        response += `7. Community\n`;
-        response += `8. Vuka Social\n`;
-        response += `10. Mpotsa Q&A\n`;
-        response += `11. Subscription\n`;
-        response += `📅 ${dateStr}`;
+        const L = getLang(lang);
+        let response = L.ussd_menu || `CON 🌱 *mARI mAgri Platform*\n1. Dashboard\n2. Marketplace\n3. Crop Scan\n4. AI Advisor\n5. Finance\n6. Weather\n7. Community\n8. Vuka Social\n10. Mpotsa Q&A\n11. Subscription`;
+        response += `\n📅 ${dateStr}`;
         return response;
     },
 

@@ -17,6 +17,7 @@ db.exec(`
     role TEXT DEFAULT 'farmer',
     lat REAL,
     lng REAL,
+    language TEXT DEFAULT 'en',
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
   );
 

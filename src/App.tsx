@@ -99,6 +99,15 @@ export default function App() {
     { id: 'finance', icon: <Wallet size={20} />, label: 'Finance' },
   ];
 
+  const [appLanguage, setAppLanguage] = useState(() => localStorage.getItem('app_lang') || 'en');
+
+  // Handle language change
+  const handleLanguageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const newLang = e.target.value;
+    setAppLanguage(newLang);
+    localStorage.setItem('app_lang', newLang);
+  };
+
   if (!isAuth) {
     return showSignUp 
       ? <SignUpScreen onSignUp={handleSignUp} onBack={() => setShowSignUp(false)} />
@@ -180,19 +189,38 @@ export default function App() {
           </div>
 
           <div className="flex items-center space-x-2 md:space-x-4">
-            <div className="relative">
-              <select
-                value={country.code}
-                onChange={(e) => setCountry(COUNTRIES.find(c => c.code === e.target.value) || COUNTRIES[0])}
-                className="bg-neutral-100 text-neutral-700 text-xs font-bold rounded-xl px-3 py-2 outline-none border border-transparent hover:border-neutral-300 cursor-pointer appearance-none pr-8 transition-all"
-                title="Select Country/Currency"
-              >
-                {COUNTRIES.map(c => (
-                  <option key={c.code} value={c.code}>{c.flag} {c.currency}</option>
-                ))}
-              </select>
-              <div className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-neutral-400">
-                <Settings size={12} />
+            <div className="flex items-center space-x-2">
+              <div className="relative">
+                <select
+                  className="bg-neutral-100 text-neutral-700 text-xs font-bold rounded-xl px-3 py-2 outline-none border border-transparent hover:border-neutral-300 cursor-pointer appearance-none pr-8 transition-all"
+                  title="Select Language"
+                  value={appLanguage}
+                  onChange={handleLanguageChange}
+                >
+                  <option value="en">🇬🇧 EN</option>
+                  <option value="tn">🇧🇼 TN</option>
+                  <option value="fr">🇫🇷 FR</option>
+                  <option value="ny">🇿🇲 NY</option>
+                  <option value="be">🇿🇲 BE</option>
+                </select>
+                <div className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-neutral-400">
+                  <Globe size={12} />
+                </div>
+              </div>
+              <div className="relative">
+                <select
+                  value={country.code}
+                  onChange={(e) => setCountry(COUNTRIES.find(c => c.code === e.target.value) || COUNTRIES[0])}
+                  className="bg-neutral-100 text-neutral-700 text-xs font-bold rounded-xl px-3 py-2 outline-none border border-transparent hover:border-neutral-300 cursor-pointer appearance-none pr-8 transition-all"
+                  title="Select Country/Currency"
+                >
+                  {COUNTRIES.map(c => (
+                    <option key={c.code} value={c.code}>{c.flag} {c.currency}</option>
+                  ))}
+                </select>
+                <div className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-neutral-400">
+                  <Settings size={12} />
+                </div>
               </div>
             </div>
 

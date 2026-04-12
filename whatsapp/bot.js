@@ -493,6 +493,11 @@ export async function processMessage(phone, rawText) {
     else return L.change_lang;
 
     await updateSession(cleanPhone, { state: 'WELCOME', language: newLang });
+    try {
+      db.prepare('UPDATE users SET language = ? WHERE msisdn = ?').run(newLang, cleanPhone);
+    } catch (e) {
+      console.warn('Could not update user language:', e.message);
+    }
     const vukaData = await VukaService.getUser(cleanPhone);
     const greetingName = vukaData?.name || (session.email ? session.email.split('@')[0] : null);
     return `✅ Language updated!\n\n` + getLang(newLang).welcome(session.linked, greetingName);
