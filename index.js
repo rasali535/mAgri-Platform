@@ -59,8 +59,7 @@ app.use((req, res, next) => {
 });
 
 // 1. Mandatory Healthcheck for Railway/Production
-// Added root health support if needed
-app.get(['/', '/health', '/api/health', '/healthcheck', '/_health'], (req, res) => {
+app.get(['/api/health', '/healthcheck', '/_health'], (req, res) => {
     res.status(200).json({ 
         status: 'UP', 
         service: 'mARI Platform', 

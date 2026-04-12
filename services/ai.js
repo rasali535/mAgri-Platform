@@ -32,11 +32,10 @@ export async function askGemini(contents, systemInstruction = "", options = {}) 
 
     const genAI = new GoogleGenerativeAI(apiKey);
     const modelsToTry = [
-        'gemini-2.5-flash',       // April 2026 Standard
-        'gemini-2.5-pro',
+        'gemini-1.5-flash',       
         'gemini-2.0-flash',
-        'gemini-2.0-flash-lite',
-        'gemini-3.1-flash-lite-preview', // Future-proofing
+        'gemini-2.0-pro-exp-02-05',
+        'gemini-2.0-flash-lite-preview-02-05',
     ];
     let lastError = null;
 

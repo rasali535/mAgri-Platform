@@ -10,9 +10,17 @@ import qrcode from 'qrcode';
 // Keep the socket around so we can broadcast locally or export it
 export let sock = null;
 let currentQR = '';
+let isInitializing = false;
 
 export async function initBaileys() {
-    // 1. Fetch our custom auth state and baileys version
+    if (isInitializing) {
+        console.log('[Baileys] Initialization already in progress, skipping...');
+        return;
+    }
+    isInitializing = true;
+
+    try {
+        // 1. Fetch our custom auth state and baileys version
     const { state, saveCreds } = await useSupabaseAuthState('primary');
     const { version, isLatest } = await fetchLatestBaileysVersion();
     console.log(`using WA v${version.join('.')}, isLatest: ${isLatest}`);
@@ -144,6 +152,13 @@ export async function initBaileys() {
 
     // 5. Setup Supabase Realtime to listen for outbound `reply` changes
     setupRealtimeSubscription(sock);
+    
+    } catch (err) {
+        console.error('[Baileys] Global Initialization Fatal Error:', err.message);
+        throw err; // Re-throw to caller (e.g., index.js)
+    } finally {
+        isInitializing = false;
+    }
 }
 
 function setupRealtimeSubscription(sockInstance) {

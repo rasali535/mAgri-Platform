@@ -40,21 +40,50 @@ export const USSDService = {
             USSDService.setState(cleanMsisdn, 'IDLE');
         }
 
-        const text = resolveUssdPath(rawText);
+        let text = resolveUssdPath(rawText);
         
         // Normalize text (handle cumulative parts from AT)
-        const parts = text.split('*').filter(p => p !== '');
-        const depth = parts.length;
-        const L1 = parts[0];
-        const stateData = USSDService.getState(cleanMsisdn);
+        let parts = text.split('*').filter(p => p !== '');
         
-        // Get localized translations based on user's preference
+        // Auto-jump logic: If in a terminal menu (Dashboard, Weather, etc.) and player types another root option
+        const terminalMenus = ['1', '5', '6', '7']; // Menus that don't have nested sub-choices or where we want to allow quick jumping
+        if (parts.length > 1 && terminalMenus.includes(parts[0])) {
+            const lastPart = parts[parts.length - 1];
+            const rootMenus = ['1','2','3','4','5','6','7','8','9','10','11'];
+            if (rootMenus.includes(lastPart)) {
+                console.log(`[USSD] Auto-jumping from ${parts[0]} to ${lastPart}`);
+                parts = [lastPart];
+                text = lastPart;
+            }
+        }
+
+        const depth = parts.length;
+        const lastEnter = parts[depth-1];
+
+        // Global Back/Menu Logic
+        if (depth > 1) {
+            if (lastEnter === '00') {
+                USSDService.setState(cleanMsisdn, 'IDLE');
+                return await USSDService.handleRequest(msisdn, '');
+            }
+            if (lastEnter === '0') {
+                const backText = parts.slice(0, -2).join('*');
+                return await USSDService.handleRequest(msisdn, backText);
+            }
+        }
+
+        const stateData = USSDService.getState(cleanMsisdn);
         const T = getLang(stateData.data.lang || 'en');
         
+        // Define convenience variables for deep navigation
+        const L1 = parts[0];
+        const L2 = parts[1];
+        const L3 = parts[2];
+        const L4 = parts[3];
+
         console.log(`[USSD] ${cleanMsisdn} | Raw: "${rawText}" | Resolved: "${text}" | Parts: ${JSON.stringify(parts)} | L1: ${L1} | State: ${stateData.state}`);
         
-        // Reset state if text is empty or starts with 'MENU' (already handled by flattener but L1 might be 'MENU')
-        if (text === '' || L1 === 'MENU') {
+        if (text === '' || text === '0' || text === '*920*49#') {
             USSDService.setState(cleanMsisdn, 'IDLE');
             return USSDService.showMainMenu(cleanMsisdn);
         }
@@ -83,7 +112,7 @@ export const USSDService = {
             const success = await VukaService.registerUser(cleanMsisdn, name);
             if (success) {
                 USSDService.setState(cleanMsisdn, 'IDLE');
-                return `END Profile created, ${name}! Welcome to Vuka Social.`;
+                return `CON Profile created, ${name}! Welcome to Vuka Social.\n\n0. Back to Menu`;
             } else {
                 // If registration failed (e.g. invalid name), ask again
                 return `CON *Vuka Registration*\nInvalid name. Please enter your full name (no numbers):\n\n0. Cancel`;
@@ -107,6 +136,17 @@ export const USSDService = {
             return res;
         }
 
+        if (stateData.state === 'VUKA_POST_INPUT') {
+            const content = parts[parts.length - 1];
+            if (content === '0') {
+                USSDService.setState(cleanMsisdn, 'IDLE');
+                return USSDService.showMainMenu(cleanMsisdn);
+            }
+            await VukaService.createPost(cleanMsisdn, content);
+            USSDService.setState(cleanMsisdn, 'IDLE');
+            return `END Post created! Your message is now visible on the social feed.`;
+        }
+
         if (stateData.state === 'VUKA_FRIEND_LIST') {
             const choice = parseInt(parts[parts.length - 1]);
             const users = stateData.data.users;
@@ -116,8 +156,6 @@ export const USSDService = {
                 USSDService.setState(cleanMsisdn, 'IDLE');
                 return `END Friend request sent to ${friend.name}!`;
             }
-            USSDService.setState(cleanMsisdn, 'IDLE');
-            return USSDService.showMainMenu(cleanMsisdn);
         }
 
         if (stateData.state === 'PAYMENT_OTP') {
@@ -148,11 +186,11 @@ export const USSDService = {
                 console.log(`[Crop Scan] Sending AI advice & link to ${fullMsisdn}`);
                 await sendSMS(fullMsisdn, `mAgri mARI Advice: ${aiResponse}\n\nFor a full scan: ${webUrl}`);
                 
-                return `END mARI Advice: ${aiResponse}\n\nDetailed advice & scan link sent via SMS.`;
+                return `CON mARI Advice: ${aiResponse}\n\nDetailed advice & scan link sent via SMS.\n\n0. Back to Menu`;
             } catch (e) {
                 console.error('[USSD Crop Scan Error]', e.message);
                 USSDService.setState(cleanMsisdn, 'IDLE');
-                return `END Thank you. Your problem has been logged. We will contact you with advice via SMS.`;
+                return `CON Thank you. Your problem has been logged. We will contact you with advice via SMS.\n\n0. Back to Menu`;
             }
         }
 
@@ -209,16 +247,34 @@ export const USSDService = {
 
         if (L1 === '2') { // Marketplace
             if (depth === 1) return `CON ` + T.marketplace_menu;
-            if (parts[1] === '1') {
+            
+            // 1. Recent Listings
+            if (L2 === '1') {
                 const listings = await getRecentListings(5);
+                
+                // Details View (Selection)
+                if (depth === 3) {
+                    const choice = parseInt(L3);
+                    if (choice > 0 && choice <= listings.length) {
+                        const l = listings[choice - 1];
+                        return `CON *${l.crop_name}*\nFarmer: ${l.phone}\nDate: ${new Date(l.created_at).toLocaleDateString()}\nStatus: ${l.status}\n\n1. Contact via SMS\n0. Back\n00. Menu`;
+                    }
+                }
+
+                // Listing List
                 let res = `CON *Recent Listings*\n`;
-                listings.slice(0, 4).forEach(l => { res += `• ${l.crop_name || 'Crop'} (+${l.phone})\n`; });
-                res += `\n0. Menu`;
+                if (listings.length === 0) res += "No active listings found.";
+                else listings.forEach((l, i) => { res += `${i+1}. ${l.crop_name || 'Crop'} (${l.phone})\n`; });
+                res += `\n0. Back\n00. Menu`;
                 return res;
             }
-            if (parts[1] === '2') {
-                USSDService.setState(cleanMsisdn, 'MARKETPLACE_INPUT');
-                return `CON ` + T.marketplace_prompt;
+
+            // 2. Search
+            if (L2 === '2') {
+                if (depth === 2) {
+                    USSDService.setState(cleanMsisdn, 'MARKETPLACE_INPUT');
+                    return `CON ` + T.marketplace_prompt;
+                }
             }
         }
 
@@ -229,20 +285,20 @@ export const USSDService = {
                 const webUrl = `${WEBAPP_URL}/diagnose`;
                 const fullMsisdn = cleanMsisdn.startsWith('+') ? cleanMsisdn : '+' + cleanMsisdn;
                 console.log(`[Crop Scan] Sending Web Link to ${fullMsisdn}`);
-                await sendSMS(fullMsisdn, `mAgri: Use this link for Web Crop Scan: ${webUrl}`);
-                return `END A link to the Web App Crop Scan has been sent via SMS.`;
+                await sendSMS(fullMsisdn, `mAgri: Use this link for Web Crop Scan: ${webUrl}\n\nYou can upload a photo of your crop symptoms here for a detailed AI diagnosis.`);
+                return `CON A link to the Web App Crop Scan has been sent via SMS.\n\n0. Back\n00. Main Menu`;
             }
             if (parts[1] === '2') {
                 const botPhone = (WHATSAPP_NUMBER).replace(/\+/g, '').replace('whatsapp:', '');
                 const waLink = `https://wa.me/${botPhone}?text=Scan`; 
                 const fullMsisdn = cleanMsisdn.startsWith('+') ? cleanMsisdn : '+' + cleanMsisdn;
                 console.log(`[Crop Scan] Sending WhatsApp Link to ${fullMsisdn}`);
-                await sendSMS(fullMsisdn, `mAgri: Use this link for WhatsApp Crop Scan: ${waLink}`);
-                return `END A link to the WhatsApp Crop Scan has been sent to ${fullMsisdn}.`;
+                await sendSMS(fullMsisdn, `mAgri: Use this link for WhatsApp Crop Scan: ${waLink}\n\nSimply send 'Scan' to begin the AI diagnosis on WhatsApp.`);
+                return `CON A link to the WhatsApp Crop Scan has been sent to ${fullMsisdn}.\n\n0. Back\n00. Main Menu`;
             }
             if (parts[1] === '3') {
                 USSDService.setState(cleanMsisdn, 'CROP_SCAN_DESCRIBE');
-                return `CON ` + (T.crop_scan_describe_prompt || `*Describe Problem*\nPlease describe what is wrong with your crop:`);
+                return `CON ` + (T.crop_scan_describe_prompt || `*Describe Problem*\nPlease describe what is wrong with your crop:`) + `\n\n0. Back`;
             }
         }
 
@@ -253,8 +309,8 @@ export const USSDService = {
 
         if (L1 === '5') { // Finance
             if (depth === 1) return `CON ` + T.credit_menu;
-            if (parts[1] === '1') return `END ` + T.credit_score('780');
-            return `END *mARI Finance*\nVisit the web app to manage your applications.`;
+            if (parts[1] === '1') return `CON ` + T.credit_score('780') + `\n\n0. Back`;
+            return `CON *mARI Finance*\nVisit the web app to manage your applications.\n\n0. Back`;
         }
 
         if (L1 === '6') { // Weather
@@ -267,26 +323,51 @@ export const USSDService = {
 
         if (L1 === '8') { // Vuka
             if (depth === 1) return `CON ` + T.vuka_menu;
-            if (parts[1] === '1') {
+            
+            // 1. My Profile
+            if (L2 === '1') {
                 const user = await VukaService.getUser(cleanMsisdn);
                 if (!user) {
                     USSDService.setState(cleanMsisdn, 'VUKA_REGISTER_NAME');
-                    return `CON ` + T.vuka_register_prompt;
+                    return `CON ` + T.vuka_register_prompt + `\n\n0. Back`;
                 }
+
+                // Handle profile sub-actions if any
+                if (L3 === '2') { // Jump to feed from profile
+                    parts = ['8', '2'];
+                    return await USSDService.handleRequest(msisdn, parts.join('*'));
+                }
+                if (L3 === '3') { // Jump to create post
+                    parts = ['8', '3'];
+                    return await USSDService.handleRequest(msisdn, parts.join('*'));
+                }
+
                 const friends = await VukaService.getFriends(cleanMsisdn);
-                return `END ` + T.vuka_profile(user, friends.length);
+                return `CON ` + T.vuka_profile(user, friends.length) + `\n\n0. Back (Vuka Menu)\n00. Main Menu`;
             }
-            if (parts[1] === '2') { // Social Feed
+
+            // 2. Social Feed
+            if (L2 === '2') {
                 const posts = await VukaService.getPosts();
                 let feed = `CON *Vuka Feed*\n`;
-                posts.slice(0, 3).forEach(p => { feed += `• ${p.content.substring(0, 30)}...\n`; });
+                if (posts.length === 0) feed += "No posts yet. Be the first!";
+                else posts.slice(0, 4).forEach(p => { feed += `• ${p.content.substring(0, 35)}...\n`; });
                 feed += `\n0. Back`;
                 return feed;
             }
-            if (parts[1] === '5') {
-                USSDService.setState(cleanMsisdn, 'VUKA_SEARCH_FRIEND');
-                return `CON ` + T.vuka_search_prompt;
+
+            // 3. Create Post
+            if (L2 === '3') {
+                USSDService.setState(cleanMsisdn, 'VUKA_POST_INPUT');
+                return `CON ` + (T.vuka_post_prompt || "Type what's on your mind:") + `\n\n0. Back`;
             }
+
+            // 5. Find Friends
+            if (L2 === '5') {
+                USSDService.setState(cleanMsisdn, 'VUKA_SEARCH_FRIEND');
+                return `CON ` + T.vuka_search_prompt + `\n\n0. Back`;
+            }
+
             return `CON *Vuka Groups*\nFeature coming soon to USSD.\n\n0. Back`;
         }
 

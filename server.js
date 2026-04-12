@@ -263,10 +263,12 @@ app.get('*', (req, res) => {
 
 app.listen(PORT, '0.0.0.0', () => {
     console.log(`Server (mARI Platform by Pameltex Tech) is running on port ${PORT}`);
+    /* 
     if (!baileysStarted) {
         baileysStarted = true;
         initBaileys().catch(e => console.error('[MASTER] Baileys init failed:', e));
     }
+    */
 });
 
 export default app;
