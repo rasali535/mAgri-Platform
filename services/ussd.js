@@ -31,7 +31,8 @@ const resolveUssdPath = (text) => {
 
 export const USSDService = {
     handleRequest: async (msisdn, rawText) => {
-        const cleanMsisdn = normalizeMsisdn(msisdn);
+        try {
+            const cleanMsisdn = normalizeMsisdn(msisdn);
         
         // Handle explicit session reset or back navigation in state
         const rawParts = (rawText || '').toString().split('*').filter(p => p !== '');
@@ -98,9 +99,15 @@ export const USSDService = {
         if (stateData.state === 'VUKA_RELAY_MESSAGE') {
             const message = parts[parts.length - 1];
             const recipient = stateData.data.recipient;
-            await VukaService.relayToWhatsApp(cleanMsisdn, recipient, message);
-            USSDService.setState(cleanMsisdn, 'IDLE');
-            return `END Your message has been relayed to WhatsApp for ${recipient}.`;
+            try {
+                await VukaService.relayToWhatsApp(cleanMsisdn, recipient, message);
+                USSDService.setState(cleanMsisdn, 'IDLE');
+                return `END Your message has been relayed to WhatsApp for ${recipient}.`;
+            } catch (relayErr) {
+                console.error('[USSD Vuka Relay Error]', relayErr.message);
+                USSDService.setState(cleanMsisdn, 'IDLE');
+                return `END Sorry, the WhatsApp relay is currently unavailable. Please try again later.`;
+            }
         }
 
         if (stateData.state === 'VUKA_REGISTER_NAME') {
@@ -251,23 +258,28 @@ export const USSDService = {
             // 1. Supplies (Sell) or 2. Demands (Buy)
             if (L2 === '1' || L2 === '2') {
                 const type = L2 === '1' ? 'sell' : 'buy';
-                const listings = await getRecentListings(5, type);
-                
-                // Details View (Selection)
-                if (depth === 3) {
-                    const choice = parseInt(L3);
-                    if (choice > 0 && choice <= listings.length) {
-                        const l = listings[choice - 1];
-                        return `CON *${l.crop_name}*\n${type === 'sell' ? 'Seller' : 'Buyer'}: ${l.phone}\nQty: ${l.quantity}\nPrice: ${l.price || 'Negotiable'}\nLoc: ${l.district || l.location || 'Local'}\n\n1. Contact via SMS\n0. Back\n00. Menu`;
+                try {
+                    const listings = await getRecentListings(5, type);
+                    
+                    // Details View (Selection)
+                    if (depth === 3) {
+                        const choice = parseInt(L3);
+                        if (choice > 0 && choice <= listings.length) {
+                            const l = listings[choice - 1];
+                            return `CON *${l.crop_name || 'Listing'}*\n${type === 'sell' ? 'Seller' : 'Buyer'}: ${l.phone || 'N/A'}\nQty: ${l.quantity || 'N/A'}\nPrice: ${l.price || 'Negotiable'}\nLoc: ${l.district || l.location || 'Local'}\n\n1. Contact via SMS\n0. Back\n00. Menu`;
+                        }
                     }
-                }
 
-                // Listing List
-                let res = `CON *Recent ${type === 'sell' ? 'Supplies' : 'Demands'}*\n`;
-                if (listings.length === 0) res += "No active listings found.";
-                else listings.forEach((l, i) => { res += `${i+1}. ${l.crop_name || 'Crop'} (${l.price || 'Neg.'})\n`; });
-                res += `\n0. Back\n00. Menu`;
-                return res;
+                    // Listing List
+                    let res = `CON *Recent ${type === 'sell' ? 'Supplies' : 'Demands'}*\n`;
+                    if (listings.length === 0) res += "No active listings found.";
+                    else listings.forEach((l, i) => { res += `${i+1}. ${l.crop_name || 'Crop'} (${l.price || 'Neg.'})\n`; });
+                    res += `\n0. Back\n00. Menu`;
+                    return res;
+                } catch (listingErr) {
+                    console.error('[USSD Marketplace Error]', listingErr.message);
+                    return `CON *Marketplace*\nUnable to load listings. Please try again later.\n\n0. Back`;
+                }
             }
 
             // 3. Search
@@ -413,6 +425,10 @@ export const USSDService = {
         }
 
         return `CON Invalid option or feature coming soon.\n0. Menu`;
+        } catch (globalErr) {
+            console.error('[USSD Global Error]', globalErr);
+            return `END We are experiencing difficulties. Please try again later.`;
+        }
     },
 
     handleDashboard: async (cleanMsisdn) => {

@@ -9,13 +9,13 @@ import { getSession, updateSession, resetSession } from './supabaseStore.js';
 import { MENU } from './menu.js';
 import { getLang } from './translations.js';
 import { uploadMediaToSupabase } from './imageUploader.js';
-import { createListing } from './listingsStore.js';
+import { createListing, getRecentListings, searchListings } from './listingsStore.js';
 import { sendWhatsApp } from './africa.js';
 import { downloadContentFromMessage } from '@whiskeysockets/baileys';
 import { VukaService } from '../services/vuka.js';
 import { MpotsaService } from '../services/mpotsa.js';
 import { askGemini } from '../services/ai.js';
-import { getRecentListings } from './listingsStore.js';
+
 import { getSupabaseClient } from '../src/lib/supabaseClient.js';
 import { PaymentService } from '../services/payment.js';
 import db from '../services/database.js';
