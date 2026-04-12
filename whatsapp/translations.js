@@ -7,7 +7,7 @@
 
 export const TRANSLATIONS = {
   en: {
-    welcome: (linked) => `🌱 *Welcome to mARI Platform by Pameltex Tech!* \n\n` +
+    welcome: (linked, name) => `🌱 *Welcome ${name ? name + ' ' : ''}to mARI Platform by Pameltex Tech!* \n\n` +
       (linked ? `` : `⚠️ Your WhatsApp number is not linked yet. Send *LINK* to connect your account, or continue as a guest.\n\n`) +
       `Please choose an option:\n` +
       `1️⃣  Dashboard & Orders\n` +

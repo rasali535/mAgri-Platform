@@ -87,8 +87,10 @@ export const MENU = {
   VUKA_MENU:
     `👥 *Vuka Social Network*\n\n` +
     `1️⃣  My Social Profile\n` +
-    `2️⃣  Find Friends\n` +
-    `3️⃣  Group Chats\n` +
+    `2️⃣  Social Feed\n` +
+    `3️⃣  Create a Post\n` +
+    `4️⃣  Group Chats\n` +
+    `5️⃣  Find Friends\n` +
     `0️⃣  Back to main menu`,
 
   MPOTSA_PROMPT:

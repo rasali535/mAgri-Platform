@@ -33,13 +33,13 @@ export const MpotsaService = {
             // 2. High Confidence Local Match
             if (bestMatch && maxOverlap >= 2) {
                 const responseText = bestMatch.content;
-                if (responseText.length <= 160) {
+                if (responseText.length <= 180) {
                     return { type: 'SHORT', text: responseText, fullText: responseText, source: 'curated' };
                 } else {
                     await sendSMS(msisdn, `Mpotsa [Expert]: ${responseText}`);
                     return {
                         type: 'LONG',
-                        text: `Answer for "${bestMatch.category}" sent via SMS.`,
+                        text: responseText.substring(0, 140) + "... (Full answer sent via SMS)",
                         fullText: responseText,
                         source: 'curated'
                     };
@@ -49,21 +49,22 @@ export const MpotsaService = {
             // 3. AI Fallback (Mpotsa Mode: Universal & Authoritative)
             console.log(`[Mpotsa] No local match for "${query}". Consulting AI for general answer...`);
             
-            const systemInstruction = `You are the Mpotsa Q&A Engine for mARI Platform. 
-            Provide authoritative, concise answers for African users on ANY topic (Farming, Health, Legal, Jobs, or General Knowledge).
-            Limit response to 300 characters. Be helpful, professional, and localized for Africa.`;
+            const systemInstruction = `You are the Mpotsa Universal Q&A Engine for the mARI Platform. 
+            Provide authoritative, concise answers for African users on ANY and ALL topics (Farming, Health, Legal, Jobs, History, Science, or General Knowledge).
+            If the query is complex, give a 150-character summary for USSD first.
+            Be helpful, professional, and localized for Africa. Do not restrict yourself only to farming.`;
             
             const aiResponse = await askGemini([{ role: 'user', parts: [{ text: query }] }], systemInstruction);
             
-            // Return to USSD first. If too long (>160), we still return a snippet but send full SMS.
-            if (aiResponse.length <= 160) {
+            const MAX_USSD_LENGTH = 155;
+            if (aiResponse.length <= MAX_USSD_LENGTH) {
                 return { type: 'SHORT', text: aiResponse, fullText: aiResponse, source: 'ai' };
             } else {
-                // Send full SMS but still return the first 150 chars to USSD so user sees part of it immediately
-                await sendSMS(msisdn, `Mpotsa [AI]: ${aiResponse}`);
+                // Send full SMS without awaiting to speed up USSD response.
+                sendSMS(msisdn, `Mpotsa [Expert Answer]: ${aiResponse}`).catch(err => console.error('[Mpotsa SMS Error]', err));
                 return {
                     type: 'LONG',
-                    text: aiResponse.substring(0, 150) + "... (Full answer sent via SMS)",
+                    text: aiResponse.substring(0, MAX_USSD_LENGTH),
                     fullText: aiResponse,
                     source: 'ai'
                 };

@@ -45,11 +45,19 @@ async function generateCropDiagnosis(phone, messageContent) {
   console.log(`[WA AI] Starting diagnosis for ${cleanPhone}`);
 
   try {
-    const stream = await downloadContentFromMessage(messageContent, 'image');
-    let buffer = Buffer.from([]);
-    for await (const chunk of stream) { buffer = Buffer.concat([buffer, chunk]); }
+    // Robust image download
+    let buffer;
+    try {
+        const stream = await downloadContentFromMessage(messageContent, 'image');
+        let chunks = [];
+        for await (const chunk of stream) { chunks.push(chunk); }
+        buffer = Buffer.concat(chunks);
+    } catch (downloadErr) {
+        console.error('[WA AI] Download failed:', downloadErr.message);
+        throw new Error('DOWNLOAD_FAILED');
+    }
     
-    if (buffer.length === 0) throw new Error('EMPTY_IMAGE_BUFFER');
+    if (!buffer || buffer.length === 0) throw new Error('EMPTY_IMAGE_BUFFER');
     console.log(`[WA AI] Downloaded image: ${buffer.length} bytes`);
 
     const mimeType = messageContent.mimetype || 'image/jpeg';
@@ -57,16 +65,21 @@ async function generateCropDiagnosis(phone, messageContent) {
     const country = getCountryFromPhone(phone);
     const dateStr = new Date().toLocaleString();
 
-    const systemInstruction = `You are mARI, an expert AI agronomist. 
+    const systemInstruction = `You are mARI, an expert AI agronomist for the mARI Platform. 
       Analyze the provided crop image from a farmer in ${country}. 
       Current Date: ${dateStr}.
-      You must respond ONLY with a JSON object.
-      Schema: {"disease": "Disease Name", "confidence": 0-100, "recommendation": "Short actionable advice"}`;
+      
+      You must diagnose the plant health:
+      1. Identify the crop and any disease/pest present.
+      2. Provide a confidence level (0-100).
+      3. Provide concise, organic or chemical treatment advice localized for ${country}.
+      
+      IMPORTANT: You must respond ONLY with a JSON object.
+      Schema: {"disease": "Crop Name - Disease/Pest Name", "confidence": number, "recommendation": "Advice string"}`;
 
     const userPrompt = "Analyze this crop image for diseases and pests. Provide results in the required JSON format.";
 
     console.log(`[WA AI] Requesting Gemini analysis...`);
-    // Using centralized askGemini with systemInstruction
     const data = await askGemini(
       [{
         role: 'user',
@@ -79,38 +92,44 @@ async function generateCropDiagnosis(phone, messageContent) {
       { gracefulFallback: true }
     );
 
-    const text = data || '{}';
+    const text = (data || '{}').trim();
     console.log(`[WA AI] Raw response from Gemini:`, text);
 
-    const jsonMatch = text.match(/\{[\s\S]*\}/);
-    if (!jsonMatch) throw new Error('INVALID_JSON_RESPONSE');
-    const parsed = JSON.parse(jsonMatch[0]);
+    // More robust JSON extraction
+    let parsed;
+    try {
+        const jsonMatch = text.match(/\{[\s\S]*\}/);
+        if (!jsonMatch) throw new Error('NO_JSON');
+        parsed = JSON.parse(jsonMatch[0]);
+    } catch (parseErr) {
+        console.warn('[WA AI] JSON Parse failed, attempting fallback...');
+        parsed = { disease: 'Disease detected', confidence: 75, recommendation: text.substring(0, 500) };
+    }
 
-    // Parity Fix: Store WhatsApp scan in the centralized resources table
+    // Sync to resources table
     try {
         const supabase = getSupabaseClient();
-        const cleanPhone = phone.replace(/\+/g, '').trim();
         await supabase.from('resources').insert([{
             phone: cleanPhone,
             title: parsed.disease || 'WhatsApp Diagnosis',
             type: 'Diagnosis',
             description: parsed.recommendation || 'No recommendation.',
-            image: `whatsapp_media_${Date.now()}` // Reference for tracing
+            image: `wa_${Date.now()}` 
         }]);
     } catch (storeErr) {
-        console.error('[WhatsApp Bot] Failed to sync scan to resources:', storeErr.message);
+        console.error('[WA AI] Sync failed:', storeErr.message);
     }
     
-    return `🔬 *Crop Diagnostic Complete*\n\n` +
+    return `🔬 *Crop Diagnostic Result*\n\n` +
            `🌍 *Region:* ${country}\n` +
            `🦠 *Disease:* ${parsed.disease || 'Unknown'}\n` +
            `📊 *Confidence:* ${parsed.confidence || '??'}%\n\n` +
-           `🛡 *Recommendation:*\n${parsed.recommendation || 'No recommendation.'}`;
+           `🛡 *Advice:*\n${parsed.recommendation || 'No recommendation.'}`;
   } catch (error) {
-    console.error('[WhatsApp Bot] Diagnosis error for', phone, ':', error.message || error);
-    if (error.message === 'EMPTY_IMAGE_BUFFER') return '❌ Failed to download image. Please try again.';
-    if (error.message === 'AI_API_TIMEOUT') return '❌ mARI AI took too long to respond. Please try again.';
-    return '❌ Analysis failed. Ensure the image is clear and try again.';
+    console.error('[WA AI] Diagnostic CRITICAL error:', error.message || error);
+    if (error.message === 'DOWNLOAD_FAILED') return '❌ Failed to process image file. Please try sending it again as a direct photo.';
+    if (error.message === 'EMPTY_IMAGE_BUFFER') return '❌ Received empty image. Please resend.';
+    return '❌ mARI is having trouble seeing that image clearly. Please try a different angle or lighting.';
   }
 }
 
@@ -147,12 +166,11 @@ export async function processImage(phone, messageContent) {
     }
   }
 
-  // Last resort: If they send an image in any other state, just scan it as well
-  // This is better than saying 'we aren't expecting one'
-  sendWhatsApp(phone, "⏳ Just a moment, scanning your image...").catch(() => {});
+  // Default for images: If they send an image in any other state, just treat it as a crop scan
+  sendWhatsApp(phone, "⏳ Got your image! mARI is scanning it for you now...").catch(() => {});
   const diagResult = await generateCropDiagnosis(phone, messageContent);
   await updateSession(phone, { state: 'DIAGNOSE_FOLLOWUP' });
-  return `${diagResult}\n\nType *MENU* to return.`;
+  return `${diagResult}\n\n🕵️ *Questions?*\nYou can ask mARI follows-up questions about this result below, or type *MENU* to return.`;
 }
 
 // AI logic is now centralized in services/ai.js
@@ -168,7 +186,9 @@ export async function processMessage(phone, rawText) {
 
   if (upper === 'MENU' || upper === 'HI' || upper === 'HELLO' || upper === 'START') {
     await updateSession(cleanPhone, { state: 'WELCOME' });
-    return L.welcome(session.linked);
+    const vukaData = await VukaService.getUser(cleanPhone);
+    const greetingName = vukaData?.name || (session.email ? session.email.split('@')[0] : null);
+    return L.welcome(session.linked, greetingName);
   }
 
   // --- Vuka WhatsApp Mirror ---
@@ -198,7 +218,9 @@ export async function processMessage(phone, rawText) {
 
   if (upper === 'CANCEL') {
     await updateSession(cleanPhone, { state: 'WELCOME' });
-    return L.welcome(session.linked);
+    const vukaData = await VukaService.getUser(cleanPhone);
+    const greetingName = vukaData?.name || (session.email ? session.email.split('@')[0] : null);
+    return L.welcome(session.linked, greetingName);
   }
 
   if (session.state === 'WELCOME') {
@@ -235,11 +257,11 @@ export async function processMessage(phone, rawText) {
 
         return `📦 *mARI Dashboard*\n\n` +
                `👤 *User:* ${displayName}\n` +
-               `🎖 *Role:* ${role.charAt(0).toUpperCase() + role.slice(1)}\n` +
+               `🎖 *Role:* ${role}\n` +
                `📍 *Loc:* ${location}\n` +
                `💳 *Status:* ${subStatus.active ? '✅ ACTIVE (' + subStatus.planType + ')' : '❌ INACTIVE'}\n` +
                `🔬 *Total Scans:* ${scanCount}\n` +
-               `🛍 *Active Listings:* 0\n\n` +
+               `👥 *Vuka Friends:* ${(await VukaService.getFriends(cleanPhone)).length}\n\n` +
                `Reply *MENU* to return.`;
     }
     if (text === '2') {
@@ -290,7 +312,9 @@ export async function processMessage(phone, rawText) {
   if (session.state === 'VUKA') {
     if (text === '0' || upper === 'MENU') {
       await updateSession(cleanPhone, { state: 'WELCOME' });
-      return L.welcome(session.linked);
+      const vukaData = await VukaService.getUser(cleanPhone);
+      const greetingName = vukaData?.name || (session.email ? session.email.split('@')[0] : null);
+      return L.welcome(session.linked, greetingName);
     }
     
     // 1. My Profile
@@ -309,7 +333,7 @@ export async function processMessage(phone, rawText) {
       if (posts.length === 0) return `📬 *Vuka Feed*\nNo posts yet. Be the first to share!\n\nReply *3* to post or *0* to go back.`;
       
       let feed = `📬 *Vuka Social Feed*\n\n`;
-      posts.forEach((p, i) => {
+      posts.slice(0, 5).forEach((p, i) => {
         const author = p.author?.name || p.author_msisdn;
         feed += `${i+1}. *${author}*: ${p.content}\n_(${new Date(p.created_at).toLocaleDateString()})_\n\n`;
       });
@@ -327,6 +351,40 @@ export async function processMessage(phone, rawText) {
       return `📝 *Create Post*\nType what's on your mind (e.g. crop updates, tips):`;
     }
 
+    // 5. Find Friends
+    if (text === '5') {
+        await updateSession(cleanPhone, { state: 'VUKA_SEARCH' });
+        return `🔍 *Find Friends*\nEnter a name or phone number to search for on Vuka:`;
+    }
+
+    return MENU.VUKA_MENU;
+  }
+
+  if (session.state === 'VUKA_SEARCH') {
+    if (upper === 'CANCEL' || text === '0') {
+      await updateSession(cleanPhone, { state: 'VUKA' });
+      return MENU.VUKA_MENU;
+    }
+    const users = await VukaService.searchUsers(text);
+    if (users.length === 0) return `❌ No users found for "${text}".\n\nTry another name or type *CANCEL*:`;
+    
+    let res = `👥 *Search Results for "${text}":*\n\n`;
+    users.forEach((u, i) => { res += `${i+1}. *${u.name}* (${u.msisdn})\n`; });
+    res += `\n*Reply with a number* to add them as a friend, or type *CANCEL*.`;
+    await updateSession(cleanPhone, { state: 'VUKA_SEARCH_SELECT', searchResults: users });
+    return res;
+  }
+
+  if (session.state === 'VUKA_SEARCH_SELECT') {
+    const choice = parseInt(text);
+    const users = session.searchResults || [];
+    if (choice > 0 && choice <= users.length) {
+        const friend = users[choice - 1];
+        await VukaService.addFriend(cleanPhone, friend.msisdn);
+        await updateSession(cleanPhone, { state: 'VUKA' });
+        return `✅ Friend request sent to *${friend.name}*!\n\n${MENU.VUKA_MENU}`;
+    }
+    await updateSession(cleanPhone, { state: 'VUKA' });
     return MENU.VUKA_MENU;
   }
 
@@ -357,7 +415,9 @@ export async function processMessage(phone, rawText) {
   if (session.state === 'CREDIT') {
     if (text === '0' || upper === 'MENU' || upper === 'CANCEL') {
       await updateSession(cleanPhone, { state: 'WELCOME' });
-      return L.welcome(session.linked);
+      const vukaData = await VukaService.getUser(cleanPhone);
+      const greetingName = vukaData?.name || (session.email ? session.email.split('@')[0] : null);
+      return L.welcome(session.linked, greetingName);
     }
     if (text === '1') {
       return MENU.CREDIT_SCORE('850');
@@ -372,7 +432,9 @@ export async function processMessage(phone, rawText) {
   if (session.state === 'CREDIT_APPLY') {
     if (upper === 'CANCEL' || upper === 'MENU') {
       await updateSession(cleanPhone, { state: 'WELCOME' });
-      return L.welcome(session.linked);
+      const vukaData = await VukaService.getUser(cleanPhone);
+      const greetingName = vukaData?.name || (session.email ? session.email.split('@')[0] : null);
+      return L.welcome(session.linked, greetingName);
     }
     // Simulate processing
     await updateSession(cleanPhone, { state: 'WELCOME' });
@@ -382,7 +444,9 @@ export async function processMessage(phone, rawText) {
   if (session.state === 'MPOTSA') {
     if (upper === 'CANCEL' || upper === 'MENU' || text === '0') {
       await updateSession(cleanPhone, { state: 'WELCOME' });
-      return L.welcome(session.linked);
+      const vukaData = await VukaService.getUser(cleanPhone);
+      const greetingName = vukaData?.name || (session.email ? session.email.split('@')[0] : null);
+      return L.welcome(session.linked, greetingName);
     }
     // Search Q&A
     const result = await MpotsaService.search(text, cleanPhone);
@@ -396,7 +460,9 @@ export async function processMessage(phone, rawText) {
   if (session.state === 'AGRONOMIST') {
     if (upper === '0' || upper === 'MENU') {
       await updateSession(cleanPhone, { state: 'WELCOME' });
-      return L.welcome(session.linked);
+      const vukaData = await VukaService.getUser(cleanPhone);
+      const greetingName = vukaData?.name || (session.email ? session.email.split('@')[0] : null);
+      return L.welcome(session.linked, greetingName);
     }
     sendWhatsApp(cleanPhone, "⏳ Consulting mARI Advisor...").catch(()=>{});
     const country = getCountryFromPhone(cleanPhone);
@@ -427,13 +493,17 @@ export async function processMessage(phone, rawText) {
     else return L.change_lang;
 
     await updateSession(cleanPhone, { state: 'WELCOME', language: newLang });
-    return `✅ Language updated!\n\n` + getLang(newLang).welcome(session.linked);
+    const vukaData = await VukaService.getUser(cleanPhone);
+    const greetingName = vukaData?.name || (session.email ? session.email.split('@')[0] : null);
+    return `✅ Language updated!\n\n` + getLang(newLang).welcome(session.linked, greetingName);
   }
 
   if (session.state === 'DIAGNOSE_FOLLOWUP') {
     if (upper === '0' || upper === 'MENU') {
       await updateSession(cleanPhone, { state: 'WELCOME', history: [] });
-      return L.welcome(session.linked);
+      const vukaData = await VukaService.getUser(cleanPhone);
+      const greetingName = vukaData?.name || (session.email ? session.email.split('@')[0] : null);
+      return L.welcome(session.linked, greetingName);
     }
     sendWhatsApp(cleanPhone, "⏳ Thinking...").catch(()=>{});
     const country = getCountryFromPhone(cleanPhone);
@@ -471,9 +541,33 @@ export async function processMessage(phone, rawText) {
   if (session.state === 'DIAGNOSE_PENDING') {
     if (upper === 'MENU' || upper === '0' || upper === 'CANCEL') {
       await updateSession(cleanPhone, { state: 'WELCOME' });
-      return L.welcome(session.linked);
+      const vukaData = await VukaService.getUser(cleanPhone);
+      const greetingName = vukaData?.name || (session.email ? session.email.split('@')[0] : null);
+      return L.welcome(session.linked, greetingName);
     }
     return `📸 *Step 2/2: Send the photo*\nPlease send the crop photo now, or type *MENU* to cancel.`;
+  }
+
+  // Default Case: Use AI (Mpotsa/mARI hybrid) to answer general questions
+  if (text.length > 3) {
+      sendWhatsApp(cleanPhone, "⏳ Thinking...").catch(()=>{});
+      const country = getCountryFromPhone(cleanPhone);
+      const dateStr = new Date().toLocaleString();
+      const systemInstruction = `You are mARI, the universal AI advisor for mAgri Platform by Pameltex Tech. 
+      Current Date: ${dateStr}, User Country: ${country}. 
+      You handle general farming questions, health, laws, and common African trivia. 
+      Keep answers helpful and localized. If the user seems lost, remind them to type MENU.`;
+      
+      const contents = [
+          ...(session.history || []).map(h => ({ role: h.role, parts: h.parts ? h.parts : [{ text: h.text }] })),
+          { role: 'user', parts: [{ text }] }
+      ];
+      
+      const answer = await askGemini(contents, systemInstruction);
+      const newHistory = [...(session.history || []), { role: 'user', parts: [{ text }] }, { role: 'model', parts: [{ text: answer }] }];
+      await updateSession(cleanPhone, { history: newHistory.slice(-10) });
+      
+      return `🧑‍🌾 *mARI AI:* ${answer}\n\nType *MENU* for options.`;
   }
 
   return L.welcome(session.linked);

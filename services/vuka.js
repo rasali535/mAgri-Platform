@@ -44,15 +44,22 @@ export const VukaService = {
     registerUser: async (msisdn, name, whatsapp_number = null, lat = null, lng = null, role = 'farmer', bio = '') => {
         try {
             const cleanPhone = msisdn.replace(/\+/g, '').trim();
-            console.log(`[Vuka] Registering ${cleanPhone} as ${name}...`);
+            const cleanName = name.toString().trim();
+            
+            // Validation: ensure name is not an accidental USSD index or too short
+            if (!cleanName || cleanName.length < 2 || /^\d+$/.test(cleanName)) {
+                console.warn(`[Vuka] Registration REJECTED for ${cleanPhone}: name "${cleanName}" is invalid.`);
+                return false;
+            }
+
+            console.log(`[Vuka] Registering ${cleanPhone} as ${cleanName}...`);
 
             // 1. Write to local SQLite for fast USSD access
             try {
                 db.prepare(`
                     INSERT OR REPLACE INTO users (msisdn, name, whatsapp_number, lat, lng, role, bio) 
                     VALUES (?, ?, ?, ?, ?, ?, ?)
-                `).run(cleanPhone, name, whatsapp_number || cleanPhone, lat, lng, role, bio);
-                console.log(`[Vuka] SQLite Registration entry for ${cleanPhone} [OK]`);
+                `).run(cleanPhone, cleanName, whatsapp_number || cleanPhone, lat, lng, role, bio);
             } catch (sqliteErr) {
                 console.error(`[Vuka] SQLite Sync FAILED for ${cleanPhone}:`, sqliteErr.message);
             }
@@ -62,7 +69,7 @@ export const VukaService = {
                 const supabase = getSupabaseClient();
                 const { error } = await supabase.from('vuka_users').upsert({ 
                     msisdn: cleanPhone, 
-                    name, 
+                    name: cleanName, 
                     whatsapp_number: whatsapp_number || cleanPhone, 
                     lat, 
                     lng, 
@@ -72,18 +79,37 @@ export const VukaService = {
 
                 if (error) {
                     console.error(`[Vuka] Supabase Sync FAILED for ${cleanPhone}:`, error.message);
-                    // We don't throw here, we already saved to SQLite
-                } else {
-                    console.log(`[Vuka] Supabase Registration sync for ${cleanPhone} [OK]`);
                 }
             } catch (sbErr) {
                 console.error(`[Vuka] Supabase connection error for ${cleanPhone}:`, sbErr.message);
             }
             
-            return true; // Return true because SQLite succeeded
+            return true;
         } catch (e) {
             console.error('[Vuka.registerUser error]', e.message);
             return false;
+        }
+    },
+
+    searchUsers: async (query) => {
+        try {
+            const supabase = getSupabaseClient();
+            const cleanQuery = query.toLowerCase();
+            
+            // Search in Supabase (Global)
+            const { data, error } = await supabase
+                .from('vuka_users')
+                .select('msisdn, name, role')
+                .or(`name.ilike.%${cleanQuery}%,msisdn.ilike.%${cleanQuery}%`)
+                .limit(5);
+            
+            if (error) throw error;
+            return data || [];
+        } catch (e) {
+            console.error('[Vuka.searchUsers]', e.message);
+            // Local fallback
+            return db.prepare("SELECT msisdn, name, role FROM users WHERE name LIKE ? OR msisdn LIKE ? LIMIT 5")
+                .all(`%${query}%`, `%${query}%`);
         }
     },
 

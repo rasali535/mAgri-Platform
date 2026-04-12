@@ -88,11 +88,40 @@ function Toast({ msg, type, onClose }: { msg: string; type: 'success' | 'error';
 }
 
 // ─── Main Component ───────────────────────────────────────────────────────────
-export default function VukaTab() {
+export default function VukaTab({ phone, name }: { phone?: string; name?: string }) {
   const [activeView, setActiveView] = useState<'feed' | 'friends' | 'groups'>('feed');
-  const [posts, setPosts] = useState<Post[]>(DEMO_POSTS);
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [loading, setLoading] = useState(true);
   const [friends, setFriends] = useState<Friend[]>(DEMO_FRIENDS);
   const [groups, setGroups] = useState<Group[]>(DEMO_GROUPS);
+
+  // Fetch real posts on mount
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const res = await API('/vuka/posts');
+        const data = await res.json();
+        if (data.posts) {
+          const mapped: Post[] = data.posts.map((p: any) => ({
+            id: p.id || p.created_at,
+            user: p.author?.name || p.author_msisdn || 'Farmer',
+            avatar: avatar(p.author_msisdn || 'Farmer'),
+            content: p.content,
+            likes: 0,
+            comments: 0,
+            time: p.created_at ? new Date(p.created_at).toLocaleDateString() : 'Recently'
+          }));
+          setPosts(mapped);
+        }
+      } catch (err) {
+        console.error('Failed to fetch Vuka posts:', err);
+        setPosts(DEMO_POSTS); // Fallback to demo data on error
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchPosts();
+  }, []);
 
   // Post form
   const [postText, setPostText] = useState('');
@@ -126,23 +155,37 @@ export default function VukaTab() {
   const handlePost = async () => {
     if (!postText.trim()) return;
     setPostLoading(true);
-    // Optimistic UI
-    const newPost: Post = {
-      id: Date.now().toString(),
-      user: 'You',
-      avatar: avatar('Me'),
-      content: postText.trim(),
-      likes: 0, comments: 0,
-      time: 'Just now', liked: false
-    };
-    setPosts(prev => [newPost, ...prev]);
-    setPostText('');
-    // Try real API
+    
+    // Real API call
     try {
-      await API('/vuka/posts', { method: 'POST', body: JSON.stringify({ content: newPost.content }) });
-    } catch {/* optimistic already applied */}
+      const res = await API('/vuka/posts', { 
+        method: 'POST', 
+        body: JSON.stringify({ 
+          content: postText.trim(),
+          msisdn: phone 
+        }) 
+      });
+      
+      if (res.ok) {
+        // Optimistic UI update or re-fetch
+        const newPost: Post = {
+          id: Date.now().toString(),
+          user: name || 'You',
+          avatar: avatar(phone || 'Me'),
+          content: postText.trim(),
+          likes: 0, comments: 0,
+          time: 'Just now', liked: false
+        };
+        setPosts(prev => [newPost, ...prev]);
+        setPostText('');
+        showToast('Post shared with the Vuka community!');
+      } else {
+        showToast('Failed to share post.', 'error');
+      }
+    } catch (err) {
+      showToast('Network error while posting.', 'error');
+    }
     setPostLoading(false);
-    showToast('Post shared with the Vuka community!');
   };
 
   const handleLike = (id: string) => {

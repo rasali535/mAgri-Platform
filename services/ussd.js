@@ -9,6 +9,7 @@ import { sendSMS } from '../whatsapp/africa.js';
 import { getSupabaseClient } from '../src/lib/supabaseClient.js';
 
 const normalizeMsisdn = (phone) => (phone || '').toString().replace(/\+/g, '').trim();
+const WEBAPP_URL = process.env.WEBAPP_URL || 'https://navajowhite-monkey-252201.hostingersite.com';
 
 export const USSDService = {
     handleRequest: async (msisdn, text) => {
@@ -22,9 +23,28 @@ export const USSDService = {
         console.log(`[USSD] ${cleanMsisdn} | Raw: "${text}" | Parts: ${JSON.stringify(parts)} | L1: ${L1} | State: ${stateData.state}`);
         
         // Reset state if text is empty or starts with 0 (Menu)
-        if (text === '' || L1 === '0' || L1 === 'MENU' || (depth > 1 && parts[parts.length - 1] === '0')) {
+        // or if the LAST part of a multi-depth text is 0
+        // Navigation: handle '0' as back or menu
+        const lastInput = parts[parts.length - 1];
+        if (text === '' || L1 === 'MENU') {
             USSDService.setState(cleanMsisdn, 'IDLE');
             return USSDService.showMainMenu(cleanMsisdn);
+        }
+
+        if (depth > 0 && lastInput === '0') {
+            // Clear current state when navigating back unless we specifically want to stay (rare)
+            USSDService.setState(cleanMsisdn, 'IDLE');
+            
+            if (depth === 1) {
+                // At main menu level selecting 0? Just show main menu again
+                return USSDService.showMainMenu(cleanMsisdn);
+            } else {
+                // Go back one level: re-process without the last two parts (e.g. 2*1*0 -> 2)
+                const newParts = parts.slice(0, -2);
+                const newText = newParts.join('*');
+                console.log(`[USSD] Back button pressed. Re-routing: ${newText || 'Menu'}`);
+                return await USSDService.handleRequest(msisdn, newText);
+            }
         }
 
         // --- State Handle (Highest Priority) ---
@@ -44,14 +64,48 @@ export const USSDService = {
 
         if (stateData.state === 'VUKA_REGISTER_NAME') {
             const name = parts[parts.length - 1];
-            if (!name || name === '0') {
+            if (!name || name === '0' || name === 'CANCEL') {
                 USSDService.setState(cleanMsisdn, 'IDLE');
                 return USSDService.showMainMenu(cleanMsisdn);
             }
             const success = await VukaService.registerUser(cleanMsisdn, name);
+            if (success) {
+                USSDService.setState(cleanMsisdn, 'IDLE');
+                return `END Profile created, ${name}! Welcome to Vuka Social.`;
+            } else {
+                // If registration failed (e.g. invalid name), ask again
+                return `CON *Vuka Registration*\nInvalid name. Please enter your full name (no numbers):\n\n0. Cancel`;
+            }
+        }
+
+        if (stateData.state === 'VUKA_SEARCH_FRIEND') {
+            const query = parts[parts.length - 1];
+            if (query === '0') {
+                USSDService.setState(cleanMsisdn, 'IDLE');
+                return USSDService.showMainMenu(cleanMsisdn);
+            }
+            const users = await VukaService.searchUsers(query);
+            if (users.length === 0) {
+                return `CON No users found for "${query}".\n\nTry another name (or 0 for Menu):`;
+            }
+            USSDService.setState(cleanMsisdn, 'VUKA_FRIEND_LIST', { users });
+            let res = `CON *Select to Add Friend*\n`;
+            users.forEach((u, i) => { res += `${i+1}. ${u.name} (${u.msisdn})\n`; });
+            res += `\n0. Back`;
+            return res;
+        }
+
+        if (stateData.state === 'VUKA_FRIEND_LIST') {
+            const choice = parseInt(parts[parts.length - 1]);
+            const users = stateData.data.users;
+            if (choice > 0 && choice <= users.length) {
+                const friend = users[choice - 1];
+                await VukaService.addFriend(cleanMsisdn, friend.msisdn);
+                USSDService.setState(cleanMsisdn, 'IDLE');
+                return `END Friend request sent to ${friend.name}!`;
+            }
             USSDService.setState(cleanMsisdn, 'IDLE');
-            if (success) return `END Profile created, ${name}! Welcome to Vuka Social.`;
-            return `END Error creating profile. Please try again.`;
+            return USSDService.showMainMenu(cleanMsisdn);
         }
 
         if (stateData.state === 'PAYMENT_OTP') {
@@ -84,12 +138,16 @@ export const USSDService = {
 
         if (stateData.state === 'MPOTSA_WAITING') {
             const query = parts[parts.length - 1];
-            if (query === '0') {
-                USSDService.setState(cleanMsisdn, 'IDLE');
-                return USSDService.showMainMenu(cleanMsisdn);
-            }
+            // '0' is already handled by the global back logic above
+            
             const result = await MpotsaService.search(query, cleanMsisdn);
-            return `CON ${result.text}\n\nAsk another or 0 for Menu:`;
+            // Optimization: If it's a short answer (under ~160 chars), we show it directly.
+            // If it's long, Mpotsa already sent an SMS, so we show a clear snippet.
+            let displayMsg = result.text;
+            if (result.type === 'LONG') {
+                displayMsg = result.text.substring(0, 150) + "... [Full answer sent via SMS]";
+            }
+            return `CON *Mpotsa Result* 📚\n\n${displayMsg}\n\n1. Ask another question\n0. Back to Menu`;
         }
 
         if (stateData.state === 'MARKETPLACE_INPUT') {
@@ -141,6 +199,23 @@ export const USSDService = {
             return `CON *Community*\nJoin our farmer forum on WhatsApp or Web!\nLink: mAgri.com/community\n\n0. Menu`;
         }
 
+        if (L1 === '3') { // Crop Scan
+            if (depth === 1) {
+                return `CON *Crop Scan*\n1. Web App Link\n2. WhatsApp Link\n\n0. Menu`;
+            }
+            if (parts[1] === '1') {
+                const webUrl = WEBAPP_URL ? `${WEBAPP_URL}/diagnose` : 'https://magri.com/diagnose';
+                await sendSMS(cleanMsisdn, `mAgri: Use this link for Web Crop Scan: ${webUrl}`);
+                return `END A link to the Web App Crop Scan has been sent to your phone via SMS.`;
+            }
+            if (parts[1] === '2') {
+                // Use a standard WhatsApp shortlink or the bot's specific link
+                const waLink = "https://wa.me/26772345678?text=Scan"; 
+                await sendSMS(cleanMsisdn, `mAgri: Use this link for WhatsApp Crop Scan: ${waLink}`);
+                return `END A link to the WhatsApp Crop Scan has been sent to your phone via SMS.`;
+            }
+        }
+
         if (L1 === '4') { // AI Advisor
             USSDService.setState(cleanMsisdn, 'USSD_AI_ADVISOR');
             return `CON *mARI AI Advisor*\nAsk any farming question:`;
@@ -148,18 +223,31 @@ export const USSDService = {
 
         if (L1 === '8') { // Vuka
             if (depth === 1) {
-                return `CON *Vuka Social*\n1. My Profile\n2. Find Friends\n3. Group Chats\n4. WhatsApp Relay`;
-            } else if (parts[1] === '4') { // WhatsApp Relay
+                return `CON *Vuka Social*\n1. My Profile\n2. Find Friends\n3. Group Chats\n4. WhatsApp Relay\n\n0. Menu`;
+            }
+            
+            if (parts[1] === '4') { // WhatsApp Relay
                 USSDService.setState(cleanMsisdn, 'VUKA_RELAY_RECIPIENT');
                 return `CON *WhatsApp Relay*\nEnter Recipient MSISDN (e.g. 267...):`;
             }
+
+            if (parts[1] === '2') { // Find Friends
+                USSDService.setState(cleanMsisdn, 'VUKA_SEARCH_FRIEND');
+                return `CON *Find Friends*\nEnter name or phone number:`;
+            }
+
             if (parts[1] === '1') {
                 const user = await VukaService.getUser(cleanMsisdn);
                 if (!user) {
                     USSDService.setState(cleanMsisdn, 'VUKA_REGISTER_NAME');
                     return `CON *My Profile*\nYou are not registered.\n\nReply with your Name:`;
                 }
-                return `END *My Profile*\nName: ${user.name}\nRole: ${user.role || 'Farmer'}\nBio: ${user.bio || 'None'}\n\nWA: ${user.whatsapp_number ? '+'+user.whatsapp_number : 'Not Linked'}`;
+                const friends = await VukaService.getFriends(cleanMsisdn);
+                return `END *My Profile*\nName: ${user.name}\nRole: ${user.role || 'Farmer'}\nFriends: ${friends.length}\n\nWA: ${user.whatsapp_number ? '+'+user.whatsapp_number : 'Not Linked'}`;
+            }
+
+            if (parts[1] === '3') { // Group Chats
+                return `CON *Vuka Groups*\nMost group features are on Web/WhatsApp.\n\n1. List My Groups\n0. Back`;
             }
         }
 
@@ -269,6 +357,7 @@ export const USSDService = {
         let response = `CON 🌱 *mARI mAgri Platform*\n`;
         response += `1. Dashboard\n`;
         response += `2. Marketplace\n`;
+        response += `3. Crop Scan\n`;
         response += `4. AI Advisor\n`;
         response += `5. Finance\n`;
         response += `6. Weather\n`;
