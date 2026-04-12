@@ -22,7 +22,7 @@ export const USSDService = {
         console.log(`[USSD] ${cleanMsisdn} | Raw: "${text}" | Parts: ${JSON.stringify(parts)} | L1: ${L1} | State: ${stateData.state}`);
         
         // Reset state if text is empty or starts with 0 (Menu)
-        if (text === '' || L1 === '0' || L1 === 'MENU') {
+        if (text === '' || L1 === '0' || L1 === 'MENU' || (depth > 1 && parts[parts.length - 1] === '0')) {
             USSDService.setState(cleanMsisdn, 'IDLE');
             return USSDService.showMainMenu(cleanMsisdn);
         }
@@ -165,7 +165,7 @@ export const USSDService = {
 
         if (L1 === '10') { // Mpotsa
             USSDService.setState(cleanMsisdn, 'MPOTSA_WAITING');
-            return `CON *Mpotsa Q&A*\nAsk about Health, Law, or Jobs:`;
+            return `CON *Mpotsa Universal Q&A*\nAsk about Farming, Health, Law, Jobs or anything:`;
         }
 
         if (L1 === '11') { // Payments

@@ -92,8 +92,8 @@ export const MENU = {
     `0️⃣  Back to main menu`,
 
   MPOTSA_PROMPT:
-    `📚 *Mpotsa Q&A Engine*\n` +
-    `Type any keyword or question to search our database (e.g. "Health", "Legal", "Jobs").\n\n` +
+    `📚 *Mpotsa Universal Q&A*\n` +
+    `Ask any question (Farming, Health, Legal, Jobs, or General Knowledge).\n\n` +
     `Type *CANCEL* to go back.`,
 
   ERROR:

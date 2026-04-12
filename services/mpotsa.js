@@ -46,22 +46,24 @@ export const MpotsaService = {
                 }
             }
 
-            // 3. AI Fallback (Mpotsa Mode: Concise & Authoritative)
-            console.log(`[Mpotsa] No local match for "${query}". Consulting AI...`);
+            // 3. AI Fallback (Mpotsa Mode: Universal & Authoritative)
+            console.log(`[Mpotsa] No local match for "${query}". Consulting AI for general answer...`);
             
             const systemInstruction = `You are the Mpotsa Q&A Engine for mARI Platform. 
-            Provide authoritative, concise farming or legal advice for African farmers. 
-            Limit response to 300 characters. If it's very complex, provide a summary.`;
+            Provide authoritative, concise answers for African users on ANY topic (Farming, Health, Legal, Jobs, or General Knowledge).
+            Limit response to 300 characters. Be helpful, professional, and localized for Africa.`;
             
             const aiResponse = await askGemini([{ role: 'user', parts: [{ text: query }] }], systemInstruction);
             
+            // Return to USSD first. If too long (>160), we still return a snippet but send full SMS.
             if (aiResponse.length <= 160) {
                 return { type: 'SHORT', text: aiResponse, fullText: aiResponse, source: 'ai' };
             } else {
+                // Send full SMS but still return the first 150 chars to USSD so user sees part of it immediately
                 await sendSMS(msisdn, `Mpotsa [AI]: ${aiResponse}`);
                 return {
                     type: 'LONG',
-                    text: `AI Expert answer sent to your phone via SMS.`,
+                    text: aiResponse.substring(0, 150) + "... (Full answer sent via SMS)",
                     fullText: aiResponse,
                     source: 'ai'
                 };

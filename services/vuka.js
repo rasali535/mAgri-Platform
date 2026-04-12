@@ -58,23 +58,29 @@ export const VukaService = {
             }
             
             // 2. Sync to Supabase
-            const supabase = getSupabaseClient();
-            const { error } = await supabase.from('vuka_users').upsert({ 
-                msisdn: cleanPhone, 
-                name, 
-                whatsapp_number: whatsapp_number || cleanPhone, 
-                lat, 
-                lng, 
-                role,
-                bio
-            }, { onConflict: 'msisdn' });
+            try {
+                const supabase = getSupabaseClient();
+                const { error } = await supabase.from('vuka_users').upsert({ 
+                    msisdn: cleanPhone, 
+                    name, 
+                    whatsapp_number: whatsapp_number || cleanPhone, 
+                    lat, 
+                    lng, 
+                    role,
+                    bio
+                }, { onConflict: 'msisdn' });
 
-            if (error) {
-                console.error(`[Vuka] Supabase Sync FAILED for ${cleanPhone}:`, error.message);
-                throw error;
+                if (error) {
+                    console.error(`[Vuka] Supabase Sync FAILED for ${cleanPhone}:`, error.message);
+                    // We don't throw here, we already saved to SQLite
+                } else {
+                    console.log(`[Vuka] Supabase Registration sync for ${cleanPhone} [OK]`);
+                }
+            } catch (sbErr) {
+                console.error(`[Vuka] Supabase connection error for ${cleanPhone}:`, sbErr.message);
             }
-            console.log(`[Vuka] Supabase Registration sync for ${cleanPhone} [OK]`);
-            return true;
+            
+            return true; // Return true because SQLite succeeded
         } catch (e) {
             console.error('[Vuka.registerUser error]', e.message);
             return false;

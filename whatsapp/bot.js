@@ -120,7 +120,7 @@ export async function processImage(phone, messageContent) {
   const cleanPhone = (phone || '').toString().replace(/\+/g, '').trim();
   const session = await getSession(cleanPhone);
 
-  if (session.state === 'DIAGNOSE_PENDING') {
+  if (session.state === 'DIAGNOSE_PENDING' || session.state === 'WELCOME' || session.state === 'DIAGNOSE_FOLLOWUP' || session.state === 'AGRONOMIST') {
     sendWhatsApp(phone, "⏳ Analyzing your crop image... Please hold.").catch(() => {});
     const resultText = await generateCropDiagnosis(phone, messageContent);
     const finalReply = `${resultText}\n\n🕵️ *Questions?*\nAsk mARI for more details below, or type *MENU* to exit.`;
@@ -147,7 +147,12 @@ export async function processImage(phone, messageContent) {
     }
   }
 
-  return `📸 Got your image, but we aren't expecting one. Reply *3* for a Scan or *MENU*.`;
+  // Last resort: If they send an image in any other state, just scan it as well
+  // This is better than saying 'we aren't expecting one'
+  sendWhatsApp(phone, "⏳ Just a moment, scanning your image...").catch(() => {});
+  const diagResult = await generateCropDiagnosis(phone, messageContent);
+  await updateSession(phone, { state: 'DIAGNOSE_FOLLOWUP' });
+  return `${diagResult}\n\nType *MENU* to return.`;
 }
 
 // AI logic is now centralized in services/ai.js
@@ -203,6 +208,9 @@ export async function processMessage(phone, rawText) {
         let scanCount = 0;
         let displayName = session.email ? session.email.split('@')[0] : 'Farmer';
 
+        let role = 'Farmer';
+        let location = 'Unknown';
+
         try {
             // Check subscription
             const { data: sbSub } = await supabase.from('subscriptions').select('*').eq('userId', cleanPhone).maybeSingle();
@@ -216,13 +224,19 @@ export async function processMessage(phone, rawText) {
             const { count } = await supabase.from('resources').select('*', { count: 'exact', head: true }).eq('phone', cleanPhone).eq('type', 'Diagnosis');
             scanCount = count || 0;
 
-            // Check Vuka name
-            const { data: vukaUser } = await supabase.from('vuka_users').select('name').eq('msisdn', cleanPhone).maybeSingle();
-            if (vukaUser?.name) displayName = vukaUser.name;
+            // Check Vuka data (Name, Role, Location)
+            const vukaData = await VukaService.getUser(cleanPhone);
+            if (vukaData) {
+                if (vukaData.name) displayName = vukaData.name;
+                if (vukaData.role) role = vukaData.role;
+                if (vukaData.lat && vukaData.lng) location = `${vukaData.lat.toFixed(2)}, ${vukaData.lng.toFixed(2)}`;
+            }
         } catch (e) { console.warn('[WA Dashboard] Lookup failed:', e.message); }
 
         return `📦 *mARI Dashboard*\n\n` +
                `👤 *User:* ${displayName}\n` +
+               `🎖 *Role:* ${role.charAt(0).toUpperCase() + role.slice(1)}\n` +
+               `📍 *Loc:* ${location}\n` +
                `💳 *Status:* ${subStatus.active ? '✅ ACTIVE (' + subStatus.planType + ')' : '❌ INACTIVE'}\n` +
                `🔬 *Total Scans:* ${scanCount}\n` +
                `🛍 *Active Listings:* 0\n\n` +
@@ -278,20 +292,91 @@ export async function processMessage(phone, rawText) {
       await updateSession(cleanPhone, { state: 'WELCOME' });
       return L.welcome(session.linked);
     }
+    
+    // 1. My Profile
     if (text === '1') {
       const u = await VukaService.getUser(cleanPhone);
-      if (!u) return `❌ Profile not found. Create one on USSD first!`;
-      // Parity Fix: uses 'name' and 'bio' from vuka_users/SQLite
-      return `👤 *My Profile*\nName: ${u.name || 'N/A'}\nBio: ${u.bio || 'N/A'}\n\nType *0* to go back.`;
+      if (!u) {
+        await updateSession(cleanPhone, { state: 'VUKA_REGISTER_NAME' });
+        return `👤 *My Profile*\nYou don't have a Vuka profile yet.\n\nReply with your *Name* to create one:`;
+      }
+      return `👤 *My Profile*\nName: ${u.name || 'N/A'}\nRole: ${u.role || 'Farmer'}\nBio: ${u.bio || 'N/A'}\n\n*Options:*\n2. Social Feed\n3. Create Post\n0. Back`;
+    }
+
+    // 2. Social Feed
+    if (text === '2') {
+      const posts = await VukaService.getPosts();
+      if (posts.length === 0) return `📬 *Vuka Feed*\nNo posts yet. Be the first to share!\n\nReply *3* to post or *0* to go back.`;
+      
+      let feed = `📬 *Vuka Social Feed*\n\n`;
+      posts.forEach((p, i) => {
+        const author = p.author?.name || p.author_msisdn;
+        feed += `${i+1}. *${author}*: ${p.content}\n_(${new Date(p.created_at).toLocaleDateString()})_\n\n`;
+      });
+      return feed + `Reply *3* to post or *0* to go back.`;
+    }
+
+    // 3. Create Post
+    if (text === '3') {
+      const u = await VukaService.getUser(cleanPhone);
+      if (!u) {
+        await updateSession(cleanPhone, { state: 'VUKA_REGISTER_NAME' });
+        return `❌ You need a profile to post.\n\nReply with your *Name* to register:`;
+      }
+      await updateSession(cleanPhone, { state: 'VUKA_CREATE_POST' });
+      return `📝 *Create Post*\nType what's on your mind (e.g. crop updates, tips):`;
+    }
+
+    return MENU.VUKA_MENU;
+  }
+
+  if (session.state === 'VUKA_REGISTER_NAME') {
+    if (upper === 'CANCEL' || text === '0') {
+      await updateSession(cleanPhone, { state: 'VUKA' });
+      return MENU.VUKA_MENU;
+    }
+    const success = await VukaService.registerUser(cleanPhone, text);
+    await updateSession(cleanPhone, { state: 'VUKA' });
+    if (success) return `✅ Profile created, *${text}*! Welcome to Vuka Social.\n\n1. My Profile\n2. Social Feed\n0. Back`;
+    return `❌ Failed to create profile. Try again or type *MENU*.`;
+  }
+
+  if (session.state === 'VUKA_CREATE_POST') {
+    if (upper === 'CANCEL' || text === '0') {
+      await updateSession(cleanPhone, { state: 'VUKA' });
+      return MENU.VUKA_MENU;
+    }
+    try {
+      await VukaService.createPost(cleanPhone, text);
+      await updateSession(cleanPhone, { state: 'VUKA' });
+      return `✅ Post shared to Vuka Feed!\n\n1. My Profile\n2. Social Feed\n0. Back`;
+    } catch (e) {
+      return `❌ Failed to share post. Try again or type *CANCEL*.`;
+    }
+  }
+  if (session.state === 'CREDIT') {
+    if (text === '0' || upper === 'MENU' || upper === 'CANCEL') {
+      await updateSession(cleanPhone, { state: 'WELCOME' });
+      return L.welcome(session.linked);
+    }
+    if (text === '1') {
+      return MENU.CREDIT_SCORE('850');
     }
     if (text === '2') {
-      const friends = await VukaService.getFriends(cleanPhone);
-      return `👥 *Find Friends*\nYou have ${friends.length} friends.\nUse USSD *144# to search for more.\n\nType *0* to go back.`;
-    }
-    if (text === '3') {
-      return `💬 *Groups*\nGroup chat mirror coming soon to WhatsApp!\n\nType *0* to go back.`;
+      await updateSession(cleanPhone, { state: 'CREDIT_APPLY' });
+      return MENU.CREDIT_APPLY_PROMPT;
     }
     return `❓ Invalid option. Type *0* to go back.`;
+  }
+
+  if (session.state === 'CREDIT_APPLY') {
+    if (upper === 'CANCEL' || upper === 'MENU') {
+      await updateSession(cleanPhone, { state: 'WELCOME' });
+      return L.welcome(session.linked);
+    }
+    // Simulate processing
+    await updateSession(cleanPhone, { state: 'WELCOME' });
+    return MENU.CREDIT_APPLY_OK(text);
   }
 
   if (session.state === 'MPOTSA') {
@@ -383,26 +468,12 @@ export async function processMessage(phone, rawText) {
     return `🛒 *Marketplace Search*\nResults for "${text}":\n\n${resultsStr}\n\nType *0* to go back.`;
   }
 
-  if (session.state === 'CREDIT') {
-    if (text === '0' || upper === 'MENU') {
+  if (session.state === 'DIAGNOSE_PENDING') {
+    if (upper === 'MENU' || upper === '0' || upper === 'CANCEL') {
       await updateSession(cleanPhone, { state: 'WELCOME' });
       return L.welcome(session.linked);
     }
-    if (text === '1') return `📊 *Your Credit Score*\nScore: 780 (A+)\nStatus: Eligible for 5,000 credit limit.\n\nType *0* to go back.`;
-    if (text === '2') {
-      await updateSession(cleanPhone, { state: 'CREDIT_APPLY' });
-      return MENU.CREDIT_APPLY_PROMPT;
-    }
-    return `❓ Invalid option. Type *0* to go back.`;
-  }
-
-  if (session.state === 'CREDIT_APPLY') {
-    if (upper === 'CANCEL' || upper === 'MENU') {
-      await updateSession(phone, { state: 'CREDIT' });
-      return MENU.CREDIT_MENU;
-    }
-    await updateSession(phone, { state: 'WELCOME' });
-    return MENU.CREDIT_APPLY_OK(text);
+    return `📸 *Step 2/2: Send the photo*\nPlease send the crop photo now, or type *MENU* to cancel.`;
   }
 
   return L.welcome(session.linked);
