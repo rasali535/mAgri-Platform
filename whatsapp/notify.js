@@ -12,7 +12,7 @@
 
 import { sendWhatsApp, sendSMS } from './africa.js';
 
-const WEBAPP_URL = process.env.WEBAPP_URL || 'https://navajowhite-monkey-252201.hostingersite.com';
+const WEBAPP_URL = process.env.WEBAPP_URL || 'https://orangered-clam-470152.hostingersite.com';
 
 /**
  * Notify a user that their marketplace order/contact request was received.

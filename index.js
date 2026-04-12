@@ -14,7 +14,7 @@ import { askGemini } from './services/ai.js';
 import { getLang } from './whatsapp/translations.js';
 
 const PORT = process.env.PORT || 3001;
-const WEBAPP_URL = process.env.WEBAPP_URL || 'https://mari-platform.pameltex.com';
+const WEBAPP_URL = process.env.WEBAPP_URL || 'https://orangered-clam-470152.hostingersite.com';
 const WHATSAPP_NUMBER = process.env.WHATSAPP_NUMBER || '26771383838';
 
 // Global error handler for Railway diagnostics
