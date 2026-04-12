@@ -209,7 +209,7 @@ app.all(['/api/diagnose', '/api/diagnose/'], async (req, res) => {
             ]
         }]);
 
-        let text = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+        const text = (data || '').trim();
         const jsonMatch = text.match(/\{[\s\S]*\}/);
         if (!jsonMatch) {
             console.error('No JSON block found in AI response:', text);

@@ -32,10 +32,11 @@ export async function askGemini(contents, systemInstruction = "", options = {}) 
 
     const genAI = new GoogleGenerativeAI(apiKey);
     const modelsToTry = [
-        'gemini-1.5-flash',       
-        'gemini-2.0-flash',
-        'gemini-2.0-pro-exp-02-05',
-        'gemini-2.0-flash-lite-preview-02-05',
+        'gemini-2.5-flash-lite',
+        'gemini-2.5-flash',
+        'gemini-3.1-flash-lite-preview',
+        'gemini-flash-latest',
+        'gemini-1.5-flash',
     ];
     let lastError = null;
 
