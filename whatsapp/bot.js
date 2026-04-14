@@ -446,7 +446,13 @@ export async function processMessage(phone, rawText) {
       { role: 'user', parts: [{ text }] }
     ];
 
-    const answer = await askGemini(contents, systemInstruction);
+    let answer;
+    try {
+      answer = await askGemini(contents, systemInstruction);
+    } catch (e) {
+      console.error('[WA AI] Agronomist error:', e.message);
+      return `❌ mARI is currently unavailable (${e.message}). Please check the AI service configuration.`;
+    }
     const newHistory = [...(session.history || []), { role: 'user', parts: [{ text }] }, { role: 'model', parts: [{ text: answer }] }];
     await updateSession(cleanPhone, { history: newHistory.slice(-10) });
     return `🧑‍🌾 *mARI Agronomist:*\n\n${answer}\n\nType *MENU* to exit.`;
@@ -492,7 +498,13 @@ export async function processMessage(phone, rawText) {
       { role: 'user', parts: [{ text }] }
     ];
 
-    const answer = await askGemini(contents, systemInstruction);
+    let answer;
+    try {
+      answer = await askGemini(contents, systemInstruction);
+    } catch (e) {
+      console.error('[WA AI] Diagnose Follow-up error:', e.message);
+      return `❌ mARI is currently unavailable (${e.message}). Please check the AI service configuration.`;
+    }
     const newHistory = [...(session.history || []), { role: 'user', parts: [{ text }] }, { role: 'model', parts: [{ text: answer }] }];
     await updateSession(cleanPhone, { history: newHistory.slice(-10) });
     return `🔬 *Diagnostic Follow-up:*\n\n${answer}\n\nType *MENU* to exit.`;
@@ -576,7 +588,13 @@ export async function processMessage(phone, rawText) {
           { role: 'user', parts: [{ text }] }
       ];
       
-      const answer = await askGemini(contents, systemInstruction);
+      let answer;
+      try {
+        answer = await askGemini(contents, systemInstruction);
+      } catch (e) {
+        console.error('[WA AI] General chat error:', e.message);
+        return `❌ mARI is currently unavailable (${e.message}). Please check the AI service configuration.`;
+      }
       const newHistory = [...(session.history || []), { role: 'user', parts: [{ text }] }, { role: 'model', parts: [{ text: answer }] }];
       await updateSession(cleanPhone, { history: newHistory.slice(-10) });
       
